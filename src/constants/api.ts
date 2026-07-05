@@ -7,7 +7,8 @@ export const backendUrl: typeof backendLocalUrl = backendLocalUrl;
 //auth routes
 export const authRoute: string = `${backendUrl}/auth`;
 export const loginRoute: string = `${authRoute}/login`;
-export const loginStartRoute: string = `${loginRoute}/identify/`;
+export const loginIdentifyRoute: string = `${loginRoute}/identify/`;
+export const loginVerifyRoute: string = `${loginRoute}/confirm/`;
 
 // system routes
 export const systemRoute: string = `${backendUrl}/system`;

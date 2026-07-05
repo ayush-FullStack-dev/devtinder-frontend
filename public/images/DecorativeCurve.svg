@@ -1,0 +1,49 @@
+<svg
+  width="100%"
+  height="100%"
+  viewBox="0 0 1024 1536"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <defs>
+    <!-- Top se bottom smooth fade -->
+    <linearGradient id="lineFade" x1="0" y1="0" x2="0" y2="1">
+      <!-- Top thoda faded -->
+      <stop offset="0%" stop-color="#9a9a9a" stop-opacity="0.65"/>
+      <stop offset="25%" stop-color="#9a9a9a" stop-opacity="0.55"/>
+      <stop offset="55%" stop-color="#9a9a9a" stop-opacity="0.35"/>
+      <stop offset="80%" stop-color="#9a9a9a" stop-opacity="0.10"/>
+      <!-- Bottom se pehle fade -->
+      <stop offset="92%" stop-color="#9a9a9a" stop-opacity="0.03"/>
+      <stop offset="100%" stop-color="#9a9a9a" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Line bottom se kaafi upar start ho rahi hai -->
+  <path
+    d="
+      M 95 1460
+      C 180 1290, 160 1110, 250 860
+      C 340 610, 450 520, 600 470
+      C 770 410, 920 250, 1000 0
+    "
+    fill="none"
+    stroke="url(#lineFade)"
+    stroke-width="2"
+    stroke-linecap="round"
+  />
+
+  <!-- Inner soft highlight -->
+  <path
+    d="
+      M 95 1460
+      C 180 1290, 160 1110, 250 860
+      C 340 610, 450 520, 600 470
+      C 770 410, 920 250, 1000 0
+    "
+    fill="none"
+    stroke="#ffffff"
+    stroke-opacity="0.08"
+    stroke-width="0.7"
+    stroke-linecap="round"
+  />
+</svg>

@@ -1,0 +1,52 @@
+import { getDeviceId, getDeviceSize } from "@/lib/getDeviceInfo";
+import { loginVerifyRoute } from "@/constants/api";
+import { BackendVerifyLogin } from "@/schemas/login.schema";
+import { loginIdentifySuccessResponse } from "@/types/auth/login/loginIdenfity.type";
+import { loginVerifyResponse } from "@/types/auth/login/loginVerify.type";
+import { AuthLogin } from "@/services/login/verifyLogin";
+
+export const verifyAutoLogin = async (
+  loginIdentify: loginIdentifySuccessResponse | null,
+): Promise<AuthLogin> => {
+  if (loginIdentify?.action !== "AUTO_LOGIN")
+    return {
+      isSuccess: false,
+    };
+
+  try {
+    const body: BackendVerifyLogin = {
+      method: "trusted_session",
+      risk: loginIdentify.risk,
+      code: undefined,
+      remember: true,
+      deviceId: getDeviceId(localStorage),
+      deviceSize: getDeviceSize(localStorage, true),
+      clientTimestamp: new Date(),
+    };
+
+    const res = await fetch(loginVerifyRoute, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+
+    if (!res.ok) {
+      throw new Error("Verification failed");
+    }
+
+    const result: loginVerifyResponse = await res.json();
+    return {
+      isSuccess: result.success,
+      data: result.data,
+      result,
+    };
+  } catch (err) {
+    return {
+      isSuccess: false,
+      error: err instanceof Error ? err : new Error("Unknown error"),
+    };
+  }
+};
