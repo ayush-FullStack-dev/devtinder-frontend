@@ -9,9 +9,16 @@ import { verifyAutoLogin } from "@/services/login/verifyAutoLogin";
 const VerifyIdentitySection = () => {
   const router = useRouter();
   const hasHydrated = useLoginStore((state) => state._hasHydrated);
+  if (!hasHydrated) {
+    return null;
+  }
+
   const step = useLoginStore((state) => state.step);
   const loginIdentify = useLoginStore((state) => state.loginIdentifyInfo);
   const setStep = useLoginStore((state) => state.setStep);
+  const [isTrustedLogin, setIsTrustedLogin] = useState(
+    loginIdentify?.primaryMethod === "trusted_session",
+  );
   const setLoginIdentifyInfo = useLoginStore(
     (state) => state.setLoginIdentifyInfo,
   );
@@ -26,7 +33,7 @@ const VerifyIdentitySection = () => {
           fetchState(false);
           setLoginIdentifyInfo(null);
           setStep(1);
-        }, 200);
+        }, 300);
 
         return;
       }
@@ -48,6 +55,7 @@ const VerifyIdentitySection = () => {
     }
 
     let isActive = true;
+
     const start = Date.now();
     setIsFetching(true);
 
@@ -65,9 +73,12 @@ const VerifyIdentitySection = () => {
           () => onResponseResolve(isSuccess, setIsFetching),
           700,
         );
+
+        if (!isSuccess) setIsTrustedLogin(false);
         return;
       }
 
+      if (!isSuccess) setIsTrustedLogin(false);
       onResponseResolve(isSuccess, setIsFetching);
     };
 
@@ -77,10 +88,6 @@ const VerifyIdentitySection = () => {
       isActive = false;
     };
   }, [hasHydrated, loginIdentify, onResponseResolve, step]);
-
-  if (!hasHydrated) {
-    return null;
-  }
 
   return (
     <main>
@@ -96,7 +103,7 @@ const VerifyIdentitySection = () => {
       >
         <div className="relative">
           <div className="relative z-10">
-            <LeftPanel onResponseResolve={onResponseResolve} />
+            <LeftPanel onResponseResolve={onResponseResolve} isTrusted={isTrustedLogin} />
           </div>
 
           <div className="absolute top-0 left-4/4 z-1">

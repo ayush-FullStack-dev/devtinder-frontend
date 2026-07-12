@@ -23,7 +23,7 @@ export const useLoginStore = create<UseLoginStoreType>()(
     }),
     {
       name: "login-store",
-       storage: createJSONStorage(() => sessionStorage),
+      storage: createJSONStorage(() => sessionStorage),
       onRehydrateStorage: () => (state) => {
         state?.setHasHydrated();
       },

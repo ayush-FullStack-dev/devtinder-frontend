@@ -50,20 +50,23 @@ box-border gap-2 p-10 pb-3 -ml-5
         description="We use multiple secure method to make sure only you can access your account."
         className="-mt-20"
       />
+
       <div className="flex flex-col gap-4 mt-5">
         <FeatureItem
-          title="Secure & Encrypted"
-          description="Your data is protected with secure codebase."
+          title="Passkey Authentication"
+          description="Sign in securely using your device's built-in authentication."
           icon={HiOutlineShieldCheck}
         />
+
         <FeatureItem
-          title="Secure & Encrypted"
-          description="Your data is protected with secure codebase."
+          title="Protected Sessions"
+          description="Only verified devices can access your account sessions."
           icon={HiOutlineShieldCheck}
         />
+
         <FeatureItem
-          title="Secure & Encrypted"
-          description="Your data is protected with secure codebase."
+          title="Account Recovery"
+          description="Recover access anytime using your backup security methods."
           icon={HiOutlineShieldCheck}
         />
       </div>

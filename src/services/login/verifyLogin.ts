@@ -2,7 +2,10 @@ import { getDeviceId, getDeviceSize } from "@/lib/getDeviceInfo";
 import { loginVerifyRoute } from "@/constants/api";
 import { BackendVerifyLogin, PasskeyVerify } from "@/schemas/login.schema";
 import { loginIdentifySuccessResponse } from "@/types/auth/login/loginIdenfity.type";
-import { loginVerifyResponse } from "@/types/auth/login/loginVerify.type";
+import {
+  loginVerifyErrorResponse,
+  loginVerifyResponse,
+} from "@/types/auth/login/loginVerify.type";
 import { LoginMethod } from "@/types/auth/login/login.type";
 
 export type AuthLogin = {
@@ -13,21 +16,23 @@ export type AuthLogin = {
     picture: string;
   } | null;
   result?: loginVerifyResponse;
-  error?: Error;
+  error?: Error | loginVerifyErrorResponse;
 };
 
 type verifyLoginProps = {
   loginIdentify: loginIdentifySuccessResponse | null;
   method: LoginMethod;
   code: string | PasskeyVerify;
+  remember?: boolean;
 };
 
 export const verifyLogin = async ({
   loginIdentify,
   method,
   code,
+  remember = true,
 }: verifyLoginProps): Promise<AuthLogin> => {
-  if (!loginIdentify || loginIdentify?.action === "AUTO_LOGIN")
+  if (!loginIdentify)
     return {
       isSuccess: false,
     };
@@ -35,7 +40,7 @@ export const verifyLogin = async ({
   try {
     const common = {
       risk: loginIdentify.risk,
-      remember: true,
+      remember,
       deviceId: getDeviceId(localStorage),
       deviceSize: getDeviceSize(localStorage, true),
       clientTimestamp: new Date(),
@@ -69,20 +74,20 @@ export const verifyLogin = async ({
       body: JSON.stringify(body),
     });
 
-    if (!res.ok) {
-      console.log(await res.json());
-      throw new Error("Verification failed");
-    }
-
     const result: loginVerifyResponse = await res.json();
 
     return {
       isSuccess: result.success,
-      data: result.data,
+      data: result.success ? result.data : null,
+      error: result.success
+        ? undefined
+        : {
+            success: false,
+            message: result.message,
+          },
       result,
     };
   } catch (err) {
-    console.log(err);
     return {
       isSuccess: false,
       error: err instanceof Error ? err : new Error("Unknown error"),

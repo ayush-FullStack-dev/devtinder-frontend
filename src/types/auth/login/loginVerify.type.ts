@@ -1,7 +1,6 @@
 import { loginMethods } from "@/types/auth/login/login.type";
 import { mfaMethod } from "@/types/auth/mfa/mfa.type";
 
-
 export type loginVerifySuccesResponse = {
   success: true;
   message: string;
@@ -14,13 +13,17 @@ export type loginVerifySuccesResponse = {
 };
 
 export type loginVerifyErrorResponse = {
-  success: true;
+  success: false;
   message: string;
-  code?: string;
   methods?: typeof loginMethods;
   primaryMethod?: (typeof loginMethods)[number];
   error?: string;
 };
 
-export type loginVerifyResponse = loginVerifySuccesResponse &
-  loginVerifyErrorResponse;
+export type loginVerifyResponse = (
+  | loginVerifySuccesResponse
+  | loginVerifyErrorResponse
+) & {
+  code?: string;
+  timeout?: number;
+};

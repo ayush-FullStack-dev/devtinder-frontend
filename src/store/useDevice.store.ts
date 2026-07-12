@@ -3,11 +3,18 @@ import { persist } from "zustand/middleware";
 import { baseDeviceInfo } from "@/types/device.type";
 import { getDeviceId, getDeviceSize } from "@/lib/getDeviceInfo";
 
-export const useDeviceStore = create<baseDeviceInfo>()(
+export const useDeviceStore = create<
+  baseDeviceInfo & {
+    setHasHydrated: () => void;
+    _hasHydrated: boolean;
+  }
+>()(
   persist(
     (set, get) => ({
       deviceId: null,
       deviceSize: 0,
+      _hasHydrated: false,
+      setHasHydrated: () => set({ _hasHydrated: true }),
       setDeviceInfo: (localstorage: Storage): void => {
         const deviceInfo = get();
 
@@ -27,6 +34,7 @@ export const useDeviceStore = create<baseDeviceInfo>()(
         if (!deviceInfo.deviceSize) {
           return;
         }
+
         set({
           deviceSize: getDeviceSize(localstorage),
         });
@@ -34,6 +42,9 @@ export const useDeviceStore = create<baseDeviceInfo>()(
     }),
     {
       name: "device-base-info",
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated();
+      },
     },
   ),
 );

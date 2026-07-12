@@ -24,6 +24,7 @@ const VerifyMethodSelector = ({
   className,
   setIsMethodConfirmed,
 }: VerifyMethodSelectorProps) => {
+  
   const onClick = () => {
     setIsMethodConfirmed(true);
   };
@@ -39,6 +40,14 @@ const VerifyMethodSelector = ({
           {loginVerfiyMethods?.map((method) => {
             const element = loginMethodDetails[method];
 
+            if (method === "trusted_session") return;
+
+            const recommend =
+              loginIdentifyInfo?.primaryMethod === "trusted_session" &&
+              method === "passkey"
+                ? true
+                : loginIdentifyInfo?.primaryMethod === method;
+
             return (
               <AuthMethodCard
                 key={method}
@@ -48,7 +57,7 @@ const VerifyMethodSelector = ({
                 description={element.description}
                 activeCard={selectedMethod === method}
                 onClick={() => setSelectedMethod(method)}
-                recommend={loginIdentifyInfo?.primaryMethod === method}
+                recommend={recommend}
               />
             );
           })}

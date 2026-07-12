@@ -14,8 +14,9 @@ import InputError from "@/components/shared/InputError";
 import { PasskeyVerify } from "@/schemas/login.schema";
 import useVerifyLogin from "@/hooks/useVerifyLogin";
 import AppLoader from "@/components/shared/Loader/AppLoader";
+import { loginVerifyErrorResponse } from "@/types/auth/login/loginVerify.type";
 
-type PasskeyError = {
+type VeridyPasskeyError = {
   name: string;
   message: string;
 };
@@ -31,14 +32,17 @@ const PasskeyContent = ({
   navigateFn = () => undefined,
   onResponseResolve = () => undefined,
 }: PasskeyContentProps) => {
-  const [isFetching, setIsFetching] = useState(false);
-  const [error, setError] = useState<PasskeyError | null>(null);
+  const hasHydrated = useLoginStore((state) => state._hasHydrated);
+  if (!hasHydrated) return null;
+
+  const options = useLoginStore((state) => state.loginIdentifyInfo?.passkey);
   const loginStore = useLoginStore((state) => state);
+
   const [passkeyResponse, setPasskeyResponse] = useState<
     AuthenticationResponseJSON | null | PasskeyVerify
   >(null);
-
-  const options = useLoginStore((state) => state.loginIdentifyInfo?.passkey);
+  const [isFetching, setIsFetching] = useState(false);
+  const [error, setError] = useState<VeridyPasskeyError | null>(null);
 
   const loaderStyle = {
     "--size": "1px",
@@ -46,27 +50,11 @@ const PasskeyContent = ({
 
   const verify = async (options: PublicKeyCredentialRequestOptionsJSON) => {
     try {
-      // const response = await startAuthentication({
-      //   optionsJSON: options,
-      // });
+      const response = await startAuthentication({
+        optionsJSON: options,
+      });
 
-      const response: PasskeyVerify = {
-        id: "AQLm8dX7bY2mP0KQx",
-        rawId: "AQLm8dX7bY2mP0KQx",
-        type: "public-key",
-        response: {
-          authenticatorData: "SZYN5YgOjGh0NBcPZHZgW4MGJQ8AAAAAAQ==",
-          clientDataJSON:
-            "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiYWJjMTIzIn0=",
-          signature:
-            "MEQCID5wS0n5VQ4v2J0uR2jY1Yxv9Q5rNQm7mA9vZ1n8L2YZAiB8P8Y3g9v0e3x8z4uQw2Wm8N6v1s5q3b4a1x2y3z4w5A==",
-          userHandle: null,
-        },
-        clientExtensionResults: {},
-        authenticatorAttachment: "platform",
-      };
-
-      setPasskeyResponse(response as PasskeyVerify);
+      setPasskeyResponse(response);
     } catch (err) {
       if (err instanceof DOMException) {
         setError({
@@ -125,7 +113,11 @@ const PasskeyContent = ({
   }, [passkeyResponse]);
 
   try {
-    useVerifyLogin({
+    const {
+      isSuccess: success,
+      error,
+      data,
+    } = useVerifyLogin({
       loginStore,
       method: "passkey",
       code: (passkeyResponse as PasskeyVerify | null) ?? "",
@@ -134,12 +126,22 @@ const PasskeyContent = ({
       },
       action: "REQUIRED_METHOD",
     });
+
+    if (error) {
+      setError({
+        name: "UnknownError",
+        message: error.message,
+      });
+    }
   } catch (err) {
-    console.log(err);
+    setError({
+      name: "UnknownError",
+      message: "Something went wrong",
+    });
   }
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 mb-4">
       <AppLoader loading={isFetching} />
       <Header
         title="Verify With Passkey"

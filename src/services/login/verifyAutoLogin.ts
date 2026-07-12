@@ -33,14 +33,10 @@ export const verifyAutoLogin = async (
       body: JSON.stringify(body),
     });
 
-    if (!res.ok) {
-      throw new Error("Verification failed");
-    }
-
     const result: loginVerifyResponse = await res.json();
     return {
       isSuccess: result.success,
-      data: result.data,
+      data: result.success ? result.data : null,
       result,
     };
   } catch (err) {

@@ -1,3 +1,4 @@
 {
-  "editor.cursorSmoothCaretAnimation": "on"
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.showFoldingControls": "always"
 }

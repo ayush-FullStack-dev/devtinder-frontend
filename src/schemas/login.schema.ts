@@ -4,9 +4,6 @@ import { emptyCode } from "@/schemas/schema";
 
 // identify login --- IGNORE ---
 
-export const loginIdentifyFormSchema = z.object({
-  identifier: z.string().trim(),
-});
 export const loginIdentifySchema = z.object({
   identifier: z.string().trim().max(40),
 });
@@ -14,7 +11,7 @@ export const loginIdentifySchema = z.object({
 export const backendLoginIdentifySchema =
   loginIdentifySchema.merge(baseClientInfo);
 
-export type loginIdentfy = z.infer<typeof loginIdentifyFormSchema>;
+export type loginIdentfy = z.infer<typeof loginIdentifySchema>;
 export type backendLoginIdentfy = z.infer<typeof backendLoginIdentifySchema>;
 
 // verify login --- IGNORE ---
@@ -22,6 +19,11 @@ export type backendLoginIdentfy = z.infer<typeof backendLoginIdentifySchema>;
 const baseVerifyLoginFields = {
   remember: z.boolean(),
 };
+
+export const verifyPasswordClientSchema = z.object({
+  code: z.string().trim().min(6, "Password must be at least 6 characters"),
+  ...baseVerifyLoginFields,
+});
 
 export const passkeyVerifySchema = z.object({
   id: z.string(),
@@ -34,9 +36,7 @@ export const passkeyVerifySchema = z.object({
     userHandle: z.string().nullable().optional(),
   }),
   clientExtensionResults: z.record(z.string(), z.unknown()),
-  authenticatorAttachment: z
-    .enum(["platform", "cross-platform"])
-    .optional(),
+  authenticatorAttachment: z.enum(["platform", "cross-platform"]).optional(),
 });
 
 export const loginCompleteSchema = z.discriminatedUnion("method", [
@@ -85,5 +85,5 @@ export const backendVerifyLoginSchema = loginCompleteSchema.and(
 export type LoginComplete = z.infer<typeof loginCompleteSchema>;
 
 export type BackendVerifyLogin = z.infer<typeof backendVerifyLoginSchema>;
-
+export type verifyPasswordClient = z.infer<typeof verifyPasswordClientSchema>;
 export type PasskeyVerify = z.infer<typeof passkeyVerifySchema>;

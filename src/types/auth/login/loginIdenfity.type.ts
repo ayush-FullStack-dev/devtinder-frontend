@@ -1,14 +1,11 @@
 import { allowedRisk, loginMethods } from "@/types/auth/login/login.type";
 import { backendResponseType } from "@/types/backendResponse.type";
 import { LoginMethod } from "@/types/auth/login/login.type";
-import {
-  type PublicKeyCredentialRequestOptionsJSON,
-} from "@simplewebauthn/browser";
+import { type PublicKeyCredentialRequestOptionsJSON } from "@simplewebauthn/browser";
 
 export type loginIdentifySuccessResponse = backendResponseType & {
   action: "AUTO_LOGIN" | "REQUIRED_METHOD";
   risk: (typeof allowedRisk)[number];
-  loginCtx: string;
   allowedMethod: LoginMethod[];
   primaryMethod: (typeof loginMethods)[number];
   passkey?: PublicKeyCredentialRequestOptionsJSON;

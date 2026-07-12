@@ -15,11 +15,13 @@ type ResponseResolveProps = {
     isSuccess: boolean,
     setIsFetching: (state: boolean) => void,
   ) => void;
+  isTrusted: boolean;
 };
 
-const LeftPanel = ({ onResponseResolve }: ResponseResolveProps) => {
+const LeftPanel = ({ onResponseResolve, isTrusted }: ResponseResolveProps) => {
   const hasHydrated = useLoginStore((state) => state._hasHydrated);
   if (!hasHydrated) return null;
+
   const setStep = useLoginStore((state) => state.setStep);
   const step = useLoginStore((state) => state.step);
   const router = useRouter();
@@ -42,13 +44,24 @@ const LeftPanel = ({ onResponseResolve }: ResponseResolveProps) => {
     loginVerfiyMethods = [...loginIdentifyInfo?.allowedMethod];
   }
 
-  const [selectedMethod, setSelectedMethod] = useState(
-    loginIdentifyInfo?.primaryMethod,
-  );
+  const selectedInitVal =
+    loginIdentifyInfo?.primaryMethod === "trusted_session"
+      ? ("passkey" as LoginMethod)
+      : loginIdentifyInfo?.primaryMethod;
 
-  const [isMethodConfirmed, setIsMethodConfirmed] = useState(false);
+  const [selectedMethod, setSelectedMethod] = useState(selectedInitVal);
+
+  const [isMethodConfirmed, setIsMethodConfirmed] = useState(!isTrusted);
 
   const navigate = () => {
+    const hasOnlyOneMethod = loginVerfiyMethods?.length
+      ? loginVerfiyMethods.length <= 1
+      : false;
+
+    if (hasOnlyOneMethod && isMethodConfirmed) {
+      return;
+    }
+
     if (isMethodConfirmed) {
       setIsMethodConfirmed(false);
     } else {

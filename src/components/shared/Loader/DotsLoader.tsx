@@ -1,6 +1,6 @@
-import styles from "@/app/style/module/loader/CircleLoader.module.css";
+import styles from "@/app/style/module/loader/DotsLoader.module.css";
 
-const CircleLoader = ({
+const DotsLoader = ({
   loaderStyle,
 }: {
   className?: string;
@@ -9,4 +9,4 @@ const CircleLoader = ({
   return <span className={styles.loader} style={loaderStyle} />;
 };
 
-export default CircleLoader;
+export default DotsLoader;
