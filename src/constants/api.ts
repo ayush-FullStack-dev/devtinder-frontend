@@ -1,8 +1,5 @@
-export const backendLocalUrl: string = "http://localhost:8080";
-export const backendProductionUrl: string =
-  "https://api-devtinder.onrender.com";
-
-export const backendUrl: typeof backendLocalUrl = backendLocalUrl;
+export const backendUrl: string | undefined =
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
 //auth routes
 export const authRoute: string = `${backendUrl}/auth`;
