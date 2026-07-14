@@ -4,6 +4,11 @@ import { error } from "node:console";
 
 export async function proxy(req: NextRequest) {
   try {
+    const { pathname } = req.nextUrl;
+    if (pathname === "/") {
+      return NextResponse.next();
+    }
+
     const cookieHeader = req.headers.get("cookie") || "";
 
     const response = await fetch(accountInfoRoute, {
@@ -20,7 +25,7 @@ export async function proxy(req: NextRequest) {
     const isLoggedIn: boolean = data.isLoggedIn;
 
     if (isLoggedIn) {
-      if (req.nextUrl.pathname.startsWith("/login")) {
+      if (pathname.startsWith("/login")) {
         return NextResponse.redirect(new URL("/dashboard", req.url));
       }
 
@@ -28,15 +33,15 @@ export async function proxy(req: NextRequest) {
     }
 
     if (data.code === "refresh_auth_token") {
-      const redirectUrl = req.nextUrl.pathname.startsWith("/login")
+      const redirectUrl = pathname.startsWith("/login")
         ? "/dashboard"
-        : req.nextUrl.pathname;
+        : pathname;
 
       return NextResponse.redirect(
         new URL(`/refresh?redirect=${redirectUrl}`, req.url),
       );
     } else {
-      if (!req.nextUrl.pathname.startsWith("/login")) {
+      if (!pathname.startsWith("/login")) {
         return NextResponse.redirect(new URL("/login", req.url));
       }
 
@@ -67,10 +72,9 @@ export async function proxy(req: NextRequest) {
       message,
     });
 
-    // return NextResponse.redirect(
-    //   new URL(`/error?${params.toString()}`, req.url),
-    // );
-    return NextResponse.next();
+    return NextResponse.redirect(
+      new URL(`/error?${params.toString()}`, req.url),
+    );
   }
 }
 
