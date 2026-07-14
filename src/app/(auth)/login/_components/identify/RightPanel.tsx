@@ -47,9 +47,10 @@ before:pointer-events-none
             <span className="text-violet-500">developer</span> match.
           </>
         }
-        className="ml-15 mt-5"
+        className="ml-15 mt-5 font-semibold"
         description={description}
       />
+
       <HeroIllustration
         image={HeroIllustraionSvg}
         className="w-[730] h[1006] ml-40"

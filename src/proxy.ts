@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { accountInfoRoute } from "@/constants/api";
+import { error } from "node:console";
 
 export async function proxy(req: NextRequest) {
   try {
@@ -56,15 +57,25 @@ export async function proxy(req: NextRequest) {
       return response;
     }
   } catch (e) {
-    if (!req.nextUrl.pathname.startsWith("/login")) {
-      return NextResponse.redirect(new URL("/login", req.url));
-    }
+    const message =
+      e instanceof Error
+        ? e.message
+        : "Something went wrong while checking authentication.";
+
+    const params = new URLSearchParams({
+      title: "Authentication Error",
+      message,
+    });
+
+    // return NextResponse.redirect(
+    //   new URL(`/error?${params.toString()}`, req.url),
+    // );
     return NextResponse.next();
   }
 }
 
 export const config = {
   matcher: [
-    "/((?!api|refresh|_next/static|_next/image|favicon.ico|.*\\..*).*)",
+    "/((?!api|refresh|error|_next/static|_next/image|favicon.ico|.*\\..*).*)",
   ],
 };

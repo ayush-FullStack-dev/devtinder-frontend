@@ -43,7 +43,7 @@ const LeftPanel = () => {
         href="/signup"
         text="Create an Account"
         icon={FaRegUser}
-        className="mb-5"
+        className="mb-5 h-15 w-auto"
       />
 
       <TermNotice className="mx-0 md:mx-7 ml-5" />

@@ -15,7 +15,7 @@ const IconTextButton = ({
   href,
   className: costumclassName,
 }: props) => {
-  const className = `box-border inline-flex h-15 w-90 justify-center gap-4 items-center  rounded-lg border-2 border-muted-foreground ${costumclassName}`;
+  const className = `box-border inline-flex justify-center gap-4 items-center  rounded-lg border-2 border-muted-foreground ${costumclassName}`;
 
   const iconText = () => {
     return (

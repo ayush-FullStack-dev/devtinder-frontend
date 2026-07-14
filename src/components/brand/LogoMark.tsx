@@ -1,6 +1,8 @@
+"use client"
+
+import { useRouter } from "next/navigation";
 import Logo from "@/../public/brand/logo/logo-mark.svg";
 import LogoMono from "@/../public/brand/logo/logo-mark-monochrome.svg";
-import Image from "next/image";
 
 type LogoMarkProps = {
   monoChrome?: boolean;
@@ -11,11 +13,20 @@ export default function LogoMark({
   monoChrome = false,
   className,
 }: LogoMarkProps) {
+
   const Component = monoChrome ? LogoMono : Logo;
+
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push("/");
+  }
+
 
   return (
     <Component
       className={`select-none pointer-events-none ${className ?? ""}`}
+      onClick={handleClick}
       draggable={false}
       aria-hidden="true"
     />

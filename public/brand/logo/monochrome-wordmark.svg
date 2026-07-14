@@ -1,0 +1,28 @@
+<svg viewBox="46.42875 44.540983606557376 459.90000000000003 129.8360655737705" xmlns="http://www.w3.org/2000/svg" style="max-height: 500px" width="459.90000000000003" height="129.8360655737705">
+  <defs>
+    <linearGradient y2="100%" x2="100%" y1="0%" x1="0%" id="accent">
+      <stop stop-color="#ff5a6b" offset="0%"/>
+      <stop stop-color="#ff2d55" offset="100%"/>
+    </linearGradient>
+  </defs>
+
+  
+  <text fill="currentColor" font-weight="700" font-size="96" font-family="Inter, SF Pro Display, Helvetica, Arial, sans-serif" y="118" x="40">
+    Dev
+  </text>
+
+  
+  <text fill="currentColor" font-weight="700" font-size="96" font-family="Inter, SF Pro Display, Helvetica, Arial, sans-serif" y="118" x="205">
+    Tinder
+  </text>
+
+  
+  <text
+   fill="currentColor" 
+  letter-spacing="10" 
+  font-weight="500" font-size="31"
+   font-family="Inter, SF Pro Display, Helvetica, Arial, sans-serif" y="160" x="65
+   ">
+    BUILD TOGETHER.
+  </text>
+</svg>
