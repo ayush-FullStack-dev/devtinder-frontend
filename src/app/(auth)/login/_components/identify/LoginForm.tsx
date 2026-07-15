@@ -43,18 +43,10 @@ export const LoginFormIdentfy = () => {
   const onSubmit = async (data: loginIdentfy) => {
     setIsSubmitting(true);
 
-    const start = Date.now();
-
     try {
       const identifier = data.identifier;
       const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identifier);
-      let identiferFiled = null;
-
-      if (!isEmail) {
-        identiferFiled = "username";
-      } else {
-        identiferFiled = "email";
-      }
+      const identiferFiled = isEmail ? "email" : "username";
 
       const response = await fetch(loginIdentifyRoute, {
         method: "POST",
@@ -73,7 +65,6 @@ export const LoginFormIdentfy = () => {
       const result = await response.json();
 
       if (result.success) {
-        setIsSubmitting(false);
         setLoginIdentifyInfo(result);
         setLoginIdentifyValue(result);
         setLoginIdentifyError(null);
@@ -83,22 +74,13 @@ export const LoginFormIdentfy = () => {
         setLoginIdentifyValue(null);
         setLoginIdentifyInfo(null);
       }
-
-      setTimeout(() => setIsSubmitting(false), 500);
     } catch (err) {
-      setIsSubmitting(false);
       setLoginIdentifyError({
         success: false,
         message: "Intervel server Error",
       });
     } finally {
-      const MIN_LOADING_TIME = 500;
-      const elapsed = Date.now() - start;
-      const remaining = Math.max(MIN_LOADING_TIME - elapsed, 0);
-
-      setTimeout(() => {
-        setIsSubmitting(false);
-      }, remaining);
+      setIsSubmitting(false);
     }
   };
 

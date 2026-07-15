@@ -43,28 +43,17 @@ const SecurityCodeContent = ({
     setVerifyLoginError(null);
     setIsSubmitting(true);
 
-    const start = Date.now();
-
     const { isSuccess, error } = await verifyLogin({
       loginIdentify,
       method: "security_code",
       code: securityCode,
     });
 
-    const elapsed = Date.now() - start;
-
     if (error) {
       setVerifyLoginError(error as loginVerifyErrorResponse);
     }
 
-    if (elapsed < 500) {
-      window.setTimeout(
-        () => onResponseResolve(isSuccess, setIsSubmitting),
-        700,
-      );
-    } else {
-      onResponseResolve(isSuccess, setIsSubmitting);
-    }
+    onResponseResolve(isSuccess, setIsSubmitting);
   };
 
   return (

@@ -118,7 +118,7 @@ const SessionApprovalContent = ({
       lastReqTime: new Date(),
     });
 
-    setTimeout(() => onResponseResolve(true, setIsFetching), 500);
+    onResponseResolve(true, setIsFetching);
   };
 
   const startTimeout = (timeout: number) => {
@@ -161,8 +161,6 @@ const SessionApprovalContent = ({
       lastReqTime: new Date(),
     });
 
-    const start = Date.now();
-
     try {
       const { result } = await verifyLogin({
         loginIdentify,
@@ -197,9 +195,7 @@ const SessionApprovalContent = ({
     } catch (error: any) {
       handleRejected(error?.response?.data?.message);
     } finally {
-      const elapsed = Date.now() - start;
-
-      window.setTimeout(() => setIsFetching(false), elapsed < 500 ? 700 : 0);
+      setIsFetching(false);
     }
   };
 

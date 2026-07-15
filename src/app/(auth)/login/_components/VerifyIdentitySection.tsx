@@ -55,28 +55,12 @@ const VerifyIdentitySection = () => {
     }
 
     let isActive = true;
-
-    const start = Date.now();
     setIsFetching(true);
 
     const verify = async () => {
       const { isSuccess } = await verifyAutoLogin(loginIdentify);
 
-      if (!isActive) {
-        return;
-      }
-
-      const elapsed = Date.now() - start;
-
-      if (elapsed < 500) {
-        window.setTimeout(
-          () => onResponseResolve(isSuccess, setIsFetching),
-          700,
-        );
-
-        if (!isSuccess) setIsTrustedLogin(false);
-        return;
-      }
+      if (!isActive) return;
 
       if (!isSuccess) setIsTrustedLogin(false);
       onResponseResolve(isSuccess, setIsFetching);

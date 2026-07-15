@@ -53,8 +53,6 @@ const PasswordContent = ({
   const onSubmit = async (data: verifyPasswordClient) => {
     setIsSubmitting(true);
 
-    const start = Date.now();
-
     try {
       const { isSuccess, error } = await verifyLogin({
         loginIdentify,
@@ -63,22 +61,14 @@ const PasswordContent = ({
         remember: data.remember,
       });
 
-      const elapsed = Date.now() - start;
-
       if (error) {
         setVerifyLoginError(error as loginVerifyErrorResponse);
       }
 
-      if (elapsed < 500) {
-        window.setTimeout(
-          () => onResponseResolve(isSuccess, setIsSubmitting),
-          700,
-        );
-      } else {
-        onResponseResolve(isSuccess, setIsSubmitting);
-      }
+      onResponseResolve(isSuccess, setIsSubmitting);
     } catch (e) {
       setVerifyLoginError(e as loginVerifyErrorResponse);
+      setIsSubmitting(false);
     }
   };
 

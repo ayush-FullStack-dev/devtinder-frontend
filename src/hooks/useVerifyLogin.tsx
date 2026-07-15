@@ -32,7 +32,6 @@ const useVerifyLogin = ({
     }
 
     let isActive = true;
-    const start = Date.now();
 
     const verify = async () => {
       const loginCode =
@@ -56,13 +55,7 @@ const useVerifyLogin = ({
         return;
       }
 
-      const elapsed = Date.now() - start;
-
-      if (elapsed < 500) {
-        window.setTimeout(() => onResponseResolve(response.isSuccess), 700);
-      } else {
-        onResponseResolve(response.isSuccess);
-      }
+      onResponseResolve(response.isSuccess);
 
       setState({
         isSuccess: response.isSuccess,
