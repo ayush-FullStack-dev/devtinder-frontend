@@ -23,7 +23,7 @@ type SecurityCodeContentProps = {
 };
 
 const SessionApprovalContent = ({
-  onResponseResolve = () => {},
+  onResponseResolve = () => { },
 }: SecurityCodeContentProps) => {
   //local states
   const [isFetching, setIsFetching] = useState(false);
@@ -170,7 +170,7 @@ const SessionApprovalContent = ({
         code: "",
       });
 
- 
+
       if (result?.code === "SESSION_APPROVAL_REQUESTED") {
         setApprovalInfo({
           status: "PENDING",
@@ -323,7 +323,7 @@ const SessionApprovalContent = ({
           </span>
         </span>
         {approvalInfo?.status === "TIMEOUT" ||
-        approvalInfo?.status === "REJECTED" ? (
+          approvalInfo?.status === "REJECTED" ? (
           <button
             onClick={startSessionApproval}
             className="

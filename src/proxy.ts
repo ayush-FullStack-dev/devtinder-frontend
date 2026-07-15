@@ -3,9 +3,8 @@ import { accountInfoRoute } from "@/constants/api";
 import { DYNAMIC_ROUTE_PREFIXES, VALID_ROUTES } from "./constants/routes";
 
 export async function proxy(req: NextRequest) {
+  const { pathname } = req.nextUrl;
   try {
-    const { pathname } = req.nextUrl;
-
     const isStaticRouteValid = VALID_ROUTES.includes(pathname);
 
     const isDynamicRouteValid = DYNAMIC_ROUTE_PREFIXES.some((prefix) =>
@@ -87,6 +86,7 @@ export async function proxy(req: NextRequest) {
     const params = new URLSearchParams({
       title: "Authentication Error",
       message,
+      redirect: pathname,
     });
 
     return NextResponse.redirect(

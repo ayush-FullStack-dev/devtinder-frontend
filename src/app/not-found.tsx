@@ -19,7 +19,7 @@ const NotFound = () => {
       </div>
 
       <div className="flex min-h-screen flex-col items-center justify-center -mt-2">
-        <HeroSection className="" />
+        <HeroSection />
 
         <ErrorContent
           name="Looks like you're lost."

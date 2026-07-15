@@ -1,0 +1,62 @@
+"use client";
+
+import LogoHorizontal from "@/components/brand/LogoHorizontal";
+import ErrorContent from "@/components/shared/ErrorContent";
+import IconTextButton from "@/components/shared/IconTextButton";
+import { ArrowLeft, RefreshCcw } from "lucide-react";
+
+export default function Error({
+    error,
+    reset,
+}: {
+    error: Error & { digest?: string };
+    reset: () => void;
+}) {
+    const [message = "We couldn't complete request right now.", description = "Please try agin in moment."] = error?.message?.split(".") ?? [];
+
+    return (
+        <div className="bg-[#0e0f13] text-white min-h-screen w-full relative overflow-hidden">
+            <div className="absolute top-8 left-10 w-full px-10 flex items-center justify-between z-10">
+                <LogoHorizontal
+                    logoMonoChrome
+                    workMarkMonoChrome
+                    className="opacity-90"
+                />
+
+                <IconTextButton
+                    text="Back to Home"
+                    icon={ArrowLeft}
+                    className="text-white border-white w-50 h-12 text-[16px] mr-10"
+                    href="/"
+                />
+
+            </div>
+
+            <div className="flex min-h-screen flex-col items-center justify-center">
+                <img
+                    alt="Disconnected"
+                    src="/images/Disconnected.png"
+                    className="w-130 h-auto opacity-85 select-none pointer-events-none"
+                    draggable={false}
+                    aria-hidden="true"
+                    loading="eager"
+                    fetchPriority="high"
+                    decoding="async"
+                />
+
+                <ErrorContent
+                    name={error?.name || "Something went wrong"}
+                    message={message}
+                    description={description}
+                />
+
+                <IconTextButton
+                    text="Try Again"
+                    icon={RefreshCcw}
+                    className="bg-white text-black border-white w-50 h-12 text-[16px] mt-7"
+                    onClick={reset}
+                />
+            </div>
+        </div>
+    );
+}

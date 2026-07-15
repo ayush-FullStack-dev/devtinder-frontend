@@ -13,6 +13,9 @@ const ApprovalDeviceAnimation = ({
       onContextMenu={(e) => e.preventDefault()}
       onDragStart={(e) => e.preventDefault()}
       className={`${className ? className : ""}`}
+      loading="eager"
+      fetchPriority="high"
+      decoding="async"
     />
   );
 };

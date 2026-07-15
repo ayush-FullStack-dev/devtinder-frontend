@@ -7,12 +7,14 @@ type props = {
   icon: IconType;
   href?: string;
   className?: string;
+  onClick?: () => void;
 };
 
 const IconTextButton = ({
   text,
   icon: Icon,
   href,
+  onClick,
   className: costumclassName,
 }: props) => {
   const className = `box-border inline-flex justify-center gap-4 items-center  rounded-lg border-2 border-muted-foreground ${costumclassName}`;
@@ -33,7 +35,7 @@ const IconTextButton = ({
       </Link>
     );
   }
-  return <div className={className}>{iconText()}</div>;
+  return <div onClick={onClick} className={className}>{iconText()}</div>;
 };
 
 export default IconTextButton;
