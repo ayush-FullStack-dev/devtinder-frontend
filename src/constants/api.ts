@@ -1,5 +1,7 @@
-export const backendUrl: string | undefined =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
+export const backendUrl: string =
+  typeof window === "undefined"
+    ? process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"
+    : "/api";
 
 //auth routes
 export const authRoute: string = `${backendUrl}/auth`;
