@@ -13,10 +13,14 @@ export const metadata: Metadata = {
   },
   description: "Connect with developers, collaborate on projects, and grow your network.",
   openGraph: {
-    title: "DevTinder - log in or sign up",
-    description: `Create an account or login in to DevTinder.
-    \n Connect with developers, collaborate on projects, and grow your network`,
-    images: ["/brand/social/og-image.png"],
+    type: 'website',
+    siteName: "DevTinder",
+    locale: "en_US",
+    images: [{
+      url: "/brand/social/og-image.png", width: 1200,
+      height: 630,
+      alt: "DevTinder social preview image"
+    }],
   }
 };
 
