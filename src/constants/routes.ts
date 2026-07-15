@@ -4,6 +4,7 @@ export const VALID_ROUTES = [
   "/signup",
   "/dashboard",
   "/refresh",
+  "/error",
 ];
 
 export const DYNAMIC_ROUTE_PREFIXES = [];
