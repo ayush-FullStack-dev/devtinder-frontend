@@ -33,7 +33,7 @@ const VerifyIdentitySection = () => {
           fetchState(false);
           setLoginIdentifyInfo(null);
           setStep(1);
-        }, 300);
+        }, 400);
 
         return;
       }
@@ -63,6 +63,7 @@ const VerifyIdentitySection = () => {
       if (!isActive) return;
 
       if (!isSuccess) setIsTrustedLogin(false);
+
       onResponseResolve(isSuccess, setIsFetching);
     };
 

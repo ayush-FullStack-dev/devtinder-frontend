@@ -11,6 +11,9 @@ export const metadata: Metadata = {
     template: "%s | DevTinder",
   },
   description: "Connect with developers, collaborate on projects, and grow your network.",
+  verification: {
+    google: "BJXdoBSR_OubTKk_mnCOsuL6kw1p7qqh7SKUidWLIcI",
+  },
   openGraph: {
     type: 'website',
     siteName: "DevTinder",
