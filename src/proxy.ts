@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { accountInfoRoute } from "@/constants/api";
 import { error } from "node:console";
+import next from "next";
 
 export async function proxy(req: NextRequest) {
   try {
     const { pathname } = req.nextUrl;
+
     if (pathname === "/") {
       return NextResponse.next();
     }
@@ -25,11 +27,31 @@ export async function proxy(req: NextRequest) {
     const isLoggedIn: boolean = data.isLoggedIn;
 
     if (isLoggedIn) {
+      const userDataString = JSON.stringify({
+        isLoggedIn: data.isLoggedIn,
+        user: data.user,
+        profile: data.profile,
+      });
+
       if (pathname.startsWith("/login")) {
-        return NextResponse.redirect(new URL("/dashboard", req.url));
+        const redirectResponse = NextResponse.redirect(
+          new URL("/dashboard", req.url),
+        );
+
+        redirectResponse.headers.set("x-user-data", userDataString);
+        return redirectResponse;
       }
 
-      return NextResponse.next();
+      const response = NextResponse.next({
+        request: {
+          headers: new Headers([
+            ...req.headers,
+            ["x-user-data", userDataString],
+          ]),
+        },
+      });
+
+      return response;
     }
 
     if (data.code === "refresh_auth_token") {
@@ -45,21 +67,7 @@ export async function proxy(req: NextRequest) {
         return NextResponse.redirect(new URL("/login", req.url));
       }
 
-      const response = NextResponse.next();
-      response.headers.set(
-        "x-user-data",
-        JSON.stringify({
-          isLoggedIn: data.isLoggedIn,
-          user: {
-            id: data.user.id,
-            name: data.user.name,
-            email: data.user.email,
-          },
-          profile: data.profile,
-        }),
-      );
-
-      return response;
+      return NextResponse.next();
     }
   } catch (e) {
     const message =
