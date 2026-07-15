@@ -1,11 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import { accountInfoRoute } from "@/constants/api";
-import { error } from "node:console";
-import next from "next";
+import { DYNAMIC_ROUTE_PREFIXES, VALID_ROUTES } from "./constants/routes";
 
 export async function proxy(req: NextRequest) {
   try {
     const { pathname } = req.nextUrl;
+
+    const isStaticRouteValid = VALID_ROUTES.includes(pathname);
+
+    const isDynamicRouteValid = DYNAMIC_ROUTE_PREFIXES.some((prefix) =>
+      pathname.startsWith(prefix),
+    );
+
+    if (!isStaticRouteValid && !isDynamicRouteValid) {
+      return NextResponse.rewrite(new URL("/not-found", req.url));
+    }
 
     if (pathname === "/") {
       return NextResponse.next();
