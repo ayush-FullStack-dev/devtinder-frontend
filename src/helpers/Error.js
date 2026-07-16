@@ -1,4 +1,4 @@
-class CostumeError extends Error {
+class CustomError extends Error {
   constructor(type = "InternalServerError", msg = "Something went wrong") {
     super(msg);
     this.name = type;
@@ -6,4 +6,4 @@ class CostumeError extends Error {
   }
 }
 
-export default CostumeError;
+export default CustomError;

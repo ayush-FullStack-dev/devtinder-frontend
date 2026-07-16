@@ -20,28 +20,15 @@ type ResponseResolveProps = {
 
 const LeftPanel = ({ onResponseResolve, isTrusted }: ResponseResolveProps) => {
   const hasHydrated = useLoginStore((state) => state._hasHydrated);
-  if (!hasHydrated) return null;
-
   const setStep = useLoginStore((state) => state.setStep);
   const step = useLoginStore((state) => state.step);
+  const loginIdentifyInfo = useLoginStore((state) => state.loginIdentifyInfo);
+  const setLoginIdentifyInfo = useLoginStore((state) => state.setLoginIdentifyInfo);
   const router = useRouter();
 
-  useEffect(() => {
-    if (step !== 1) {
-      router.replace("/login");
-    }
-  }, [step, router]);
-
-  const loginIdentifyInfo = useLoginStore((state) => state.loginIdentifyInfo);
-
-  const setLoginIdentifyInfo = useLoginStore(
-    (state) => state.setLoginIdentifyInfo,
-  );
-
   let loginVerfiyMethods: LoginMethod[] | null = null;
-
   if (loginIdentifyInfo?.allowedMethod) {
-    loginVerfiyMethods = [...loginIdentifyInfo?.allowedMethod];
+    loginVerfiyMethods = [...loginIdentifyInfo.allowedMethod];
   }
 
   const selectedInitVal =
@@ -50,8 +37,13 @@ const LeftPanel = ({ onResponseResolve, isTrusted }: ResponseResolveProps) => {
       : loginIdentifyInfo?.primaryMethod;
 
   const [selectedMethod, setSelectedMethod] = useState(selectedInitVal);
-
   const [isMethodConfirmed, setIsMethodConfirmed] = useState(!isTrusted);
+
+  useEffect(() => {
+    if (step !== 1) {
+      router.replace("/login");
+    }
+  }, [step, router]);
 
   const navigate = () => {
     const hasOnlyOneMethod = loginVerfiyMethods?.length
@@ -71,6 +63,8 @@ const LeftPanel = ({ onResponseResolve, isTrusted }: ResponseResolveProps) => {
 
     router.replace("/login");
   };
+
+  if (!hasHydrated) return null;
 
   return (
     <div

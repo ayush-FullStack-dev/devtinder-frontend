@@ -1,14 +1,19 @@
 "use client";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-
 import { ThemeProvider } from "next-themes";
 import { useState } from "react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
 import DeviceInitializer from "@/app/Providers/DeviceProvider";
-import LoginDataInitializer from "@/app/Providers/loginProvider";
+import dynamic from "next/dynamic";
+
+const ReactQueryDevtools =
+  process.env.NODE_ENV === "development"
+    ? dynamic(() =>
+        import("@tanstack/react-query-devtools").then((m) => m.ReactQueryDevtools)
+      )
+    : () => null;
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
   const [queryClient] = useState(() => new QueryClient());
@@ -18,7 +23,6 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
       <Analytics />
       <SpeedInsights />
       <DeviceInitializer />
-      <LoginDataInitializer />
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
         {children}
       </ThemeProvider>

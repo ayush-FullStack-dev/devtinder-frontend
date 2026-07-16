@@ -1,16 +1,34 @@
-export const backendUrl: string =
-  typeof window === "undefined"
-    ? process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"
-    : "/api";
+const clientBase = "/api";
+const serverBase = process.env.NEXT_PUBLIC_API_URL!;
 
-//auth routes
-export const authRoute: string = `${backendUrl}/auth`;
-export const accountInfoRoute: string = `${authRoute}/me/`;
-export const loginRoute: string = `${authRoute}/login`;
-export const loginIdentifyRoute: string = `${loginRoute}/identify/`;
-export const loginVerifyRoute: string = `${loginRoute}/confirm/`;
-export const refreshRoute: string = `${authRoute}/refresh`;
+export function getBaseUrl(): string {
+  return typeof window === "undefined" ? serverBase : clientBase;
+}
 
-// system routes
-export const systemRoute: string = `${backendUrl}/system`;
-export const systemHealthRoute: string = `${systemRoute}/health/`;
+const authPath = "/auth";
+const loginPath = `${authPath}/login`;
+const systemPath = "/system";
+
+export const routes = {
+  accountInfo:   `${authPath}/me/`,
+  login:         loginPath,
+  loginIdentify: `${loginPath}/identify/`,
+  loginVerify:   `${loginPath}/confirm/`,
+  refresh:       `${authPath}/refresh`,
+  systemHealth:  `${systemPath}/health/`,
+} as const;
+
+export function apiUrl(path: string): string {
+  return `${getBaseUrl()}${path}`;
+}
+
+// legacy named exports — unchanged, all client-safe
+export const backendUrl         = clientBase;
+export const authRoute          = `${clientBase}${authPath}`;
+export const accountInfoRoute   = `${clientBase}${routes.accountInfo}`;
+export const loginRoute         = `${clientBase}${routes.login}`;
+export const loginIdentifyRoute = `${clientBase}${routes.loginIdentify}`;
+export const loginVerifyRoute   = `${clientBase}${routes.loginVerify}`;
+export const refreshRoute       = `${clientBase}${routes.refresh}`;
+export const systemRoute        = `${clientBase}${systemPath}`;
+export const systemHealthRoute  = `${clientBase}${routes.systemHealth}`;

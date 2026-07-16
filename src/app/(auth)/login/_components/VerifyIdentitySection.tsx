@@ -9,25 +9,19 @@ import { verifyAutoLogin } from "@/services/login/verifyAutoLogin";
 const VerifyIdentitySection = () => {
   const router = useRouter();
   const hasHydrated = useLoginStore((state) => state._hasHydrated);
-  if (!hasHydrated) {
-    return null;
-  }
-
   const step = useLoginStore((state) => state.step);
   const loginIdentify = useLoginStore((state) => state.loginIdentifyInfo);
   const setStep = useLoginStore((state) => state.setStep);
+  const setLoginIdentifyInfo = useLoginStore((state) => state.setLoginIdentifyInfo);
   const [isTrustedLogin, setIsTrustedLogin] = useState(
     loginIdentify?.primaryMethod === "trusted_session",
-  );
-  const setLoginIdentifyInfo = useLoginStore(
-    (state) => state.setLoginIdentifyInfo,
   );
   const [isFetching, setIsFetching] = useState(false);
 
   const onResponseResolve = useCallback(
     (isSuccess: boolean, fetchState: (state: boolean) => void) => {
       if (isSuccess) {
-        router.push("/dashboard");
+        router.push("/dashboard?skipAuth=true");
 
         window.setTimeout(() => {
           fetchState(false);
@@ -73,6 +67,8 @@ const VerifyIdentitySection = () => {
       isActive = false;
     };
   }, [hasHydrated, loginIdentify, onResponseResolve, step]);
+
+  if (!hasHydrated) return null;
 
   return (
     <main>

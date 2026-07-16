@@ -12,9 +12,10 @@ const HeroIllustration = ({ className, image }: props) => {
         src={image}
         alt="Developer Dashboard Illustration"
         priority
-        className={`select-none
-pointer-events-none w-${image.width} h-${image.height} ${className}`}
-        draggable="false"
+        width={image.width}
+        height={image.height}
+        className={`select-none pointer-events-none ${className}`}
+        draggable={false}
       />
     </div>
   );

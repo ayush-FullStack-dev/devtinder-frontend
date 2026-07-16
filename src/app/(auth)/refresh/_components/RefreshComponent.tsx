@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { refreshRoute } from "@/constants/api";
 import { useDeviceStore } from "@/store/useDevice.store";
+import CustomError from "@/helpers/Error"
 
 export default function RefreshComponent() {
   const router = useRouter();
@@ -16,6 +17,7 @@ export default function RefreshComponent() {
     if (!deviceId || !deviceSize) {
       return;
     }
+
 
     const refresh = async () => {
       try {
@@ -34,6 +36,8 @@ export default function RefreshComponent() {
         });
 
         const data = await response.json();
+
+        if (!response.ok) throw new CustomError("Authentication Error", data.message)
 
         switch (data.action) {
           case "token_refreshed":
@@ -60,8 +64,8 @@ export default function RefreshComponent() {
           default:
             router.replace("/login");
         }
-      } catch {
-        router.replace("/login");
+      } catch (e) {
+        router.replace(`/error?title=${encodeURIComponent("Something went wrong")}&message=${encodeURIComponent(e instanceof Error ? e.message : "Unknown error")}&redirect=${encodeURIComponent(searchParams.get("redirect") || "/dashboard")}`)
       }
     };
 
