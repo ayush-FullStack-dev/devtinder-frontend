@@ -17,8 +17,9 @@ export const getDeviceSize = (storage: Storage, newData?: boolean): number => {
   let deviceSize: number | null = null;
 
   deviceSize = Number(localStorage.getItem(deviceSizeStorageName));
+
   if (!deviceSize || newData) {
-    deviceSize = window.innerWidth * 10000 + window.innerHeight;
+    deviceSize = window.innerWidth  + window.innerHeight;
     localStorage.setItem(deviceSizeStorageName, `${deviceSize}`);
   }
 

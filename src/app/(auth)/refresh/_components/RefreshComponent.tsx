@@ -2,34 +2,30 @@
 
 import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { refreshRoute } from "@/constants/api";
-import { useDeviceStore } from "@/store/useDevice.store";
+import { apiUrl, routes } from "@/constants/api";
+import { getDeviceId, getDeviceSize } from "@/lib/getDeviceInfo";
 import CustomError from "@/helpers/Error"
 
-export default function RefreshComponent() {
+type RefreshComponentProps = {
+  setIsRefreshing?: (isRefreshing: boolean) => void;
+}
+
+export default function RefreshComponent({ setIsRefreshing = () => { } }: RefreshComponentProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const deviceId = useDeviceStore((state) => state.deviceId);
-  const deviceSize = useDeviceStore((state) => state.deviceSize);
-
   useEffect(() => {
-    if (!deviceId || !deviceSize) {
-      return;
-    }
-
-
     const refresh = async () => {
       try {
-        const response = await fetch(refreshRoute, {
+        const response = await fetch(apiUrl(routes.refresh), {
           method: "POST",
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            deviceId,
-            deviceSize,
+            deviceId: getDeviceId(localStorage),
+            deviceSize: getDeviceSize(localStorage),
             code: searchParams.get("approvalId"),
             clientTimestamp: new Date(),
           }),
@@ -65,12 +61,14 @@ export default function RefreshComponent() {
             router.replace("/login");
         }
       } catch (e) {
-        router.replace(`/error?title=${encodeURIComponent("Something went wrong")}&message=${encodeURIComponent(e instanceof Error ? e.message : "Unknown error")}&redirect=${encodeURIComponent(searchParams.get("redirect") || "/dashboard")}`)
+        router.replace(`/error?title=${encodeURIComponent(e instanceof Error ? e.name : "Something went wrong")}&message=${encodeURIComponent(e instanceof Error ? e.message : "Unknown error")}&redirect=${encodeURIComponent(searchParams.get("redirect") || "/dashboard")}`)
+      } finally {
+        setIsRefreshing(false);
       }
     };
 
     refresh();
-  }, [deviceId, deviceSize, router, searchParams]);
+  }, [router, searchParams]);
 
   return null;
 }

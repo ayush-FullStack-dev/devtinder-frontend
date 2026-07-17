@@ -1,5 +1,5 @@
 import { getDeviceId, getDeviceSize } from "@/lib/getDeviceInfo";
-import { loginVerifyRoute } from "@/constants/api";
+import { apiUrl, routes } from "@/constants/api";
 import { BackendVerifyLogin } from "@/schemas/login.schema";
 import { loginIdentifySuccessResponse } from "@/types/auth/login/loginIdenfity.type";
 import { loginVerifyResponse } from "@/types/auth/login/loginVerify.type";
@@ -24,7 +24,7 @@ export const verifyAutoLogin = async (
       clientTimestamp: new Date(),
     };
 
-    const res = await fetch(loginVerifyRoute, {
+    const res = await fetch(apiUrl(routes.loginVerify), {
       method: "POST",
       credentials: "include",
       headers: {

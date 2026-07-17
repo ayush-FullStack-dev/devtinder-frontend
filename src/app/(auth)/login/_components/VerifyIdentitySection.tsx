@@ -21,13 +21,13 @@ const VerifyIdentitySection = () => {
   const onResponseResolve = useCallback(
     (isSuccess: boolean, fetchState: (state: boolean) => void) => {
       if (isSuccess) {
-        router.push("/dashboard?skipAuth=true");
+        router.push("/dashboard");
 
         window.setTimeout(() => {
           fetchState(false);
           setLoginIdentifyInfo(null);
           setStep(1);
-        }, 400);
+        }, 300);
 
         return;
       }

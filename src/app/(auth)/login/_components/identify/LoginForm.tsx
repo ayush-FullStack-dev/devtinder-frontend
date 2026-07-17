@@ -16,7 +16,7 @@ import {
   loginIdentifyErrorResponse,
 } from "@/types/auth/login/loginIdenfity.type";
 import { useLoginStore } from "@/store/login.store";
-import { loginIdentifyRoute } from "@/constants/api";
+import { apiUrl, routes } from "@/constants/api";
 
 export const LoginFormIdentfy = () => {
   const setStep = useLoginStore((state) => state.setStep);
@@ -48,7 +48,7 @@ export const LoginFormIdentfy = () => {
       const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identifier);
       const identiferFiled = isEmail ? "email" : "username";
 
-      const response = await fetch(loginIdentifyRoute, {
+      const response = await fetch(apiUrl(routes.loginIdentify), {
         method: "POST",
         credentials: "include",
         headers: {
