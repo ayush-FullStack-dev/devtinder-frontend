@@ -6,15 +6,15 @@ import { CiCircleCheck } from "react-icons/ci";
 
 type props = {
   currentStep: number;
-  steps: [string,string];
+  steps: [string, string];
   className?: string
 };
 
-const AuthStepper = ({ currentStep,steps,className }: props) => {
+const AuthStepper = ({ currentStep, steps, className }: props) => {
   return (
     <div className={`flex gap-2 p-3 items-center w-80 ${className}`}>
       <span>
-        <CiCircleCheck  size={35} className="text-[#a48be8] font-semibold dark:text-[#dcdfe6]"/>
+        <CiCircleCheck size={35} className="text-[#a48be8] font-semibold dark:text-[#dcdfe6]" />
         <p className={`text-xs ${googleSans.className} text-[#7b7b7b] dark:text-[#dcdfe6]`}>{steps[0]}</p>
       </span>
 

@@ -3,15 +3,15 @@ import RightPanel from "@/app/(auth)/login/_components/identify/RightPanel";
 
 const IdentifyFormSection = () => {
   return (
-  <main
-  className="
+    <main
+      className="
     h-screen w-full
     overflow-hidden
     p-0 md:p-3 md:pl-20
     bg-slate-100 dark:bg-zinc-950
     flex
   "
->
+    >
       <div className="relative">
         <div className="relative z-10">
           {" "}

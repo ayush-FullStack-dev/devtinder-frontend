@@ -23,7 +23,7 @@ const PasswordInput = <T extends FieldValues>({
   success = false,
   className,
   showPassword = true,
-  setShowPassword = () => {},
+  setShowPassword = () => { },
 }: PasswordInputProps<T>) => {
   const [isClicked, setIsClicked] = useState(false);
   const borderVal = error

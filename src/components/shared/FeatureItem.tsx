@@ -12,7 +12,7 @@ type props = {
 const FeatureItem = ({ className, title, description, icon: Icon }: props) => {
   return (
     <div className={`flex items-center gap-4`}>
-      <Icon size={40} color="#4940e3" className="-mt-3"/>
+      <Icon size={40} color="#4940e3" className="-mt-3" />
       <div className={`inline-flex flex-col ${className} justify-between `}>
         <h1 className={`text-[14px] ${poppins.className} font-lighter`}>{title}</h1>
         <p

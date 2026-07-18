@@ -24,7 +24,7 @@ const VerifyMethodSelector = ({
   className,
   setIsMethodConfirmed,
 }: VerifyMethodSelectorProps) => {
-  
+
   const onClick = () => {
     setIsMethodConfirmed(true);
   };
@@ -44,7 +44,7 @@ const VerifyMethodSelector = ({
 
             const recommend =
               loginIdentifyInfo?.primaryMethod === "trusted_session" &&
-              method === "passkey"
+                method === "passkey"
                 ? true
                 : loginIdentifyInfo?.primaryMethod === method;
 
