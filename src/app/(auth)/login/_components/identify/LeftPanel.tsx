@@ -12,9 +12,9 @@ const LeftPanel = () => {
     <div
       className="
         box-border gap-2 p-3 md:p-10 pb-3
-        inline-flex flex-col items-stretch
+        flex lg:inline-flex flex-col items-stretch
 
-        w-full max-w-130
+        w-full max-w-130 mx-auto lg:mx-0
         max-h-130
         min-h-[95vh]
 
