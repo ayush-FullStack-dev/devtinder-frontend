@@ -48,7 +48,7 @@ const IconTextInput = <T extends FieldValues>({
 
   return (
     <div
-      className={`inline-flex h-15 w-90 items-center  rounded-lg gap-3 pl-4 opacity-75 ${className}`}
+      className={`inline-flex h-15 w-full max-w-90 md:w-90 items-center  rounded-lg gap-3 pl-4 opacity-75 ${className}`}
       style={inputStyle}
     >
       <Icon size={24} color="#929191" />

@@ -88,7 +88,7 @@ export const LoginFormIdentfy = () => {
     <form
       onSubmit={handleSubmit(onSubmit)}
       autoComplete="off"
-      className="box-border inline-flex  flex-col p-3  gap-3 -ml-2"
+      className="box-border flex w-full  flex-col p-3  gap-3 -ml-2"
     >
       <label htmlFor="email" className={`font-bold ${jakarta.className}`}>
         Email or Username

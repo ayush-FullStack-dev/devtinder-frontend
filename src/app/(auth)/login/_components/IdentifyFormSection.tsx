@@ -7,18 +7,18 @@ const IdentifyFormSection = () => {
       className="
     h-screen w-full
     overflow-hidden
-    p-0 md:p-3 md:pl-20
+    p-0 md:p-3 lg:pl-20
     bg-slate-100 dark:bg-zinc-950
-    flex
+    flex justify-center lg:justify-start
   "
     >
-      <div className="relative">
+      <div className="relative w-full md:w-auto">
         <div className="relative z-10">
           {" "}
           <LeftPanel />
         </div>
 
-        <div className=" absolute top-0 left-4/4 z-1">
+        <div className="absolute top-0 left-full z-1 hidden lg:block">
           {" "}
           <RightPanel />
         </div>
