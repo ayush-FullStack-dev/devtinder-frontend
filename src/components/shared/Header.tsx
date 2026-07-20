@@ -9,14 +9,21 @@ type props = {
 
 const Header = ({ className, title, description }: props) => {
   return (
-    <div className={`w-80 h-auto inline-flex flex-col ${className} gap-1`}>
-      <h1 className={`text-xl ${poppins.className} font-bold`}>{title}</h1>
-      <p
-        className={`whitespace-pre-line text-gray-400 ${jakarta.className} font-extrabold text-[13px]`}
-      >
-        {description}
-      </p>
-    </div>
+<div
+  className={`w-full max-w-80 sm:max-w-sm md:max-w-md inline-flex flex-col gap-2 ${className}`}
+>
+  <h1
+    className={`${poppins.className} font-bold text-2xl sm:text-[26px] lg:text-[28px] leading-tight`}
+  >
+    {title}
+  </h1>
+
+  <p
+    className={`${jakarta.className} whitespace-pre-line text-gray-400 font-medium text-sm sm:text-base leading-relaxed`}
+  >
+    {description}
+  </p>
+</div>
   );
 };
 

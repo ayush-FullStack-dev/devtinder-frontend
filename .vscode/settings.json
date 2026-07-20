@@ -1,4 +1,8 @@
 {
   "editor.cursorSmoothCaretAnimation": "on",
-  "editor.showFoldingControls": "always"
+  "editor.showFoldingControls": "always",
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.wordWrap": "on",
+  "files.autoSave": "afterDelay"
 }

@@ -4,7 +4,7 @@ import { IoShieldCheckmarkOutline } from "react-icons/io5";
 
 const TermNotice = ({ className }: { className?: string }) => {
   return (
-    <div className={`flex gap-3 items-center text-sm w-70 ${className}`}>
+    <div className={`flex gap-3 items-center text-sm w-full xs:w-70 ${className}`}>
       <IoShieldCheckmarkOutline size={55} color="#929191" />
       <p
         className={`${jakarta.className} font-bold tracking-wide text-[#929191]`}

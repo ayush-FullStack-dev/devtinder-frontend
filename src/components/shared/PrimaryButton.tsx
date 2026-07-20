@@ -50,9 +50,8 @@ const PrimaryButton = ({
   return (
     <button
       type={btnType}
-      className={`box-border inline-flex h-14 w-90 pr-5 items-center  rounded-lg bg-[#4940e3]  cursor-pointer ${className} ${
-        disbaled ? "opacity-50 cursor-not-allowed" : ""
-      }`}
+      className={`box-border inline-flex h-14 w-90 pr-5 items-center  rounded-lg bg-[#4940e3]  cursor-pointer ${className} ${disbaled ? "opacity-50 cursor-not-allowed" : ""
+        }`}
       onClick={onClick}
       onMouseDown={pressEffect}
       onMouseUp={unpressEffect}

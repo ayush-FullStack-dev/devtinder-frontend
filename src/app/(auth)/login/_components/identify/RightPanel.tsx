@@ -10,7 +10,9 @@ const RigthPanel = () => {
   const className = `
 relative overflow-hidden
 box-border gap-2 p-10 pb-3 -ml-10
-inline-flex h-[95vh] w-230 flex-col rounded-2xl
+inline-flex h-[95vh] 
+w-230 
+flex-col rounded-2xl
 
 bg-linear-to-br
 from-[#FCFBFF]
@@ -38,8 +40,14 @@ before:pointer-events-none
 `;
 
   return (
-    <div className={`${className} relative -z-2`}>
-      <DecorativeCurves />
+    <div
+      className={`
+    ${className}
+    relative
+    overflow-hidden
+    -z-2
+  `}
+    >
       <PromoContent
         title={
           <>
@@ -47,14 +55,51 @@ before:pointer-events-none
             <span className="text-violet-500">developer</span> match.
           </>
         }
-        className="ml-15 mt-5 font-semibold"
+        className="
+      ml-15
+      mt-5
+      font-semibold
+      relative
+      z-10
+    "
         description={description}
       />
 
-      <HeroIllustration
-        image={HeroIllustraionSvg}
-        className="w-[730] h[1006] ml-40"
-      />
+      <div
+        className="
+      absolute
+      inset-0
+      overflow-hidden
+      pointer-events-none
+      right-3.5
+      xl:right-[9%]
+      2xl:right-[1%]
+      hidden
+      xl:block
+      -z-10
+    "
+      >
+        <DecorativeCurves className="opacity-50"
+        />
+
+        <HeroIllustration
+          image={HeroIllustraionSvg}
+          className="
+        absolute
+
+        bottom-0
+       right-8
+        w-[90%]
+        max-w-182
+
+        md:w-[40%]
+        lg:w-170
+        translate-x-[8%]
+        translate-y-[5%]
+        h-auto
+      "
+        />
+      </div>
     </div>
   );
 };
