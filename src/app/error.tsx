@@ -23,12 +23,14 @@ export default function Error({
                     className="opacity-90"
                 />
 
-                <IconTextButton
-                    text="Back to Home"
-                    icon={ArrowLeft}
-                    className="text-white border-white w-50 h-12 text-[16px] mr-10"
-                    href="/"
-                />
+                <div className="hidden sm:block">
+                    <IconTextButton
+                        text="Back to Home"
+                        icon={ArrowLeft}
+                        className="text-white border-white w-50 h-12 text-[16px] mr-10"
+                        href="/"
+                    />
+                </div>
 
             </div>
 
@@ -50,12 +52,23 @@ export default function Error({
                     description={description}
                 />
 
-                <IconTextButton
-                    text="Try Again"
-                    icon={RefreshCcw}
-                    className="bg-white text-black border-white w-50 h-12 text-[16px] mt-7"
-                    onClick={reset}
-                />
+                 <div className="flex flex-col gap-6 -mb-7">
+                    <IconTextButton
+                        text="Try Again"
+                        icon={RefreshCcw}
+                        className="bg-white text-black border-white w-50 h-12 text-[16px] mt-7"
+                        onClick={reset}
+                    />
+
+                    <div className="block sm:hidden">
+                        <IconTextButton
+                            text="Back to Home"
+                            icon={ArrowLeft}
+                            className="text-white border-white w-50 h-12 text-[16px]"
+                            href="/"
+                        />
+                    </div>
+                </div>
             </div>
         </div>
     );

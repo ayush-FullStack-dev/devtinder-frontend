@@ -26,19 +26,22 @@ const ErrorPageContent = () => {
 
     return (
         <div className="bg-[#0e0f13] text-white min-h-screen w-full relative overflow-hidden">
-            <div className="absolute top-8 left-10 w-full px-10 flex items-center justify-between z-10">
+            <div className="absolute top-8 left-5 w-full px-10 flex items-center justify-between z-10">
                 <LogoHorizontal
                     logoMonoChrome
                     workMarkMonoChrome
                     className="opacity-90"
                 />
 
-                <IconTextButton
-                    text="Back to Home"
-                    icon={ArrowLeft}
-                    className="text-white border-white w-50 h-12 text-[16px] mr-10"
-                    href="/"
-                />
+                <div className="hidden sm:block">
+                    <IconTextButton
+                        text="Back to Home"
+                        icon={ArrowLeft}
+                        className="text-white border-white w-50 h-12 text-[16px] mr-10"
+                        href="/"
+                    />
+                </div>
+
             </div>
 
             <div className="flex min-h-screen flex-col items-center justify-center">
@@ -60,12 +63,23 @@ const ErrorPageContent = () => {
                     description="Please try again in a moment."
                 />
 
-                <IconTextButton
-                    text="Try Again"
-                    icon={RefreshCcw}
-                    className="bg-white text-black border-white w-50 h-12 text-[16px] mt-7"
-                    onClick={reset}
-                />
+                <div className="flex flex-col gap-6 -mb-7">
+                    <IconTextButton
+                        text="Try Again"
+                        icon={RefreshCcw}
+                        className="bg-white text-black border-white w-50 h-12 text-[16px] mt-7"
+                        onClick={reset}
+                    />
+
+                    <div className="block sm:hidden">
+                        <IconTextButton
+                            text="Back to Home"
+                            icon={ArrowLeft}
+                            className="text-white border-white w-50 h-12 text-[16px]"
+                            href="/"
+                        />
+                    </div>
+                </div>
             </div>
         </div>
     );
