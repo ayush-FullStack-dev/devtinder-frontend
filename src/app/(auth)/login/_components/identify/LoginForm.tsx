@@ -88,11 +88,14 @@ export const LoginFormIdentfy = () => {
     <form
       onSubmit={handleSubmit(onSubmit)}
       autoComplete="off"
-      className="box-border inline-flex  flex-col p-3  gap-3 -ml-2"
+      className="box-border inline-flex  flex-col gap-3 -ml-2"
     >
-      <label htmlFor="email" className={`w-full font-bold ${jakarta.className}`}>
-        Email or Username
-      </label>
+      <span>
+        <label htmlFor="identifier" className={`w-full font-bold ${jakarta.className}`}>
+          Email or Username
+        </label>
+      </span>
+
 
       <IconTextInput
         name="identifier"
@@ -101,10 +104,10 @@ export const LoginFormIdentfy = () => {
         register={register}
         error={!!errors.identifier || !!loginIdentifyError}
         success={isSubmitted && !!loginIdentifyInfo}
-        className="w-full overflow-clip" 
+        className="w-full overflow-clip"
       />
 
-      <div className="h-6">
+      <div className="h-5">
         {errors.identifier ? (
           <InputError text={errors.identifier.message} />
         ) : loginIdentifyError ? (
@@ -113,7 +116,7 @@ export const LoginFormIdentfy = () => {
       </div>
 
       <PrimaryButton
-        className={`mt-3 mb-2 w-full`}
+        className={`mt-3  w-full`}
         btnType="submit"
         text="Continue"
         disbaled={isSubmitting}

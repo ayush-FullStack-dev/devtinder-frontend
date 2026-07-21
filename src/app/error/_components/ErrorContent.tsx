@@ -26,7 +26,7 @@ const ErrorPageContent = () => {
 
     return (
         <div className="bg-[#0e0f13] text-white min-h-screen w-full relative overflow-hidden">
-            <div className="absolute top-8 left-5 w-full px-10 flex items-center justify-between z-10">
+            <div className="absolute top-7 left-5 w-full px-0 lg:px-10 flex items-center justify-between z-10">
                 <LogoHorizontal
                     logoMonoChrome
                     workMarkMonoChrome

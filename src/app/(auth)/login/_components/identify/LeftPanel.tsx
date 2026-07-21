@@ -13,7 +13,7 @@ const LeftPanel = () => {
       justify-around
   box-border
   flex flex-col 
-
+  gap-4
   w-screen
   md:w-[80vw]
   lg:w-full
@@ -32,7 +32,7 @@ const LeftPanel = () => {
   dark:md:shadow-2xl dark:md:shadow-black/30
 "
     >
-      <LogoHorizontal className="mb-7" />
+      <LogoHorizontal className="mb-0 lg:mb-6"/>
 
       <AuthHeader />
 
