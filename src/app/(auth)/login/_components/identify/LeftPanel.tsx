@@ -13,12 +13,11 @@ const LeftPanel = () => {
       justify-around
   box-border
   flex flex-col 
-  gap-4
+  gap-0 md:gap-4
   w-screen
   md:w-[80vw]
   lg:w-full
-
-  p-6 md:p-8
+  px-4 xxs:px-1 xs:px-4 sm:px-5 md:p-8
 
   h-screen
   md:h-[95vh]
@@ -30,9 +29,10 @@ const LeftPanel = () => {
 
   shadow-none md:shadow-lg
   dark:md:shadow-2xl dark:md:shadow-black/30
+  overflow-hidden
 "
     >
-      <LogoHorizontal className="mb-0 lg:mb-6"/>
+      <LogoHorizontal className="m-0 lg:mb-5" />
 
       <AuthHeader />
 
@@ -45,7 +45,7 @@ const LeftPanel = () => {
         href="/signup"
         text="Create an Account"
         icon={FaRegUser}
-        className="mr-auto ml-auto h-15 w-full"
+        className="mr-auto ml-auto h-14 w-full"
       />
 
       <TermNotice className="ml-auto mr-auto" />
