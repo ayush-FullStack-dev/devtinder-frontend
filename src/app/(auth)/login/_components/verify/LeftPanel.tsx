@@ -95,6 +95,7 @@ bg-white
           loginVerfiyMethods={loginVerfiyMethods}
           loginIdentifyInfo={loginIdentifyInfo}
           setIsMethodConfirmed={setIsMethodConfirmed}
+           navigateFn={navigate}
         />
       ) : (
         <VerifyMethodContent

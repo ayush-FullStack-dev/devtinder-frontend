@@ -5,7 +5,13 @@ import { emptyCode } from "@/schemas/schema";
 // identify login --- IGNORE ---
 
 export const loginIdentifySchema = z.object({
-  identifier: z.string().trim().max(40),
+  identifier: z
+    .string({
+      message: "Email, username, or phone number is required",
+    })
+    .trim()
+    .max(60, "Identifier must be at most 60 characters long")
+    .min(1, "Identifier filed is required"),
 });
 
 export const backendLoginIdentifySchema =

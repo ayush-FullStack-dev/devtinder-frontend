@@ -12,8 +12,9 @@ const LoginPage = () => {
 
   if (!hasHydrated) return null;
 
+
   return (
-    <main className="h-screen overflow-hidden">
+    <main>
       {step === 1 ? <IdentifyFormSection /> : <VerifyIdentitySection />}
     </main>
   );

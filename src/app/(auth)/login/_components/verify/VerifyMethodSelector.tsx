@@ -4,6 +4,7 @@ import { loginMethodDetails } from "@/constants/login";
 import { RadioGroup } from "@/components/ui/radio-group";
 import { LoginMethod } from "@/types/auth/login/login.type";
 import { loginIdentifySuccessResponse } from "@/types/auth/login/loginIdenfity.type";
+import { useEffect } from "react";
 
 type VerifyMethodSelectorProps = {
   selectedMethod?: LoginMethod | undefined;
@@ -13,6 +14,7 @@ type VerifyMethodSelectorProps = {
   loginVerfiyMethods: LoginMethod[] | null;
   setIsMethodConfirmed: (state: boolean) => void;
   loginIdentifyInfo?: loginIdentifySuccessResponse | null;
+  navigateFn?: () => void;
   className?: string;
 };
 
@@ -23,11 +25,30 @@ const VerifyMethodSelector = ({
   loginIdentifyInfo,
   className,
   setIsMethodConfirmed,
+  navigateFn = () => {}
 }: VerifyMethodSelectorProps) => {
-  
+
   const onClick = () => {
     setIsMethodConfirmed(true);
   };
+
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (e.key === "Enter") {
+      onClick();
+      setIsMethodConfirmed(true)
+    }
+    if(e.key === "Escape"){
+      navigateFn()
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   return (
     <div className={`flex flex-col gap-3 ml-10 ${className ?? ""}`}>
@@ -44,7 +65,7 @@ const VerifyMethodSelector = ({
 
             const recommend =
               loginIdentifyInfo?.primaryMethod === "trusted_session" &&
-              method === "passkey"
+                method === "passkey"
                 ? true
                 : loginIdentifyInfo?.primaryMethod === method;
 
@@ -64,7 +85,7 @@ const VerifyMethodSelector = ({
         </RadioGroup>
       </div>
 
-      <PrimaryButton className="w-130 mt-5" text="Continue" onClick={onClick} />
+      <PrimaryButton className="w-130 mt-5" text="Continue" onClick={onClick}  />
     </div>
   );
 };

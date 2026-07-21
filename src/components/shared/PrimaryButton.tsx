@@ -7,6 +7,7 @@ type props = {
   text: string;
   icon?: IconType;
   onClick?: () => void;
+  onKeyDown?: React.KeyboardEventHandler<HTMLButtonElement>;
   btnType?: "button" | "submit" | "reset";
   className?: string;
   disbaled?: boolean;
@@ -21,7 +22,9 @@ const PrimaryButton = ({
   btnType = "button",
   disbaled = false,
   disbaleText = "Checking...",
+  onKeyDown = () => {}
 }: props) => {
+
   const Icon = icon || FaArrowRight;
   const pressStartTime = useRef<number>(0);
 
@@ -52,11 +55,14 @@ const PrimaryButton = ({
       type={btnType}
       className={`box-border inline-flex h-14  pr-5 items-center  rounded-lg bg-[#4940e3]  ${className} ${disbaled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
         }`}
+      onKeyDown={onKeyDown}
+
       onClick={onClick}
       onMouseDown={pressEffect}
       onMouseUp={unpressEffect}
       onMouseLeave={unpressEffect}
       disabled={disbaled}
+
     >
       <p
         className={`font-extrabold text-lg flex-1 text-center tracking-wide text-white`}

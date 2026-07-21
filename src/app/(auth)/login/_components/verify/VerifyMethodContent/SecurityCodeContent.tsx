@@ -63,7 +63,7 @@ const SecurityCodeContent = ({
     >
       <Header
         title="Verify With Security Code"
-        description="Enter the 10-character securty code generated from yout DevTinder account."
+        description="Enter the 10-character securty code generated from your DevTinder account."
         className="mb-3"
       />
 
