@@ -1,5 +1,5 @@
 import FeatureItem from "@/components/shared/FeatureItem";
-import HeroIllustration from "@/components/shared/HeroIllustration.tsx";
+import HeroIllustration from "@/components/shared/HeroIllustration";
 import { HiOutlineShieldCheck } from "react-icons/hi2";
 import Header from "@/components/shared/Header";
 import SecurityIllustration from "@/../public/images/SecurityIllustration.png";
@@ -35,23 +35,24 @@ before:pointer-events-none
   return (
     <div
       className={`relative z-10 overflow-hidden
-box-border gap-2 p-10 pb-3 -ml-5 
- h-[95vh] w-180 rounded-2xl inline-flex flex-col items-center
+box-border gap-2 -ml-5
+ h-[95vh] w-[53vw] xl:w-[50vw] rounded-2xl inline-flex flex-col items-center 
  ${styleClassName}`}
     >
       <DecorativeCurve className="absolute -z-1 h-130 mr-120 -top-4 opacity-55" />
 
       <HeroIllustration
         image={SecurityIllustration}
-        className="w-[600] h[750] -ml-10 -mt-5"
+        className="w-[36em] h-auto mr-10"
       />
+
       <Header
         title="Your Securty, Our Priority"
         description="We use multiple secure method to make sure only you can access your account."
-        className="-mt-20"
+        className="-mt-20 mr-auto ml-auto"
       />
 
-      <div className="flex flex-col gap-4 mt-5">
+      <div className="flex flex-col gap-3 mt-2">
         <FeatureItem
           title="Passkey Authentication"
           description="Sign in securely using your device's built-in authentication."

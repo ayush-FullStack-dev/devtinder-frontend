@@ -25,7 +25,7 @@ lg:justify-start
           <LeftPanel />
         </div>
 
-        <div className="hidden lg:inline absolute top-0 left-4/4 z-1 w-auto">
+        <div className="hidden lg:block absolute top-0 left-4/4 z-1 w-auto">
           {" "}
           <RightPanel />
         </div>

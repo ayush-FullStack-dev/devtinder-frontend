@@ -14,6 +14,7 @@ import {
   TriangleAlert,
   LoaderCircle,
 } from "lucide-react";
+import { getSocket } from "@/lib/socket";
 
 type SecurityCodeContentProps = {
   onResponseResolve?: (
@@ -25,18 +26,22 @@ type SecurityCodeContentProps = {
 const SessionApprovalContent = ({
   onResponseResolve = () => { },
 }: SecurityCodeContentProps) => {
+  //types 
+  type approvalSocketSchema = {
+    approvalId: string;
+    status: "approved" | "declined" | "expired"
+  }
+
+  type approvalStatusSchema = "REQUESTING" | "PENDING" | "ACCEPTED" | "REJECTED" | "EXPIRED";
+
   //local states
   const [isFetching, setIsFetching] = useState(false);
   const intervalRef = useRef<number | null>(null);
   const loginIdentify = useLoginStore((state) => state.loginIdentifyInfo);
   const [approvalInfo, setApprovalInfo] = useState<{
     message?: string;
-    status: "REQUESTING" | "PENDING" | "ACCEPTED" | "REJECTED" | "TIMEOUT";
-    lastReqTime: Date;
+    status: approvalStatusSchema
   } | null>(null);
-  const approvalStatusRef = useRef(approvalInfo);
-  const timeoutRef = useRef<number | null>(null);
-  const pollingRef = useRef(false);
 
   //config
   const approvalStateConfig = {
@@ -68,7 +73,7 @@ const SessionApprovalContent = ({
       icon: <CircleX color="#ef4444" size={20} />,
     },
 
-    TIMEOUT: {
+    EXPIRED: {
       title: "Approval expired",
       description1: "The approval request has expired.",
       description2: "Please send a new request.",
@@ -76,19 +81,6 @@ const SessionApprovalContent = ({
     },
   };
 
-  const stopPolling = () => {
-    pollingRef.current = false;
-
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
-    }
-
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
-    }
-  };
 
   const removeSession = async () => {
     await fetch("/api/remove-cookie", {
@@ -99,56 +91,32 @@ const SessionApprovalContent = ({
     });
   };
 
-  const handleRejected = (message?: string) => {
-    stopPolling();
+  const handleRejected = (message?: string, status: approvalStatusSchema = "REJECTED") => {
     removeSession();
     setApprovalInfo({
-      status: "REJECTED",
+      status,
       message: message ?? "Approval request was rejected.",
-      lastReqTime: new Date(),
     });
   };
 
   const handleAccepted = () => {
-    stopPolling();
     removeSession();
 
     setApprovalInfo({
       status: "ACCEPTED",
-      lastReqTime: new Date(),
     });
 
     onResponseResolve(true, setIsFetching);
   };
 
-  const startTimeout = (timeout: number) => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-
-    timeoutRef.current = window.setTimeout(() => {
-      setApprovalInfo((current) => {
-        if (current?.status !== "PENDING") {
-          return current;
-        }
-
-        stopPolling();
-
-        return {
-          ...current,
-          status: "TIMEOUT",
-        };
-      });
-    }, timeout * 1000);
-  };
 
   const currentState =
     approvalStateConfig[approvalInfo?.status ?? "REQUESTING"];
 
   const startSessionApproval = async () => {
     if (
-      approvalStatusRef.current?.status === "PENDING" ||
-      approvalStatusRef.current?.status === "REQUESTING"
+      approvalInfo?.status === "PENDING" ||
+      approvalInfo?.status === "REQUESTING"
     ) {
       return;
     }
@@ -158,7 +126,6 @@ const SessionApprovalContent = ({
     setApprovalInfo({
       status: "REQUESTING",
       message: "",
-      lastReqTime: new Date(),
     });
 
     try {
@@ -168,19 +135,15 @@ const SessionApprovalContent = ({
         code: "",
       });
 
+      console.log(result.approvalId)
 
       if (result?.code === "SESSION_APPROVAL_REQUESTED") {
         setApprovalInfo({
           status: "PENDING",
           message: result.message,
-          lastReqTime: new Date(),
         });
 
-        if (result.timeout) {
-          startTimeout(result.timeout);
-        }
-
-        intervalRef.current = window.setInterval(resolvePending, 1500);
+        handleApproval();
         return;
       }
 
@@ -199,89 +162,80 @@ const SessionApprovalContent = ({
     }
   };
 
-  const resolvePending = async () => {
-    if (approvalStatusRef.current?.status !== "PENDING") {
-      return;
-    }
-
-    if (pollingRef.current) {
-      return;
-    }
-
-    pollingRef.current = true;
-
+  const handleApproval = () => {
     try {
-      const { result } = await verifyLogin({
-        loginIdentify,
-        method: "session_approval",
-        code: "",
-      });
+      const socket = getSocket("/auth");
 
-      if (result?.code === "LOGIN_SUCCESS") {
-        handleAccepted();
-        return;
+      if (!socket.connected) {
+        socket.connect();
       }
 
-      if (result?.code === "WAITING_FOR_APPROVAL") {
-        setApprovalInfo((current) => ({
-          ...current!,
-          message: result.message,
-        }));
+      socket.off("approval:update");
 
-        return;
-      }
+      const handleDecision = async (data: approvalSocketSchema) => {
+        if (data.status === "approved") {
+          const { result } = await verifyLogin({
+            loginIdentify,
+            method: "session_approval",
+            code: "",
+          });
 
-      if (result?.code === "SESSION_APPROVAL_REQUESTED") {
-        setApprovalInfo((current) => ({
-          ...current!,
-          message: result.message,
-        }));
+          if (result?.code === "LOGIN_SUCCESS") {
+            socket.off("approval:update");
+            socket.disconnect();
 
-        if (result.timeout) {
-          startTimeout(result.timeout);
+            handleAccepted();
+          } else {
+            socket.off("approval:update");
+            socket.disconnect();
+
+            handleRejected("", "EXPIRED");
+          }
+
+          return;
         }
 
-        return;
-      }
+        if (data.status === "declined") {
+          socket.off("approval:update");
+          socket.disconnect();
 
-      if (result?.message) {
-        handleRejected(result.message);
-      }
+          handleRejected();
+          return;
+        }
+
+        if (data.status === "expired") {
+          socket.off("approval:update");
+          socket.disconnect();
+
+          handleRejected("", "EXPIRED");
+        }
+      };
+
+      socket.on("approval:update", handleDecision);
     } catch (error: any) {
-      handleRejected(error?.response?.data?.message);
-    } finally {
-      pollingRef.current = false;
+      handleRejected(error?.message);
     }
   };
-
-  useEffect(() => {
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-        timeoutRef.current = null;
-      }
-
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-        timeoutRef.current = null;
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-    approvalStatusRef.current = approvalInfo;
-  }, [approvalInfo]);
 
   useEffect(() => {
     const init = async () => {
       await removeSession();
       startSessionApproval();
     };
+
     init();
+
+    return () => {
+      const socket = getSocket("/auth");
+
+      socket.off("approval:update");
+
+      socket.disconnect();
+    };
   }, []);
 
   return (
-    <div>
+    <div className="ml-2">
       <AppLoader loading={isFetching} />
       <Header
         title="Verify With Session Approval"
@@ -289,7 +243,7 @@ const SessionApprovalContent = ({
       />
       <div className="flex flex-col items-center gap-2">
         <ApprovalDeviceAnimation
-          className="h-46 w-auto mb-2 rotate-2    select-none
+          className="h-39 md:h-42 mt-0 md:-mt-3 w-auto mb-2 rotate-2    select-none
     pointer-events-auto
     touch-manipulation
     [-webkit-user-drag:none]
@@ -297,28 +251,28 @@ const SessionApprovalContent = ({
     [-webkit-touch-callout:none]
     [-webkit-tap-highlight-color:transparent]"
         />
-        <span className=" flex flex-col items-center gap-1 mb-4">
+        <div className="mb-2 flex flex-col items-center gap-2 px-4 text-center">
           <IconWithText
             icon={currentState.icon}
-            className="text-[18px] mr-2"
+            className="text-lg md:text-xl"
             title={currentState.title}
           />
 
-          <span className="flex flex-col items-center">
+          <div className="flex max-w-sm flex-col items-center gap-1 md:max-w-md lg:max-w-lg">
             <p
-              className={`text-gray-400 ${googleSansFlex.className} font-light text-[13px]`}
+              className={`${googleSansFlex.className} text-xs leading-5 font-light text-gray-400 sm:text-sm md:text-[15px]`}
             >
               {currentState.description1}
             </p>
 
             <p
-              className={`whitespace-pre-line text-gray-400 ${googleSansFlex.className} font-light text-[13px]`}
+              className={`${googleSansFlex.className} whitespace-pre-line warp-break-words text-xs leading-5 font-light text-gray-400 sm:text-sm md:text-[15px]`}
             >
               {currentState.description2}
             </p>
-          </span>
-        </span>
-        {approvalInfo?.status === "TIMEOUT" ||
+          </div>
+        </div>
+        {approvalInfo?.status === "EXPIRED" ||
           approvalInfo?.status === "REJECTED" ? (
           <button
             onClick={startSessionApproval}

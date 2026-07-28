@@ -19,7 +19,7 @@ const ActionTile = ({
 }: Props) => {
   return (
     <div
-      className={`group box-border flex h-15 items-center justify-between rounded-lg border-2 bg-transparent p-5 transition-all duration-300 ease-in-out text-[#545151] dark:text-white
+      className={`group box-border w-full flex h-15 items-center justify-between rounded-lg border-2 bg-transparent px-5 transition-all duration-300 ease-in-out text-[#545151] dark:text-white
         ${
           disabled
             ? "cursor-not-allowed opacity-50"
@@ -29,7 +29,7 @@ const ActionTile = ({
       onClick={!disabled ? onClick : undefined}
     >
       <div className="flex items-center gap-5">
-        <Icon size={32} />
+        <Icon size={32} className="hidden xs:block" />
 
         <h1 className={`text-mid ${googleSans.className} font-bold`}>
           {title}

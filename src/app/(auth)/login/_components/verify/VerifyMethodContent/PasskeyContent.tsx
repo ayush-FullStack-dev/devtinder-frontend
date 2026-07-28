@@ -133,7 +133,7 @@ const PasskeyContent = ({
         message: error.message,
       });
     }
-  } catch (err) {
+  } catch (err:any) {
     setError({
       name: "UnknownError",
       message: "Something went wrong",
@@ -141,19 +141,20 @@ const PasskeyContent = ({
   }
 
   return (
-    <div className="flex flex-col gap-3 mb-4">
+    <div className="flex flex-col gap-3 mb-5 ml-4 mr-4 md:ml-0 md:mr-0">
       <AppLoader loading={isFetching} />
+
       <Header
         title="Verify With Passkey"
         description="Use your passkey to securley sign in to your account."
       />
 
-      <div className="h-60 rounded-xl w-130  outline-1 outline-[#4940e3] flex flex-col items-center justify-between p-5 mt-2">
-        {/* logo */}
+      <div className="h-60 rounded-xl w-full  outline-1 outline-[#4940e3] flex flex-col items-center justify-between p-5 mt-2 overflow-clip">
         <div
           className="
-    flex h-18 w-18 items-center justify-center rounded-full border-2 mb-2
+    flex h-auto w-auto items-center justify-center rounded-full border-2 mb-2
     border-[#e4dcfb] bg-[#efe9fc]
+    p-4
     dark:border-[#28244b] dark:bg-transparent
   "
           onClick={() => authenticatePasskey(true)}
@@ -163,17 +164,18 @@ const PasskeyContent = ({
             size={40}
           />
         </div>
-        {/* header */}
-        <div className={`inline-flex flex-col  justify-between gap-1`}>
+
+        <div className="inline-flex flex-col justify-between gap-1">
           <h1
-            className={`text-xl  tracking-wide font-heading ${googleSansFlex.className} ml-auto mr-auto `}
+            className={`text-xl tracking-wide font-heading ${googleSansFlex.className} text-center`}
           >
             Use your device to continue
           </h1>
+
           <p
-            className={`text-gray-400 ${googleSans.className} tracking-wide  font-bold text-[13px] whitespace-nowrap`}
+            className={`text-gray-400 ${googleSans.className} tracking-wide font-bold text-[13px] text-center text-balance`}
           >
-            Touch your fingerprint,face or use your securty key.
+            Touch your fingerprint, face, or use your security key.
           </p>
         </div>
 

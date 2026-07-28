@@ -68,17 +68,28 @@ const LeftPanel = ({ onResponseResolve, isTrusted }: ResponseResolveProps) => {
 
   return (
     <div
-      className={`box-border gap-2  p-4 pt-8 pb-2 items-stretch inline-flex  h-[95vh] ${isMethodConfirmed ? "w-160" : "w-170"} flex-col rounded-xl
+      className={`
+        box-border gap-5 items-stretch inline-flex  flex-col  rounded-none md:rounded-xl
+      fixed
+      top-0
+      md:static
+      md:p-5
+  h-dvh overflow-hidden
+  md:h-[96vh]
+        w-screen
+  md:w-[80vw]
+  lg:w-[46vw]
 bg-white
     dark:bg-zinc-900
     border
     border-slate-200
-    dark:border-zinc-800 shadow-lg dark:shadow-2xl dark:shadow-black/30`}
+    dark:border-zinc-800 shadow-lg dark:shadow-2xl dark:shadow-black/30
+    `}
     >
-      <span className="inline-flex flex-col box-border w-40 items-center gap-3 mb-5">
-        <LogoHorizontal className="ml-5" />
+      <span>
         <BackButton
-          className={isMethodConfirmed ? "hidden" : "-ml-18 "}
+          className={isMethodConfirmed ? "hidden" : "mt-6 ml-3 md:ml-2 md:mt-2"}
+          text="Back"
           onClick={navigate}
         />
       </span>
@@ -86,7 +97,7 @@ bg-white
       <AuthStepper
         currentStep={step}
         steps={["Identify", "Verify"]}
-        className="ml-30 -mt-5"
+        className="-mt-5"
       />
       {!isMethodConfirmed ? (
         <VerifyMethodSelector
@@ -95,7 +106,7 @@ bg-white
           loginVerfiyMethods={loginVerfiyMethods}
           loginIdentifyInfo={loginIdentifyInfo}
           setIsMethodConfirmed={setIsMethodConfirmed}
-           navigateFn={navigate}
+          navigateFn={navigate}
         />
       ) : (
         <VerifyMethodContent

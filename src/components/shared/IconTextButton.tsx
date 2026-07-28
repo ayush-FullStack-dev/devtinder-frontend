@@ -35,6 +35,7 @@ const IconTextButton = ({
       </Link>
     );
   }
+
   return <div onClick={onClick} className={className}>{iconText()}</div>;
 };
 

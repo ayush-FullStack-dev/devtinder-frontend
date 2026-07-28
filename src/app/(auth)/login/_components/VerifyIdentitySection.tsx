@@ -75,11 +75,16 @@ const VerifyIdentitySection = () => {
       <AppLoader loading={isFetching} />
       <div
         className="
+        flex
     h-screen w-full
-    overflow-hidden
-    p-0 md:p-3 md:pl-20
-    bg-slate-100 dark:bg-zinc-950
-    flex
+overflow-hidden
+lg:px-[1%]
+xl:px-[2.5%]
+2xl:px-[3%]
+items-center
+justify-start
+md:justify-center
+lg:justify-start
   "
       >
         <div className="relative">
@@ -87,7 +92,7 @@ const VerifyIdentitySection = () => {
             <LeftPanel onResponseResolve={onResponseResolve} isTrusted={isTrustedLogin} />
           </div>
 
-          <div className="absolute top-0 left-4/4 z-1">
+          <div className="hidden lg:block absolute top-0 left-4/4 z-1">
             <RightPanel />
           </div>
         </div>

@@ -51,28 +51,30 @@ const CodeInput = forwardRef<HTMLInputElement, CodeInputProps>(
     };
 
     return (
-      <div
-        className={`h-15 w-13 rounded-lg flex items-center justify-center overflow-hidden ${className}`}
-        style={inputStyle}
-        key={index}
-      >
-        <input
-          ref={ref}
-          className={`w-full h-full bg-transparent outline-none text-center px-1 ${jakarta.className}`}
-          maxLength={1}
-          type="text"
-          onPaste={onPaste}
-          inputMode="numeric"
-          value={value}
-          onChange={(e) => {
-            const val = e.target.value;
-            setValue(val);
-          }}
-          onKeyDown={onKeyDown}
-          placeholder={isClicked ? "" : "-"}
-          onFocus={() => setIsClicked(true)}
-          onBlur={() => setIsClicked(false)}
-        />
+    
+        <div
+          className={`h-13 md:h-14  rounded-lg flex items-center justify-center overflow-hidden ${className}`}
+          style={inputStyle}
+          key={index}
+        >
+          <input
+            ref={ref}
+            className={`w-full h-full bg-transparent outline-none text-center px-1 ${jakarta.className}`}
+            maxLength={1}
+            type="text"
+            onPaste={onPaste}
+            inputMode="numeric"
+            value={value}
+            onChange={(e) => {
+              const val = e.target.value;
+              setValue(val);
+            }}
+            onKeyDown={onKeyDown}
+            placeholder={isClicked ? "" : "-"}
+            onFocus={() => setIsClicked(true)}
+            onBlur={() => setIsClicked(false)}
+          />
+      
       </div>
     );
   },

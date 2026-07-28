@@ -59,7 +59,7 @@ const SecurityCodeContent = ({
   return (
     <form
       onSubmit={onSubmit}
-      className="box-border inline-flex  flex-col pl-3 pr-3 gap-2 -ml-2"
+      className="box-border inline-flex  flex-col pl-3 pr-3 gap-2 -ml-1"
     >
       <Header
         title="Verify With Security Code"
@@ -83,7 +83,7 @@ const SecurityCodeContent = ({
       </div>
 
       <PrimaryButton
-        className={`mt-8 w-140`}
+        className={`my-1 xs:my-5`}
         btnType="submit"
         text="Continue"
         disbaleText="Signing in..."

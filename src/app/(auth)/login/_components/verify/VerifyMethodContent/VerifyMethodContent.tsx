@@ -41,7 +41,7 @@ const VerifyMethodContent = ({
   );
 
   return (
-    <div className="box-border flex flex-col pl-5">
+    <div className="flex flex-col">
       {Content}
       <VerifyMethodFooter onClick={navigateFn} />
     </div>

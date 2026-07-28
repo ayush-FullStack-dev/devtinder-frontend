@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import CodeInput from "@/components/shared/CodeInput";
 import InputError from "@/components/shared/InputError";
 import { Separator } from "@/components/ui/separator";
@@ -67,63 +67,58 @@ const CodeInputGroup = ({
   }, [code, onChange]);
 
   return (
-    <div className={`flex flex-col ${className} mt-4`}>
-      <div className={`flex ${!!separatorAfter ? "gap-1" : "gap-2"}`}>
-        {code.map((value, index) => {
-          return (
-            <div className="flex items-center justify-center" key={index}>
-              <CodeInput
-                key={index}
-                index={index}
-                ref={(el) => {
-                  inputRefs.current[index] = el;
-                }}
-                value={value}
-                success={success === undefined ? value !== "" : success}
-                error={!!error}
-                setValue={(val) => {
-                  const newCode = [...code];
-                  newCode[index] = val;
-                  setCode(newCode);
+    <div className={`flex flex-col ${className} mt-4 w-full`}>
+      <div className={`flex flex-wrap  gap-2`}>
+        {code.map((value, index) => (
+          <React.Fragment key={index}>
+            <CodeInput
+              className="w-14 xs:w-16 sm:w-16 md:w-15 lg:w-13 shrink-0"
+              index={index}
+              ref={(el) => {
+                inputRefs.current[index] = el;
+              }}
+              value={value}
+              success={success === undefined ? value !== "" : success}
+              error={!!error}
+              setValue={(val) => {
+                const newCode = [...code];
+                newCode[index] = val;
+                setCode(newCode);
 
-                  if (val && index < length - 1) {
-                    focusInput(index + 1);
-                  }
-                }}
-                onPaste={(e) => handlePaste(e, index)}
-                onKeyDown={(e) => {
-                  if (
-                    e.key === "ArrowUp" ||
-                    (e.key === "ArrowLeft" && index > 0)
-                  ) {
-                    console.log(
-                      document.activeElement === inputRefs.current[1],
-                    );
-                    e.preventDefault();
-                    focusInput(index - 1);
-                  }
+                if (val && index < length - 1) {
+                  focusInput(index + 1);
+                }
+              }}
+              onPaste={(e) => handlePaste(e, index)}
+              onKeyDown={(e) => {
+                if (
+                  e.key === "ArrowUp" ||
+                  (e.key === "ArrowLeft" && index > 0)
+                ) {
+                  e.preventDefault();
+                  focusInput(index - 1);
+                }
 
-                  if (
-                    e.key === "ArrowDown" ||
-                    (e.key === "ArrowRight" && index < length - 1)
-                  ) {
-                    e.preventDefault();
-                    focusInput(index + 1);
-                  }
+                if (
+                  e.key === "ArrowDown" ||
+                  (e.key === "ArrowRight" && index < length - 1)
+                ) {
+                  e.preventDefault();
+                  focusInput(index + 1);
+                }
 
-                  if (e.key === "Backspace" && !code[index] && index > 0) {
-                    e.preventDefault();
-                    focusInput(index - 1);
-                  }
-                }}
-              />
+                if (e.key === "Backspace" && !code[index] && index > 0) {
+                  e.preventDefault();
+                  focusInput(index - 1);
+                }
+              }}
+            />
 
-              {separatorAfter > 0 && index + 1 === separatorAfter && (
-                <span className="mx-3 h-0.5 w-3 bg-muted-foreground rounded-full" />
-              )}
-            </div>
-          );
-        })}
+            {separatorAfter === index && (
+              <span className="h-0.5 w-2 mt-auto mb-auto mr-1 ml-1 shrink-0 rounded-full bg-muted-foreground hidden md:inline" />
+            )}
+          </React.Fragment>
+        ))}
       </div>
       <div className="h-3 mt-4">
         {!!error ? <InputError text={error.message} /> : null}

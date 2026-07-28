@@ -33,21 +33,21 @@ const VerifyMethodFooter = ({
   };
 
   return (
-    <div className="flex flex-col gap-3 mt-2">
+    <div className="flex flex-col items-center justify-center gap-3 mt-2 mb-5 ml-4 mr-4 md:ml-0 md:mr-0">
       <AppLoader loading={loading} />
-      <SeparatorWithText className="w-140" text="or" />
+      <SeparatorWithText  text="or" />
+
       <ActionTile
         title="Use a difffrent method"
         icon={KeyRoundIcon}
         onClick={navigate}
-        className="w-140"
         disabled={hasOnlyOneMethod}
       />
 
       {hasOnlyOneMethod ? (
         <p></p>
       ) : (
-        <span className={`flex gap-1 items-center text-[14px] m-auto ml-27`}>
+        <span className={`flex gap-1 items-center text-[14px] mt-3 mr-5`}>
           <GoShieldCheck size={20} color="#929191" />
           <div
             className={`${googleSans.className} font-light tracking-wide text-[#7c8999]`}

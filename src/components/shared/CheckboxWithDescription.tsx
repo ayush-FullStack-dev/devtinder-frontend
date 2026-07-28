@@ -24,7 +24,7 @@ const CheckboxWithDescription = ({
   checked,
 }: CheckboxWithDescriptionProps) => {
   return (
-    <FieldGroup className={`w-auto ${className}`}>
+    <FieldGroup className={`w-full ${className}`}>
       <Field orientation="horizontal">
         <Checkbox
           checked={checked}

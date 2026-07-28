@@ -10,6 +10,9 @@ const LeftPanel = () => {
   return (
     <div
       className="
+      fixed
+      top-0
+      md:static
       justify-around
   box-border
   flex flex-col 
@@ -17,9 +20,8 @@ const LeftPanel = () => {
   w-screen
   md:w-[80vw]
   lg:w-full
-  px-4 xxs:px-1 xs:px-4 sm:px-5 md:p-8
-
-  h-screen
+  px-4 xxs:px-1 xs:px-4 sm:px-5 md:p-9
+  h-dvh overflow-hidden
   md:h-[95vh]
 
   rounded-none md:rounded-xl
@@ -29,7 +31,6 @@ const LeftPanel = () => {
 
   shadow-none md:shadow-lg
   dark:md:shadow-2xl dark:md:shadow-black/30
-  overflow-hidden
 "
     >
       <LogoHorizontal className="m-0 lg:mb-5" />

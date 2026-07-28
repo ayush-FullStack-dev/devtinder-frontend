@@ -9,7 +9,7 @@ import HeroSection from "@/components/shared/NotFound/HeroScene";
 const NotFound = () => {
   return (
     <div className="bg-black text-white min-h-screen w-full relative overflow-hidden">
-      <div className="absolute top-8 left-0 w-full px-0 lg:px-10 flex items-center justify-between z-10">
+      <div className="absolute top-8 left-5 w-full px-0 lg:px-10 flex items-center justify-between z-10">
         <LogoHorizontal
           logoMonoChrome
           workMarkMonoChrome
@@ -25,7 +25,6 @@ const NotFound = () => {
           name="Looks like you're lost."
           message="The page you're looking for doesn't exist or has been moved."
           description="Don't worry, you can find your way back home."
-  
         />
 
         <IconTextButton

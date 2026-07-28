@@ -50,7 +50,7 @@ const PasswordInput = <T extends FieldValues>({
 
   return (
     <div
-      className={`inline-flex w-90 items-center  rounded-lg gap-3 pl-4 opacity-75 ${className} pr-4`}
+      className={`inline-flex w-full items-center  rounded-lg gap-3 pl-4 opacity-75 ${className} pr-4`}
       style={inputStyle}
     >
       <CiLock size={24} color="#929191" />

@@ -1,5 +1,5 @@
 const clientBase = "/api";
-const serverBase = process.env.NEXT_PUBLIC_API_URL!;
+export const serverBase = process.env.NEXT_PUBLIC_API_URL!;
 
 export function getBaseUrl(): string {
   return typeof window === "undefined" ? serverBase : clientBase;

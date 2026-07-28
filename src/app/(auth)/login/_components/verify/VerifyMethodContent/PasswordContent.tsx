@@ -75,14 +75,15 @@ const PasswordContent = ({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="box-border inline-flex  flex-col pl-3 pr-3 gap-2 -ml-2"
+      className="box-border inline-flex  flex-col pl-3 pr-3 gap-2  ml-1 mr-1 md:ml-0 md:mr-0"
     >
       <Header
         title="Verify With Password"
         description="Enter your account password to securely sign in to your account."
         className="mb-1"
       />
-      <div>
+
+      <div className="flex flex-col gap-3">
         <label htmlFor="code" className={`font-bold ${googleSans.className}`}>
           Password
         </label>
@@ -93,7 +94,7 @@ const PasswordContent = ({
           register={register}
           error={!!errors.code || !!verifyLoginError}
           success={isSubmitted && !!verifyLoginError?.message}
-          className="w-140 mt-2 h-13"
+          className="h-14"
           showPassword={showPassword}
           setShowPassword={setShowPassword}
         />
@@ -127,7 +128,7 @@ const PasswordContent = ({
         </Link>
       </div>
       <PrimaryButton
-        className={`mt-2 w-140`}
+        className={`md:mt-2 mt-3 mb-3 md:mb-0`}
         btnType="submit"
         text="Continue"
         disbaleText="Signing in..."

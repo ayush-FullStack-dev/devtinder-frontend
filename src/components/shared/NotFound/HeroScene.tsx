@@ -7,7 +7,7 @@ const HeroSection = ({ className }: { className?: string }) => {
       <Image
         src={space}
         alt="space terrain"
-        className="w-180 opacity-95 select-none pointer-events-none"
+        className="w-200 md:w-180 opacity-95 select-none pointer-events-none"
         draggable={false}
         aria-hidden="true"
         priority

@@ -12,7 +12,7 @@ type props = {
 
 const AuthStepper = ({ currentStep,steps,className }: props) => {
   return (
-    <div className={`flex gap-2 p-3 items-center w-80 ${className}`}>
+    <div className={`flex gap-2 p-8 box-border items-center w-full ${className}`}>
       <span>
         <CiCircleCheck  size={35} className="text-[#a48be8] font-semibold dark:text-[#dcdfe6]"/>
         <p className={`text-xs ${googleSans.className} text-[#7b7b7b] dark:text-[#dcdfe6]`}>{steps[0]}</p>
