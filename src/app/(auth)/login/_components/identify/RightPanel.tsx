@@ -1,4 +1,4 @@
-import HeroIllustration from "@/components/shared/HeroIllustration.tsx";
+import HeroIllustration from "@/components/shared/HeroIllustration";
 import PromoContent from "@/components/shared/Promo-content";
 import HeroIllustraionSvg from "@/../public/images/ DeveloperDashboardIllustration.png";
 

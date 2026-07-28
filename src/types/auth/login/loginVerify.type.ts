@@ -5,6 +5,7 @@ export type loginVerifySuccesResponse = {
   success: true;
   message: string;
   allowedMethod?: typeof mfaMethod;
+  approvalId: string;
   data: {
     name: string;
     email: string;

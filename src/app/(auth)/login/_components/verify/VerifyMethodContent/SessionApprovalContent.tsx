@@ -135,7 +135,7 @@ const SessionApprovalContent = ({
         code: "",
       });
 
-      console.log(result.approvalId)
+      console.log(result?.success ? result?.approvalId : "")
 
       if (result?.code === "SESSION_APPROVAL_REQUESTED") {
         setApprovalInfo({
