@@ -75,7 +75,7 @@ const PasswordContent = ({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="box-border inline-flex  flex-col pl-3 pr-3 gap-2  ml-1 mr-1 md:ml-0 md:mr-0"
+      className="box-border inline-flex  flex-col pl-3 pr-3 gap-2  ml-1 mr-1 md:ml-0 md:mr-0 "
     >
       <Header
         title="Verify With Password"

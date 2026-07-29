@@ -25,7 +25,7 @@ const VerifyMethodSelector = ({
   loginIdentifyInfo,
   className,
   setIsMethodConfirmed,
-  navigateFn = () => {}
+  navigateFn = () => { }
 }: VerifyMethodSelectorProps) => {
 
   const onClick = () => {
@@ -37,7 +37,7 @@ const VerifyMethodSelector = ({
       onClick();
       setIsMethodConfirmed(true)
     }
-    if(e.key === "Escape"){
+    if (e.key === "Escape") {
       navigateFn()
     }
   };
@@ -51,7 +51,7 @@ const VerifyMethodSelector = ({
   }, []);
 
   return (
-    <div className={`flex flex-col gap-3 mr-5 ml-2 ${className ?? ""}`}>
+    <div className={`flex flex-col gap-2 md:gap-3 mr-4 ml-1 ${className ?? ""}`}>
       <div className="flex flex-col">
         <RadioGroup
           value={selectedMethod}
@@ -85,7 +85,10 @@ const VerifyMethodSelector = ({
         </RadioGroup>
       </div>
 
-      <PrimaryButton text="Continue" onClick={onClick}  className="mt-3 md:mt-0" />
+      <div>
+        <PrimaryButton text="Continue" onClick={onClick} className="mt-3 ml-2 md:mt-0 w-full" />
+      </div>
+
     </div>
   );
 };

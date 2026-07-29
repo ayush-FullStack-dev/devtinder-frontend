@@ -97,7 +97,7 @@ bg-white
       <AuthStepper
         currentStep={step}
         steps={["Identify", "Verify"]}
-        className="mt-0 md:-mt-5"
+        className="-mt-2 md:-mt-5"
       />
 
       {!isMethodConfirmed ? (
