@@ -1,4 +1,8 @@
-const clientBase = "/api";
+const clientBase =
+  process.env.NODE_ENV === "development"
+    ? "/api"
+    : process.env.NEXT_PUBLIC_API_URL!;
+
 export const serverBase = process.env.NEXT_PUBLIC_API_URL!;
 
 export function getBaseUrl(): string {
@@ -10,12 +14,12 @@ const loginPath = `${authPath}/login`;
 const systemPath = "/system";
 
 export const routes = {
-  accountInfo:   `${authPath}/me/`,
-  login:         loginPath,
+  accountInfo: `${authPath}/me/`,
+  login: loginPath,
   loginIdentify: `${loginPath}/identify/`,
-  loginVerify:   `${loginPath}/confirm/`,
-  refresh:       `${authPath}/refresh`,
-  systemHealth:  `${systemPath}/health/`,
+  loginVerify: `${loginPath}/confirm/`,
+  refresh: `${authPath}/refresh`,
+  systemHealth: `${systemPath}/health/`,
 } as const;
 
 export function apiUrl(path: string): string {

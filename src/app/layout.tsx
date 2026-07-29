@@ -5,7 +5,7 @@ import "@/app/style/globals.css";
 import Providers from "./Providers/Providers";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://dev-tinder-project.vercel.app"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL!),
   title: {
     default: "DevTinder | Collab, Make Friends & Meet New People",
     template: "%s | DevTinder",

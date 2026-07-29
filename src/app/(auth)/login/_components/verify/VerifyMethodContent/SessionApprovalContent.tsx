@@ -168,7 +168,10 @@ const SessionApprovalContent = ({
 
         socket.connect();
 
-        console.log("connected",)
+        socket.onAny((event, ...args) => {
+          console.log("EVENT:", event, args);
+        });
+
         const handleDecision = async (data: approvalSocketSchema) => {
           console.log("data:", data)
 
@@ -217,10 +220,8 @@ const SessionApprovalContent = ({
           }
         };
 
-        socket.on("approval:update", () => {
-          console.log("hii")
-          handleDecision
-        });
+        socket.on("approval:update", handleDecision
+        );
       } catch (error: any) {
         console.log(error)
         handleRejected(error?.message);
