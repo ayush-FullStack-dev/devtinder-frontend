@@ -3,9 +3,18 @@ import { cookies } from "next/headers";
 export async function POST(req: Request) {
   const body = await req.json();
 
-  const cookkieStore = await cookies();
+  if (!body.cookieName)
+    return Response.json({
+      success: true,
+    });
 
-  cookkieStore.delete(body.cookieName);
+  const cookieStore = await cookies();
+
+  cookieStore.delete({
+    name: "approvalId",
+    domain: `.${process.env.NEXT_PUBLIC_DOMAIN!}`,
+    path: "/",
+  });
 
   return Response.json({
     success: true,

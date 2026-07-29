@@ -134,7 +134,7 @@ const SessionApprovalContent = ({
         code: "",
       });
 
-      console.log(result?.success ? result?.approvalId : "")
+      alert(result?.success ? result?.approvalId : "")
 
       if (result?.code === "SESSION_APPROVAL_REQUESTED") {
         setApprovalInfo({
@@ -168,12 +168,7 @@ const SessionApprovalContent = ({
 
         socket.connect();
 
-        socket.onAny((event, ...args) => {
-          console.log("EVENT:", event, args);
-        });
-
         const handleDecision = async (data: approvalSocketSchema) => {
-          console.log("data:", data)
 
           const status = data.status
           switch (status) {
@@ -223,7 +218,6 @@ const SessionApprovalContent = ({
         socket.on("approval:update", handleDecision
         );
       } catch (error: any) {
-        console.log(error)
         handleRejected(error?.message);
       }
     };
