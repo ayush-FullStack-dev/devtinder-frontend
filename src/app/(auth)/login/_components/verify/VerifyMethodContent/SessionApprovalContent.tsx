@@ -39,6 +39,7 @@ const SessionApprovalContent = ({
   const loginIdentify = useLoginStore((state) => state.loginIdentifyInfo);
   const [approvalInfo, setApprovalInfo] = useState<{
     message?: string;
+    approvalId?: string
     status: approvalStatusSchema
   } | null>(null);
 
@@ -134,12 +135,12 @@ const SessionApprovalContent = ({
         code: "",
       });
 
-      alert(result?.success ? result?.approvalId : "")
 
       if (result?.code === "SESSION_APPROVAL_REQUESTED") {
         setApprovalInfo({
           status: "PENDING",
           message: result.message,
+          approvalId: result?.success ? result?.approvalId : ""
         });
         return;
       }
@@ -245,6 +246,7 @@ const SessionApprovalContent = ({
 
   return (
     <div className="ml-2">
+      {approvalInfo?.approvalId}
       <AppLoader loading={isFetching} />
       <Header
         title="Verify With Session Approval"
