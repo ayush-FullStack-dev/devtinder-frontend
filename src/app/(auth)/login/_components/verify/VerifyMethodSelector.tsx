@@ -51,7 +51,7 @@ const VerifyMethodSelector = ({
   }, []);
 
   return (
-    <div className={`flex flex-col gap-5 mr-5 ${className ?? ""}`}>
+    <div className={`flex flex-col gap-3 mr-5 ml-2 ${className ?? ""}`}>
       <div className="flex flex-col">
         <RadioGroup
           value={selectedMethod}
@@ -85,7 +85,7 @@ const VerifyMethodSelector = ({
         </RadioGroup>
       </div>
 
-      <PrimaryButton text="Continue" onClick={onClick}  className="mt-5 md:mt-0" />
+      <PrimaryButton text="Continue" onClick={onClick}  className="mt-3 md:mt-0" />
     </div>
   );
 };

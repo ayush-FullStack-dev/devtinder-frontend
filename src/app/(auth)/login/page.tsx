@@ -14,7 +14,7 @@ const LoginPage = () => {
 
 
   return (
-    <main>
+    <main className="h-screen overflow-hidden">
       {step === 1 ? <IdentifyFormSection /> : <VerifyIdentitySection />}
     </main>
   );

@@ -69,7 +69,7 @@ const LeftPanel = ({ onResponseResolve, isTrusted }: ResponseResolveProps) => {
   return (
     <div
       className={`
-        box-border gap-5 items-stretch inline-flex  flex-col  rounded-none md:rounded-xl
+        box-border gap-3 items-stretch inline-flex  flex-col  rounded-none md:rounded-xl
       fixed
       top-0
       md:static
@@ -88,7 +88,7 @@ bg-white
     >
       <span>
         <BackButton
-          className={isMethodConfirmed ? "hidden" : "mt-6 ml-3 md:ml-2 md:mt-2"}
+          className={isMethodConfirmed ? "hidden" : "mt-3 ml-3 md:ml-2 md:mt-2"}
           text="Back"
           onClick={navigate}
         />
@@ -97,8 +97,9 @@ bg-white
       <AuthStepper
         currentStep={step}
         steps={["Identify", "Verify"]}
-        className="-mt-5"
+        className="mt-0 md:-mt-5"
       />
+
       {!isMethodConfirmed ? (
         <VerifyMethodSelector
           selectedMethod={selectedMethod}
