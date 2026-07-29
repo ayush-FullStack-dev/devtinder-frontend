@@ -2,19 +2,15 @@ import { io, Socket } from "socket.io-client";
 
 const sockets: Record<string, Socket> = {};
 
-export function getSocket(
-  namespace = "/",
-  config: {} = {
-    transports: ["websocket"],
-    autoConnect: false,
-    withCredentials: true,
-  },
-) {
+export function getSocket(namespace = "") {
   if (!sockets[namespace]) {
-    sockets[namespace] = io(
-      `${process.env.NEXT_PUBLIC_SOCKET_URL}${namespace}`,
-      config,
-    );
+    const baseUrl = process.env.NEXT_PUBLIC_SOCKET_URL!.replace(/\/$/, "");
+
+    sockets[namespace] = io(`${baseUrl}${namespace}`, {
+      transports: ["websocket"],
+      autoConnect: false,
+      withCredentials: true,
+    });
   }
 
   return sockets[namespace];

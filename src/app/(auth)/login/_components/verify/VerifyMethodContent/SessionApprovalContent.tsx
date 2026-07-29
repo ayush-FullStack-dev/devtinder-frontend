@@ -1,7 +1,7 @@
 import Header from "@/components/shared/Header";
 import IconWithText from "@/components/shared/IconWithText";
 import AppLoader from "@/components/shared/Loader/AppLoader";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { googleSansFlex } from "@/assets/fonts/font.google";
 import ApprovalDeviceAnimation from "@/components/shared/ApprovalDeviceAnimation";
 import DotsLoader from "@/components/shared/Loader/DotsLoader";
@@ -36,7 +36,6 @@ const SessionApprovalContent = ({
 
   //local states
   const [isFetching, setIsFetching] = useState(false);
-  const intervalRef = useRef<number | null>(null);
   const loginIdentify = useLoginStore((state) => state.loginIdentifyInfo);
   const [approvalInfo, setApprovalInfo] = useState<{
     message?: string;
@@ -142,8 +141,6 @@ const SessionApprovalContent = ({
           status: "PENDING",
           message: result.message,
         });
-
-        handleApproval();
         return;
       }
 
@@ -162,60 +159,77 @@ const SessionApprovalContent = ({
     }
   };
 
-  const handleApproval = () => {
-    try {
-      const socket = getSocket("/auth");
+  useEffect(() => {
+    if (approvalInfo?.status !== "PENDING") return;
 
-      if (!socket.connected) {
+    const handleApproval = () => {
+      try {
+        const socket = getSocket("/auth");
+
         socket.connect();
-      }
 
-      socket.off("approval:update");
+        console.log("connected",)
+        const handleDecision = async (data: approvalSocketSchema) => {
+          console.log("data:", data)
 
-      const handleDecision = async (data: approvalSocketSchema) => {
-        if (data.status === "approved") {
-          const { result } = await verifyLogin({
-            loginIdentify,
-            method: "session_approval",
-            code: "",
-          });
+          const status = data.status
+          switch (status) {
+            case "approved":
+              const { result } = await verifyLogin({
+                loginIdentify,
+                method: "session_approval",
+                code: "",
+              });
 
-          if (result?.code === "LOGIN_SUCCESS") {
-            socket.off("approval:update");
-            socket.disconnect();
+              if (result?.code === "LOGIN_SUCCESS") {
+                socket.off("approval:update");
+                socket.disconnect();
 
-            handleAccepted();
-          } else {
-            socket.off("approval:update");
-            socket.disconnect();
+                handleAccepted();
+              } else {
+                socket.off("approval:update");
+                socket.disconnect();
 
-            handleRejected("", "EXPIRED");
+                handleRejected("", "EXPIRED");
+              }
+
+              break;
+
+            case "declined":
+              socket.off("approval:update");
+              socket.disconnect();
+
+              handleRejected();
+              break;
+            case "expired":
+              socket.off("approval:update");
+              socket.disconnect();
+
+              handleRejected("", "EXPIRED");
+              break
+
+            default:
+              socket.off("approval:update");
+              socket.disconnect();
+
+              handleRejected("Unexpected Error we can't procces this req right now.", "REJECTED");
+              break;
           }
+        };
 
-          return;
-        }
+        socket.on("approval:update", () => {
+          console.log("hii")
+          handleDecision
+        });
+      } catch (error: any) {
+        console.log(error)
+        handleRejected(error?.message);
+      }
+    };
 
-        if (data.status === "declined") {
-          socket.off("approval:update");
-          socket.disconnect();
 
-          handleRejected();
-          return;
-        }
-
-        if (data.status === "expired") {
-          socket.off("approval:update");
-          socket.disconnect();
-
-          handleRejected("", "EXPIRED");
-        }
-      };
-
-      socket.on("approval:update", handleDecision);
-    } catch (error: any) {
-      handleRejected(error?.message);
-    }
-  };
+    handleApproval()
+  }, [approvalInfo?.status]);
 
   useEffect(() => {
     const init = async () => {
