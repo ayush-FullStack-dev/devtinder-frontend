@@ -14,7 +14,6 @@ import InputError from "@/components/shared/InputError";
 import { PasskeyVerify } from "@/schemas/login.schema";
 import useVerifyLogin from "@/hooks/useVerifyLogin";
 import AppLoader from "@/components/shared/Loader/AppLoader";
-import { loginVerifyErrorResponse } from "@/types/auth/login/loginVerify.type";
 
 type VeridyPasskeyError = {
   name: string;
@@ -141,7 +140,7 @@ const PasskeyContent = ({
   }
 
   return (
-    <div className="flex flex-col gap-3 mb-5 ml-4 mr-4 md:ml-0 md:mr-0">
+    <div className="flex flex-col h-full gap-3 mt-5 md:mt-3 mb-4 ml-2 mr-2 md:ml-0 md:mr-0">
       <AppLoader loading={isFetching} />
 
       <Header

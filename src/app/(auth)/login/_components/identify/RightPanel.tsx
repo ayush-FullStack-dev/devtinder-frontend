@@ -11,7 +11,7 @@ const RigthPanel = () => {
 relative overflow-hidden
 box-border gap-2 p-10 pb-3 -ml-10
 inline-flex h-[95vh] 
-w-230 
+w-[57vw]
 flex-col rounded-2xl
 
 bg-linear-to-br
@@ -79,7 +79,7 @@ before:pointer-events-none
       -z-10
     "
       >
-        <DecorativeCurves className="opacity-50"
+        <DecorativeCurves className="opacity-20"
         />
 
         <HeroIllustration

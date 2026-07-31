@@ -245,7 +245,7 @@ const SessionApprovalContent = ({
   }, []);
 
   return (
-    <div className="ml-2">
+    <div className="ml-2 relative">
       {approvalInfo?.approvalId}
       <AppLoader loading={isFetching} />
       <Header
@@ -254,7 +254,7 @@ const SessionApprovalContent = ({
       />
       <div className="flex flex-col items-center gap-2">
         <ApprovalDeviceAnimation
-          className="h-39 md:h-42 mt-0 md:-mt-3 w-auto mb-2 rotate-2    select-none
+          className="h-50 mt-0 md:-mt-3 w-auto mb-2 rotate-2    select-none
     pointer-events-auto
     touch-manipulation
     [-webkit-user-drag:none]
@@ -265,7 +265,7 @@ const SessionApprovalContent = ({
         <div className="mb-2 flex flex-col items-center gap-2 px-4 text-center">
           <IconWithText
             icon={currentState.icon}
-            className="text-lg md:text-xl"
+            className="text-lg"
             title={currentState.title}
           />
 

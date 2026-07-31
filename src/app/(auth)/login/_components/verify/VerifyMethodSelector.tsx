@@ -85,8 +85,8 @@ const VerifyMethodSelector = ({
         </RadioGroup>
       </div>
 
-      <div>
-        <PrimaryButton text="Continue" onClick={onClick} className="mt-3 ml-2 md:mt-0 w-full" />
+      <div className="absolute left-2 right-5 bottom-[5%]">
+        <PrimaryButton text="Continue" onClick={onClick} className="ml-2 lg:mt-0 w-full" />
       </div>
 
     </div>

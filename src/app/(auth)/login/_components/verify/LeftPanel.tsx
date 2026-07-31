@@ -73,7 +73,7 @@ const LeftPanel = ({ onResponseResolve, isTrusted }: ResponseResolveProps) => {
       fixed
       top-0
       md:static
-      md:p-5
+      md:p-3
   h-dvh overflow-hidden
   md:h-[96vh]
         w-screen
@@ -92,13 +92,14 @@ bg-white
           text="Back"
           onClick={navigate}
         />
+        <AuthStepper
+          currentStep={step}
+          steps={["Identify", "Verify"]}
+          className="-mt-2 md:-mt-2"
+        />
       </span>
 
-      <AuthStepper
-        currentStep={step}
-        steps={["Identify", "Verify"]}
-        className="-mt-2 md:-mt-5"
-      />
+
 
       {!isMethodConfirmed ? (
         <VerifyMethodSelector

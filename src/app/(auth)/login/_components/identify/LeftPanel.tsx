@@ -15,11 +15,11 @@ const LeftPanel = () => {
       md:static
       justify-around
   box-border
-  flex flex-col 
+  flex flex-col
   gap-0 md:gap-4
   w-screen
   md:w-[80vw]
-  lg:w-full
+  lg:w-[42vw]
   px-4 xxs:px-1 xs:px-4 sm:px-5 md:p-9
   h-dvh overflow-hidden
   md:h-[95vh]

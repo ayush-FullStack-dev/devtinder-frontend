@@ -68,11 +68,11 @@ const CodeInputGroup = ({
 
   return (
     <div className={`flex flex-col ${className} mt-4 w-full`}>
-      <div className={`flex flex-wrap  gap-2`}>
+      <div className={`flex flex-wrap lg:flex-nowrap  gap-2`}>
         {code.map((value, index) => (
-          <React.Fragment key={index}>
+          <React.Fragment key={index} >
             <CodeInput
-              className="w-14 xs:w-16 sm:w-16 md:w-15 lg:w-13 shrink-0"
+              className="w-14 sm:w-16 shrink-0  lg:w-full lg:shrink"
               index={index}
               ref={(el) => {
                 inputRefs.current[index] = el;

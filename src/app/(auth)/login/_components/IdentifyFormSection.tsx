@@ -9,8 +9,7 @@ const IdentifyFormSection = () => {
 overflow-hidden
 p-0
 lg:px-[1%]
-xl:px-[2%]
-2xl:px-[5%]
+xl:px-[1.5%]
 bg-slate-100 dark:bg-zinc-950
 flex
 items-center

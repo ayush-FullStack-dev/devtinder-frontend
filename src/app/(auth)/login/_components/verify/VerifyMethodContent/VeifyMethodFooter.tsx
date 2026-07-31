@@ -33,9 +33,10 @@ const VerifyMethodFooter = ({
   };
 
   return (
-    <div className="flex flex-col items-center justify-center gap-3 mt-2 mb-5 ml-4 mr-4 md:ml-0 md:mr-0">
+    <div className="flex flex-col items-center justify-center gap-2 mb-2">
+
       <AppLoader loading={loading} />
-      <SeparatorWithText  text="or" />
+      <SeparatorWithText text="or" />
 
       <ActionTile
         title="Use a difffrent method"
