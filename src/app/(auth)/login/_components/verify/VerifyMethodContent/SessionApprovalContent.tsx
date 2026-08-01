@@ -254,13 +254,28 @@ const SessionApprovalContent = ({
       />
       <div className="flex flex-col items-center gap-2">
         <ApprovalDeviceAnimation
-          className="h-50 mt-0 md:-mt-3 w-auto mb-2 rotate-2    select-none
+          className="
+    w-full
+    max-w-[320px]
+    sm:max-w-40
+    md:max-w-50
+  3xl:max-w-80
+    4xl:max-w-90
+    5xl:max-w-100
+    h-auto
+    aspect-square
+    object-contain
+
+    mx-auto
+    rotate-2
+    select-none
     pointer-events-auto
     touch-manipulation
     [-webkit-user-drag:none]
     [-webkit-user-select:none]
     [-webkit-touch-callout:none]
-    [-webkit-tap-highlight-color:transparent]"
+    [-webkit-tap-highlight-color:transparent]
+  "
         />
         <div className="mb-2 flex flex-col items-center gap-2 px-4 text-center">
           <IconWithText

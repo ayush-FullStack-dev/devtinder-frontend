@@ -13,43 +13,50 @@ const LeftPanel = () => {
       fixed
       top-0
       md:static
-      justify-around
-  box-border
-  flex flex-col
-  gap-0 md:gap-4
+     flex flex-col
+    justify-evenly
+     overflow-hidden
+
   w-screen
   md:w-[80vw]
   lg:w-[42vw]
-  px-4 xxs:px-1 xs:px-4 sm:px-5 md:p-9
-  h-dvh overflow-hidden
+  h-dvh 
   md:h-[95vh]
-
+  
   rounded-none md:rounded-xl
-
   bg-white dark:bg-zinc-900
   border border-slate-200 dark:border-zinc-800
-
   shadow-none md:shadow-lg
   dark:md:shadow-2xl dark:md:shadow-black/30
 "
     >
-      <LogoHorizontal className="m-0 lg:mb-5" />
+      <div className="
+flex flex-col
+ gap-6
 
-      <AuthHeader />
+ w-full h-full min-h-50 max-h-160
+ px-4 xxs:px-1 xs:px-3 sm:px-5 justify-evenly 
+">
+
+        <LogoHorizontal className="mt-2 lg:mb-5" />
+
+        <AuthHeader />
 
 
-      <LoginFormIdentfy />
+        <LoginFormIdentfy />
+      </div>
+      <div className="px-2 flex flex-col gap-4 mt-auto mb-2 w-full">
+        <SeparatorWithText text="Or" className="w-full" />
 
-      <SeparatorWithText text="Or" />
+        <IconTextButton
+          href="/signup"
+          text="Create an Account"
+          icon={FaRegUser}
+          className="mr-auto ml-auto h-15 w-full"
+        />
 
-      <IconTextButton
-        href="/signup"
-        text="Create an Account"
-        icon={FaRegUser}
-        className="mr-auto ml-auto h-14 w-full"
-      />
-
-      <TermNotice className="ml-auto mr-auto" />
+        <TermNotice className="ml-auto mr-auto" />
+      </div>
     </div>
   );
 };

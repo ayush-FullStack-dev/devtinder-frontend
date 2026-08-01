@@ -66,9 +66,8 @@ before:pointer-events-none
       />
 
       <div
-        className="
-      absolute
-      inset-0
+        className="   
+   inset-0
       overflow-hidden
       pointer-events-none
       right-3.5
@@ -76,7 +75,6 @@ before:pointer-events-none
       2xl:right-[1%]
       hidden
       xl:block
-      -z-10
     "
       >
         <DecorativeCurves className="opacity-20"
@@ -86,16 +84,13 @@ before:pointer-events-none
           image={HeroIllustraionSvg}
           className="
         absolute
-
-        bottom-0
-       right-8
-        w-[90%]
-        max-w-182
-
+       right-5
+        w-[45%]
+        max-w-300
         md:w-[40%]
-        lg:w-170
-        translate-x-[8%]
-        translate-y-[5%]
+        lg:w-[82%]
+        translate-x-[5%]
+        translate-y-[2%]
         h-auto
       "
         />

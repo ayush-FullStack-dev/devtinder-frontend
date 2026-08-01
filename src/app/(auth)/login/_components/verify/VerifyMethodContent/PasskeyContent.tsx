@@ -140,7 +140,7 @@ const PasskeyContent = ({
   }
 
   return (
-    <div className="flex flex-col h-full gap-3 mt-5 md:mt-3 mb-4 ml-2 mr-2 md:ml-0 md:mr-0">
+    <div className="relative flex flex-col h-full gap-3 mt-5 mb-4 ml-2 mr-2  md:ml-0 md:mr-0">
       <AppLoader loading={isFetching} />
 
       <Header
@@ -148,7 +148,7 @@ const PasskeyContent = ({
         description="Use your passkey to securley sign in to your account."
       />
 
-      <div className="h-60 rounded-xl w-full  outline-1 outline-[#4940e3] flex flex-col items-center justify-between p-5 mt-2 overflow-clip">
+      <div className="h-62 min-h-40 max-h-70 w-full rounded-xl  outline-1 outline-[#4940e3] flex flex-col items-center justify-between p-5 m-auto">
         <div
           className="
     flex h-auto w-auto items-center justify-center rounded-full border-2 mb-2

@@ -27,7 +27,7 @@ const AuthMethodCard = ({
 }: props) => {
   return (
     <div
-      className={`box-border flex h-auto w-full items-center justify-between rounded-lg border-2 bg-transparent p-5 ml-2 mr-2 ${activeCard ? "border-[#6e68d2]" : ""
+      className={`box-border flex h-[20%] w-full items-center justify-between rounded-lg border-2 bg-transparent p-5  ${activeCard ? "border-[#6e68d2]" : ""
         } ${className}`}
       onClick={onClick}
     >
