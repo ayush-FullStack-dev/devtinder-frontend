@@ -83,7 +83,10 @@
 :root {
   /* Warm zinc canvas + layered neutral surfaces */
   --background: #f4f4f5;
-  --foreground: #18181b;
+  --foreground: #161617;
+
+  /* Logo monochrome */
+   --foreground-logo: rgb(37, 37, 38);
 
   --card: #ffffff;
   --card-foreground: #18181b;
@@ -91,7 +94,7 @@
   --popover: #ffffff;
   --popover-foreground: #18181b;
 
-  --surface: #ffffff;
+  --surface: #F4F4F5;
   --surface-secondary: #fafafa;
   --surface-elevated: #e4e4e7;
 
@@ -127,15 +130,16 @@
   --radius: 0.75rem;
 
   /* Layered elevation (light) */
-  --shadow-soft: 0 1px 2px rgba(24, 24, 27, 0.06),
-    0 1px 3px rgba(24, 24, 27, 0.05);
-  --shadow-card: inset 0 1px 0 rgba(255, 255, 255, 0.6),
-    0 1px 2px rgba(24, 24, 27, 0.05),
+  --shadow-soft:
+    0 1px 2px rgba(24, 24, 27, 0.06), 0 1px 3px rgba(24, 24, 27, 0.05);
+  --shadow-card:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 1px 2px rgba(24, 24, 27, 0.05),
     0 8px 24px -4px rgba(24, 24, 27, 0.1);
-  --shadow-float: inset 0 1px 0 rgba(255, 255, 255, 0.6),
+  --shadow-float:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
     0 4px 12px -2px rgba(24, 24, 27, 0.1);
-  --shadow-primary: 0 1px 2px rgba(73, 64, 227, 0.35),
-    0 8px 20px -4px rgba(73, 64, 227, 0.3);
+  --shadow-primary:
+    0 1px 2px rgba(73, 64, 227, 0.35), 0 8px 20px -4px rgba(73, 64, 227, 0.3);
   --shadow-showcase: 0 20px 60px rgba(24, 24, 27, 0.08);
 
   /* Showcase panel (illustration side) — overridden in .dark */
@@ -151,80 +155,91 @@
 }
 
 .dark {
-  /* #09090b */
-  --background: #09090b;
-  --foreground: oklch(0.97 0.004 264);
+  /* ===== Canvas ===== */
+  --background: #161617;
+  --foreground: #ececef;
 
-  --card: oklch(0.18 0.012 265);
-  --card-foreground: oklch(0.97 0.004 264);
+ --foreground-logo: #F4F4F5;
+
+  /* ===== Cards ===== */
+  --card: #202024;
+  --card-foreground: #ececef;
 
   --popover: oklch(0.18 0.012 265);
-  --popover-foreground: oklch(0.97 0.004 264);
+  --popover-foreground: #ececef;
 
+  /* ===== Surfaces ===== */
   --surface: #18181b;
-  --surface-secondary: oklch(0.22 0.015 265);
+  --surface-secondary: oklch(22.22% 0.01024 268.237);
   --surface-elevated: #202024;
 
-  /* Brand purple accent */
+  /* ===== Brand ===== */
   --primary: #4940e3;
   --primary-foreground: #ffffff;
 
-  /* Dark panels */
   --secondary: oklch(0.22 0.015 265);
-  --secondary-foreground: oklch(0.97 0.004 264);
+  --secondary-foreground: #ececef;
 
+  /* ===== Text ===== */
   --muted: oklch(0.2 0.012 265);
-  --muted-foreground: oklch(0.7 0.01 264);
+  --muted-foreground: #a1a1aa;
+  --foreground-muted: #b4b4be;
 
-  --foreground-muted: #9ca3af;
-
+  /* ===== Accent ===== */
   --accent: #4940e3;
   --accent-foreground: #ffffff;
 
-  --border: oklch(0.3 0.015 265 / 35%);
-  --border-primary: #27272a;
-  --border-secondary: rgba(255, 255, 255, 0.1);
-  --input: rgba(255, 255, 255, 0.14);
+  /* ===== Borders ===== */
+  --border: rgba(255, 255, 255, 0.08);
+  --border-primary: rgba(255, 255, 255, 0.1);
+  --border-secondary: rgba(255, 255, 255, 0.14);
+  --input: rgba(255, 255, 255, 0.12);
 
-  --ring: oklch(0.72 0.18 275);
+  --ring: #6c63ff;
 
-  /* Status */
+  /* ===== Status ===== */
   --destructive: #f87171;
   --success: #22c55e;
   --warning: #f59e0b;
   --danger: #f87171;
 
-  /* Layered elevation (dark) */
+  /* ===== Shadows (unchanged) ===== */
   --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.35);
-  --shadow-card: inset 0 1px 0 rgba(255, 255, 255, 0.04),
-    0 1px 2px rgba(0, 0, 0, 0.3),
+
+  --shadow-card:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 1px 2px rgba(0, 0, 0, 0.3),
     0 16px 32px -8px rgba(0, 0, 0, 0.5);
+
   --shadow-float: 0 8px 24px rgba(0, 0, 0, 0.45);
-  --shadow-primary: 0 1px 2px rgba(73, 64, 227, 0.45),
-    0 8px 20px -4px rgba(73, 64, 227, 0.4);
+
+  --shadow-primary:
+    0 1px 2px rgba(73, 64, 227, 0.45), 0 8px 20px -4px rgba(73, 64, 227, 0.4);
+
   --shadow-showcase: 0 20px 80px rgba(0, 0, 0, 0.55);
 
-  /* Showcase panel (dark) */
+  /* ===== Showcase ===== */
   --grad-showcase-from: #181824;
   --grad-showcase-via: #141420;
   --grad-showcase-to: #101018;
   --grad-showcase-border: #2a2a3a;
+
   --grad-showcase-glow: radial-gradient(
     circle at top right,
-    rgba(139, 92, 246, 0.12),
-    transparent 40%
+    rgba(139, 92, 246, 0.1),
+    transparent 42%
   );
 
+  /* ===== Sidebar ===== */
   --sidebar: oklch(0.16 0.01 265);
-  --sidebar-foreground: oklch(0.97 0.004 264);
+  --sidebar-foreground: #ececef;
 
   --sidebar-primary: oklch(0.7 0.2 285);
-  --sidebar-primary-foreground: oklch(0.97 0.004 264);
+  --sidebar-primary-foreground: #ffffff;
 
   --sidebar-accent: oklch(0.22 0.015 265);
-  --sidebar-accent-foreground: oklch(0.97 0.004 264);
+  --sidebar-accent-foreground: #ececef;
 
-  --sidebar-border: oklch(0.3 0.015 265 / 35%);
+  --sidebar-border: rgba(255, 255, 255, 0.08);
 }
 
 @layer base {
@@ -233,7 +248,8 @@
   }
   body {
     @apply bg-background text-foreground;
-    background-image: radial-gradient(
+    background-image:
+      radial-gradient(
         1100px 700px at 12% -10%,
         rgba(120, 110, 255, 0.1),
         transparent 55%

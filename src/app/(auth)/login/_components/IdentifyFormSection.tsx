@@ -9,7 +9,7 @@ const IdentifyFormSection = () => {
 overflow-hidden
 p-0
 lg:px-[1%]
-xl:px-[1.5%]
+xl:px-[2%]
 flex
 items-center
 justify-start

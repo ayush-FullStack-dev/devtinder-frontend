@@ -30,7 +30,7 @@ export default function LogoHorizontal({
     <div className={`inline-flex items-center gap-2 ${className ?? ""}`} onClick={handleClick}>
       <LogoMark
         monoChrome={!!monoChrome || !!logoMonoChrome}
-        className={`h-6 w-auto  ${markClassName ?? "shrink-0 size-8"}`}
+        className={`h-6 w-auto ${markClassName ?? "shrink-0 size-8"}`}
       />
 
       <LogoWordmark

@@ -23,7 +23,8 @@ export default function LogoWordmark({
 
   return (
     <Component
-      className={`h-8 w-auto select-none pointer-events-none ${className ?? ""}`}
+      className={`h-8 w-auto select-none pointer-events-none ${monoChrome ? "text-[var(--foreground-logo)]" : ""
+        } ${className ?? ""}`}
       draggable={false}
       onClick={handleClick}
       aria-hidden="true"

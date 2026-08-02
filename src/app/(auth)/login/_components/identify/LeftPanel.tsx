@@ -35,10 +35,9 @@ flex flex-col
  px-4 xxs:px-1 xs:px-3 sm:px-5 justify-evenly 
 ">
 
-        <LogoHorizontal className="mt-2 lg:mb-5" />
+        <LogoHorizontal className="mt-2 lg:mb-5" monoChrome={true}/>
 
         <AuthHeader />
-
 
         <LoginFormIdentfy />
       </div>

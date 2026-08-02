@@ -17,7 +17,7 @@ const IconTextButton = ({
   onClick,
   className: costumclassName,
 }: props) => {
-  const className = `box-border inline-flex justify-center gap-4 items-center  rounded-lg border-2 border-border-secondary bg-surface-secondary shadow-soft text-foreground hover:border-primary/50 ${costumclassName}`;
+  const className = `box-border inline-flex justify-center gap-4 items-center  rounded-lg border-2 border-border-secondary bg-surface-secondary shadow-soft text-foreground hover:border-primary/50 hover:bg-transparent transition duration-500 ease-in-out ${costumclassName}`;
 
   const iconText = () => {
     return (
