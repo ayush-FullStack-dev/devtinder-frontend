@@ -12,8 +12,8 @@ const InputError = ({ input, text, icon }: props) => {
   const Icon = icon || IoInformationCircleOutline;
   return (
     <div className="flex items-center gap-1">
-      <Icon color="#F87171" />
-      <p className="text-[#F87171]">{text}</p>
+      <Icon color="var(--danger)" />
+      <p className="text-danger">{text}</p>
     </div>
   );
 };

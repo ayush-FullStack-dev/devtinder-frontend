@@ -19,11 +19,11 @@ const ActionTile = ({
 }: Props) => {
   return (
     <div
-      className={`group box-border w-full flex h-15 items-center justify-between rounded-lg border-2 bg-transparent px-5 transition-all duration-300 ease-in-out text-[#545151] dark:text-white
+      className={`group box-border w-full flex h-15 items-center justify-between rounded-lg border-2 border-border-primary bg-surface-secondary shadow-soft px-5 transition-all duration-300 ease-in-out text-foreground dark:text-foreground
         ${
           disabled
             ? "cursor-not-allowed opacity-50"
-            : "cursor-pointer hover:border-[#6e68d2]"
+            : "cursor-pointer hover:border-primary/50 hover:bg-surface"
         }
         ${className}`}
       onClick={!disabled ? onClick : undefined}
@@ -38,7 +38,7 @@ const ActionTile = ({
 
       <FaAngleRight
         size={30}
-        className={!disabled ? "group-hover:text-[#6e68d2]" : ""}
+        className={!disabled ? "group-hover:text-primary" : ""}
       />
     </div>
   );

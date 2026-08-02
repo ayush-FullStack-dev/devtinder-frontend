@@ -49,35 +49,35 @@ const SessionApprovalContent = ({
       title: "Requesting Session Approval",
       description1: "We're sending a notification to your trusted devices.",
       description2: "This usually takes a few seconds.",
-      icon: <LoaderCircle color="#5a3dcb" size={20} className="animate-spin" />,
+      icon: <LoaderCircle color="var(--primary)" size={20} className="animate-spin" />,
     },
 
     PENDING: {
       title: "Waiting for approval",
       description1: "Check a device where you're already signed in.",
       description2: "Approve the request to continue.",
-      icon: <Clock color="#5a3dcb" size={25} />,
+      icon: <Clock color="var(--primary)" size={25} />,
     },
 
     ACCEPTED: {
       title: "Signing you in...",
       description1: "Approval received successfully.",
       description2: "Please wait a moment.",
-      icon: <CircleCheckBig color="#10b981" size={20} />,
+      icon: <CircleCheckBig color="var(--success)" size={20} />,
     },
 
     REJECTED: {
       title: approvalInfo?.message || "Request rejected",
       description1: "The approval request was rejected.",
       description2: "You can request another approval.",
-      icon: <CircleX color="#ef4444" size={20} />,
+      icon: <CircleX color="var(--danger)" size={20} />,
     },
 
     EXPIRED: {
       title: "Approval expired",
       description1: "The approval request has expired.",
       description2: "Please send a new request.",
-      icon: <TriangleAlert color="#FF2C2C" size={20} />,
+      icon: <TriangleAlert color="var(--danger)" size={20} />,
     },
   };
 
@@ -286,13 +286,13 @@ const SessionApprovalContent = ({
 
           <div className="flex max-w-sm flex-col items-center gap-1 md:max-w-md lg:max-w-lg">
             <p
-              className={`${googleSansFlex.className} text-xs leading-5 font-light text-gray-400 sm:text-sm md:text-[15px]`}
+              className={`${googleSansFlex.className} text-xs leading-5 font-light text-foreground-muted sm:text-sm md:text-[15px]`}
             >
               {currentState.description1}
             </p>
 
             <p
-              className={`${googleSansFlex.className} whitespace-pre-line warp-break-words text-xs leading-5 font-light text-gray-400 sm:text-sm md:text-[15px]`}
+              className={`${googleSansFlex.className} whitespace-pre-line warp-break-words text-xs leading-5 font-light text-foreground-muted sm:text-sm md:text-[15px]`}
             >
               {currentState.description2}
             </p>
@@ -303,7 +303,7 @@ const SessionApprovalContent = ({
           <button
             onClick={startSessionApproval}
             className="
-        text-[#5a3dcb]
+        text-primary
         font-medium
         transition-all
         hover:opacity-80
@@ -314,7 +314,7 @@ const SessionApprovalContent = ({
         ) : (
           <DotsLoader
             loaderStyle={{
-              color: "#5a3dcb",
+              color: "var(--primary)",
               fontSize: "1px",
             }}
           />

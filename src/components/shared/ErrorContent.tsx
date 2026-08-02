@@ -14,7 +14,7 @@ const ErrorContent = ({ className = "", name, message, description }: ErrorConte
       <h1 className={`${googleSansFlex.className}  text-2xl font-bold`}>
         {name}
       </h1>
-      <span className={`text-[#9a999a] flex flex-col items-center ${googleSansFlex.className} font-lighter`}>
+      <span className={`text-muted-foreground flex flex-col items-center ${googleSansFlex.className} font-lighter`}>
         <p className={`${eloquia.className}`}>{message}</p>
         <p className={`${eloquia.className} `}>{description}</p>
       </span>

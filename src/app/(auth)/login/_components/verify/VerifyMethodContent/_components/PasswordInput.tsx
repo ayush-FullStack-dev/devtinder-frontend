@@ -27,33 +27,34 @@ const PasswordInput = <T extends FieldValues>({
 }: PasswordInputProps<T>) => {
   const [isClicked, setIsClicked] = useState(false);
   const borderVal = error
-    ? "2px solid #FF5C74"
+    ? "2px solid var(--danger)"
     : success
-      ? "2px solid #22C55E"
+      ? "2px solid var(--success)"
       : isClicked
-        ? "2px solid #007bff"
-        : "2px solid #ccc";
+        ? "2px solid var(--primary)"
+        : "2px solid var(--input)";
 
   const boxShadowVal = error
-    ? "0 0 14px rgba(255, 92, 116, 0.25)"
+    ? "0 0 0 3px color-mix(in srgb, var(--danger) 10%, transparent)"
     : success
-      ? "0 0 14px rgba(34, 197, 94, 0.25)"
+      ? "0 0 0 3px color-mix(in srgb, var(--success) 10%, transparent)"
       : isClicked
-        ? "0 0 14px rgba(56, 189, 248, 0.5)"
+        ? "0 0 0 3px color-mix(in srgb, var(--primary) 12%, transparent)"
         : "0 0 0";
 
   const inputStyle = {
     border: borderVal,
-    boxShadow: boxShadowVal,
+    boxShadow: `inset 0 1px 2px rgba(0, 0, 0, 0.06), ${boxShadowVal}`,
     transition: "all 0.2s linear",
+    background: "var(--surface-elevated)",
   };
 
   return (
     <div
-      className={`inline-flex w-full items-center  rounded-lg gap-3 pl-4 opacity-75 ${className} pr-4`}
+      className={`inline-flex w-full items-center  rounded-lg gap-3 pl-4 ${className} pr-4`}
       style={inputStyle}
     >
-      <CiLock size={24} color="#929191" />
+      <CiLock size={24} color="var(--muted-foreground)" />
 
       <input
         {...register(name)}

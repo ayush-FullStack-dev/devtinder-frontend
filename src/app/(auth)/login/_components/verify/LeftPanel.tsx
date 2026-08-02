@@ -75,15 +75,13 @@ const LeftPanel = ({ onResponseResolve, isTrusted }: ResponseResolveProps) => {
       md:static
       md:p-3
   h-dvh overflow-hidden
-  md:h-[96vh]
+  md:h-[96dvh]
         w-screen
   md:w-[80vw]
   lg:w-[46vw]
-bg-white
-    dark:bg-zinc-900
+bg-surface
     border
-    border-slate-200
-    dark:border-zinc-800 shadow-lg dark:shadow-2xl dark:shadow-black/30
+    border-border-primary shadow-card
     `}
     >
       <span>

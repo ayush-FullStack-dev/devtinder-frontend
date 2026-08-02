@@ -5,8 +5,13 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --breakpoint-xxs: 300px;
   --breakpoint-xs: 360px;
   --breakpoint-mobile: 480px;
+  --breakpoint-3xl: 1920px;
+  --breakpoint-4xl: 2560px;
+  --breakpoint-5xl: 3840px;
+  --text-mid: 1.0625rem;
   --font-heading: var(--font-sans);
   --font-sans: var(--font-sans);
   --color-sidebar-ring: var(--sidebar-ring);
@@ -40,6 +45,20 @@
   --color-card: var(--card);
   --color-foreground: var(--foreground);
   --color-background: var(--background);
+
+  --color-surface: var(--surface);
+  --color-surface-secondary: var(--surface-secondary);
+  --color-surface-elevated: var(--surface-elevated);
+
+  --color-border-primary: var(--border-primary);
+  --color-border-secondary: var(--border-secondary);
+
+  --color-foreground-muted: var(--foreground-muted);
+
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -49,39 +68,91 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* Shadows are mapped via `inline` so utilities emit `var(--shadow-*)` at
+   runtime — this lets the `.dark` overrides below actually apply. A plain
+   `@theme` block would inline the light value at build time and dead-code
+   the dark shadows. */
+@theme inline {
+  --shadow-soft: var(--shadow-soft);
+  --shadow-card: var(--shadow-card);
+  --shadow-float: var(--shadow-float);
+  --shadow-primary: var(--shadow-primary);
+  --shadow-showcase: var(--shadow-showcase);
+}
+
 :root {
-  --background: oklch(0.985 0.003 264);
-  --foreground: oklch(0.18 0.012 264);
+  /* Warm zinc canvas + layered neutral surfaces */
+  --background: #f4f4f5;
+  --foreground: #18181b;
 
-  --card: oklch(0.995 0.003 264);
-  --card-foreground: oklch(0.18 0.012 264);
+  --card: #ffffff;
+  --card-foreground: #18181b;
 
-  --popover: oklch(0.995 0.003 264);
-  --popover-foreground: oklch(0.18 0.012 264);
+  --popover: #ffffff;
+  --popover-foreground: #18181b;
 
-  --primary: oklch(0.56 0.22 275);
-  --primary-foreground: oklch(0.98 0.002 264);
+  --surface: #ffffff;
+  --surface-secondary: #fafafa;
+  --surface-elevated: #e4e4e7;
 
-  --secondary: oklch(0.95 0.015 255);
-  --secondary-foreground: oklch(0.22 0.018 264);
+  /* Brand purple accent */
+  --primary: #4940e3;
+  --primary-foreground: #ffffff;
 
-  --muted: oklch(0.96 0.008 264);
-  --muted-foreground: oklch(0.5 0.015 264);
+  --secondary: #f4f4f5;
+  --secondary-foreground: #18181b;
 
-  --accent: oklch(0.75 0.14 245);
-  --accent-foreground: oklch(0.98 0.002 264);
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
 
-  --border: oklch(0.9 0.01 264);
-  --input: oklch(0.9 0.01 264);
+  --foreground-muted: #52525b;
 
-  --ring: oklch(0.62 0.18 265);
+  --accent: #4940e3;
+  --accent-foreground: #ffffff;
+
+  /* Solid, visible border hierarchy */
+  --border: #e4e4e7;
+  --border-primary: #d4d4d8;
+  --border-secondary: #c9c9cf;
+  --input: #d4d4d8;
+
+  --ring: #4940e3;
+
+  /* Status */
+  --destructive: #dc2626;
+  --success: #16a34a;
+  --warning: #d97706;
+  --danger: #dc2626;
 
   --radius: 0.75rem;
+
+  /* Layered elevation (light) */
+  --shadow-soft: 0 1px 2px rgba(24, 24, 27, 0.06),
+    0 1px 3px rgba(24, 24, 27, 0.05);
+  --shadow-card: inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 1px 2px rgba(24, 24, 27, 0.05),
+    0 8px 24px -4px rgba(24, 24, 27, 0.1);
+  --shadow-float: inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 4px 12px -2px rgba(24, 24, 27, 0.1);
+  --shadow-primary: 0 1px 2px rgba(73, 64, 227, 0.35),
+    0 8px 20px -4px rgba(73, 64, 227, 0.3);
+  --shadow-showcase: 0 20px 60px rgba(24, 24, 27, 0.08);
+
+  /* Showcase panel (illustration side) — overridden in .dark */
+  --grad-showcase-from: #f7f5ff;
+  --grad-showcase-via: #efedff;
+  --grad-showcase-to: #e6e2fb;
+  --grad-showcase-border: #e6e3f5;
+  --grad-showcase-glow: radial-gradient(
+    circle at top right,
+    rgba(139, 92, 246, 0.08),
+    transparent 40%
+  );
 }
 
 .dark {
-  /* #070708 */
-  --background: oklch(0.14 0.008 265);
+  /* #09090b */
+  --background: #09090b;
   --foreground: oklch(0.97 0.004 264);
 
   --card: oklch(0.18 0.012 265);
@@ -90,9 +161,13 @@
   --popover: oklch(0.18 0.012 265);
   --popover-foreground: oklch(0.97 0.004 264);
 
-  /* Purple */
-  --primary: oklch(0.7 0.2 285);
-  --primary-foreground: oklch(0.12 0.01 264);
+  --surface: #18181b;
+  --surface-secondary: oklch(0.22 0.015 265);
+  --surface-elevated: #202024;
+
+  /* Brand purple accent */
+  --primary: #4940e3;
+  --primary-foreground: #ffffff;
 
   /* Dark panels */
   --secondary: oklch(0.22 0.015 265);
@@ -101,14 +176,44 @@
   --muted: oklch(0.2 0.012 265);
   --muted-foreground: oklch(0.7 0.01 264);
 
-  /* Blue accent */
-  --accent: oklch(0.65 0.18 245);
-  --accent-foreground: oklch(0.97 0.004 264);
+  --foreground-muted: #9ca3af;
+
+  --accent: #4940e3;
+  --accent-foreground: #ffffff;
 
   --border: oklch(0.3 0.015 265 / 35%);
-  --input: oklch(0.28 0.015 265 / 40%);
+  --border-primary: #27272a;
+  --border-secondary: rgba(255, 255, 255, 0.1);
+  --input: rgba(255, 255, 255, 0.14);
 
   --ring: oklch(0.72 0.18 275);
+
+  /* Status */
+  --destructive: #f87171;
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --danger: #f87171;
+
+  /* Layered elevation (dark) */
+  --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-card: inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 1px 2px rgba(0, 0, 0, 0.3),
+    0 16px 32px -8px rgba(0, 0, 0, 0.5);
+  --shadow-float: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --shadow-primary: 0 1px 2px rgba(73, 64, 227, 0.45),
+    0 8px 20px -4px rgba(73, 64, 227, 0.4);
+  --shadow-showcase: 0 20px 80px rgba(0, 0, 0, 0.55);
+
+  /* Showcase panel (dark) */
+  --grad-showcase-from: #181824;
+  --grad-showcase-via: #141420;
+  --grad-showcase-to: #101018;
+  --grad-showcase-border: #2a2a3a;
+  --grad-showcase-glow: radial-gradient(
+    circle at top right,
+    rgba(139, 92, 246, 0.12),
+    transparent 40%
+  );
 
   --sidebar: oklch(0.16 0.01 265);
   --sidebar-foreground: oklch(0.97 0.004 264);
@@ -128,6 +233,16 @@
   }
   body {
     @apply bg-background text-foreground;
+    background-image: radial-gradient(
+        1100px 700px at 12% -10%,
+        rgba(120, 110, 255, 0.1),
+        transparent 55%
+      ),
+      radial-gradient(
+        900px 600px at 108% 0%,
+        rgba(120, 110, 255, 0.08),
+        transparent 50%
+      );
   }
   html {
     @apply font-sans;

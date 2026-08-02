@@ -30,19 +30,19 @@ function RadioGroupItem({
   group/radio-group-item peer relative flex aspect-square size-7
   shrink-0 rounded-full
 
-  border-2 border-muted-foreground/70
+  border-2 border-border-secondary
 
   outline-none
   after:absolute after:-inset-x-3 after:-inset-y-2
 
   focus-visible:ring-4
-  focus-visible:ring-[#4940e3]/50
+  focus-visible:ring-primary/50
 
   disabled:cursor-not-allowed
   disabled:opacity-50
 
-  data-[state=checked]:border-[#4940e3]
-  data-[state=checked]:bg-[#4940e3]
+  data-[state=checked]:border-primary
+  data-[state=checked]:bg-primary
   data-[state=checked]:text-white
   `,
   className

@@ -49,13 +49,13 @@ const VerifyMethodFooter = ({
         <p></p>
       ) : (
         <span className={`flex gap-1 items-center text-[14px] mt-3 mr-5`}>
-          <GoShieldCheck size={20} color="#929191" />
+          <GoShieldCheck size={20} color="var(--muted-foreground)" />
           <div
-            className={`${googleSans.className} font-light tracking-wide text-[#7c8999]`}
+            className={`${googleSans.className} font-light tracking-wide text-muted-foreground`}
           >
             Having trouble?{" "}
             <span
-              className="tracking-tight text-[#9569e7] font-medium"
+              className="tracking-tight text-primary font-medium"
               onClick={navigate}
             >
               Try another sign-in option.

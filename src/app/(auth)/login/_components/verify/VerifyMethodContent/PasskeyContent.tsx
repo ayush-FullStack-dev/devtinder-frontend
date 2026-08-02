@@ -148,18 +148,18 @@ const PasskeyContent = ({
         description="Use your passkey to securley sign in to your account."
       />
 
-      <div className="h-62 min-h-40 max-h-70 w-full rounded-xl  outline-1 outline-[#4940e3] flex flex-col items-center justify-between p-5 m-auto">
+      <div className="h-62 min-h-40 max-h-70 w-full rounded-xl  outline-1 outline-primary/40 flex flex-col items-center justify-between p-5 m-auto">
         <div
           className="
     flex h-auto w-auto items-center justify-center rounded-full border-2 mb-2
-    border-[#e4dcfb] bg-[#efe9fc]
+    border-primary/15 bg-primary/5
     p-4
-    dark:border-[#28244b] dark:bg-transparent
+    dark:border-primary/25 dark:bg-primary/10
   "
           onClick={() => authenticatePasskey(true)}
         >
           <loginMethodDetails.passkey.icon
-            className="text-[#7746f2]"
+            className="text-primary"
             size={40}
           />
         </div>
@@ -172,7 +172,7 @@ const PasskeyContent = ({
           </h1>
 
           <p
-            className={`text-gray-400 ${googleSans.className} tracking-wide font-bold text-[13px] text-center text-balance`}
+            className={`text-foreground-muted ${googleSans.className} tracking-wide font-bold text-[13px] text-center text-balance`}
           >
             Touch your fingerprint, face, or use your security key.
           </p>
@@ -181,7 +181,7 @@ const PasskeyContent = ({
         {error ? (
           <InputError text={error.message} />
         ) : (
-          <span className="flex items-center justify-center gap-4 text-[#7746f2] mt-3">
+          <span className="flex items-center justify-center gap-4 text-primary mt-3">
             <CircleLoader loaderStyle={loaderStyle} />
             <p className={`${googleSans.className} font-heading tracking-wide`}>
               Waiting for authentication...

@@ -121,7 +121,7 @@ const PasswordContent = ({
       />
       <div className="mt-1">
         <Link
-          className={`${googleSansFlex.className} text-sm text-[#9569e7] tracking-tight font-extralight`}
+          className={`${googleSansFlex.className} text-sm text-primary tracking-tight font-extralight`}
           href="/forget-password"
         >
           Forgot password?

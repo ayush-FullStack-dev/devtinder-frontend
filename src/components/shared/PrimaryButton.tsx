@@ -53,7 +53,7 @@ const PrimaryButton = ({
   return (
     <button
       type={btnType}
-      className={`box-border inline-flex h-14  pr-5 items-center  rounded-lg bg-[#4940e3]  ${className} ${disbaled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+      className={`box-border inline-flex h-14  pr-5 items-center  rounded-lg bg-primary shadow-primary ${className} ${disbaled ? "opacity-50 cursor-not-allowed" : "cursor-pointer hover:brightness-[1.04]"
         }`}
       onKeyDown={onKeyDown}
 

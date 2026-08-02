@@ -16,18 +16,15 @@ const LeftPanel = () => {
      flex flex-col
     justify-evenly
      overflow-hidden
-
   w-screen
   md:w-[80vw]
   lg:w-[42vw]
   h-dvh 
-  md:h-[95vh]
-  
+  md:h-[95dvh]
   rounded-none md:rounded-xl
-  bg-white dark:bg-zinc-900
-  border border-slate-200 dark:border-zinc-800
-  shadow-none md:shadow-lg
-  dark:md:shadow-2xl dark:md:shadow-black/30
+  bg-surface
+  border border-border-primary
+  shadow-none md:shadow-card
 "
     >
       <div className="

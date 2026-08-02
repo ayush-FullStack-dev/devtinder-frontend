@@ -17,12 +17,12 @@ function Checkbox({
         "peer relative flex size-4 shrink-0 items-center justify-center rounded-[4px]",
 
         // Unchecked
-        "border-2  bg-transparent",
+        "border-2 border-border-secondary bg-transparent",
 
         // Checked
-        "data-[state=checked]:bg-[#4940e3]",
-        "data-[state=checked]:border-[#4940e3]",
-        "data-[state=checked]: text-white dark:text-black",
+        "data-[state=checked]:bg-primary",
+        "data-[state=checked]:border-primary",
+        "data-[state=checked]:text-white dark:text-black",
 
         className,
       )}

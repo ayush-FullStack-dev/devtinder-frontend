@@ -36,7 +36,7 @@ const PromoContent = ({ title, description, className }: Props) => {
         className={`
       ${jakarta.className}
 
-      text-gray-400
+      text-foreground-muted
       font-bold
 
       text-sm

@@ -3,8 +3,11 @@ export const colors = {
 
   surface: "var(--surface)",
   "surface-secondary": "var(--surface-secondary)",
+  "surface-elevated": "var(--surface-elevated)",
 
   border: "var(--border)",
+  "border-primary": "var(--border-primary)",
+  "border-secondary": "var(--border-secondary)",
 
   foreground: "var(--foreground)",
   "foreground-muted": "var(--foreground-muted)",

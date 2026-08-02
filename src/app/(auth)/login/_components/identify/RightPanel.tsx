@@ -10,31 +10,23 @@ const RigthPanel = () => {
   const className = `
 relative overflow-hidden
 box-border gap-2 p-10 pb-3 -ml-10
-inline-flex h-[95vh] 
+inline-flex h-[95dvh]
 w-[57vw]
 flex-col rounded-2xl
 
 bg-linear-to-br
-from-[#FCFBFF]
-via-[#F6F4FF]
-to-[#F0EEFF]
-
-dark:from-[#181824]
-dark:via-[#141420]
-dark:to-[#101018]
+from-[(--grad-showcase-from)]
+via-[var(--grad-showcase-via)]
+to-[var(--grad-showcase-to)]
 
 border
-border-[#E6E3F5]
-dark:border-[#2A2A3A]
+border-[var(--grad-showcase-border)]
 
-shadow-[0_20px_60px_rgba(0,0,0,0.08)]
-dark:shadow-[0_20px_80px_rgba(0,0,0,0.55)]
+shadow-showcase
 
 before:absolute
 before:inset-0
-before:bg-[radial-gradient(circle_at_top_right,rgba(139,92,246,0.08),transparent_40%)]
-
-dark:before:bg-[radial-gradient(circle_at_top_right,rgba(139,92,246,0.12),transparent_40%)]
+before:[background-image:var(--grad-showcase-glow)]
 
 before:pointer-events-none
 `;

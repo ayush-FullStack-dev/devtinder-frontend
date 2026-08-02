@@ -14,15 +14,15 @@ const AuthStepper = ({ currentStep,steps,className }: props) => {
   return (
     <div className={`flex gap-2 p-8 box-border items-center w-full ${className}`}>
       <span>
-        <CiCircleCheck  size={35} className="text-[#a48be8] font-semibold dark:text-[#dcdfe6]"/>
-        <p className={`text-xs ${googleSans.className} text-[#7b7b7b] dark:text-[#dcdfe6]`}>{steps[0]}</p>
+        <CiCircleCheck  size={35} className="text-primary/80 font-semibold dark:text-muted-foreground"/>
+        <p className={`text-xs ${googleSans.className} text-muted-foreground`}>{steps[0]}</p>
       </span>
 
-      <Separator className="flex-1 mb-4 outline-1 bg-[#a48be8] dark:bg-[#dcdfe6] opacity-80" />
+      <Separator className="flex-1 mb-4 outline-1 bg-primary/50 dark:bg-muted-foreground/40" />
 
       <span>
         <span className="relative inline-flex items-center justify-center">
-          <Circle size={35} fill="#4940e3" color="#4940e3" />
+          <Circle size={35} fill="var(--primary)" color="var(--primary)" />
 
           <p className="absolute text-white text-sm font-medium">
             {currentStep}

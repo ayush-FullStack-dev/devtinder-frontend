@@ -5,20 +5,20 @@ import { IoShieldCheckmarkOutline } from "react-icons/io5";
 const TermNotice = ({ className }: { className?: string }) => {
   return (
     <div className={`flex gap-2 items-center text-sm w-full xs:w-70 ${className}`}>
-      <IoShieldCheckmarkOutline size={55} color="#929191" />
+      <IoShieldCheckmarkOutline size={55} color="var(--muted-foreground)" />
       <p
-        className={`${jakarta.className} font-bold tracking-wide text-[#929191]`}
+        className={`${jakarta.className} font-bold tracking-wide text-muted-foreground`}
       >
         By continuing, you agree to our{" "}
         <Link
-          className="tracking-tight text-[#6860e6]  font-medium"
+          className="tracking-tight text-primary  font-medium"
           href="/terms"
         >
           Terms of Service
         </Link>{" "}
         and{" "}
         <Link
-          className="tracking-tight text-[#6860e6] font-medium "
+          className="tracking-tight text-primary font-medium "
           href="/privacy"
         >
           Privacy Policy

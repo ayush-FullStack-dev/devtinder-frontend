@@ -10,7 +10,6 @@ overflow-hidden
 p-0
 lg:px-[1%]
 xl:px-[1.5%]
-bg-slate-100 dark:bg-zinc-950
 flex
 items-center
 justify-start

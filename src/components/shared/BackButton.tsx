@@ -12,7 +12,7 @@ const BackButton = ({ text, onClick, className }: props) => {
   return (
     <button
       type="button"
-      className={`flex gap-2 items-center justify-center text-gray-400 hover:text-[#3498db] cursor-pointer ${className} `}
+      className={`flex gap-2 items-center justify-center text-foreground-muted hover:text-primary cursor-pointer ${className} `}
       onClick={onClick}
     >
       <ArrowLeft  size={20} />

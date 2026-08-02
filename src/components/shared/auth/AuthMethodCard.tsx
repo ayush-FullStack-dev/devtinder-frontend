@@ -27,14 +27,17 @@ const AuthMethodCard = ({
 }: props) => {
   return (
     <div
-      className={`box-border flex h-[20%] w-full items-center justify-between rounded-lg border-2 bg-transparent p-5  ${activeCard ? "border-[#6e68d2]" : ""
-        } ${className}`}
+      className={`box-border flex h-[20%] w-full items-center justify-between rounded-lg border-2 p-5 ${
+        activeCard
+          ? "border-primary bg-surface shadow-float ring-2 ring-primary/10"
+          : "border-border-primary bg-surface-elevated/50 shadow-soft hover:border-primary/40 hover:bg-surface-elevated/70"
+      } ${className}`}
       onClick={onClick}
     >
       <div className="flex items-center gap-3 overflow-hidden">
         <RadioGroupItem value={method} id={method} />
 
-        <IconWithBg className="bg-[#e5e4fc] hidden xs:inline" icon={<Icon size={30} />} />
+        <IconWithBg className="bg-primary/10 hidden xs:inline" icon={<Icon size={30} />} />
 
         <AuthMethodHeader
           title={recommend ? `${title} (Recommended)` : title}
@@ -42,7 +45,7 @@ const AuthMethodCard = ({
         />
       </div>
 
-      <FaAngleRight size={30} color={activeCard ? "#625af2" : ""} />
+      <FaAngleRight size={30} color={activeCard ? "var(--primary)" : ""} />
     </div>
   );
 };

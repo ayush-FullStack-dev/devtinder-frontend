@@ -19,7 +19,7 @@ const Header = ({ className, title, description }: props) => {
   </h1>
 
   <p
-    className={`${jakarta.className} whitespace-pre-line text-gray-400 font-medium text-sm sm:text-base leading-relaxed`}
+    className={`${jakarta.className} whitespace-pre-line text-foreground-muted font-medium text-sm sm:text-base leading-relaxed`}
   >
     {description}
   </p>
