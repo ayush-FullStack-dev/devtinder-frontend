@@ -78,6 +78,8 @@
   --shadow-float: var(--shadow-float);
   --shadow-primary: var(--shadow-primary);
   --shadow-showcase: var(--shadow-showcase);
+  --color-nav-link: var(--nav-link);
+  --color-nav-link-hover: var(--nav-link-hover);
 }
 
 :root {
@@ -86,7 +88,13 @@
   --foreground: #161617;
 
   /* Logo monochrome */
-   --foreground-logo: rgb(37, 37, 38);
+  --foreground-logo: rgb(37, 37, 38);
+
+  /* Navigation */
+  --nav-link-dark: #b8b9c5;
+  --nav-link-dark-hover: #d8ccff;
+  --nav-link: rgb(57, 58, 63);
+  --nav-link-hover: #8f64fb;
 
   --card: #ffffff;
   --card-foreground: #18181b;
@@ -94,7 +102,7 @@
   --popover: #ffffff;
   --popover-foreground: #18181b;
 
-  --surface: #F4F4F5;
+  --surface: #f4f4f5;
   --surface-secondary: #fafafa;
   --surface-elevated: #e4e4e7;
 
@@ -159,7 +167,7 @@
   --background: #161617;
   --foreground: #ececef;
 
- --foreground-logo: #F4F4F5;
+  --foreground-logo: #f4f4f5;
 
   /* ===== Cards ===== */
   --card: #202024;
@@ -240,6 +248,9 @@
   --sidebar-accent-foreground: #ececef;
 
   --sidebar-border: rgba(255, 255, 255, 0.08);
+  /* Navigation */
+  --nav-link: #aeb0bc;
+  --nav-link-hover: rgb(124, 106, 189);
 }
 
 @layer base {

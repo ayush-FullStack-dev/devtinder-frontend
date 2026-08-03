@@ -1,3 +1,4 @@
+import { googleSansFlex } from "@/assets/fonts/font.google";
 import jakarta from "@/assets/fonts/font.jakarta";
 import Link from "next/link";
 import type { IconType } from "react-icons";
@@ -7,6 +8,7 @@ type props = {
   icon: IconType;
   href?: string;
   className?: string;
+  iconSize?: number
   onClick?: () => void;
 };
 
@@ -15,15 +17,16 @@ const IconTextButton = ({
   icon: Icon,
   href,
   onClick,
+  iconSize = 20,
   className: costumclassName,
 }: props) => {
-  const className = `box-border inline-flex justify-center gap-4 items-center  rounded-lg border-2 border-border-secondary bg-surface-secondary shadow-soft text-foreground hover:border-primary/50 hover:bg-transparent transition duration-500 ease-in-out ${costumclassName}`;
+  const className = `box-border flex justify-center gap-4 items-center  rounded-lg border-2 border-[#383737] bg-[#1a1a1a]  hover:border-primary/30 hover:bg-transparent  transition-all duration-300 ease-out ${costumclassName}`;
 
   const iconText = () => {
     return (
       <>
-        <Icon size="20" />
-        <p className={`font-bold ${jakarta.className} text-mid`}>{text}</p>
+        <Icon size={iconSize} />
+        <p className={`font-bold ${googleSansFlex.className}`}>{text}</p>
       </>
     );
   };

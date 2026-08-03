@@ -30,7 +30,7 @@ const NotFound = () => {
         <IconTextButton
           text="Back to Home"
           icon={ArrowLeft}
-          className="bg-white text-black border-white w-50 h-12 text-[16px] mt-5"
+          className= "w-50 h-12 text-[16px] mt-5"
           href="/"
         />
       </div>

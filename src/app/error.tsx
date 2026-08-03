@@ -23,11 +23,12 @@ export default function Error({
                     className="opacity-90"
                 />
 
-                <div className="hidden sm:block">
+                <div className="hidden xs:inline">
                     <IconTextButton
                         text="Back to Home"
                         icon={ArrowLeft}
-                        className="text-white border-white w-50 h-12 text-[16px] mr-10"
+                        className="text-[var(--nav-link-dark)] bg-transparent border-none hover:text-[var(--nav-link-dark-hover)]
+                    sm:bg-[#1a1a1a] w-50 h-12  text-sm sm:text-mid mr-10"
                         href="/"
                     />
                 </div>
@@ -52,22 +53,15 @@ export default function Error({
                     description={description}
                 />
 
-                 <div className="flex flex-col gap-6 -mb-7">
+                <div className="flex flex-col gap-6 -mb-7">
                     <IconTextButton
                         text="Try Again"
                         icon={RefreshCcw}
-                        className="bg-white text-black border-white w-50 h-12 text-[16px] mt-7"
+                        className="w-50 h-12 text-[16px] mt-7"
                         onClick={reset}
                     />
 
-                    <div className="block sm:hidden">
-                        <IconTextButton
-                            text="Back to Home"
-                            icon={ArrowLeft}
-                            className="text-white border-white w-50 h-12 text-[16px]"
-                            href="/"
-                        />
-                    </div>
+
                 </div>
             </div>
         </div>
