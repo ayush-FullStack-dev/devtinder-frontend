@@ -255,10 +255,10 @@ const SessionApprovalContent = ({
       <div className="flex flex-col items-center gap-2">
         <ApprovalDeviceAnimation
           className="
-    w-full
-    max-w-[320px]
-    sm:max-w-40
-    md:max-w-50
+    w-full   
+  max-w-40
+  sm:max-w-45
+    md:max-w-45
   3xl:max-w-80
     4xl:max-w-90
     5xl:max-w-100
