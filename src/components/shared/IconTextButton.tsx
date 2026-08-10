@@ -20,7 +20,7 @@ const IconTextButton = ({
   iconSize = 20,
   className: costumclassName,
 }: props) => {
-  const className = `box-border flex justify-center gap-4 items-center  rounded-lg border-2 border-[#383737] bg-[#1a1a1a]  hover:border-primary/30 hover:bg-transparent  transition-all duration-300 ease-out ${costumclassName}`;
+  const className = `box-border flex justify-center gap-4 items-center  rounded-lg border-2 border-border-primary bg-surface-secondary  hover:border-primary/30 hover:bg-transparent  transition-all duration-300 ease-out text-foreground dark:text-foreground ${costumclassName}`;
 
   const iconText = () => {
     return (
