@@ -1,8 +1,26 @@
+import { AppName } from "@/constants/constants";
+import JsonLd from "@/constants/JsonLd";
 
-export default async function Home() {
+
+export async function PageLayout() {
   return (
     <div>
-      <h1>Hii from DevTinder</h1>
+      <h1>Hii from {AppName}</h1>
     </div>
+  );
+}
+
+export default function HomePage() {
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(JsonLd),
+        }}
+      />
+
+      <PageLayout />
+    </>
   );
 }

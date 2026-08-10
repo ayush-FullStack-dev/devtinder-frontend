@@ -6,6 +6,7 @@ import { loginVerifyErrorResponse } from "@/types/auth/login/loginVerify.type";
 import { useState } from "react";
 import { verifyLogin } from "@/services/login/verifyLogin";
 import CodeInputGroup from "@/components/shared/CodeInputGroup";
+import { AppName } from "@/constants/constants";
 
 type SecurityCodeContentProps = {
   onResponseResolve?: (
@@ -63,7 +64,7 @@ const SecurityCodeContent = ({
     >
       <Header
         title="Verify With Security Code"
-        description="Enter the 10-character securty code generated from your DevTinder account."
+        description={`Enter the 10-character security code generated from your ${AppName} account.`}
         className="mb-3"
       />
 

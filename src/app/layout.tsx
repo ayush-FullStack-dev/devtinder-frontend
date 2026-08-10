@@ -3,25 +3,30 @@ import type { Metadata } from "next";
 import "@/app/style/globals.css";
 
 import Providers from "./Providers/Providers";
+import { AppName } from "@/constants/constants";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL!),
   title: {
-    default: "DevTinder | Collab, Make Friends & Meet New People",
-    template: "%s | DevTinder",
+    default: `${AppName} - Connect, Collaborate & Build with Developers`,
+    template: `%s | ${AppName}`,
   },
   description: "Connect with developers, collaborate on projects, and grow your network.",
   verification: {
     google: "BJXdoBSR_OubTKk_mnCOsuL6kw1p7qqh7SKUidWLIcI",
   },
+  alternates: {
+    canonical: "/",
+  },
+
   openGraph: {
     type: 'website',
-    siteName: "DevTinder",
+    siteName: AppName,
     locale: "en_US",
     images: [{
       url: "/brand/social/og-image.png", width: 1200,
       height: 630,
-      alt: "DevTinder social preview image"
+      alt: `${AppName} social preview image`
     }],
   }
 };
