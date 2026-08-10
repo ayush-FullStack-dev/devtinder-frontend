@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { apiUrl, routes } from "@/constants/api";
 import { getDeviceId, getDeviceSize } from "@/lib/getDeviceInfo";
-import CustomError from "@/helpers/Error"
 
 type RefreshComponentProps = {
   setIsRefreshing?: (isRefreshing: boolean) => void;
@@ -33,8 +32,6 @@ export default function RefreshComponent({ setIsRefreshing = () => { } }: Refres
 
         const data = await response.json();
 
-        if (!response.ok) throw new CustomError("Authentication Error", data.message)
-
         switch (data.action) {
           case "token_refreshed":
             router.replace(searchParams.get("redirect") || "/dashboard");
@@ -53,7 +50,7 @@ export default function RefreshComponent({ setIsRefreshing = () => { } }: Refres
           case "logout":
           case "logout-all":
             router.replace(
-              `/login?message=${encodeURIComponent(data.message)}`,
+              `/login`,
             );
             break;
 

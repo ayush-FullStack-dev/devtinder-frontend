@@ -3,8 +3,12 @@ import { routes } from "@/constants/api";
 import { DYNAMIC_ROUTE_PREFIXES, VALID_ROUTES } from "@/constants/routes";
 import { buildApiUrl, safeAppUrl, safeRedirectPath } from "@/constants/url";
 
+const unSafeRoute = ["/login", "/signup"];
+
 export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
+
+  const isUnsafeRoute = unSafeRoute.some((route) => pathname.startsWith(route));
 
   try {
     const isDynamicRouteValid = DYNAMIC_ROUTE_PREFIXES.some((prefix) =>
@@ -41,11 +45,10 @@ export async function proxy(req: NextRequest) {
         profile: data.profile,
       });
 
-      if (pathname.startsWith("/login")) {
+      if (isUnsafeRoute) {
         const redirectResponse = NextResponse.redirect(
           safeAppUrl("/dashboard"),
         );
-
         redirectResponse.headers.set("x-user-data", userDataString);
         return redirectResponse;
       }
@@ -64,12 +67,13 @@ export async function proxy(req: NextRequest) {
       const redirectUrl = safeRedirectPath(
         pathname.startsWith("/login") ? "/dashboard" : pathname,
       );
+
       return NextResponse.redirect(
         safeAppUrl(`/refresh?redirect=${encodeURIComponent(redirectUrl)}`),
       );
     }
 
-    if (!pathname.startsWith("/login")) {
+    if (!isUnsafeRoute) {
       return NextResponse.redirect(safeAppUrl("/login"));
     }
 
