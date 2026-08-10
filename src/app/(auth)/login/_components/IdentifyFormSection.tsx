@@ -5,11 +5,11 @@ const IdentifyFormSection = () => {
   return (
     <main
       className="
- h-screen w-full
+   h-dvh w-full
 overflow-hidden
 p-0
-lg:px-[1%]
-xl:px-[2%]
+lg:px-[1vw]
+xl:px-[2vw]
 flex
 items-center
 justify-start

@@ -76,12 +76,12 @@ const VerifyIdentitySection = () => {
       <div
         className="
         flex
-    h-screen w-full
-overflow-hidden
-lg:px-[1%]
-xl:px-[2.5%]
-2xl:px-[3%]
-items-center
+    h-dvh w-full
+lg:px-[1vw]
+xl:px-[2.5vw]
+2xl:px-[3vw]
+items-center-safe
+xl:items-center
 justify-start
 md:justify-center
 lg:justify-start
