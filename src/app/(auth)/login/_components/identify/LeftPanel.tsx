@@ -17,8 +17,8 @@ const LeftPanel = () => {
     justify-evenly
      overflow-hidden
   w-screen
-  md:w-[80vw]
-  lg:w-[42vw]
+  md:w-[85vw]
+  xl:w-[43vw]
   h-dvh 
   md:h-[95dvh]
   rounded-none md:rounded-xl
@@ -30,9 +30,8 @@ const LeftPanel = () => {
       <div className="
 flex flex-col
  gap-6
-
  w-full h-full min-h-50 max-h-160
- px-4 xxs:px-1 xs:px-3 sm:px-5 justify-evenly 
+ px-3 xs:px-4 sm:px-5 justify-evenly 
 ">
 
         <LogoHorizontal className="mt-2 lg:mb-5" monoChrome={true}/>

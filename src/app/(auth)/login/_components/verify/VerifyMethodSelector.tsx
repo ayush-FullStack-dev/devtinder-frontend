@@ -28,40 +28,43 @@ const VerifyMethodSelector = ({
   navigateFn = () => { }
 }: VerifyMethodSelectorProps) => {
 
-  const onClick = () => {
+  const handleMethodConfirm = () => {
     setIsMethodConfirmed(true);
   };
 
-  const handleKeyDown = (e: KeyboardEvent) => {
-    if (e.key === "Enter") {
-      onClick();
-      setIsMethodConfirmed(true)
-    }
-    if (e.key === "Escape") {
-      navigateFn()
-    }
-  };
-
   useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Enter") {
+        handleMethodConfirm();
+      }
+
+      if (e.key === "Escape") {
+        navigateFn();
+      }
+    };
+
     document.addEventListener("keydown", handleKeyDown);
 
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  }, [navigateFn]);
 
   return (
-    <div className={`relative h-screen w-[98%] flex flex-col gap-3 overflow-hidden box-border pl-3 ${className ?? ""}`}>
-      <div className="w-full  flex flex-col shrink h-full">
+    <div
+      className={`relative h-dvh min-h-0 w-full flex flex-col gap-3 overflow-hidden box-border px-2 ${className ?? ""
+        }`}
+    >
+      <div className="flex-1 min-h-0 w-full overflow-hidden">
         <RadioGroup
           value={selectedMethod}
           onValueChange={(value) => setSelectedMethod(value as LoginMethod)}
-          className="flex flex-col gap-5 h-[80%]"
+          className="h-full min-h-0 flex flex-col gap-3"
         >
           {loginVerfiyMethods?.map((method) => {
             const element = loginMethodDetails[method];
 
-            if (method === "trusted_session") return;
+            if (method === "trusted_session") return null;
 
             const recommend =
               loginIdentifyInfo?.primaryMethod === "trusted_session" &&
@@ -78,6 +81,7 @@ const VerifyMethodSelector = ({
                 description={element.description}
                 activeCard={selectedMethod === method}
                 onClick={() => setSelectedMethod(method)}
+                handleMethodConfirm={handleMethodConfirm}
                 recommend={recommend}
               />
             );
@@ -85,7 +89,13 @@ const VerifyMethodSelector = ({
         </RadioGroup>
       </div>
 
-      <PrimaryButton text="Continue" onClick={onClick} className="w-full absolute bottom-5 left-0 right-0" />
+      <div className="w-full shrink-0 pb-2">
+        <PrimaryButton
+          text="Continue"
+          onClick={handleMethodConfirm}
+          className="w-full"
+        />
+      </div>
 
     </div>
   );

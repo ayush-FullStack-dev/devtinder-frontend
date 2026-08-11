@@ -8,13 +8,13 @@ const IdentifyFormSection = () => {
    h-dvh w-full
 overflow-hidden
 p-0
-lg:px-[1vw]
-xl:px-[2vw]
+xl:px-[1vw]
 flex
 items-center
 justify-start
 md:justify-center
-lg:justify-start
+xl:justify-start
+relative
   "
     >
       <div className="relative">
@@ -23,7 +23,7 @@ lg:justify-start
           <LeftPanel />
         </div>
 
-        <div className="hidden lg:block absolute top-0 left-4/4 z-1 w-auto">
+        <div className="hidden xl:block absolute top-0 left-4/4 z-1 w-auto">
           {" "}
           <RightPanel />
         </div>

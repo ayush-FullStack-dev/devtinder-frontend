@@ -33,7 +33,7 @@ const VerifyMethodFooter = ({
   };
 
   return (
-    <div className="flex flex-col items-center justify-center gap-2 mb-2">
+    <div className="flex flex-col items-center justify-center gap-2 mb-2 mx-2 md:mx-0">
 
       <AppLoader loading={loading} />
       <SeparatorWithText text="or" />

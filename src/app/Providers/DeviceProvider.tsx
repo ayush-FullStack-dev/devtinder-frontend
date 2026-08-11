@@ -8,6 +8,18 @@ export default function DeviceInitializer() {
 
   useEffect(() => {
     setDeviceInfo(localStorage);
+
+    // Server-side for api usages
+    const deviceId = localStorage.getItem("deviceId");
+    const deviceSize = localStorage.getItem("deviceSize");
+
+    if (deviceId) {
+      document.cookie = `deviceId=${encodeURIComponent(deviceId)}; Path=/; Secure; SameSite=Lax`;
+    }
+
+    if (deviceSize) {
+      document.cookie = `deviceSize=${encodeURIComponent(deviceSize)}; Path=/; Secure; SameSite=Lax`;
+    }
   }, [setDeviceInfo]);
 
   return null;

@@ -77,14 +77,12 @@ const VerifyIdentitySection = () => {
         className="
         flex
     h-dvh w-full
-lg:px-[1vw]
-xl:px-[2.5vw]
-2xl:px-[3vw]
+xl:px-[1vw]
 items-center-safe
 xl:items-center
 justify-start
 md:justify-center
-lg:justify-start
+xl:justify-start
   "
       >
         <div className="relative">
@@ -92,7 +90,7 @@ lg:justify-start
             <LeftPanel onResponseResolve={onResponseResolve} isTrusted={isTrustedLogin} />
           </div>
 
-          <div className="hidden lg:block absolute top-0 left-4/4 z-1">
+          <div className="hidden xl:block absolute top-0 left-4/4 z-1">
             <RightPanel />
           </div>
         </div>

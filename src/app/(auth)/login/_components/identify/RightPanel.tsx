@@ -65,8 +65,6 @@ before:pointer-events-none
       right-3.5
       xl:right-[9%]
       2xl:right-[1%]
-      hidden
-      xl:block
     "
       >
         <DecorativeCurves className="opacity-20"

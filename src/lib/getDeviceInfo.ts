@@ -1,27 +1,42 @@
+const DEVICE_ID_KEY = "unique_device_id";
+const DEVICE_SIZE_KEY = "device_size";
+
+const setCookie = (name: string, value: string) => {
+  document.cookie =
+    `${name}=${encodeURIComponent(value)}; ` +
+    `Path=/; ` +
+    `Max-Age=31536000; ` +
+    `Secure; ` +
+    `SameSite=Lax`;
+};
+
 export const getDeviceId = (storage: Storage): string => {
-  const localStorage = storage;
-  const deviceIdStorageName = "unquie_device_id";
-  let deviceId: string | null = null;
-  deviceId = localStorage.getItem(deviceIdStorageName);
+  let deviceId = storage.getItem(DEVICE_ID_KEY);
+
   if (!deviceId) {
     deviceId = crypto.randomUUID().replace(/-/g, "");
-    localStorage.setItem(deviceIdStorageName, deviceId);
+
+    storage.setItem(DEVICE_ID_KEY, deviceId);
   }
+
+  setCookie(DEVICE_ID_KEY, deviceId);
 
   return deviceId;
 };
 
-export const getDeviceSize = (storage: Storage, newData?: boolean): number => {
-  const localStorage = storage;
-  const deviceSizeStorageName = "device_size";
-  let deviceSize: number | null = null;
-
-  deviceSize = Number(localStorage.getItem(deviceSizeStorageName));
+export const getDeviceSize = (
+  storage: Storage,
+  newData = false,
+): number => {
+  let deviceSize = Number(storage.getItem(DEVICE_SIZE_KEY));
 
   if (!deviceSize || newData) {
     deviceSize = window.innerWidth + window.innerHeight;
-    localStorage.setItem(deviceSizeStorageName, `${deviceSize}`);
+
+    storage.setItem(DEVICE_SIZE_KEY, String(deviceSize));
   }
+  
+  setCookie(DEVICE_SIZE_KEY, String(deviceSize));
 
   return deviceSize;
 };

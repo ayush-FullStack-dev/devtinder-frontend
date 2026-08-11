@@ -8,14 +8,13 @@ import HeroSection from "@/components/shared/NotFound/HeroScene";
 
 const NotFound = () => {
   return (
-    <div className="bg-black text-white min-h-screen w-full relative overflow-hidden">
+    <div className="dark min-h-screen w-full bg-black text-white relative overflow-hidden">
       <div className="absolute top-8 left-5 w-full px-0 lg:px-10 flex items-center justify-between z-10">
         <LogoHorizontal
           logoMonoChrome
           workMarkMonoChrome
           className="opacity-90"
         />
-
       </div>
 
       <div className="flex min-h-screen flex-col items-center justify-center -mt-2 pl-5 pr-3">
@@ -30,7 +29,7 @@ const NotFound = () => {
         <IconTextButton
           text="Back to Home"
           icon={ArrowLeft}
-          className= "w-50 h-12 text-[16px] mt-5"
+          className="w-50 h-12 text-[16px] mt-5"
           href="/"
         />
       </div>

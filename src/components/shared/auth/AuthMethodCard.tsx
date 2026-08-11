@@ -9,6 +9,7 @@ type props = {
   description: string;
   className?: string;
   onClick?: () => void;
+  handleMethodConfirm?: () => void;
   activeCard?: boolean;
   icon: React.ElementType;
   method: string;
@@ -20,6 +21,7 @@ const AuthMethodCard = ({
   description,
   className,
   onClick,
+  handleMethodConfirm,
   activeCard = false,
   icon: Icon,
   method,
@@ -27,12 +29,12 @@ const AuthMethodCard = ({
 }: props) => {
   return (
     <div
-      className={`box-border flex h-[20%] w-full items-center justify-between rounded-lg border-2 p-5 ${
-        activeCard
-          ? "border-primary bg-surface shadow-float ring-2 ring-primary/10"
-          : "border-border-primary bg-surface-elevated/50 shadow-soft hover:border-primary/40 hover:bg-surface-elevated/70"
-      } ${className}`}
+      className={`box-border flex h-[20%] w-full items-center justify-between rounded-lg border-2 p-5 ${activeCard
+        ? "border-primary bg-surface shadow-float ring-2 ring-primary/10"
+        : "border-border-primary bg-surface-elevated/50 shadow-soft hover:border-primary/40 hover:bg-surface-elevated/70"
+        } ${className}`}
       onClick={onClick}
+      onDoubleClick={() => activeCard && handleMethodConfirm?.()}
     >
       <div className="flex items-center gap-3 overflow-hidden">
         <RadioGroupItem value={method} id={method} />
@@ -45,7 +47,13 @@ const AuthMethodCard = ({
         />
       </div>
 
-      <FaAngleRight size={30} color={activeCard ? "var(--primary)" : ""} />
+      <FaAngleRight size={30} color={activeCard ? "var(--primary)" : ""} onClick={(e) => {
+        e.stopPropagation();
+
+        if (activeCard) {
+          handleMethodConfirm && handleMethodConfirm()
+        }
+      }} />
     </div>
   );
 };
