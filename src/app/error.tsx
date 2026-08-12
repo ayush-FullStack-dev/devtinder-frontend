@@ -15,7 +15,7 @@ export default function Error({
     const [message = "We couldn't complete request right now.", description = "Please try agin in moment."] = error?.message?.split(".") ?? [];
 
     return (
-        <div className="bg-[#0e0f13] text-white min-h-screen w-full relative overflow-hidden">
+        <div className="dark bg-[#0e0f13] text-white min-h-screen w-full relative overflow-hidden">
             <div className="absolute top-7 left-10 w-full px-0 lg:px-10 flex items-center justify-between z-10">
                 <LogoHorizontal
                     logoMonoChrome

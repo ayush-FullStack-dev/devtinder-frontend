@@ -77,7 +77,7 @@ const VerifyIdentitySection = () => {
         className="
         flex
     h-dvh w-full
-xl:px-[1vw]
+xl:px-[1.3vw]
 items-center-safe
 xl:items-center
 justify-start

@@ -8,7 +8,7 @@ const IdentifyFormSection = () => {
    h-dvh w-full
 overflow-hidden
 p-0
-xl:px-[1vw]
+xl:px-[1.4vw]
 flex
 items-center
 justify-start

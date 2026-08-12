@@ -39,7 +39,7 @@ const ErrorPageContent = () => {
                         text="Back to Home"
                         icon={ArrowLeft}
                         className="text-[var(--nav-link-dark)] bg-transparent border-none hover:text-[var(--nav-link-dark-hover)]
-                    sm:bg-[#1a1a1a] w-50 h-12  text-sm sm:text-mid mr-10 "
+                    sm:bg-[#1a1a1a] w-50 h-12  text-sm sm:text-mid mr-10"
                         href="/"
                     />
                 </div>
