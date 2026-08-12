@@ -1,6 +1,6 @@
 const clientBase =
   process.env.NODE_ENV === "development"
-    ? "/api"
+    ? "/backend-api"
     : process.env.NEXT_PUBLIC_API_URL!;
 
 export const serverBase = process.env.NEXT_PUBLIC_API_URL!;

@@ -19,8 +19,8 @@ export const verifyAutoLogin = async (
       risk: loginIdentify.risk,
       code: undefined,
       remember: true,
-      deviceId: getDeviceId(localStorage),
-      deviceSize: getDeviceSize(localStorage, true),
+      deviceId: await getDeviceId(localStorage),
+      deviceSize: await getDeviceSize(localStorage),
       clientTimestamp: new Date(),
     };
 

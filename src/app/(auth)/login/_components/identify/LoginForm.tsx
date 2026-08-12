@@ -56,8 +56,8 @@ export const LoginFormIdentfy = () => {
         },
         body: JSON.stringify({
           [identiferFiled]: identifier,
-          deviceId: getDeviceId(localStorage),
-          deviceSize: getDeviceSize(localStorage, true),
+          deviceId: await getDeviceId(localStorage),
+          deviceSize: await getDeviceSize(localStorage),
           clientTimestamp: new Date(),
         }),
       });

@@ -3,7 +3,6 @@ export const VALID_ROUTES = [
   "/login",
   "/signup",
   "/dashboard",
-  "/refresh",
   "/error",
 ];
 

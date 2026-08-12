@@ -41,8 +41,8 @@ export const verifyLogin = async ({
     const common = {
       risk: loginIdentify.risk,
       remember,
-      deviceId: getDeviceId(localStorage),
-      deviceSize: getDeviceSize(localStorage, true),
+      deviceId: await getDeviceId(localStorage),
+      deviceSize: await getDeviceSize(localStorage),
       clientTimestamp: new Date(),
     };
 

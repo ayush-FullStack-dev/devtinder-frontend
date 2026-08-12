@@ -1,42 +1,48 @@
+import {
+  getDeviceInfo as getCookieInfo,
+  setDeviceInfo,
+} from "@/actions/device";
+
 const DEVICE_ID_KEY = "unique_device_id";
 const DEVICE_SIZE_KEY = "device_size";
 
-const setCookie = (name: string, value: string) => {
-  document.cookie =
-    `${name}=${encodeURIComponent(value)}; ` +
-    `Path=/; ` +
-    `Max-Age=31536000; ` +
-    `Secure; ` +
-    `SameSite=Lax`;
-};
+export const getDeviceId = async (storage?: Storage): Promise<string> => {
+  const cookieInfo = await getCookieInfo();
 
-export const getDeviceId = (storage: Storage): string => {
-  let deviceId = storage.getItem(DEVICE_ID_KEY);
+  let deviceId = cookieInfo.deviceId ?? storage?.getItem(DEVICE_ID_KEY) ?? null;
 
   if (!deviceId) {
     deviceId = crypto.randomUUID().replace(/-/g, "");
-
-    storage.setItem(DEVICE_ID_KEY, deviceId);
   }
 
-  setCookie(DEVICE_ID_KEY, deviceId);
+  storage?.setItem(DEVICE_ID_KEY, deviceId);
+
+  if (cookieInfo.deviceId !== deviceId) {
+    await setDeviceInfo(deviceId, cookieInfo.deviceSize ?? undefined);
+  }
 
   return deviceId;
 };
 
-export const getDeviceSize = (
-  storage: Storage,
-  newData = false,
-): number => {
-  let deviceSize = Number(storage.getItem(DEVICE_SIZE_KEY));
+export const getDeviceSize = async (
+  storage?: Storage,
+): Promise<number> => {
+  const deviceSize =
+    window.innerWidth + window.innerHeight;
 
-  if (!deviceSize || newData) {
-    deviceSize = window.innerWidth + window.innerHeight;
+  storage?.setItem(
+    DEVICE_SIZE_KEY,
+    String(deviceSize),
+  );
 
-    storage.setItem(DEVICE_SIZE_KEY, String(deviceSize));
+  const cookieInfo = await getCookieInfo();
+
+  if (cookieInfo.deviceSize !== deviceSize) {
+    await setDeviceInfo(
+      cookieInfo.deviceId ?? undefined,
+      deviceSize,
+    );
   }
-  
-  setCookie(DEVICE_SIZE_KEY, String(deviceSize));
 
   return deviceSize;
 };

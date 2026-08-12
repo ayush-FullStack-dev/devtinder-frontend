@@ -2,11 +2,20 @@ import { NextRequest, NextResponse } from "next/server";
 import { routes } from "@/constants/api";
 import { DYNAMIC_ROUTE_PREFIXES, VALID_ROUTES } from "@/constants/routes";
 import { buildApiUrl, safeAppUrl, safeRedirectPath } from "@/constants/url";
+import { backendProxy } from "./lib/proxy/backendProxy";
+import { refreshAuth } from "./lib/auth/refreshAuth";
 
 const unSafeRoute = ["/login", "/signup"];
 
 export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
+
+  if (
+    process.env.NODE_ENV === "development" &&
+    pathname.startsWith("/backend-api/")
+  ) {
+    return backendProxy(req);
+  }
 
   const isUnsafeRoute = unSafeRoute.some((route) => pathname.startsWith(route));
 
@@ -68,9 +77,7 @@ export async function proxy(req: NextRequest) {
         pathname.startsWith("/login") ? "/dashboard" : pathname,
       );
 
-      return NextResponse.redirect(
-        safeAppUrl(`/refresh?redirect=${encodeURIComponent(redirectUrl)}`),
-      );
+      return refreshAuth(req, redirectUrl);
     }
 
     if (!isUnsafeRoute) {
@@ -96,6 +103,6 @@ export async function proxy(req: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!api|refresh|error|_next/static|_next/image|favicon.ico|.*\\..*).*)",
+    "/((?!api|error|_next/static|_next/image|favicon.ico|.*\\..*).*)",
   ],
 };
