@@ -12,7 +12,7 @@ type EmailVerificationModalProps = {
     className?: string
 }
 
-const EmailVerificationModal =  ({ className, show, sentMail }: EmailVerificationModalProps) => {
+const EmailVerificationModal = ({ className, show, sentMail }: EmailVerificationModalProps) => {
     const [resending, setResending] = useState(false);
     const [resendCooldown, setResendCooldown] = useState(0);
     const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -143,7 +143,7 @@ const EmailVerificationModal =  ({ className, show, sentMail }: EmailVerificatio
                 {/* Back button */}
                 <Link
                     href="/login"
-                    className={`flex h-10 w-full shrink-0 items-center justify-center rounded-md border border-border-secondary bg-[#222224] text-sm font-medium text-foreground transition-colors hover:bg-[#29292b] ${googleSans.className}`}
+                    className={`flex h-10 w-full shrink-0 items-center justify-center rounded-md border border-border-secondary bg-[#e8e8ed] dark:bg-[#222224] text-sm font-medium text-foreground transition-colors hover:bg-[#e1e1ed] dark:hover:bg-[#29292b] ${googleSans.className}`}
                 >
                     Back to login
                 </Link>
