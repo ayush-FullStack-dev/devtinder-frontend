@@ -1,6 +1,7 @@
 // /** @type {import('tailwindcss').Config} */
 
 import { screens } from "./src/styles/screens";
+import { animation } from "./src/styles/animation";
 import { colors } from "./src/styles/colors";
 import { borderRadius } from "./src/styles/radius";
 import { boxShadow } from "./src/styles/shadows";
@@ -19,6 +20,17 @@ export default {
       boxShadow,
       backgroundImage,
       backdropBlur,
+      animation,
+      keyframes: {
+        marquee: {
+          "0%": {
+            transform: "translateX(100%)",
+          },
+          "100%": {
+            transform: "translateX(-100%)",
+          },
+        },
+      },
       transitionTimingFunction,
     },
   },

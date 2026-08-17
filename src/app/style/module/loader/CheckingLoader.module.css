@@ -1,0 +1,58 @@
+.loader {
+  display: inline-block;
+  width: 15px;
+  aspect-ratio: 1;
+
+  --_g: no-repeat radial-gradient(
+    farthest-side,
+    var(--loader-color) 90%,
+    transparent
+  );
+
+  background:
+    var(--_g),
+    var(--_g),
+    var(--_g),
+    var(--_g);
+
+  background-size: 40% 40%;
+  animation: l46 1s infinite;
+}
+
+/* Light mode → dark loader */
+:global(:root) {
+  --loader-color: #18181b;
+}
+
+/* Dark mode → light loader */
+:global(.dark) {
+  --loader-color: #ececef;
+}
+
+@keyframes l46 {
+  0% {
+    background-position:
+      0 0,
+      100% 0,
+      100% 100%,
+      0 100%;
+  }
+
+  40%,
+  50% {
+    background-position:
+      100% 100%,
+      100% 0,
+      0 0,
+      0 100%;
+  }
+
+  90%,
+  100% {
+    background-position:
+      100% 100%,
+      0 100%,
+      0 0,
+      100% 0;
+  }
+}

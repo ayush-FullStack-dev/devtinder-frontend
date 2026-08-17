@@ -10,7 +10,8 @@ const RigthPanel = () => {
   const className = `
 relative overflow-hidden
 box-border gap-2 p-10 pb-3 -ml-10
-inline-flex h-[95dvh]
+inline-flex 
+h-[95dvh]
 w-[57vw]
 flex-col rounded-2xl
 

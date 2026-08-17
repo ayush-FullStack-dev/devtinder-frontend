@@ -20,10 +20,9 @@ const ActionTile = ({
   return (
     <div
       className={`group box-border w-full flex h-15 items-center justify-between rounded-lg border-2 border-border-primary bg-surface-secondary shadow-soft px-5 transition-all duration-300 ease-in-out text-foreground dark:text-foreground
-        ${
-          disabled
-            ? "cursor-not-allowed opacity-50"
-            : "cursor-pointer hover:border-primary/50 hover:bg-surface"
+        ${disabled
+          ? "cursor-not-allowed opacity-50"
+          : "cursor-pointer hover:border-primary/50 hover:bg-surface"
         }
         ${className}`}
       onClick={!disabled ? onClick : undefined}

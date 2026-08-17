@@ -246,7 +246,6 @@ const SessionApprovalContent = ({
 
   return (
     <div className="ml-2 relative">
-      {approvalInfo?.approvalId}
       <AppLoader loading={isFetching} />
       <Header
         title="Verify With Session Approval"

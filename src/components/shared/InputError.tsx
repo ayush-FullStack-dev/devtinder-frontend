@@ -6,12 +6,13 @@ type props = {
   input?: React.ReactNode;
   text: string | undefined;
   icon?: IconType;
+  className?: string
 };
 
-const InputError = ({ input, text, icon }: props) => {
+const InputError = ({ className, text, icon }: props) => {
   const Icon = icon || IoInformationCircleOutline;
   return (
-    <div className="flex items-center gap-1">
+    <div className={`flex items-center gap-1 ${className || ""}`}>
       <Icon color="var(--danger)" />
       <p className="text-danger">{text}</p>
     </div>

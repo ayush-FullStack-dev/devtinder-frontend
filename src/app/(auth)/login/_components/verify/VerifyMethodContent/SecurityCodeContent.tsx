@@ -60,7 +60,7 @@ const SecurityCodeContent = ({
   return (
     <form
       onSubmit={onSubmit}
-      className="flex flex-col h-full pl-3 pr-3 gap-2 -ml-1 relative"
+      className="flex flex-col  h-full pl-3 pr-3 gap-2 -ml-1 relative"
     >
       <Header
         title="Verify With Security Code"

@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import type { IconType } from "react-icons";
 import { FaArrowRight } from "react-icons/fa6";
 import { Loader2 } from "lucide-react";
+import { twMerge } from "tailwind-merge";
 
 type props = {
   text: string;
@@ -22,7 +23,7 @@ const PrimaryButton = ({
   btnType = "button",
   disbaled = false,
   disbaleText = "Checking...",
-  onKeyDown = () => {}
+  onKeyDown = () => { }
 }: props) => {
 
   const Icon = icon || FaArrowRight;
@@ -53,16 +54,19 @@ const PrimaryButton = ({
   return (
     <button
       type={btnType}
-      className={`box-border inline-flex h-14  pr-5 items-center  rounded-lg bg-primary  ${className} ${disbaled ? "opacity-50 cursor-not-allowed" : "cursor-pointer hover:brightness-[1.04]"
-        }`}
+      className={twMerge(
+        `box-border inline-flex h-14 pr-5 items-center rounded-lg bg-primary ${disbaled
+          ? "opacity-50 cursor-not-allowed"
+          : "cursor-pointer hover:brightness-[1.04]"
+        }`,
+        className
+      )}
       onKeyDown={onKeyDown}
-
       onClick={onClick}
       onMouseDown={pressEffect}
       onMouseUp={unpressEffect}
       onMouseLeave={unpressEffect}
       disabled={disbaled}
-
     >
       <p
         className={`font-extrabold text-lg flex-1 text-center tracking-wide text-white`}

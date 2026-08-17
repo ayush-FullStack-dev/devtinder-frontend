@@ -4,6 +4,105 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@theme {
+  --animate-code-one: code-one 18s linear infinite;
+  --animate-code-two: code-two 15s linear infinite;
+
+  @keyframes code-one {
+    0% {
+      transform: translateX(15%);
+      opacity: 1;
+    }
+
+    42% {
+      transform: translateX(-60%);
+      opacity: 1;
+    }
+
+    50% {
+      transform: translateX(-75%);
+      opacity: 1;
+    }
+
+    55% {
+      transform: translateX(-85%);
+      opacity: 1;
+    }
+
+    63% {
+      transform: translateX(-100%);
+      opacity: 1;
+    }
+
+    64% {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+
+    65% {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+
+    68% {
+      transform: translateX(95%);
+      opacity: 1;
+    }
+
+    100% {
+      transform: translateX(15%);
+      opacity: 1;
+    }
+  }
+
+  @keyframes code-two {
+    0% {
+      transform: translateX(15%);
+      opacity: 1;
+    }
+
+    42% {
+      transform: translateX(-60%);
+      opacity: 1;
+    }
+
+    50% {
+      transform: translateX(-75%);
+      opacity: 1;
+    }
+
+    55% {
+      transform: translateX(-85%);
+      opacity: 1;
+    }
+
+    63% {
+      transform: translateX(-100%);
+      opacity: 1;
+    }
+
+    64% {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+
+    65% {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+
+    68% {
+      transform: translateX(95%);
+      opacity: 1;
+    }
+
+    100% {
+      transform: translateX(15%);
+      opacity: 1;
+    }
+  }
+}
+
 @theme inline {
   --breakpoint-xxs: 300px;
   --breakpoint-xs: 360px;
@@ -59,6 +158,10 @@
   --color-warning: var(--warning);
   --color-danger: var(--danger);
 
+  --color-input: var(--input);
+  --color-input-foreground: var(--input-foreground);
+  --color-input-placeholder: var(--input-placeholder);
+
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -72,6 +175,7 @@
    runtime — this lets the `.dark` overrides below actually apply. A plain
    `@theme` block would inline the light value at build time and dead-code
    the dark shadows. */
+
 @theme inline {
   --shadow-soft: var(--shadow-soft);
   --shadow-card: var(--shadow-card);
@@ -80,6 +184,8 @@
   --shadow-showcase: var(--shadow-showcase);
   --color-nav-link: var(--nav-link);
   --color-nav-link-hover: var(--nav-link-hover);
+  --color-link: var(--link);
+  --color-link-hover: var(--link-hover);
 }
 
 :root {
@@ -89,6 +195,15 @@
 
   /* Logo monochrome */
   --foreground-logo: rgb(37, 37, 38);
+
+  /* Link */
+  --link: #0969da;
+  --link-hover: #0550ae;
+
+  /* Input */
+  --input: #d4d4d8;
+  --input-foreground: #18181b;
+  --input-placeholder: #71717a;
 
   /* Navigation */
   --nav-link-dark: #b8b9c5;
@@ -169,6 +284,10 @@
 
   --foreground-logo: #f4f4f5;
 
+  /* Link */
+  --link: #4493f8;
+  --link-hover: #6cb6ff;
+
   /* ===== Cards ===== */
   --card: #202024;
   --card-foreground: #ececef;
@@ -246,11 +365,16 @@
 
   --sidebar-accent: oklch(0.22 0.015 265);
   --sidebar-accent-foreground: #ececef;
-
   --sidebar-border: rgba(255, 255, 255, 0.08);
+
   /* Navigation */
   --nav-link: #aeb0bc;
   --nav-link-hover: rgb(124, 106, 189);
+
+  /* Input */
+  --input: rgba(255, 255, 255, 0.12);
+  --input-foreground: #ececef;
+  --input-placeholder: #a1a1aa;
 }
 
 @layer base {
@@ -285,4 +409,3 @@ input:-webkit-autofill:active {
 
   transition: background-color 9999s ease-in-out 0s;
 }
-

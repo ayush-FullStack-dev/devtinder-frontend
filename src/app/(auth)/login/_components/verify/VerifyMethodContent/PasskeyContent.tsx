@@ -132,7 +132,7 @@ const PasskeyContent = ({
         message: error.message,
       });
     }
-  } catch (err:any) {
+  } catch (err: any) {
     setError({
       name: "UnknownError",
       message: "Something went wrong",
@@ -140,7 +140,7 @@ const PasskeyContent = ({
   }
 
   return (
-    <div className="relative flex flex-col h-full gap-3 mt-5 mb-4 ml-2 mr-2  md:ml-0 md:mr-0">
+    <div className="relative flex flex-col min-h-110  gap-3 mt-5 mb-4 ml-2 mr-2  md:ml-0 md:mr-0">
       <AppLoader loading={isFetching} />
 
       <Header

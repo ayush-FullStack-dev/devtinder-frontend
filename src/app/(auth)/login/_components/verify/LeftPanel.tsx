@@ -90,7 +90,7 @@ bg-surface
           text="Back"
           onClick={navigate}
         />
-        
+
         <AuthStepper
           currentStep={step}
           steps={["Identify", "Verify"]}

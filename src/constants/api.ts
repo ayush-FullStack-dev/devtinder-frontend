@@ -11,15 +11,27 @@ export function getBaseUrl(): string {
 
 const authPath = "/auth";
 const loginPath = `${authPath}/login`;
+const refreshPath = `${authPath}/refresh`;
+const signupPath = `${authPath}/signup`;
+const resendEmailVerificationPath = `${signupPath}/resend-verification`;
+
+const checkUsernamePath = `${authPath}/check-username`;
+const checkEmailPath = `${authPath}/check-email`;
+
 const systemPath = "/system";
+const healthPath = `${systemPath}/health`;
 
 export const routes = {
   accountInfo: `${authPath}/me/`,
   login: loginPath,
   loginIdentify: `${loginPath}/identify/`,
   loginVerify: `${loginPath}/confirm/`,
-  refresh: `${authPath}/refresh`,
-  systemHealth: `${systemPath}/health/`,
+  refresh: refreshPath,
+  checkUsername: checkUsernamePath,
+  checkEmail: checkEmailPath,
+  signup: signupPath,
+  resendEmailVerification: resendEmailVerificationPath,
+  systemHealth: healthPath,
 } as const;
 
 export function apiUrl(path: string): string {

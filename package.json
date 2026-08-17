@@ -9,7 +9,10 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
     "@hookform/resolvers": "^5.4.0",
+    "@mui/material": "^9.3.1",
     "@phosphor-icons/react": "^2.1.10",
     "@remixicon/react": "^4.9.0",
     "@simplewebauthn/browser": "^13.3.0",
