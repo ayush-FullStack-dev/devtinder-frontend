@@ -381,19 +381,9 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
-    background-image:
-      radial-gradient(
-        1100px 700px at 12% -10%,
-        rgba(120, 110, 255, 0.1),
-        transparent 55%
-      ),
-      radial-gradient(
-        900px 600px at 108% 0%,
-        rgba(120, 110, 255, 0.08),
-        transparent 50%
-      );
   }
   html {
     @apply font-sans;
