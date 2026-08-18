@@ -5,10 +5,11 @@ const IdentifyFormSection = () => {
   return (
     <main
       className="
-        min-h-dvh
-        md:min-h-160
         w-full
-        p-0
+        overflow-x-hidden
+        overflow-y-auto
+        py-3
+        min-h-dvh
         xl:px-[1.4vw]
         flex
         items-center
@@ -30,4 +31,5 @@ const IdentifyFormSection = () => {
     </main>
   );
 };
+
 export default IdentifyFormSection;

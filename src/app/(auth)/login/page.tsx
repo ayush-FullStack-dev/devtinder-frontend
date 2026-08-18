@@ -14,7 +14,7 @@ const LoginPage = () => {
 
 
   return (
-    <main className="min-h-dvh  bg-background">
+    <main className=" min-h-dvh bg-background">
         {step === 1 ? <IdentifyFormSection /> : <VerifyIdentitySection />}
     </main>
   );

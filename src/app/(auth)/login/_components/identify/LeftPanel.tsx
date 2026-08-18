@@ -10,25 +10,21 @@ const LeftPanel = () => {
   return (
     <div
       className="
-        static
-        flex
-        flex-col
-        justify-evenly
-        min-h-dvh
-        md:min-h-150
-        w-screen
-        md:w-[85vw]
-        xl:w-[43vw]
-        md:h-[95dvh]
-        py-3
-        rounded-none
-        md:rounded-xl
-        bg-surface
-        border
-        border-border-primary
-        shadow-none
-        md:shadow-card
-      "
+      fixed
+      top-0
+      md:static
+     flex flex-col
+    justify-evenly
+  w-screen
+  md:w-[85vw]
+  xl:w-[43vw]
+ h-dvh min-h-160 
+  md:h-[95dvh]
+  rounded-none md:rounded-xl
+  bg-surface
+  border border-border-primary
+  shadow-none md:shadow-card
+"
     >
       <div className="
 flex flex-col
@@ -37,7 +33,7 @@ flex flex-col
  px-3 xs:px-4 sm:px-5 justify-evenly 
 ">
 
-        <LogoHorizontal className="mt-2 lg:mb-5" monoChrome={true} />
+        <LogoHorizontal className="mt-2 lg:mb-5" monoChrome={true}/>
 
         <AuthHeader />
 
