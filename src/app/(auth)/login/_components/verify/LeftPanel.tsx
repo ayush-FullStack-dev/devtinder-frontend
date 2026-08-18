@@ -68,21 +68,28 @@ const LeftPanel = ({ onResponseResolve, isTrusted }: ResponseResolveProps) => {
 
   return (
     <div
-      className={`
-        box-border gap-3 items-stretch inline-flex  flex-col  rounded-none md:rounded-xl
-      fixed
-      top-0
-      md:static
-     md:p-3
-  h-dvh overflow-hidden
+      className="
+  box-border
+  inline-flex flex-col
+  items-stretch justify-evenly
+  gap-3
+
+  h-dvh min-h-155
+  w-screen
+  overflow-hidden
+
+  rounded-none
+  border border-border-primary
+  bg-surface
+  shadow-card
+
   md:h-[96dvh]
-        w-screen
-   md:w-[85vw]
+  md:w-[85vw]
+  md:rounded-xl
+  md:p-3
+
   xl:w-[49vw]
-bg-surface
-    border
-    border-border-primary shadow-card
-    `}
+"
     >
       <span>
         <BackButton

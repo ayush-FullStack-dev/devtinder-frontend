@@ -26,9 +26,10 @@ before:pointer-events-none
 
   return (
     <div
-className={`relative z-10 overflow-hidden
+className={`relative z-10 
+ min-h-155 overflow-hidden
 box-border gap-2 -ml-5
- h-[95dvh] w-[52vw] xl:w-[50vw] rounded-2xl 
+ h-[96dvh] w-[52vw] xl:w-[50vw] rounded-2xl 
  ${styleClassName}`}
     >
       <DecorativeCurve className="absolute -z-1 h-130 -top-4 opacity-55 -left-4" />

@@ -52,10 +52,10 @@ const VerifyMethodSelector = ({
 
   return (
     <div
-      className={`relative min-h-130 w-full flex flex-col gap-3  box-border px-2 ${className ?? ""
+      className={`relative h-dvh min-h-110 w-full flex flex-col gap-3 overflow-hidden box-border px-2 ${className ?? ""
         }`}
     >
-      <div className="flex-1 min-h-0 w-full ">
+      <div className="flex-1 min-h-0 w-full overflow-hidden">
         <RadioGroup
           value={selectedMethod}
           onValueChange={(value) => setSelectedMethod(value as LoginMethod)}

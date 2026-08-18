@@ -75,8 +75,12 @@ const VerifyIdentitySection = () => {
       <AppLoader loading={isFetching} />
       <div
         className="
-        flex
-    h-dvh w-full
+          h-dvh
+        min-h-dvh
+        md:min-h-165
+        w-full  
+      overflow-x-hidden
+         flex
 xl:px-[1.3vw]
 items-center-safe
 xl:items-center

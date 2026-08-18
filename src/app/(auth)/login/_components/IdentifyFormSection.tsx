@@ -5,9 +5,10 @@ const IdentifyFormSection = () => {
   return (
     <main
       className="
+       relative
         w-full
         min-h-dvh
-        md:min-h-150
+        md:min-h-160
         overflow-x-hidden
         xl:px-[1.4vw]
         flex
@@ -17,7 +18,6 @@ const IdentifyFormSection = () => {
         justify-start
         md:justify-center
         xl:justify-start
-        relative
       "
     >
       <div className="relative">

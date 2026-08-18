@@ -19,7 +19,7 @@ const LeftPanel = () => {
     xl:w-[43vw]
 h-dvh
     md:h-[95dvh]
-    min-h-145
+    min-h-155
     rounded-none md:rounded-xl
     bg-surface
     border border-border-primary
