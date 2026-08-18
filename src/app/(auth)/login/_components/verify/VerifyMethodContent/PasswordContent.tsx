@@ -75,7 +75,7 @@ const PasswordContent = ({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col min-h-105  h-full -mt-2 gap-3 ml-2 mr-2 relative"
+      className="relative flex min-h-0 flex-1 flex-col gap-3 -mt-2 ml-2 mr-2"
     >
       <Header
         title="Verify With Password"
@@ -128,8 +128,9 @@ const PasswordContent = ({
         </Link>
       </div>
 
+
       <PrimaryButton
-        className={`absolute bottom-2 w-full`}
+        className="mt-auto w-full"
         btnType="submit"
         text="Continue"
         disbaleText="Signing in..."

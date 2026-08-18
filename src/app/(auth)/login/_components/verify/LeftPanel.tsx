@@ -74,7 +74,7 @@ const LeftPanel = ({ onResponseResolve, isTrusted }: ResponseResolveProps) => {
   items-stretch justify-evenly
   gap-3
 
-  h-dvh min-h-155
+  h-dvh min-h-180
   w-screen
   overflow-hidden
 
