@@ -14,6 +14,7 @@ const loginPath = `${authPath}/login`;
 const refreshPath = `${authPath}/refresh`;
 const signupPath = `${authPath}/signup`;
 const resendEmailVerificationPath = `${signupPath}/resend-verification`;
+const signupVerifyPath = `${authPath}/verify`;
 
 const checkUsernamePath = `${authPath}/check-username`;
 const checkEmailPath = `${authPath}/check-email`;
@@ -30,6 +31,7 @@ export const routes = {
   checkUsername: checkUsernamePath,
   checkEmail: checkEmailPath,
   signup: signupPath,
+  signupVerify: signupVerifyPath,
   resendEmailVerification: resendEmailVerificationPath,
   systemHealth: healthPath,
 } as const;

@@ -185,6 +185,10 @@
   --color-nav-link: var(--nav-link);
   --color-nav-link-hover: var(--nav-link-hover);
   --color-link: var(--link);
+  --color-green-primary: var(--green-primary);
+  --color-green-dark: var(--green-dark);
+  --color-green-hover: var(--green-hover);
+  --color-green-accent: var(--green-accent);
   --color-link-hover: var(--link-hover);
 }
 
@@ -195,6 +199,12 @@
 
   /* Logo monochrome */
   --foreground-logo: rgb(37, 37, 38);
+
+  /* Green Brand Palette */
+  --green-primary: #208d63;
+  --green-dark: #166d4c;
+  --green-hover: #17875e;
+  --green-accent: #25b17b;
 
   /* Link */
   --link: #0969da;
@@ -311,6 +321,12 @@
   --muted: oklch(0.2 0.012 265);
   --muted-foreground: #a1a1aa;
   --foreground-muted: #b4b4be;
+
+  /* ===== Green Brand Palette ===== */
+  --green-primary: #208d63;
+  --green-dark: #166d4c;
+  --green-hover: #17875e;
+  --green-accent: #25b17b;
 
   /* ===== Accent ===== */
   --accent: #4940e3;

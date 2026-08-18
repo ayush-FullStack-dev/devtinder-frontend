@@ -1,21 +1,31 @@
-"use client"
+"use client";
 
-import { googleSans, googleSansFlex } from "@/assets/fonts/font.google"
-import LogoMark from "@/components/brand/LogoMark"
-import { apiUrl, routes } from "@/constants/api"
-import Link from "next/link"
-import { useCallback, useEffect, useRef, useState } from "react"
+import { googleSans, googleSansFlex } from "@/assets/fonts/font.google";
+import LogoMark from "@/components/brand/LogoMark";
+import { apiUrl, routes } from "@/constants/api";
+import { getSocket } from "@/lib/socket";
+import Link from "next/link";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 
 type EmailVerificationModalProps = {
-    show: boolean
-    sentMail: string
-    className?: string
-}
+    show: boolean;
+    sentMail: string;
+    className?: string;
+};
 
-const EmailVerificationModal = ({ className, show, sentMail }: EmailVerificationModalProps) => {
+const EmailVerificationModal = ({
+    className,
+    show,
+    sentMail,
+}: EmailVerificationModalProps) => {
+    const router = useRouter();
+
     const [resending, setResending] = useState(false);
     const [resendCooldown, setResendCooldown] = useState(0);
+
     const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+    const redirectingRef = useRef(false);
 
     const clearTimer = useCallback(() => {
         if (intervalRef.current !== null) {
@@ -26,17 +36,61 @@ const EmailVerificationModal = ({ className, show, sentMail }: EmailVerification
 
     const startCooldown = useCallback(() => {
         clearTimer();
+
         setResendCooldown(30);
+
         intervalRef.current = setInterval(() => {
             setResendCooldown((prev) => {
                 if (prev <= 1) {
                     clearTimer();
                     return 0;
                 }
+
                 return prev - 1;
             });
         }, 1000);
     }, [clearTimer]);
+
+    useEffect(() => {
+        if (!show || !sentMail) return;
+
+        const normalizedEmail = sentMail.trim().toLowerCase();
+
+        const socket = getSocket(
+            `/auth?type=verification&email=${encodeURIComponent(normalizedEmail)}`,
+        );
+        
+        const handleVerified = (data: { emailId?: string }) => {
+            const verifiedEmail = data?.emailId
+                ?.trim()
+                .toLowerCase();
+
+            if (
+                verifiedEmail &&
+                verifiedEmail !== normalizedEmail
+            ) {
+                return;
+            }
+
+            if (redirectingRef.current) return;
+
+            redirectingRef.current = true;
+
+            socket.off("email:verified", handleVerified);
+
+            router.replace("/dashboard");
+        };
+
+        socket.on("email:verified", handleVerified);
+
+        if (!socket.connected) {
+            socket.connect();
+        }
+
+        return () => {
+            socket.off("email:verified", handleVerified);
+        };
+    }, [show, sentMail, router]);
 
     useEffect(() => {
         if (show) {
@@ -45,8 +99,13 @@ const EmailVerificationModal = ({ className, show, sentMail }: EmailVerification
             clearTimer();
             setResendCooldown(0);
         }
+
         return clearTimer;
-    }, [show, startCooldown, clearTimer]);
+    }, [
+        show,
+        startCooldown,
+        clearTimer,
+    ]);
 
     const resend = async () => {
         if (resending || resendCooldown > 0) return;
@@ -64,18 +123,20 @@ const EmailVerificationModal = ({ className, show, sentMail }: EmailVerification
                     body: JSON.stringify({
                         email: sentMail,
                     }),
-                }
+                },
             );
 
             const data = await response.json();
 
             if (!response.ok) {
                 throw new Error(
-                    data?.message || "Failed to resend verification email"
+                    data?.message ||
+                    "Failed to resend verification email",
                 );
             }
 
             startCooldown();
+        } catch (error) {
         } finally {
             setResending(false);
         }
@@ -85,29 +146,43 @@ const EmailVerificationModal = ({ className, show, sentMail }: EmailVerification
         <main
             className={
                 show
-                    ? `fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-[1px] ${className ?? ""
-                    }`
+                    ? `
+                        fixed
+                        inset-0
+                        z-50
+                        flex
+                        items-center
+                        justify-center
+                        bg-black/20
+                        px-4
+                        backdrop-blur-[1px]
+                        ${className ?? ""}
+                    `
                     : "hidden"
             }
         >
             <div
                 className="
-    relative
-    box-border
-    flex flex-col
-    items-center
-    w-[calc(100%-2rem)]
-    max-w-[420px]
-    min-w-0
-    min-h-[420px]
-    max-h-[90dvh]
-    rounded-xl
-    border border-border-secondary
-    bg-background
-    px-4 pb-5 pt-7
-  "
+                    relative
+                    box-border
+                    flex
+                    min-h-[420px]
+                    max-h-[90dvh]
+                    w-full
+                    max-w-[420px]
+                    min-w-0
+                    flex-col
+                    items-center
+                    rounded-xl
+                    border
+                    border-border-secondary
+                    bg-background
+                    px-5
+                    pb-5
+                    pt-7
+                    sm:px-6
+                "
             >
-
                 {/* Logo */}
                 <LogoMark
                     monoChrome={true}
@@ -116,34 +191,61 @@ const EmailVerificationModal = ({ className, show, sentMail }: EmailVerification
 
                 {/* Heading */}
                 <h1
-                    className={`mt-5 text-xl font-bold ${googleSansFlex.className}`}
+                    className={`
+                        ${googleSansFlex.className}
+                        mt-5
+                        text-xl
+                        font-bold
+                        tracking-tight
+                    `}
                 >
                     Verify your email
                 </h1>
 
                 {/* Email message */}
                 <div
-                    className={`mt-2 text-center text-sm leading-5 ${googleSans.className}`}
+                    className={`
+                        ${googleSans.className}
+                        mt-2
+                        text-center
+                        text-sm
+                        leading-5
+                    `}
                 >
                     <p className="text-muted-foreground">
                         We've sent a verification link to
                     </p>
 
-                    <p className="font-medium text-foreground">
+                    <p className="mt-0.5 break-all font-medium text-foreground">
                         {sentMail}
                     </p>
                 </div>
 
                 {/* Resend */}
                 <p
-                    className={`mt-8 text-sm text-muted-foreground ${googleSans.className}`}
+                    className={`
+                        ${googleSans.className}
+                        mt-8
+                        text-sm
+                        text-muted-foreground
+                    `}
                 >
                     Don't see a link?{" "}
                     <button
                         type="button"
                         onClick={resend}
-                        disabled={resending || resendCooldown > 0}
-                        className="underline underline-offset-2 transition-opacity hover:opacity-70 disabled:cursor-not-allowed disabled:opacity-50"
+                        disabled={
+                            resending ||
+                            resendCooldown > 0
+                        }
+                        className="
+                            underline
+                            underline-offset-2
+                            transition-opacity
+                            hover:opacity-70
+                            disabled:cursor-not-allowed
+                            disabled:opacity-50
+                        "
                     >
                         {resending
                             ? "Sending..."
@@ -159,12 +261,40 @@ const EmailVerificationModal = ({ className, show, sentMail }: EmailVerification
                 {/* Back button */}
                 <Link
                     href="/login"
-                    className={`flex h-10 w-full shrink-0 items-center justify-center rounded-md border border-border-secondary bg-[#e8e8ed] dark:bg-[#222224] text-sm font-medium text-foreground transition-colors hover:bg-[#e1e1ed] dark:hover:bg-[#29292b] ${googleSans.className}`}
+                    className={`
+                        ${googleSans.className}
+                        flex
+                        h-10
+                        w-full
+                        shrink-0
+                        items-center
+                        justify-center
+                        rounded-md
+                        border
+                        border-border-secondary
+                        bg-[#e8e8ed]
+                        text-sm
+                        font-medium
+                        text-foreground
+                        transition-colors
+                        hover:bg-[#e1e1ed]
+                        dark:bg-[#222224]
+                        dark:hover:bg-[#29292b]
+                    `}
                 >
                     Back to login
                 </Link>
+
+                {/* Terms */}
                 <p
-                    className={`mt-4 text-center text-[11px] leading-4 text-muted-foreground ${googleSans.className}`}
+                    className={`
+                        ${googleSans.className}
+                        mt-4
+                        text-center
+                        text-[11px]
+                        leading-4
+                        text-muted-foreground
+                    `}
                 >
                     By continuing, you agree to our{" "}
                     <Link
@@ -187,7 +317,7 @@ const EmailVerificationModal = ({ className, show, sentMail }: EmailVerification
                 </p>
             </div>
         </main>
-    )
-}
+    );
+};
 
-export default EmailVerificationModal
+export default EmailVerificationModal;

@@ -92,7 +92,6 @@ const SignupForm = ({
       const result = await response.json();
 
       if (!response.ok) {
-        console.error(result);
         return;
       }
 
@@ -108,7 +107,6 @@ const SignupForm = ({
 
       setVerificationSent(true);
 
-      console.log("Signup successful:", result);
     } catch (error) {
       console.error("Signup failed:", error);
     } finally {

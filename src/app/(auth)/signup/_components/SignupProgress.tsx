@@ -17,7 +17,7 @@ const SignupProgress = ({
     return (
         <div
             className={twMerge(
-                `flex flex-col gap-2 text-[#208d63] dark:text-[#25b17b] ${googleSansFlex.className}`,
+                `flex flex-col gap-2 text-green-primary ${googleSansFlex.className}`,
                 className
             )}
         >
@@ -25,7 +25,7 @@ const SignupProgress = ({
 
             <div className="h-2 w-full overflow-hidden rounded-md bg-[#d4dae0] dark:bg-[#242426]">
                 <div
-                    className="h-full rounded-md bg-[#1e724f] transition-[width] duration-300 ease-out"
+                    className="h-full rounded-md bg-green-dark transition-[width] duration-300 ease-out"
                     style={{ width: `${progress}%` }}
                 />
             </div>
