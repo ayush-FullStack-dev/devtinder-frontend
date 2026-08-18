@@ -11,6 +11,7 @@ import {
     Select,
     type SelectChangeEvent,
 } from "@mui/material";
+import { useState } from "react";
 
 type SelectOption = {
     value: string;
@@ -53,8 +54,15 @@ const FloatingLabelSelect = <T extends FieldValues>({
         field.onChange(event);
     };
 
+    const [open, setOpen] = useState(false);
+
+    const openSelect = () => {
+        setOpen(true);
+    };
+
     return (
         <div
+            onMouseDown={openSelect}
             className={`relative inline-flex h-15 w-full items-center rounded-lg ${className ?? ""
                 }`}
             style={{
@@ -66,20 +74,20 @@ const FloatingLabelSelect = <T extends FieldValues>({
             <label
                 htmlFor={name}
                 className={`
-          pointer-events-none
-          absolute
-          left-4
-          z-5
-          bg-background
-          px-1
-          text-input-placeholder
-          transition-all
-          duration-200
-          ${isFloating
+                pointer-events-none
+                absolute
+                left-4
+                z-5
+                bg-background
+                px-1
+                text-input-placeholder
+                transition-all
+                duration-200
+                ${isFloating
                         ? "-top-3 text-[14px]"
                         : "top-1/2 -translate-y-1/2 text-[16px]"
                     }
-        `}
+            `}
             >
                 {text}
             </label>
@@ -89,7 +97,13 @@ const FloatingLabelSelect = <T extends FieldValues>({
                     {...field}
                     id={name}
                     value={value ?? ""}
-                    onChange={handleChange}
+                    onChange={(event) => {
+                        handleChange(event);
+                        setOpen(false);
+                    }}
+                    open={open}
+                    onOpen={() => setOpen(true)}
+                    onClose={() => setOpen(false)}
                     displayEmpty
                     variant="standard"
                     disableUnderline
@@ -132,8 +146,9 @@ const FloatingLabelSelect = <T extends FieldValues>({
                         }
 
                         return (
-                            options.find((option) => option.value === selected)?.label ??
-                            selected
+                            options.find(
+                                (option) => option.value === selected
+                            )?.label ?? selected
                         );
                     }}
                 >
@@ -142,7 +157,10 @@ const FloatingLabelSelect = <T extends FieldValues>({
                     </MenuItem>
 
                     {options.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
+                        <MenuItem
+                            key={option.value}
+                            value={option.value}
+                        >
                             {option.label}
                         </MenuItem>
                     ))}

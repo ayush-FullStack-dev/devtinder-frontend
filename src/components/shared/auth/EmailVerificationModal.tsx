@@ -90,7 +90,23 @@ const EmailVerificationModal = ({ className, show, sentMail }: EmailVerification
                     : "hidden"
             }
         >
-            <div className="relative box-border flex h-[50%] w-[28%] min-w-[320px] flex-col items-center rounded-xl border border-border-secondary bg-background px-4 pb-5 pt-7">
+            <div
+                className="
+    relative
+    box-border
+    flex flex-col
+    items-center
+    w-[calc(100%-2rem)]
+    max-w-[420px]
+    min-w-0
+    min-h-[420px]
+    max-h-[90dvh]
+    rounded-xl
+    border border-border-secondary
+    bg-background
+    px-4 pb-5 pt-7
+  "
+            >
 
                 {/* Logo */}
                 <LogoMark
@@ -147,14 +163,14 @@ const EmailVerificationModal = ({ className, show, sentMail }: EmailVerification
                 >
                     Back to login
                 </Link>
-
-                {/* Terms */}
                 <p
                     className={`mt-4 text-center text-[11px] leading-4 text-muted-foreground ${googleSans.className}`}
                 >
                     By continuing, you agree to our{" "}
                     <Link
                         href="/terms"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="underline underline-offset-2"
                     >
                         Terms of Service
@@ -162,6 +178,8 @@ const EmailVerificationModal = ({ className, show, sentMail }: EmailVerification
                     <span>•</span>{" "}
                     <Link
                         href="/privacy"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="underline underline-offset-2"
                     >
                         Privacy Policy
