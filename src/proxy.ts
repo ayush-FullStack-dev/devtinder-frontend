@@ -6,6 +6,7 @@ import { backendProxy } from "./lib/proxy/backendProxy";
 import { refreshAuth } from "./lib/auth/refreshAuth";
 
 const unSafeRoute = ["/login", "/signup"];
+const excludePages = ["/_next", "/favicon.ico"];
 
 export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
@@ -26,10 +27,6 @@ export async function proxy(req: NextRequest) {
 
     if (!VALID_ROUTES.includes(pathname) && !isDynamicRouteValid) {
       return NextResponse.rewrite(safeAppUrl("/not-found"));
-    }
-
-    if (pathname === "/" || pathname === "/dashboard") {
-      return NextResponse.next();
     }
 
     const cookieHeader = req.headers.get("cookie") || "";
@@ -103,6 +100,6 @@ export async function proxy(req: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!api|error|_next/static|_next/image|favicon.ico|.*\\..*).*)",
+    "/((?!api|error|verify|dashboard|_next/static|_next/image|favicon.ico|.*\\..*).*)",
   ],
 };

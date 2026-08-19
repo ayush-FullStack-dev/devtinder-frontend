@@ -27,7 +27,7 @@ before:pointer-events-none
   return (
     <div
       className={`relative z-10 
-   h-[96dvh] min-h-180 overflow-hidden
+   h-[96dvh] min-h-175 overflow-hidden
 box-border gap-2 -ml-5
   w-[52vw] xl:w-[50vw] rounded-2xl 
  ${styleClassName}`}

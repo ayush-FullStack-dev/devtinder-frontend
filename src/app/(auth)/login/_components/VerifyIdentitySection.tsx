@@ -77,7 +77,7 @@ const VerifyIdentitySection = () => {
         className="
           h-dvh
         min-h-dvh
-        md:min-h-185
+        md:min-h-180
         w-full  
       overflow-x-hidden
          flex

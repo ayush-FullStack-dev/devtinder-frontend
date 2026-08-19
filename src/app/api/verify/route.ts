@@ -35,10 +35,25 @@ export async function GET(request: NextRequest) {
       status = "error";
     }
 
-    const response = NextResponse.redirect(
-      new URL(`/verify?status=${status}`, request.url),
-      303,
-    );
+    let email: string | undefined;
+
+    try {
+      const data = await backendResponse.clone().json();
+
+      if (typeof data?.email === "string" && data.email.trim()) {
+        email = data.email.trim().toLowerCase();
+      }
+    } catch {}
+
+    const verifyUrl = new URL("/verify", request.url);
+
+    verifyUrl.searchParams.set("status", status);
+
+    if (email) {
+      verifyUrl.searchParams.set("email", email);
+    }
+
+    const response = NextResponse.redirect(verifyUrl, 303);
 
     const setCookies = backendResponse.headers.getSetCookie
       ? backendResponse.headers.getSetCookie()
