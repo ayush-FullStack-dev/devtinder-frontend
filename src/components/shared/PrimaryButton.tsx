@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useRef } from "react";
 import type { IconType } from "react-icons";
 import { FaArrowRight } from "react-icons/fa6";
@@ -13,6 +15,7 @@ type props = {
   className?: string;
   disbaled?: boolean;
   disbaleText?: string;
+  showIcon?: boolean
 };
 
 const PrimaryButton = ({
@@ -23,9 +26,9 @@ const PrimaryButton = ({
   btnType = "button",
   disbaled = false,
   disbaleText = "Checking...",
-  onKeyDown = () => { }
+  onKeyDown = () => { },
+  showIcon = true
 }: props) => {
-
   const Icon = icon || FaArrowRight;
   const pressStartTime = useRef<number>(0);
 
@@ -55,9 +58,13 @@ const PrimaryButton = ({
     <button
       type={btnType}
       className={twMerge(
-        `box-border inline-flex h-14 pr-5 items-center rounded-lg bg-primary ${disbaled
+        `box-border inline-flex h-14 items-center text-center rounded-lg bg-[#1d845c]
+    transition-all duration-300 ease-out
+    text-lg
+    text-white
+    ${disbaled
           ? "opacity-50 cursor-not-allowed"
-          : "cursor-pointer hover:brightness-[1.04]"
+          : "cursor-pointer hover:opacity-90 active:scale-[0.98]"
         }`,
         className
       )}
@@ -69,14 +76,14 @@ const PrimaryButton = ({
       disabled={disbaled}
     >
       <p
-        className={`font-extrabold text-lg flex-1 text-center tracking-wide text-white`}
+        className={`font-extrabold  flex-1 text-center tracking-wide`}
       >
         {disbaled ? disbaleText : text}
       </p>
       {disbaled ? (
-        <Loader2 className="animate-spin" />
+        <Loader2 className="animate-spin mr-4" />
       ) : (
-        <Icon size="25" color="white" className="ml-auto" />
+        showIcon ? <Icon size="25" className="ml-auto mr-4" /> : null
       )}
     </button>
   );

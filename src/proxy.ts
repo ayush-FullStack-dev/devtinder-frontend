@@ -6,7 +6,8 @@ import { backendProxy } from "./lib/proxy/backendProxy";
 import { refreshAuth } from "./lib/auth/refreshAuth";
 
 const unSafeRoute = ["/login", "/signup"];
-const excludePages = ["/_next", "/favicon.ico"];
+
+const excludeRoutes = ["/", "/dashboard", "/verify"];
 
 export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
@@ -16,6 +17,12 @@ export async function proxy(req: NextRequest) {
     pathname.startsWith("/backend-api/")
   ) {
     return backendProxy(req);
+  }
+
+  const isExcludedRoute = excludeRoutes.includes(pathname);
+
+  if (isExcludedRoute) {
+    return NextResponse.next();
   }
 
   const isUnsafeRoute = unSafeRoute.some((route) => pathname.startsWith(route));
@@ -55,7 +62,9 @@ export async function proxy(req: NextRequest) {
         const redirectResponse = NextResponse.redirect(
           safeAppUrl("/dashboard"),
         );
+
         redirectResponse.headers.set("x-user-data", userDataString);
+
         return redirectResponse;
       }
 
@@ -99,7 +108,5 @@ export async function proxy(req: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    "/((?!api|error|verify|dashboard|_next/static|_next/image|favicon.ico|.*\\..*).*)",
-  ],
+  matcher: ["/((?!api|error|_next/static|_next/image|favicon.ico|.*\\..*).*)"],
 };

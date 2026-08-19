@@ -164,7 +164,7 @@ const SignupForm = ({
       </div>
 
       <PrimaryButton
-        className="mt-3 w-full bg-[#166D4C]"
+        className="mt-3 w-full"
         btnType="submit"
         text="Create account"
         disbaleText="Creating account..."

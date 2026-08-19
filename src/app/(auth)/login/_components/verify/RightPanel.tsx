@@ -7,48 +7,58 @@ import DecorativeCurve from "@/../public/images/DecorativeCurve.svg";
 
 const RightPanel = () => {
   const styleClassName = `
-bg-linear-to-br
-from-[var(--grad-showcase-from)]
-via-[var(--grad-showcase-via)]
-to-[var(--grad-showcase-to)]
+    bg-[#f1f1f2]
+    border
+    border-[#dedee1]
 
-border
-border-[var(--grad-showcase-border)]
+    shadow-[0_20px_60px_rgba(24,24,27,0.08)]
 
-shadow-showcase
-
-before:absolute
-before:inset-0
-before:[background-image:var(--grad-showcase-glow)]
-
-before:pointer-events-none
-`;
+    dark:bg-[#181a19]
+    dark:border-white/[0.08]
+    dark:shadow-[0_20px_80px_rgba(0,0,0,0.55)]
+  `;
 
   return (
     <div
-      className={`relative z-10 
-   h-[96dvh] min-h-175 overflow-hidden
-box-border gap-2 -ml-5
-  w-[52vw] xl:w-[50vw] rounded-2xl 
- ${styleClassName}`}
+      className={`
+        relative
+        z-10
+        h-[96dvh]
+        min-h-175
+        w-[52vw]
+        xl:w-[50vw]
+        overflow-hidden
+        box-border
+        -ml-5
+        rounded-2xl
+        ${styleClassName}
+      `}
     >
-      <DecorativeCurve className="absolute -z-1 h-130 -top-4 opacity-55 -left-4" />
-      <div className={`absolute inset-0 flex flex-col items-center justify-center`}>
+      <DecorativeCurve
+        className="
+          absolute
+          -z-1
+          h-130
+          -top-4
+          -left-4
+          opacity-10
+          dark:opacity-20
+        "
+      />
 
-
-
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
         <HeroIllustration
           image={SecurityIllustration}
           className="w-[36em] h-auto mr-10"
         />
 
         <Header
-          title="Your Securty, Our Priority"
-          description="We use multiple secure method to make sure only you can access your account."
+          title="Your Security, Our Priority"
+          description="We use multiple secure methods to make sure only you can access your account."
           className="-mt-20 mr-auto ml-auto"
         />
 
-        <div className="flex flex-col gap-3 mt-2 " >
+        <div className="mt-2 flex flex-col gap-3">
           <FeatureItem
             title="Passkey Authentication"
             description="Sign in securely using your device's built-in authentication."
@@ -67,7 +77,6 @@ box-border gap-2 -ml-5
             icon={HiOutlineShieldCheck}
           />
         </div>
-
       </div>
     </div>
   );

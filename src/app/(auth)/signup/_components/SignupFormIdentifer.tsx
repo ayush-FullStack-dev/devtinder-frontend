@@ -399,7 +399,7 @@ const SignupFormIdentifer = ({ setStep, setSignupData, signupData }: SignupFormI
       </div>
 
       <PrimaryButton
-        className="mt-2 w-full bg-[#166D4C]"
+        className="mt-2 w-full"
         btnType="submit"
         text="Continue"
         disbaled={isSubmiting}

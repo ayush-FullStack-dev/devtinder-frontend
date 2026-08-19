@@ -1,0 +1,40 @@
+<svg
+  viewBox="40 44.5 660 80"
+  xmlns="http://www.w3.org/2000/svg"
+  width="660"
+  height="80"
+>
+  <text
+    fill="currentColor"
+    font-weight="700"
+    font-size="96"
+    font-family="Inter, SF Pro Display, Helvetica, Arial, sans-serif"
+    y="118"
+    x="40"
+  >
+    Dev
+  </text>
+
+  <text
+    fill="currentColor"
+    font-weight="700"
+    font-size="96"
+    font-family="Inter, SF Pro Display, Helvetica, Arial, sans-serif"
+    y="118"
+    x="205"
+  >
+    Tinder
+  </text>
+
+  <!-- Trademark -->
+  <text
+    fill="currentColor"
+    font-weight="600"
+    font-size="40"
+    font-family="Inter, SF Pro Display, Helvetica, Arial, sans-serif"
+    y="72"
+    x="495"
+  >
+    ™
+  </text>
+</svg>

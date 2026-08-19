@@ -110,9 +110,12 @@
   --breakpoint-3xl: 1920px;
   --breakpoint-4xl: 2560px;
   --breakpoint-5xl: 3840px;
+
   --text-mid: 1.0625rem;
+
   --font-heading: var(--font-sans);
   --font-sans: var(--font-sans);
+
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -121,11 +124,13 @@
   --color-sidebar-primary: var(--sidebar-primary);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar: var(--sidebar);
+
   --color-chart-5: var(--chart-5);
   --color-chart-4: var(--chart-4);
   --color-chart-3: var(--chart-3);
   --color-chart-2: var(--chart-2);
   --color-chart-1: var(--chart-1);
+
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
@@ -158,7 +163,6 @@
   --color-warning: var(--warning);
   --color-danger: var(--danger);
 
-  --color-input: var(--input);
   --color-input-foreground: var(--input-foreground);
   --color-input-placeholder: var(--input-placeholder);
 
@@ -171,25 +175,43 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-/* Shadows are mapped via `inline` so utilities emit `var(--shadow-*)` at
-   runtime — this lets the `.dark` overrides below actually apply. A plain
-   `@theme` block would inline the light value at build time and dead-code
-   the dark shadows. */
-
 @theme inline {
   --shadow-soft: var(--shadow-soft);
   --shadow-card: var(--shadow-card);
   --shadow-float: var(--shadow-float);
   --shadow-primary: var(--shadow-primary);
   --shadow-showcase: var(--shadow-showcase);
+
   --color-nav-link: var(--nav-link);
   --color-nav-link-hover: var(--nav-link-hover);
+
   --color-link: var(--link);
+  --color-link-hover: var(--link-hover);
+
+  /* ===== Green Brand Palette ===== */
+  --color-green-50: var(--green-50);
+  --color-green-100: var(--green-100);
+  --color-green-200: var(--green-200);
+  --color-green-300: var(--green-300);
+  --color-green-400: var(--green-400);
+  --color-green-500: var(--green-500);
+  --color-green-600: var(--green-600);
+  --color-green-700: var(--green-700);
+  --color-green-800: var(--green-800);
+  --color-green-900: var(--green-900);
+  --color-green-950: var(--green-950);
+
+  /* ===== Brand ===== */
+  --color-green-brand: var(--green-brand);
+
+  /* ===== Semantic Green ===== */
   --color-green-primary: var(--green-primary);
   --color-green-dark: var(--green-dark);
   --color-green-hover: var(--green-hover);
   --color-green-accent: var(--green-accent);
-  --color-link-hover: var(--link-hover);
+  --color-green-light: var(--green-light);
+  --color-green-muted: var(--green-muted);
+  --color-green-subtle: var(--green-subtle);
 }
 
 :root {
@@ -200,15 +222,34 @@
   /* Logo monochrome */
   --foreground-logo: rgb(37, 37, 38);
 
-  /* Green Brand Palette */
-  --green-primary: #208d63;
-  --green-dark: #166d4c;
-  --green-hover: #17875e;
-  --green-accent: #25b17b;
+  /* ===== Green Brand Palette ===== */
+  --green-50: #f0fdf6;
+  --green-100: #dcfce9;
+  --green-200: #bbf7d3;
+  --green-300: #86efb3;
+  --green-400: #4ade8b;
+  --green-500: #22c77a;
+  --green-600: #16a968;
+  --green-700: #128a56;
+  --green-800: #0f6f46;
+  --green-900: #0c593a;
+  --green-950: #073b28;
+
+  /* ===== Brand ===== */
+  --green-brand: #16b23f;
+
+  /* ===== Semantic Green ===== */
+  --green-primary: #16a968;
+  --green-dark: #128a56;
+  --green-hover: #128a56;
+  --green-accent: #22c77a;
+  --green-light: #4ade8b;
+  --green-muted: #86efb3;
+  --green-subtle: #dcfce9;
 
   /* Link */
-  --link: #0969da;
-  --link-hover: #0550ae;
+  --link: #16a968;
+  --link-hover: #128a56;
 
   /* Input */
   --input: #d4d4d8;
@@ -217,9 +258,9 @@
 
   /* Navigation */
   --nav-link-dark: #b8b9c5;
-  --nav-link-dark-hover: #d8ccff;
+  --nav-link-dark-hover: #bbf7d3;
   --nav-link: rgb(57, 58, 63);
-  --nav-link-hover: #8f64fb;
+  --nav-link-hover: #16a968;
 
   --card: #ffffff;
   --card-foreground: #18181b;
@@ -227,14 +268,16 @@
   --popover: #ffffff;
   --popover-foreground: #18181b;
 
+  /* Untouched */
   --surface: #f4f4f5;
   --surface-secondary: #fafafa;
   --surface-elevated: #e4e4e7;
 
-  /* Brand purple accent */
-  --primary: #4940e3;
+  /* ===== Green Accent ===== */
+  --primary: #16a968;
   --primary-foreground: #ffffff;
 
+  /* Untouched */
   --secondary: #f4f4f5;
   --secondary-foreground: #18181b;
 
@@ -243,16 +286,16 @@
 
   --foreground-muted: #52525b;
 
-  --accent: #4940e3;
+  /* Green accent */
+  --accent: #16a968;
   --accent-foreground: #ffffff;
 
-  /* Solid, visible border hierarchy */
+  /* Borders untouched */
   --border: #e4e4e7;
   --border-primary: #d4d4d8;
   --border-secondary: #c9c9cf;
-  --input: #d4d4d8;
 
-  --ring: #4940e3;
+  --ring: #16a968;
 
   /* Status */
   --destructive: #dc2626;
@@ -262,27 +305,37 @@
 
   --radius: 0.75rem;
 
-  /* Layered elevation (light) */
+  /* Layered elevation */
   --shadow-soft:
-    0 1px 2px rgba(24, 24, 27, 0.06), 0 1px 3px rgba(24, 24, 27, 0.05);
+    0 1px 2px rgba(24, 24, 27, 0.06),
+    0 1px 3px rgba(24, 24, 27, 0.05);
+
   --shadow-card:
-    inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 1px 2px rgba(24, 24, 27, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 1px 2px rgba(24, 24, 27, 0.05),
     0 8px 24px -4px rgba(24, 24, 27, 0.1);
+
   --shadow-float:
     inset 0 1px 0 rgba(255, 255, 255, 0.6),
     0 4px 12px -2px rgba(24, 24, 27, 0.1);
+
+  /* Purple shadow → Green */
   --shadow-primary:
-    0 1px 2px rgba(73, 64, 227, 0.35), 0 8px 20px -4px rgba(73, 64, 227, 0.3);
+    0 1px 2px rgba(22, 169, 104, 0.35),
+    0 8px 20px -4px rgba(22, 169, 104, 0.3);
+
   --shadow-showcase: 0 20px 60px rgba(24, 24, 27, 0.08);
 
-  /* Showcase panel (illustration side) — overridden in .dark */
-  --grad-showcase-from: #f7f5ff;
-  --grad-showcase-via: #efedff;
-  --grad-showcase-to: #e6e2fb;
-  --grad-showcase-border: #e6e3f5;
+  /* ===== Showcase Purple → Green ===== */
+  --grad-showcase-from: #f2fdf7;
+  --grad-showcase-via: #e6f9ee;
+  --grad-showcase-to: #d7f2e2;
+
+  --grad-showcase-border: #d2eadc;
+
   --grad-showcase-glow: radial-gradient(
     circle at top right,
-    rgba(139, 92, 246, 0.08),
+    rgba(34, 197, 122, 0.1),
     transparent 40%
   );
 }
@@ -294,51 +347,47 @@
 
   --foreground-logo: #f4f4f5;
 
-  /* Link */
-  --link: #4493f8;
-  --link-hover: #6cb6ff;
+  /* Green links */
+  --link: #4ade8b;
+  --link-hover: #86efb3;
 
   /* ===== Cards ===== */
   --card: #202024;
   --card-foreground: #ececef;
 
+  /* Untouched */
   --popover: oklch(0.18 0.012 265);
   --popover-foreground: #ececef;
 
-  /* ===== Surfaces ===== */
+  /* ===== Surfaces untouched ===== */
   --surface: #18181b;
   --surface-secondary: oklch(22.22% 0.01024 268.237);
   --surface-elevated: #202024;
 
-  /* ===== Brand ===== */
-  --primary: #4940e3;
+  /* ===== Green Brand ===== */
+  --primary: #16a968;
   --primary-foreground: #ffffff;
 
+  /* Untouched */
   --secondary: oklch(0.22 0.015 265);
   --secondary-foreground: #ececef;
 
-  /* ===== Text ===== */
+  /* ===== Text untouched ===== */
   --muted: oklch(0.2 0.012 265);
   --muted-foreground: #a1a1aa;
   --foreground-muted: #b4b4be;
 
-  /* ===== Green Brand Palette ===== */
-  --green-primary: #208d63;
-  --green-dark: #166d4c;
-  --green-hover: #17875e;
-  --green-accent: #25b17b;
-
-  /* ===== Accent ===== */
-  --accent: #4940e3;
+  /* ===== Green Accent ===== */
+  --accent: #16a968;
   --accent-foreground: #ffffff;
 
-  /* ===== Borders ===== */
+  /* ===== Borders untouched ===== */
   --border: rgba(255, 255, 255, 0.08);
   --border-primary: rgba(255, 255, 255, 0.1);
   --border-secondary: rgba(255, 255, 255, 0.14);
   --input: rgba(255, 255, 255, 0.12);
 
-  --ring: #6c63ff;
+  --ring: #22c77a;
 
   /* ===== Status ===== */
   --destructive: #f87171;
@@ -346,29 +395,33 @@
   --warning: #f59e0b;
   --danger: #f87171;
 
-  /* ===== Shadows (unchanged) ===== */
+  /* ===== Shadows ===== */
   --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.35);
 
   --shadow-card:
-    inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 1px 2px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 1px 2px rgba(0, 0, 0, 0.3),
     0 16px 32px -8px rgba(0, 0, 0, 0.5);
 
   --shadow-float: 0 8px 24px rgba(0, 0, 0, 0.45);
 
+  /* Purple shadow → Green */
   --shadow-primary:
-    0 1px 2px rgba(73, 64, 227, 0.45), 0 8px 20px -4px rgba(73, 64, 227, 0.4);
+    0 1px 2px rgba(22, 169, 104, 0.45),
+    0 8px 20px -4px rgba(22, 169, 104, 0.4);
 
   --shadow-showcase: 0 20px 80px rgba(0, 0, 0, 0.55);
 
-  /* ===== Showcase ===== */
-  --grad-showcase-from: #181824;
-  --grad-showcase-via: #141420;
-  --grad-showcase-to: #101018;
-  --grad-showcase-border: #2a2a3a;
+  /* ===== Showcase Green ===== */
+  --grad-showcase-from: #14221b;
+  --grad-showcase-via: #101d16;
+  --grad-showcase-to: #0c1711;
+
+  --grad-showcase-border: #1f3b2d;
 
   --grad-showcase-glow: radial-gradient(
     circle at top right,
-    rgba(139, 92, 246, 0.1),
+    rgba(34, 197, 122, 0.12),
     transparent 42%
   );
 
@@ -376,16 +429,18 @@
   --sidebar: oklch(0.16 0.01 265);
   --sidebar-foreground: #ececef;
 
-  --sidebar-primary: oklch(0.7 0.2 285);
+  /* Purple → Green */
+  --sidebar-primary: #16a968;
   --sidebar-primary-foreground: #ffffff;
 
+  /* Untouched */
   --sidebar-accent: oklch(0.22 0.015 265);
   --sidebar-accent-foreground: #ececef;
   --sidebar-border: rgba(255, 255, 255, 0.08);
 
   /* Navigation */
   --nav-link: #aeb0bc;
-  --nav-link-hover: rgb(124, 106, 189);
+  --nav-link-hover: #4ade8b;
 
   /* Input */
   --input: rgba(255, 255, 255, 0.12);
@@ -401,6 +456,7 @@
   body {
     @apply bg-background text-foreground;
   }
+
   html {
     @apply font-sans;
   }

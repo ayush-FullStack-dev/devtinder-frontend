@@ -1,28 +1,47 @@
-<svg viewBox="46.42875 44.540983606557376 459.90000000000003 129.8360655737705" xmlns="http://www.w3.org/2000/svg" style="max-height: 500px" width="459.90000000000003" height="129.8360655737705">
-  <defs>
-    <linearGradient y2="100%" x2="100%" y1="0%" x1="0%" id="accent">
-      <stop stop-color="#ff5a6b" offset="0%"/>
-      <stop stop-color="#ff2d55" offset="100%"/>
-    </linearGradient>
-  </defs>
-
-  
-  <text fill="currentColor" font-weight="700" font-size="96" font-family="Inter, SF Pro Display, Helvetica, Arial, sans-serif" y="118" x="40">
-    Dev
-  </text>
-
-  
-  <text fill="url(#accent)" font-weight="700" font-size="96" font-family="Inter, SF Pro Display, Helvetica, Arial, sans-serif" y="118" x="205">
-    Tinder
-  </text>
-
-  
+<svg
+  viewBox="30 40 515 135"
+  xmlns="http://www.w3.org/2000/svg"
+  width="515"
+  height="135"
+>
+  <!-- Dev -->
   <text
-   fill="#b4b7bc" 
-  letter-spacing="10" 
-  font-weight="500" font-size="31"
-   font-family="Inter, SF Pro Display, Helvetica, Arial, sans-serif" y="160" x="65
-   ">
-    BUILD TOGETHER.
-  </text>
+    x="40"
+    y="118"
+    fill="#00D639"
+    font-family="Inter, SF Pro Display, Helvetica, Arial, sans-serif"
+    font-size="96"
+    font-weight="700"
+  >Dev</text>
+
+  <!-- Tinder -->
+  <text
+    x="207"
+    y="118"
+    fill="currentColor"
+    font-family="Inter, SF Pro Display, Helvetica, Arial, sans-serif"
+    font-size="96"
+    font-weight="700"
+  >Tinder</text>
+
+  <!-- Trademark -->
+  <text
+    x="495"
+    y="72"
+    fill="currentColor"
+    font-family="Inter, SF Pro Display, Helvetica, Arial, sans-serif"
+    font-size="40"
+    font-weight="600"
+  >™</text>
+
+  <!-- Tagline -->
+  <text
+    x="55"
+    y="160"
+    fill="#B4B7BC"
+    font-family="Inter, SF Pro Display, Helvetica, Arial, sans-serif"
+    font-size="35"
+    font-weight="500"
+    letter-spacing="7"
+  >BUILD TOGETHER.</text>
 </svg>
