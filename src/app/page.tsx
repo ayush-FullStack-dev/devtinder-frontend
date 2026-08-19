@@ -8,10 +8,20 @@ import Link from "next/link";
 
 export function PageLayout() {
   return (
-    <main className="relative min-h-screen w-full bg-background select-none">
+    <main  id="main-scroll" className="relative h-screen w-full overflow-y-auto bg-background select-none scrollbar-hide">
       <Navbar />
 
-      <div className="absolute inset-0 flex flex-col items-center justify-center px-4">
+      <div
+        className="
+      min-h-full
+      px-4  
+ pt-30
+      pb-5
+      flex flex-col
+      items-center
+      justify-center
+    "
+      >
         <div className="flex flex-col items-center gap-5 xs:gap-6">
           {/* Hero Heading */}
           <div
@@ -20,10 +30,10 @@ export function PageLayout() {
           font-semibold
           leading-[0.95]
 
-          text-5xl
-          xs:text-6xl
-          sm:text-7xl
-          md:text-8xl
+          text-3xl
+          xs:text-4xl
+          sm:text-6xl
+          md:text-7xl
           lg:text-8xl
         `}
           >
@@ -62,12 +72,9 @@ export function PageLayout() {
           mt-4
           w-full
           max-w-xs
-
           xs:max-w-sm
-
           sm:w-110
           sm:max-w-none
-
           md:w-115
           lg:w-120
           xl:w-130
@@ -75,23 +82,11 @@ export function PageLayout() {
           >
             <PrimaryButton
               className="
-            h-12
-            w-full
-            rounded-full
-            px-4
-            text-base
-
-            xs:h-13
-            xs:text-lg
-
-            sm:h-14
-            sm:text-xl
-
-            lg:h-15
-            lg:text-xl
-
+            h-12 w-full rounded-full px-4 text-base
+            xs:h-13 xs:text-lg
+            sm:h-14 sm:text-xl
+            lg:h-15 lg:text-xl
             xl:text-2xl
-
             bg-green-brand
           "
               text="Get Started"

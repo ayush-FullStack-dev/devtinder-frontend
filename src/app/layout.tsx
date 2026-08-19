@@ -37,8 +37,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className="h-full">
-      <body className="min-h-screen flex flex-col">
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className="h-full scrollbar-hide"
+    >
+      <body className="min-h-screen flex flex-col scrollbar-hide">
         <Providers>{children}</Providers>
       </body>
     </html>

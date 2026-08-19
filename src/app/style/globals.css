@@ -103,6 +103,15 @@
   }
 }
 
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
 @theme inline {
   --breakpoint-xxs: 300px;
   --breakpoint-xs: 360px;
@@ -307,12 +316,10 @@
 
   /* Layered elevation */
   --shadow-soft:
-    0 1px 2px rgba(24, 24, 27, 0.06),
-    0 1px 3px rgba(24, 24, 27, 0.05);
+    0 1px 2px rgba(24, 24, 27, 0.06), 0 1px 3px rgba(24, 24, 27, 0.05);
 
   --shadow-card:
-    inset 0 1px 0 rgba(255, 255, 255, 0.6),
-    0 1px 2px rgba(24, 24, 27, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 1px 2px rgba(24, 24, 27, 0.05),
     0 8px 24px -4px rgba(24, 24, 27, 0.1);
 
   --shadow-float:
@@ -321,8 +328,7 @@
 
   /* Purple shadow → Green */
   --shadow-primary:
-    0 1px 2px rgba(22, 169, 104, 0.35),
-    0 8px 20px -4px rgba(22, 169, 104, 0.3);
+    0 1px 2px rgba(22, 169, 104, 0.35), 0 8px 20px -4px rgba(22, 169, 104, 0.3);
 
   --shadow-showcase: 0 20px 60px rgba(24, 24, 27, 0.08);
 
@@ -399,16 +405,14 @@
   --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.35);
 
   --shadow-card:
-    inset 0 1px 0 rgba(255, 255, 255, 0.04),
-    0 1px 2px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 1px 2px rgba(0, 0, 0, 0.3),
     0 16px 32px -8px rgba(0, 0, 0, 0.5);
 
   --shadow-float: 0 8px 24px rgba(0, 0, 0, 0.45);
 
   /* Purple shadow → Green */
   --shadow-primary:
-    0 1px 2px rgba(22, 169, 104, 0.45),
-    0 8px 20px -4px rgba(22, 169, 104, 0.4);
+    0 1px 2px rgba(22, 169, 104, 0.45), 0 8px 20px -4px rgba(22, 169, 104, 0.4);
 
   --shadow-showcase: 0 20px 80px rgba(0, 0, 0, 0.55);
 
