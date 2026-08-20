@@ -70,8 +70,8 @@ const Navbar = () => {
     const navbarActive = scrolled || activeMenu !== null;
 
     return (
-   <header
-    className={`
+        <header
+            className={`
         fixed top-0 left-0 right-0 z-40
         w-full px-5
 
@@ -79,42 +79,41 @@ const Navbar = () => {
         duration-500
         ease-out
 
-        ${
-            navbarActive
-                ? `
+        ${navbarActive
+                    ? `
                     bg-[var(--bg-secondary)]/95
                     backdrop-blur-xl
                     backdrop-saturate-150
                     border-b border-white/5
                     shadow-[0_8px_30px_rgba(0,0,0,0.12)]
                 `
-                : `
+                    : `
                     bg-transparent
                     border-b border-transparent
                     shadow-none
                 `
-        }
+                }
     `}
->
-    <div
-        className="relative w-full"
-        onMouseLeave={() => setActiveMenu(null)}
-    >
-        <div
-            className="
+        >
+            <div
+                className="relative w-full"
+                onMouseLeave={() => setActiveMenu(null)}
+            >
+                <div
+                    className="
                 grid
                 grid-cols-[minmax(0,1fr)_auto_minmax(260px,1fr)]
                 items-center
                 w-full
                 py-5
             "
-        >
-            <div className="justify-self-start shrink-0">
-                <LogoHorizontal />
-            </div>
+                >
+                    <div className="justify-self-start shrink-0">
+                        <LogoHorizontal />
+                    </div>
 
-            <nav
-                className={`
+                    <nav
+                        className={`
                     hidden
                     lg:grid
                     grid-cols-4
@@ -124,39 +123,43 @@ const Navbar = () => {
                     text-md
                     ${googleSansFlex.className}
                 `}
-                aria-label="Main navigation"
-            >
-                {navItems.map((item) => (
-                    <div
-                        key={item.name}
-                        className="flex justify-center min-w-max"
-                        onMouseEnter={() => {
-                            setActiveMenu(
-                                item.submenu.length > 0
-                                    ? item.name
-                                    : null
-                            );
-                        }}
+                        aria-label="Main navigation"
                     >
-                        <Link
-                            href={item.href}
-                            className="
-                                whitespace-nowrap
-                                cursor-pointer
-                                font-medium
-                                transition-[font-weight]
-                                duration-200
-                                hover:font-bold
-                            "
-                        >
-                            {item.name}
-                        </Link>
-                    </div>
-                ))}
-            </nav>
+                        {navItems.map((item) => {
+                            const isActive = activeMenu === item.name;
+                            return <div
+                                key={item.name}
+                                className="flex justify-center min-w-max"
+                                onMouseEnter={() => {
+                                    setActiveMenu(
+                                        item.submenu.length > 0
+                                            ? item.name
+                                            : null
+                                    );
+                                }}
+                            >
+                                <Link
+                                    href={item.href}
+                                    className={`
+        whitespace-nowrap
+        cursor-pointer
+        transition-all
+        duration-100
+        ease-out
+        ${isActive
+                                            ? "font-bold"
+                                            : "font-medium hover:font-bold"
+                                        }
+    `}
+                                >
+                                    {item.name}
+                                </Link>
+                            </div>
+                        })}
+                    </nav>
 
-            <div
-                className="
+                    <div
+                        className="
                     hidden
                     lg:flex
                     shrink-0
@@ -165,23 +168,23 @@ const Navbar = () => {
                     justify-self-end
                     gap-5
                 "
-            >
-                <Link href="/signup">
-                    <AnimatedButton
-                        className="
+                    >
+                        <Link href="/signup">
+                            <AnimatedButton
+                                className="
                             h-11.5
                             w-37
                             rounded-3xl
                             bg-green-brand
                         "
-                        text="Get Started"
-                    />
-                </Link>
+                                text="Get Started"
+                            />
+                        </Link>
 
-                <Link href="/login">
-                    <PrimaryButton
-                        showIcon={false}
-                        className="
+                        <Link href="/login">
+                            <PrimaryButton
+                                showIcon={false}
+                                className="
                             h-10
                             w-25
                             rounded-2xl
@@ -191,14 +194,14 @@ const Navbar = () => {
                             text-showcase
                             hover:bg-green-brand
                         "
-                        text="Log In"
-                    />
-                </Link>
-            </div>
-        </div>
+                                text="Log In"
+                            />
+                        </Link>
+                    </div>
+                </div>
 
-        <div
-            className={`
+                <div
+                    className={`
                 hidden
                 lg:grid
                 grid-cols-[minmax(0,1fr)_auto_minmax(260px,1fr)]
@@ -209,26 +212,25 @@ const Navbar = () => {
                 duration-500
                 ease-out
 
-                ${
-                    activeMenu
-                        ? `
+                ${activeMenu
+                            ? `
                             max-h-[420px]
                             opacity-100
                             pb-8
                         `
-                        : `
+                            : `
                             max-h-0
                             opacity-0
                             pb-0
                             pointer-events-none
                         `
-                }
+                        }
             `}
-        >
-            <div />
+                >
+                    <div />
 
-            <div
-                className={`
+                    <div
+                        className={`
                     grid
                     grid-cols-4
                     w-[35vw]
@@ -237,22 +239,22 @@ const Navbar = () => {
                     text-md
                     ${googleSansFlex.className}
                 `}
-            >
-                {navItems.map((item) => (
-                    <div
-                        key={item.name}
-                        className="flex justify-center min-w-max"
                     >
-                        <div className="flex flex-col items-start gap-3">
-                            {item.submenu.map((subItem, index) => {
-                                const isVisible =
-                                    activeMenu === item.name;
+                        {navItems.map((item) => (
+                            <div
+                                key={item.name}
+                                className="flex justify-center min-w-max"
+                            >
+                                <div className="flex flex-col items-start gap-3">
+                                    {item.submenu.map((subItem, index) => {
+                                        const isVisible =
+                                            activeMenu === item.name;
 
-                                return (
-                                    <Link
-                                        key={subItem.name}
-                                        href={subItem.href}
-                                        className={`
+                                        return (
+                                            <Link
+                                                key={subItem.name}
+                                                href={subItem.href}
+                                                className={`
                                             relative
                                             w-fit
                                             whitespace-nowrap
@@ -272,38 +274,37 @@ const Navbar = () => {
                                             after:duration-300
                                             hover:after:w-full
 
-                                            ${
-                                                isVisible
-                                                    ? `
+                                            ${isVisible
+                                                        ? `
                                                         translate-y-0
                                                         opacity-100
                                                     `
-                                                    : `
+                                                        : `
                                                         translate-y-3
                                                         opacity-0
                                                         pointer-events-none
                                                     `
-                                            }
+                                                    }
                                         `}
-                                        style={{
-                                            transitionDelay: isVisible
-                                                ? `${index * 70}ms`
-                                                : "0ms",
-                                        }}
-                                    >
-                                        {subItem.name}
-                                    </Link>
-                                );
-                            })}
-                        </div>
+                                                style={{
+                                                    transitionDelay: isVisible
+                                                        ? `${index * 70}ms`
+                                                        : "0ms",
+                                                }}
+                                            >
+                                                {subItem.name}
+                                            </Link>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        ))}
                     </div>
-                ))}
-            </div>
 
-            <div className="min-w-[260px]" />
-        </div>
-    </div>
-</header>
+                    <div className="min-w-[260px]" />
+                </div>
+            </div>
+        </header>
     );
 };
 
