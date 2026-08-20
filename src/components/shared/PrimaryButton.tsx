@@ -58,33 +58,31 @@ const PrimaryButton = ({
     <button
       type={btnType}
       className={twMerge(
-        `box-border inline-flex h-14 items-center text-center rounded-lg bg-[#1d845c]
-    transition-all duration-300 ease-out
-    text-lg
-    text-white
-    ${disbaled
+        `
+      box-border inline-flex h-14 items-center rounded-lg
+      bg-[#1d845c]
+      text-lg text-white
+      transition-all duration-300 ease-out
+      text-shadow-white
+      ${disbaled
           ? "opacity-50 cursor-not-allowed"
           : "cursor-pointer hover:opacity-90 active:scale-[0.98]"
-        }`,
+        }
+    `,
         className
       )}
-      onKeyDown={onKeyDown}
-      onClick={onClick}
-      onMouseDown={pressEffect}
-      onMouseUp={unpressEffect}
-      onMouseLeave={unpressEffect}
-      disabled={disbaled}
     >
-      <p
-        className={`font-extrabold  flex-1 text-center tracking-wide`}
-      >
+      <p className="font-extrabold flex-1 text-center tracking-wide">
         {disbaled ? disbaleText : text}
       </p>
-      {disbaled ? (
-        <Loader2 className="animate-spin mr-4" />
-      ) : (
-        showIcon ? <Icon size="25" className="ml-auto mr-4" /> : null
-      )}
+
+      {disbaled
+        ? showIcon && (
+          <Loader2 className="hidden xs:inline animate-spin mr-4" />
+        )
+        : showIcon && (
+          <Icon size="25" className="hidden xs:inline ml-auto mr-4" />
+        )}
     </button>
   );
 };

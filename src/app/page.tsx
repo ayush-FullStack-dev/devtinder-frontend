@@ -4,11 +4,12 @@ import Navbar from "./_components/LandingPage/Navbar";
 import { googleSans } from "@/assets/fonts/font.google";
 import PrimaryButton from "@/components/shared/PrimaryButton";
 import Link from "next/link";
+import AnimatedButton from "@/components/shared/AnimatedButton";
 
 
 export function PageLayout() {
   return (
-    <main id="main-scroll" className="relative h-screen w-full overflow-y-auto bg-background select-none scrollbar-hide">
+    <main id="main-scroll" className="relative h-screen w-full overflow-y-auto bg-backgorund select-none scrollbar-hide">
       <Navbar />
 
       <div
@@ -29,11 +30,11 @@ export function PageLayout() {
           text-center
           font-semibold
           leading-[0.95]
-          text-6xl
-          xs:text-6xl
-          sm:text-7xl
-          md:text-8xl
-          lg:text-9xl
+          text-[17vw]
+          sm:text-[15vw]
+          md:text-[14vw]
+          lg:text-[13vw]
+          xl:text-[12vw]
         `}
           >
             <p>Meet Build</p>
@@ -48,13 +49,10 @@ export function PageLayout() {
           text-sm
           leading-relaxed
           text-muted-foreground
-
           xs:max-w-sm
           xs:text-base
-
           sm:max-w-md
           sm:text-lg
-
           md:max-w-lg
           md:text-xl
         `}
@@ -78,8 +76,7 @@ export function PageLayout() {
           xl:w-130
         "
           >
-            <PrimaryButton
-              className="
+                <AnimatedButton  className="
             h-12 w-full rounded-full px-4 text-base
             xs:h-13 xs:text-lg
             sm:h-14 sm:text-xl
@@ -87,8 +84,7 @@ export function PageLayout() {
             xl:text-2xl
             bg-green-brand
           "
-              text="Get Started"
-            />
+              text="Get Started" />
           </Link>
         </div>
       </div>
