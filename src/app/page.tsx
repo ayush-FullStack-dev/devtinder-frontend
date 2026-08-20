@@ -8,7 +8,7 @@ import Link from "next/link";
 
 export function PageLayout() {
   return (
-    <main  id="main-scroll" className="relative h-screen w-full overflow-y-auto bg-background select-none scrollbar-hide">
+    <main id="main-scroll" className="relative h-screen w-full overflow-y-auto bg-background select-none scrollbar-hide">
       <Navbar />
 
       <div
@@ -22,24 +22,22 @@ export function PageLayout() {
       justify-center
     "
       >
-        <div className="flex flex-col items-center gap-5 xs:gap-6">
+        <div className="flex flex-col items-center gap-4 xs:gap-4">
           {/* Hero Heading */}
           <div
             className={`${googleSans.className}
           text-center
           font-semibold
           leading-[0.95]
-
-          text-3xl
-          xs:text-4xl
-          sm:text-6xl
-          md:text-7xl
-          lg:text-8xl
+          text-6xl
+          xs:text-6xl
+          sm:text-7xl
+          md:text-8xl
+          lg:text-9xl
         `}
           >
-            <p>Great builds</p>
-            <p>starts with</p>
-            <p className="text-green-brand">the right people.</p>
+            <p>Meet Build</p>
+            <p className="text-green-brand">Ship.</p>
           </div>
 
           {/* Description */}
