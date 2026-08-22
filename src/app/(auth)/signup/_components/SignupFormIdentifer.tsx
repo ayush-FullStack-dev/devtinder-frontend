@@ -43,6 +43,7 @@ type SignupFormIdentiferProps = {
 const SignupFormIdentifer = ({ setStep, setSignupData, signupData }: SignupFormIdentiferProps) => {
   const [signupStep1Error, setSignupStep1Error] =
     useState<SignupStep1Error | null>(null);
+  const [generatingUsername, setGeneratingUsername] = useState(false)
   const [signupStep1Success, setSignupStep1Success] =
     useState<SignupStep1Success>({});
 
@@ -89,6 +90,7 @@ const SignupFormIdentifer = ({ setStep, setSignupData, signupData }: SignupFormI
   const gender = watch("gender");
 
   const generateUsername = async () => {
+    setGeneratingUsername(true)
     const cleanName = name
       .toLowerCase()
       .trim()
@@ -135,11 +137,13 @@ const SignupFormIdentifer = ({ setStep, setSignupData, signupData }: SignupFormI
           return;
         }
       }
+
     } finally {
       setChecking((prev) => ({
         ...prev,
         username: false,
-      }));
+      }))
+      setGeneratingUsername(false)
     }
   };
 
@@ -343,7 +347,7 @@ const SignupFormIdentifer = ({ setStep, setSignupData, signupData }: SignupFormI
               <span onClick={generateUsername}>
                 <SparklesSvg />
               </span>
-            ) : checking.username ? (
+            ) : checking.username || generatingUsername ? (
               <CheckingLoader />
             ) : signupStep1Success.username === true ? (
               <CheckSvg />

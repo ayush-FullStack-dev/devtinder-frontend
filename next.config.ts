@@ -10,6 +10,14 @@ const nextConfig: NextConfig = {
     },
   },
 
+  images: {
+    remotePatterns: [
+      {
+        hostname: "**",
+      },
+    ],
+  },
+
   async rewrites() {
     return [];
   },

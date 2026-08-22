@@ -7,6 +7,7 @@
 @theme {
   --animate-code-one: code-one 18s linear infinite;
   --animate-code-two: code-two 15s linear infinite;
+  --animate-dot-blink: dot-blink 4s ease-in-out infinite;
 
   @keyframes code-one {
     0% {
@@ -52,6 +53,25 @@
     100% {
       transform: translateX(15%);
       opacity: 1;
+    }
+  }
+
+  @keyframes dot-blink {
+    0%,
+    80% {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    88% {
+      opacity: 0.35;
+      transform: scale(0.82);
+    }
+
+    96%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
     }
   }
 
@@ -175,6 +195,9 @@
   --color-input-foreground: var(--input-foreground);
   --color-input-placeholder: var(--input-placeholder);
 
+  --color-link: var(--link);
+  --color-link-hover: var(--link-hover);
+
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -194,6 +217,10 @@
   --color-nav-link: var(--nav-link);
   --color-nav-link-hover: var(--nav-link-hover);
 
+  /*
+   * Links
+   * Blue: #0969DC
+   */
   --color-link: var(--link);
   --color-link-hover: var(--link-hover);
 
@@ -256,9 +283,12 @@
   --green-muted: #86efb3;
   --green-subtle: #dcfce9;
 
-  /* Link */
-  --link: #16a968;
-  --link-hover: #128a56;
+  /*
+   * ===== Links =====
+   * Only links use GitHub-style blue.
+   */
+  --link: #0969dc;
+  --link-hover: #0757b5;
 
   /* Input */
   --input: #d4d4d8;
@@ -316,23 +346,27 @@
 
   /* Layered elevation */
   --shadow-soft:
-    0 1px 2px rgba(24, 24, 27, 0.06), 0 1px 3px rgba(24, 24, 27, 0.05);
+    0 1px 2px rgba(24, 24, 27, 0.06),
+    0 1px 3px rgba(24, 24, 27, 0.05);
 
   --shadow-card:
-    inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 1px 2px rgba(24, 24, 27, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 1px 2px rgba(24, 24, 27, 0.05),
     0 8px 24px -4px rgba(24, 24, 27, 0.1);
 
   --shadow-float:
     inset 0 1px 0 rgba(255, 255, 255, 0.6),
     0 4px 12px -2px rgba(24, 24, 27, 0.1);
 
-  /* Purple shadow → Green */
+  /* Green shadow */
   --shadow-primary:
-    0 1px 2px rgba(22, 169, 104, 0.35), 0 8px 20px -4px rgba(22, 169, 104, 0.3);
+    0 1px 2px rgba(22, 169, 104, 0.35),
+    0 8px 20px -4px rgba(22, 169, 104, 0.3);
 
-  --shadow-showcase: 0 20px 60px rgba(24, 24, 27, 0.08);
+  --shadow-showcase:
+    0 20px 60px rgba(24, 24, 27, 0.08);
 
-  /* ===== Showcase Purple → Green ===== */
+  /* ===== Showcase Green ===== */
   --grad-showcase-from: #f2fdf7;
   --grad-showcase-via: #e6f9ee;
   --grad-showcase-to: #d7f2e2;
@@ -353,9 +387,12 @@
 
   --foreground-logo: #f4f4f5;
 
-  /* Green links */
-  --link: #4ade8b;
-  --link-hover: #86efb3;
+  /*
+   * ===== Links =====
+   * Only links use blue.
+   */
+  --link: #0969dc;
+  --link-hover: #58a6ff;
 
   /* ===== Cards ===== */
   --card: #202024;
@@ -402,19 +439,24 @@
   --danger: #f87171;
 
   /* ===== Shadows ===== */
-  --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-soft:
+    0 1px 2px rgba(0, 0, 0, 0.35);
 
   --shadow-card:
-    inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 1px 2px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 1px 2px rgba(0, 0, 0, 0.3),
     0 16px 32px -8px rgba(0, 0, 0, 0.5);
 
-  --shadow-float: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --shadow-float:
+    0 8px 24px rgba(0, 0, 0, 0.45);
 
-  /* Purple shadow → Green */
+  /* Green shadow */
   --shadow-primary:
-    0 1px 2px rgba(22, 169, 104, 0.45), 0 8px 20px -4px rgba(22, 169, 104, 0.4);
+    0 1px 2px rgba(22, 169, 104, 0.45),
+    0 8px 20px -4px rgba(22, 169, 104, 0.4);
 
-  --shadow-showcase: 0 20px 80px rgba(0, 0, 0, 0.55);
+  --shadow-showcase:
+    0 20px 80px rgba(0, 0, 0, 0.55);
 
   /* ===== Showcase Green ===== */
   --grad-showcase-from: #14221b;
@@ -433,7 +475,7 @@
   --sidebar: oklch(0.16 0.01 265);
   --sidebar-foreground: #ececef;
 
-  /* Purple → Green */
+  /* Green */
   --sidebar-primary: #16a968;
   --sidebar-primary-foreground: #ffffff;
 

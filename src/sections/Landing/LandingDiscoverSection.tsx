@@ -1,0 +1,179 @@
+"use client";
+
+import { googleSans } from "@/assets/fonts/font.google";
+import AnimatedButton from "@/components/shared/AnimatedButton";
+import LandingDiscoverCard from "@/components/shared/Landing/LandingDiscoverCard";
+import { DeveloperProfilesDemoData } from "@/constants/landing";
+import Link from "next/link";
+import { motion } from "motion/react";
+
+const DiscoverSection = () => {
+    return (
+        <section
+            id="discover"
+            className="
+                shrink-0
+                w-full
+                flex
+                flex-col
+                gap-10
+                py-10
+                px-2
+
+                sm:px-8
+                md:gap-14
+                md:px-12
+
+                lg:gap-8
+                lg:px-2
+                lg:py-0
+                lg:flex-row
+                lg:items-center
+                lg:justify-around
+            "
+        >
+            <motion.div
+                initial={{
+                    opacity: 0,
+                    x: -60,
+                    filter: "blur(8px)",
+                }}
+                whileInView={{
+                    opacity: 1,
+                    x: 0,
+                    filter: "blur(0px)",
+                }}
+                viewport={{
+                    once: true,
+                    amount: 0.25,
+                }}
+                transition={{
+                    duration: 0.8,
+                    ease: [0.22, 1, 0.36, 1],
+                }}
+                className="flex flex-col gap-2 -mt-5"
+            >
+                <div
+                    className={`
+                        ${googleSans.className}
+                        w-full
+                        font-bold
+                        leading-[0.95]
+                        tracking-tight
+                        text-5xl
+                        xs:text-6xl
+                        sm:text-7xl
+                        md:text-8xl
+                        lg:max-w-145
+                    `}
+                >
+                    <p>
+                        A lot can happen after your first
+                    </p>
+
+                    <p className="text-green-brand">
+                        connection.
+                    </p>
+                </div>
+
+                <motion.div
+                    initial={{
+                        opacity: 0,
+                        y: 20,
+                    }}
+                    whileInView={{
+                        opacity: 1,
+                        y: 0,
+                    }}
+                    viewport={{
+                        once: true,
+                        amount: 0.25,
+                    }}
+                    transition={{
+                        delay: 0.15,
+                        duration: 0.6,
+                        ease: [0.22, 1, 0.36, 1],
+                    }}
+                    className={`
+                        ${googleSans.className}
+                        max-w-full
+                        text-sm
+                        leading-relaxed
+                        text-muted-foreground
+                        xs:text-base
+                        sm:text-lg
+                        md:text-xl
+                        lg:ml-2
+                        lg:max-w-lg
+                    `}
+                >
+                    <p>
+                        Meet developers. Exchange ideas.
+                        <br />
+                        Find something worth building.
+                    </p>
+                </motion.div>
+                <Link href="/signup" className="mt-6 self-start ml-2  xs:self-center
+        lg:self-start">
+                    <AnimatedButton
+                        text="Start Connecting"
+                        className="
+      h-12
+      rounded-full
+      px-6
+      text-center
+      bg-green-brand
+      w-[90vw]
+      xs:w-[70vw]
+      lg:w-90
+font-bold
+    "
+                    />
+                </Link>
+            </motion.div>
+
+            <motion.div
+                initial={{
+                    opacity: 0,
+                    x: 60,
+                    y: 20,
+                    scale: 0.96,
+                }}
+                whileInView={{
+                    opacity: 1,
+                    x: 0,
+                    y: 0,
+                    scale: 1,
+                }}
+                viewport={{
+                    once: true,
+                    amount: 0.2,
+                }}
+                transition={{
+                    duration: 0.85,
+                    delay: 0.1,
+                    ease: [0.22, 1, 0.36, 1],
+                }}
+                className="
+                    self-auto
+                    sm:self-center
+                    w-full
+                    sm:w-[75vw]
+                    h-[70vw]
+                    min-h-155
+                    max-w-none
+                    lg:w-100
+                    lg:max-h-155
+                    lg:self-auto
+                "
+            >
+                <LandingDiscoverCard
+                    developers={DeveloperProfilesDemoData}
+                    className="h-full w-full"
+                />
+            </motion.div>
+        </section>
+    );
+};
+
+export default DiscoverSection;

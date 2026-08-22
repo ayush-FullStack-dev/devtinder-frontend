@@ -1,108 +1,69 @@
-"use client"
-import JsonLd from "@/constants/JsonLd";
-import Navbar from "./_components/LandingPage/Navbar";
-import { googleSans } from "@/assets/fonts/font.google";
-import PrimaryButton from "@/components/shared/PrimaryButton";
-import Link from "next/link";
-import AnimatedButton from "@/components/shared/AnimatedButton";
+"use client";
 
+import JsonLd from "@/constants/JsonLd";
+import Navbar from "../sections/Landing/LandingNavbar";
+import HeroSection from "../sections/Landing/LandingHeroSection";
+import DiscoverSection from "../sections/Landing/LandingDiscoverSection";
 
 export function PageLayout() {
-  return (
-    <main id="main-scroll" className="relative h-screen w-full overflow-y-auto bg-backgorund select-none scrollbar-hide">
-      <Navbar />
-
-      <div
-        className="
-      min-h-full
-      px-4  
- pt-30
-      pb-5
-      flex flex-col
-      items-center
-      justify-center
-    "
-      >
-        <div className="flex flex-col items-center gap-4 xs:gap-4">
-          {/* Hero Heading */}
-          <div
-            className={`${googleSans.className}
-          text-center
-          font-semibold
-          leading-[0.95]
-          text-[17vw]
-          sm:text-[15vw]
-          md:text-[14vw]
-          lg:text-[13vw]
-          xl:text-[12vw]
-        `}
-          >
-            <p>Meet Build</p>
-            <p className="text-green-brand">Ship.</p>
-          </div>
-
-          {/* Description */}
-          <div
-            className={`${googleSans.className}
-          max-w-xs
-          text-center
-          text-sm
-          leading-relaxed
-          text-muted-foreground
-          xs:max-w-sm
-          xs:text-base
-          sm:max-w-md
-          sm:text-lg
-          md:max-w-lg
-          md:text-xl
-        `}
-          >
-            <p>DevTinder is where developers connect,</p>
-            <p>collaborate and build something real.</p>
-          </div>
-
-          {/* CTA */}
-          <Link
-            href="/signup"
+    return (
+        <main
+            id="main-scroll"
             className="
-          mt-4
-          w-full
-          max-w-xs
-          xs:max-w-sm
-          sm:w-110
-          sm:max-w-none
-          md:w-115
-          lg:w-120
-          xl:w-130
-        "
-          >
-                <AnimatedButton  className="
-            h-12 w-full rounded-full px-4 text-base
-            xs:h-13 xs:text-lg
-            sm:h-14 sm:text-xl
-            lg:h-15 lg:text-xl
-            xl:text-2xl
-            bg-green-brand
-          "
-              text="Get Started" />
-          </Link>
-        </div>
-      </div>
-    </main>
-  );
+                relative
+                flex
+                h-dvh
+                w-full
+                flex-col
+                overflow-x-hidden
+                overflow-y-auto
+                scroll-smooth
+                bg-background
+                scrollbar-hide
+                gap-30
+                overscroll-contain
+            "
+        >
+            <Navbar />
+
+            <section
+                id="home"
+                className="
+                    relative
+                    min-h-dvh
+                    w-full
+                    shrink-0
+                "
+            >
+                <HeroSection />
+            </section>
+
+            <section
+                id="discover"
+                className="
+                    relative
+                    w-full
+                    shrink-0
+                    scroll-mt-24
+                "
+            >
+                <DiscoverSection />
+            </section>
+        </main>
+    );
 }
 
 export default function HomePage() {
-  return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(JsonLd),
-        }}
-      />
+    return (
+        <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify(JsonLd),
+                }}
+            />
 
-      <PageLayout />
-    </>
-  );
+            <PageLayout />
+        </>
+    );
 }
