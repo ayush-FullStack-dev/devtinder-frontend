@@ -1,5 +1,8 @@
 export const VALID_ROUTES = [
   "/",
+  "/about",
+  "/contact",
+  "/privacy",
   "/login",
   "/signup",
   "/verify",
