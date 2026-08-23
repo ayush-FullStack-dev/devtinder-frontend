@@ -12,7 +12,6 @@ const LandingNavbar = () => {
     const [scrolled, setScrolled] = useState(false);
     const [activeMenu, setActiveMenu] = useState<string | null>(null);
     const [hidden, setHidden] = useState(false);
-
     const lastScrollTop = useRef(0);
 
     const navItems = [
@@ -154,9 +153,9 @@ const LandingNavbar = () => {
                 setHidden(false);
             } else if (currentScrollTop <= 4) {
                 setHidden(false);
-            } else if (delta > 0) {
+            } else if (delta > 3) {
                 setHidden(true);
-            } else if (delta < 0) {
+            } else if (delta < -3) {
                 setHidden(false);
             }
 
@@ -237,9 +236,8 @@ const LandingNavbar = () => {
                 duration-700
                 ease-[cubic-bezier(0.22,1,0.36,1)]
 
-                ${
-                    navbarActive
-                        ? `
+                ${navbarActive
+                    ? `
                             bg-[var(--bg-secondary)]/95
                             backdrop-blur-xl
                             backdrop-saturate-150
@@ -247,7 +245,7 @@ const LandingNavbar = () => {
                             border-white/5
                             shadow-[0_8px_30px_rgba(0,0,0,0.12)]
                         `
-                        : `
+                    : `
                             bg-transparent
                             border-b
                             border-transparent
@@ -334,10 +332,9 @@ const LandingNavbar = () => {
                                             transition-all
                                             duration-200
                                             ease-out
-                                            ${
-                                                isActive
-                                                    ? "font-bold"
-                                                    : "font-medium hover:font-bold"
+                                            ${isActive
+                                                ? "font-bold"
+                                                : "font-medium hover:font-bold"
                                             }
                                         `}
                                     >
@@ -483,7 +480,7 @@ const LandingNavbar = () => {
                                                         delay:
                                                             isVisible
                                                                 ? index *
-                                                                  0.07
+                                                                0.07
                                                                 : 0,
                                                         ease: [
                                                             0.22,

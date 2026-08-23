@@ -89,12 +89,13 @@ const LandingDeveloperCard = ({
         setLoadedImages({});
     }, [images]);
 
+
     useEffect(() => {
         if (!autoPlay || images.length <= 1) {
             return;
         }
 
-        const interval = setInterval(() => {
+        const timeout = setTimeout(() => {
             setActiveIndex((prev) => {
                 if (prev >= images.length - 1) {
                     return 0;
@@ -105,9 +106,14 @@ const LandingDeveloperCard = ({
         }, duration);
 
         return () => {
-            clearInterval(interval);
+            clearTimeout(timeout);
         };
-    }, [autoPlay, images.length, duration]);
+    }, [
+        activeIndex,
+        autoPlay,
+        images.length,
+        duration,
+    ]);
 
     return (
         <div
@@ -177,20 +183,19 @@ const LandingDeveloperCard = ({
                                     sizes="400px"
                                     priority={index === 0}
                                     draggable={false}
-                                    onLoad={() =>
-                                        handleImageLoad(index)
-                                    }
+                                    onLoad={() => handleImageLoad(index)}
                                     className={`
-                                        object-cover
-                                        object-top
-                                        transition-[filter,transform]
-                                        duration-500
-                                        ${
-                                            loadedImages[index]
-                                                ? "blur-0"
-                                                : "blur-md"
+        pointer-events-none
+        object-cover
+        object-top
+        select-none
+        transition-[filter,transform]
+        duration-500
+        ${loadedImages[index]
+                                            ? "blur-0"
+                                            : "blur-md"
                                         }
-                                    `}
+    `}
                                 />
                             </motion.div>
                         ))
@@ -209,10 +214,9 @@ const LandingDeveloperCard = ({
                                     rotate-25
                                     transition-all
                                     duration-200
-                                    ${
-                                        swipeSide === "left"
-                                            ? "scale-100 opacity-90"
-                                            : "scale-75 opacity-0"
+                                    ${swipeSide === "left"
+                                        ? "scale-100 opacity-90"
+                                        : "scale-75 opacity-0"
                                     }
                                 `}
                             >
@@ -231,10 +235,9 @@ const LandingDeveloperCard = ({
                                     -rotate-25
                                     transition-all
                                     duration-200
-                                    ${
-                                        swipeSide === "right"
-                                            ? "scale-100 opacity-100"
-                                            : "scale-75 opacity-0"
+                                    ${swipeSide === "right"
+                                        ? "scale-100 opacity-100"
+                                        : "scale-75 opacity-0"
                                     }
                                 `}
                             >
@@ -295,10 +298,9 @@ const LandingDeveloperCard = ({
                                         text-white
                                         backdrop-blur-sm
                                         transition
-                                        ${
-                                            activeIndex === 0
-                                                ? "cursor-not-allowed opacity-30"
-                                                : "cursor-pointer opacity-90 hover:opacity-100"
+                                        ${activeIndex === 0
+                                            ? "cursor-not-allowed opacity-30"
+                                            : "cursor-pointer opacity-90 hover:opacity-100"
                                         }
                                     `}
                                 />
@@ -313,11 +315,10 @@ const LandingDeveloperCard = ({
                                         text-white
                                         backdrop-blur-sm
                                         transition
-                                        ${
-                                            activeIndex ===
+                                        ${activeIndex ===
                                             images.length - 1
-                                                ? "cursor-not-allowed opacity-30"
-                                                : "cursor-pointer opacity-90 hover:opacity-100"
+                                            ? "cursor-not-allowed opacity-30"
+                                            : "cursor-pointer opacity-90 hover:opacity-100"
                                         }
                                     `}
                                 />
@@ -341,10 +342,9 @@ const LandingDeveloperCard = ({
                             className={`
                                 size-2
                                 rounded-full
-                                ${
-                                    isOnline
-                                        ? "animate-dot-blink bg-green-brand"
-                                        : "bg-gray-400"
+                                ${isOnline
+                                    ? "animate-dot-blink bg-green-brand"
+                                    : "bg-gray-400"
                                 }
                             `}
                         />

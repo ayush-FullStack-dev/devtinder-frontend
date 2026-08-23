@@ -273,14 +273,16 @@ const LandingDiscoverCard = ({
                 </motion.div>
 
                 <div
-                    className={`                        pointer-events-none
+                    className={`                        
+                        pointer-events-none
                         absolute
                         inset-x-8
                         -bottom-9
                         z-30
                         flex
                         items-end
-                        justify-between `}
+                        justify-between`
+                    }
 
                 >
                     <motion.button
