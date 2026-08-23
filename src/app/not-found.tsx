@@ -1,40 +1,5 @@
-"use client";
+import Link from "next/link";
 
-import LogoHorizontal from "@/components/brand/LogoHorizontal";
-import ErrorContent from "@/components/shared/ErrorContent";
-import { ArrowLeft } from "lucide-react";
-import IconTextButton from "@/components/shared/IconTextButton";
-import HeroSection from "@/components/shared/NotFound/HeroScene";
-
-const NotFound = () => {
-  return (
-    <div className="dark min-h-screen w-full bg-black text-white relative overflow-hidden">
-      <div className="absolute top-8 left-5 w-full px-0 lg:px-10 flex items-center justify-between z-10">
-        <LogoHorizontal
-          logoMonoChrome
-          workMarkMonoChrome
-          className="opacity-90"
-        />
-      </div>
-
-      <div className="flex min-h-screen flex-col items-center justify-center -mt-2 pl-5 pr-3">
-        <HeroSection />
-
-        <ErrorContent
-          name="Looks like you're lost."
-          message="The page you're looking for doesn't exist or has been moved."
-          description="Don't worry, you can find your way back home."
-        />
-
-        <IconTextButton
-          text="Back to Home"
-          icon={ArrowLeft}
-          className="w-50 h-12 text-[16px] mt-5"
-          href="/"
-        />
-      </div>
-    </div>
-  );
-};
-
-export default NotFound;
+export default function NotFound() {
+  return <main className="mx-auto flex min-h-screen max-w-3xl flex-col justify-center px-6 py-24 text-foreground"><h1 className="text-4xl font-bold">404 — Page not found</h1><p className="mt-4 text-base leading-8">This URL does not exist. For public DevTinder information, return to the homepage or use the links below.</p><pre className="mt-8 whitespace-pre-wrap rounded-lg border p-5 text-sm"># DevTinder recovery links\n- /\n- /about\n- /contact\n- /privacy\n- /llms.txt\n- /sitemap.xml</pre><nav className="mt-8 flex flex-wrap gap-4"><Link href="/">Home</Link><Link href="/sitemap.xml">Sitemap</Link><Link href="/llms.txt">Agent instructions</Link></nav></main>;
+}
