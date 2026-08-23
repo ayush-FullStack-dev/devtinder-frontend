@@ -275,7 +275,7 @@ const LandingDiscoverCard = ({
                 <div
                     className={`                        pointer-events-none
                         absolute
-                        inset-x-4
+                        inset-x-8
                         -bottom-9
                         z-30
                         flex
