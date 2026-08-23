@@ -204,9 +204,9 @@ const LandingDeveloperCard = ({
                                 className={`
                                     absolute
                                     top-8
-                                    left-3
+                                    right-5
                                     z-30
-                                    -rotate-25
+                                    rotate-25
                                     transition-all
                                     duration-200
                                     ${
@@ -217,8 +217,8 @@ const LandingDeveloperCard = ({
                                 `}
                             >
                                 <X
-                                    size={76}
-                                    strokeWidth={3}
+                                    size={100}
+                                    strokeWidth={4}
                                 />
                             </div>
 
@@ -228,7 +228,7 @@ const LandingDeveloperCard = ({
                                     top-8
                                     left-5
                                     z-30
-                                    rotate-25
+                                    -rotate-25
                                     transition-all
                                     duration-200
                                     ${
@@ -239,7 +239,7 @@ const LandingDeveloperCard = ({
                                 `}
                             >
                                 <Heart
-                                    size={80}
+                                    size={100}
                                     color="#EF4444"
                                     fill="#EF4444"
                                 />

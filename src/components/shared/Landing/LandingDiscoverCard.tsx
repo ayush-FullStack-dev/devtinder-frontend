@@ -39,8 +39,8 @@ const LandingDiscoverCard = ({
         const width = cardRef.current?.offsetWidth ?? 300;
 
         return {
-            left: width * 0.5,
-            right: width * 0.5,
+            left: width * 0.4,
+            right: width * 0.4,
         };
     };
 
@@ -53,9 +53,6 @@ const LandingDiscoverCard = ({
     const [swipe, setSwipe] =
         useState<null | "right" | "left">(null);
 
-    const [activeSwipe, setActiveSwipe] =
-        useState<null | "right" | "left">(null);
-
     const [isAnimating, setIsAnimating] = useState(false);
 
     const activeProfile = profiles[0];
@@ -63,13 +60,6 @@ const LandingDiscoverCard = ({
     useMotionValueEvent(x, "change", (latest) => {
         if (isAnimating) return;
 
-        if (latest > 50) {
-            setActiveSwipe("right");
-        } else if (latest < -50) {
-            setActiveSwipe("left");
-        } else {
-            setActiveSwipe(null);
-        }
 
         const threshold = getSwipeThreshold();
 
@@ -109,7 +99,6 @@ const LandingDiscoverCard = ({
 
         x.set(0);
         setSwipe(null);
-        setActiveSwipe(null);
     };
 
     const swipeCard = async (
@@ -120,7 +109,6 @@ const LandingDiscoverCard = ({
         }
 
         setIsAnimating(true);
-        setActiveSwipe(direction);
         setSwipe(direction);
 
         const targetX =
@@ -153,7 +141,6 @@ const LandingDiscoverCard = ({
 
         x.set(0);
         setSwipe(null);
-        setActiveSwipe(null);
 
         requestAnimationFrame(() => {
             setIsAnimating(false);
@@ -286,16 +273,15 @@ const LandingDiscoverCard = ({
                 </motion.div>
 
                 <div
-                    className="
-                        pointer-events-none
+                    className={`                        pointer-events-none
                         absolute
                         inset-x-4
                         -bottom-9
                         z-30
                         flex
                         items-end
-                        justify-between
-                    "
+                        justify-between `}
+
                 >
                     <motion.button
                         type="button"
@@ -307,14 +293,13 @@ const LandingDiscoverCard = ({
                         }}
                         animate={{
                             scale:
-                                activeSwipe === "left"
+                                swipe === "left"
                                     ? 1.09
                                     : 1,
                         }}
                         onClick={() => swipeCard("left")}
                         disabled={profiles.length <= 1}
-                        className="
-                            pointer-events-auto
+                        className={`  pointer-events-auto
                             flex
                             size-11
                             items-center
@@ -326,19 +311,14 @@ const LandingDiscoverCard = ({
                             backdrop-blur-sm
                             sm:size-14
                             disabled:cursor-not-allowed
-                            disabled:opacity-60
-                        "
+                            disabled:opacity-60 ${swipe === "left" ? "bg-black dark:bg-white" : ""}`}
                     >
                         <X
-                            size={27}
+                            size={30}
                             strokeWidth={
-                                swipe === "left" ? 3 : 2.5
+                                swipe === "left" ? 4 : 3
                             }
-                            color={
-                                swipe === "left"
-                                    ? "red"
-                                    : "#FFFFFF"
-                            }
+                            className={swipe === "left" ? "text-white dark:text-black" : ""}
                         />
                     </motion.button>
 
@@ -352,14 +332,13 @@ const LandingDiscoverCard = ({
                         }}
                         animate={{
                             scale:
-                                activeSwipe === "right"
+                                 swipe === "right"
                                     ? 1.09
                                     : 1,
                         }}
                         onClick={() => swipeCard("right")}
                         disabled={profiles.length <= 1}
-                        className="
-                            pointer-events-auto
+                        className={`    pointer-events-auto
                             flex
                             size-11
                             items-center
@@ -371,19 +350,21 @@ const LandingDiscoverCard = ({
                             backdrop-blur-sm
                             sm:size-14
                             disabled:cursor-not-allowed
-                            disabled:opacity-60
-                        "
+                            disabled:opacity-60 ${swipe === "right" ? "bg-[#EC180E]" : ""}`}
                     >
                         <Heart
-                            size={25}
+                            size={30}
+                            strokeWidth={
+                                swipe === "right" ? 3 : 2
+                            }
                             color={
                                 swipe === "right"
-                                    ? "#EF4444"
-                                    : "#FFFFFF"
+                                    ? "#FFFFFF"
+                                    : "#CD130A"
                             }
                             fill={
                                 swipe === "right"
-                                    ? "#EF4444"
+                                    ? "#FFFFFF"
                                     : "none"
                             }
                         />
