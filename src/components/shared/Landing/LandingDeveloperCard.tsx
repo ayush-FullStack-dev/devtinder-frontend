@@ -16,6 +16,7 @@ import {
     X,
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { motion } from "motion/react";
 import ImageProgress from "../ImageProgress";
 
 interface LandingDeveloperCardProps {
@@ -29,8 +30,6 @@ interface LandingDeveloperCardProps {
     techStack: string[];
     duration?: number;
     autoPlay?: boolean;
-
-    // Only the active/swipeable card needs this.
     swipeVal?: {
         swipeSide: null | "left" | "right";
     };
@@ -52,6 +51,9 @@ const LandingDeveloperCard = ({
     const swipeSide = swipeVal?.swipeSide ?? null;
 
     const [activeIndex, setActiveIndex] = useState(0);
+    const [loadedImages, setLoadedImages] = useState<
+        Record<number, boolean>
+    >({});
 
     const visibleTechStack = techStack.slice(0, 4);
 
@@ -75,9 +77,17 @@ const LandingDeveloperCard = ({
         );
     };
 
+    const handleImageLoad = (index: number) => {
+        setLoadedImages((prev) => ({
+            ...prev,
+            [index]: true,
+        }));
+    };
+
     useEffect(() => {
         setActiveIndex(0);
-    }, [images.length]);
+        setLoadedImages({});
+    }, [images]);
 
     useEffect(() => {
         if (!autoPlay || images.length <= 1) {
@@ -85,21 +95,19 @@ const LandingDeveloperCard = ({
         }
 
         const interval = setInterval(() => {
-            setActiveIndex(
-                (prev) =>
-                    (prev + 1) % images.length
-            );
+            setActiveIndex((prev) => {
+                if (prev >= images.length - 1) {
+                    return 0;
+                }
+
+                return prev + 1;
+            });
         }, duration);
 
         return () => {
             clearInterval(interval);
         };
-    }, [
-        activeIndex,
-        autoPlay,
-        images.length,
-        duration,
-    ]);
+    }, [autoPlay, images.length, duration]);
 
     return (
         <div
@@ -132,38 +140,63 @@ const LandingDeveloperCard = ({
                         h-[67%]
                         min-h-65
                         w-full
+                        overflow-hidden
                         group
                     "
                 >
                     {images.length > 0 ? (
                         images.map((src, index) => (
-                            <Image
+                            <motion.div
                                 key={`${src}-${index}`}
-                                src={src}
-                                alt={`${name} profile`}
-                                fill
-                                sizes="400px"
-                                draggable={false}
-                                className={`
-                                    pointer-events-none
-                                    object-cover
-                                    object-top
-                                    opacity-95
-                                    dark:opacity-85
-                                    ${
+                                initial={false}
+                                animate={{
+                                    opacity:
                                         index === activeIndex
-                                            ? "block"
-                                            : "hidden"
+                                            ? 1
+                                            : 0,
+                                }}
+                                transition={{
+                                    opacity: {
+                                        duration: 0.45,
+                                        ease: "easeInOut",
+                                    },
+                                }}
+                                className="
+                                    pointer-events-none
+                                    absolute
+                                    inset-0
+                                    z-0
+                                    overflow-hidden
+                                    will-change-[opacity]
+                                "
+                            >
+                                <Image
+                                    src={src}
+                                    alt={`${name} profile`}
+                                    fill
+                                    sizes="400px"
+                                    priority={index === 0}
+                                    draggable={false}
+                                    onLoad={() =>
+                                        handleImageLoad(index)
                                     }
-                                `}
-                            />
+                                    className={`
+                                        object-cover
+                                        object-top
+                                        transition-[filter,transform]
+                                        duration-500
+                                        ${
+                                            loadedImages[index]
+                                                ? "blur-0"
+                                                : "blur-md"
+                                        }
+                                    `}
+                                />
+                            </motion.div>
                         ))
                     ) : (
                         <div className="absolute inset-0 bg-muted" />
                     )}
-
-                    {/* Swipe indicators are rendered only when swipeVal
-                        is provided, meaning only the active card. */}
 
                     {swipeVal && (
                         <>
@@ -174,11 +207,12 @@ const LandingDeveloperCard = ({
                                     left-3
                                     z-30
                                     -rotate-25
-                                    transition-opacity
+                                    transition-all
+                                    duration-200
                                     ${
                                         swipeSide === "left"
-                                            ? "opacity-90"
-                                            : "opacity-0"
+                                            ? "scale-100 opacity-90"
+                                            : "scale-75 opacity-0"
                                     }
                                 `}
                             >
@@ -195,11 +229,12 @@ const LandingDeveloperCard = ({
                                     left-5
                                     z-30
                                     rotate-25
-                                    transition-opacity
+                                    transition-all
+                                    duration-200
                                     ${
                                         swipeSide === "right"
-                                            ? "opacity-90"
-                                            : "opacity-0"
+                                            ? "scale-100 opacity-100"
+                                            : "scale-75 opacity-0"
                                     }
                                 `}
                             >
@@ -279,7 +314,8 @@ const LandingDeveloperCard = ({
                                         backdrop-blur-sm
                                         transition
                                         ${
-                                            activeIndex === images.length - 1
+                                            activeIndex ===
+                                            images.length - 1
                                                 ? "cursor-not-allowed opacity-30"
                                                 : "cursor-pointer opacity-90 hover:opacity-100"
                                         }

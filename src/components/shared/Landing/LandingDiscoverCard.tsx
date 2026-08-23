@@ -39,8 +39,8 @@ const LandingDiscoverCard = ({
         const width = cardRef.current?.offsetWidth ?? 300;
 
         return {
-            left: width * 0.7,
-            right: width * 0.7,
+            left: width * 0.5,
+            right: width * 0.5,
         };
     };
 
