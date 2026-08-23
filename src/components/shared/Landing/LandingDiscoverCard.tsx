@@ -6,7 +6,7 @@ import {
     useMotionValue,
     useMotionValueEvent,
 } from "motion/react";
-import { Ban, CircleX, Heart, X } from "lucide-react";
+import { Heart, X } from "lucide-react";
 import { useRef, useState } from "react";
 import LandingDeveloperCard from "./LandingDeveloperCard";
 import { twMerge } from "tailwind-merge";
@@ -44,6 +44,7 @@ const LandingDiscoverCard = ({
             right: width * 0.70,
         };
     };
+
     const cardSwipeVal = getSwipeThreshold()
 
     const controls = useAnimationControls();
@@ -66,7 +67,6 @@ const LandingDiscoverCard = ({
 
     useMotionValueEvent(x, "change", (latest) => {
         if (isAnimating) return;
-
         if (latest > 50) {
             setActiveSwipe("right");
         } else if (latest < -50) {
@@ -127,6 +127,7 @@ const LandingDiscoverCard = ({
         }
 
         setIsAnimating(true);
+
         setActiveSwipe(direction);
         setSwipe(direction);
 
@@ -163,14 +164,14 @@ const LandingDiscoverCard = ({
         });
 
         x.set(0);
+
+
         setSwipe(null);
-        setActiveSwipe(null);
 
         requestAnimationFrame(() => {
             setIsAnimating(false);
         });
     };
-
     const handleDragEnd = async () => {
         if (isAnimating) return;
 
@@ -291,6 +292,7 @@ const LandingDiscoverCard = ({
                         techStack={activeProfile.techStack}
                         duration={activeProfile.duration}
                         autoPlay={true}
+                        swipeVal={{ swipeSide: swipe }}
                     />
                 </motion.div>
 
@@ -323,25 +325,22 @@ const LandingDiscoverCard = ({
                         onClick={() =>
                             swipeCard("left")
                         }
-                        disabled={
-                            isAnimating ||
-                            profiles.length <= 1
-                        }
+                        disabled={profiles.length <= 1}
                         className="
-                            pointer-events-auto
-                            flex
-                            size-11
-                            items-center
-                            justify-center
-                            rounded-full
-                            bg-[#24262A]/95
-                            text-white
-                            shadow-lg
-                            backdrop-blur-sm
-                            sm:size-14
-                            disabled:cursor-not-allowed
-                            disabled:opacity-60
-                        "
+        pointer-events-auto
+        flex
+        size-11
+        items-center
+        justify-center
+        rounded-full
+        bg-[#24262A]/95
+        text-white
+        shadow-lg
+        backdrop-blur-sm
+        sm:size-14
+        disabled:cursor-not-allowed
+        disabled:opacity-60
+    "
                     >
                         <X
                             size={27}
@@ -371,25 +370,22 @@ const LandingDiscoverCard = ({
                         onClick={() =>
                             swipeCard("right")
                         }
-                        disabled={
-                            isAnimating ||
-                            profiles.length <= 1
-                        }
+                        disabled={profiles.length <= 1}
                         className="
-                            pointer-events-auto
-                            flex
-                            size-11
-                            items-center
-                            justify-center
-                            rounded-full
-                            bg-[#24262A]/95
-                            text-white
-                            shadow-lg
-                            backdrop-blur-sm
-                            sm:size-14
-                            disabled:cursor-not-allowed
-                            disabled:opacity-60
-                        "
+        pointer-events-auto
+        flex
+        size-11
+        items-center
+        justify-center
+        rounded-full
+        bg-[#24262A]/95
+        text-white
+        shadow-lg
+        backdrop-blur-sm
+        sm:size-14
+        disabled:cursor-not-allowed
+        disabled:opacity-60
+    "
                     >
                         <Heart
                             size={25}
