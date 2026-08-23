@@ -36,16 +36,13 @@ const LandingDiscoverCard = ({
     const cardRef = useRef<HTMLDivElement>(null);
 
     const getSwipeThreshold = () => {
-        const width =
-            cardRef.current?.offsetWidth ?? 300;
+        const width = cardRef.current?.offsetWidth ?? 300;
 
         return {
-            left: width * 0.70,
-            right: width * 0.70,
+            left: width * 0.7,
+            right: width * 0.7,
         };
     };
-
-    const cardSwipeVal = getSwipeThreshold()
 
     const controls = useAnimationControls();
     const x = useMotionValue(0);
@@ -59,14 +56,13 @@ const LandingDiscoverCard = ({
     const [activeSwipe, setActiveSwipe] =
         useState<null | "right" | "left">(null);
 
-    const [isAnimating, setIsAnimating] =
-        useState(false);
+    const [isAnimating, setIsAnimating] = useState(false);
 
     const activeProfile = profiles[0];
     const backProfile = profiles[1];
-
     useMotionValueEvent(x, "change", (latest) => {
         if (isAnimating) return;
+
         if (latest > 50) {
             setActiveSwipe("right");
         } else if (latest < -50) {
@@ -75,14 +71,17 @@ const LandingDiscoverCard = ({
             setActiveSwipe(null);
         }
 
-        if (latest > cardSwipeVal.right) {
+        const threshold = getSwipeThreshold();
+
+        if (latest > threshold.right) {
             setSwipe("right");
-        } else if (latest < -cardSwipeVal.left) {
+        } else if (latest < -threshold.left) {
             setSwipe("left");
         } else {
             setSwipe(null);
         }
     });
+
 
     const moveCardToEnd = () => {
         setProfiles((prev) => {
@@ -90,10 +89,7 @@ const LandingDiscoverCard = ({
                 return prev;
             }
 
-            return [
-                ...prev.slice(1),
-                prev[0],
-            ];
+            return [...prev.slice(1), prev[0]];
         });
     };
 
@@ -111,35 +107,27 @@ const LandingDiscoverCard = ({
             },
         });
 
+        x.set(0);
         setSwipe(null);
         setActiveSwipe(null);
-        x.set(0);
     };
 
     const swipeCard = async (
         direction: "left" | "right"
     ) => {
-        if (
-            isAnimating ||
-            profiles.length <= 1
-        ) {
+        if (isAnimating || profiles.length <= 1) {
             return;
         }
 
         setIsAnimating(true);
-
         setActiveSwipe(direction);
         setSwipe(direction);
 
         const targetX =
-            direction === "right"
-                ? 650
-                : -650;
+            direction === "right" ? 650 : -650;
 
         const rotate =
-            direction === "right"
-                ? 10
-                : -10;
+            direction === "right" ? 10 : -10;
 
         await controls.start({
             x: targetX,
@@ -164,25 +152,26 @@ const LandingDiscoverCard = ({
         });
 
         x.set(0);
-
-
         setSwipe(null);
+        setActiveSwipe(null);
 
         requestAnimationFrame(() => {
             setIsAnimating(false);
         });
     };
+
     const handleDragEnd = async () => {
         if (isAnimating) return;
 
         const currentX = x.get();
+        const threshold = getSwipeThreshold();
 
-        if (currentX > cardSwipeVal.right) {
+        if (currentX > threshold.right) {
             await swipeCard("right");
             return;
         }
 
-        if (currentX < -cardSwipeVal.left) {
+        if (currentX < -threshold.left) {
             await swipeCard("left");
             return;
         }
@@ -202,12 +191,12 @@ const LandingDiscoverCard = ({
             h-full
             w-full
             shrink-0
-          
         `,
                 className
             )}
         >
             <div
+                ref={cardRef}
                 className="
                     relative
                     h-full
@@ -256,11 +245,11 @@ const LandingDiscoverCard = ({
                     layout
                     layoutId={`developer-card-${activeProfile.id}`}
                     className="
-        relative
-        z-10
-        h-full
-        w-full
-    "
+                        relative
+                        z-10
+                        h-full
+                        w-full
+                    "
                     drag={isAnimating ? false : "x"}
                     dragConstraints={{
                         left: -200,
@@ -322,29 +311,29 @@ const LandingDiscoverCard = ({
                                     ? 1.09
                                     : 1,
                         }}
-                        onClick={() =>
-                            swipeCard("left")
-                        }
+                        onClick={() => swipeCard("left")}
                         disabled={profiles.length <= 1}
                         className="
-        pointer-events-auto
-        flex
-        size-11
-        items-center
-        justify-center
-        rounded-full
-        bg-[#24262A]/95
-        text-white
-        shadow-lg
-        backdrop-blur-sm
-        sm:size-14
-        disabled:cursor-not-allowed
-        disabled:opacity-60
-    "
+                            pointer-events-auto
+                            flex
+                            size-11
+                            items-center
+                            justify-center
+                            rounded-full
+                            bg-[#24262A]/95
+                            text-white
+                            shadow-lg
+                            backdrop-blur-sm
+                            sm:size-14
+                            disabled:cursor-not-allowed
+                            disabled:opacity-60
+                        "
                     >
                         <X
                             size={27}
-                            strokeWidth={swipe === "left" ? 3 : 2.5}
+                            strokeWidth={
+                                swipe === "left" ? 3 : 2.5
+                            }
                             color={
                                 swipe === "left"
                                     ? "red"
@@ -367,25 +356,23 @@ const LandingDiscoverCard = ({
                                     ? 1.09
                                     : 1,
                         }}
-                        onClick={() =>
-                            swipeCard("right")
-                        }
+                        onClick={() => swipeCard("right")}
                         disabled={profiles.length <= 1}
                         className="
-        pointer-events-auto
-        flex
-        size-11
-        items-center
-        justify-center
-        rounded-full
-        bg-[#24262A]/95
-        text-white
-        shadow-lg
-        backdrop-blur-sm
-        sm:size-14
-        disabled:cursor-not-allowed
-        disabled:opacity-60
-    "
+                            pointer-events-auto
+                            flex
+                            size-11
+                            items-center
+                            justify-center
+                            rounded-full
+                            bg-[#24262A]/95
+                            text-white
+                            shadow-lg
+                            backdrop-blur-sm
+                            sm:size-14
+                            disabled:cursor-not-allowed
+                            disabled:opacity-60
+                        "
                     >
                         <Heart
                             size={25}
