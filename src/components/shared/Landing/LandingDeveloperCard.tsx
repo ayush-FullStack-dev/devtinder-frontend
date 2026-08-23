@@ -91,9 +91,9 @@ const LandingDeveloperCard = ({
         duration,
     ]);
 
-  return (
-    <div
-        className="
+    return (
+        <div
+            className="
             relative
             h-full
             w-full
@@ -105,116 +105,129 @@ const LandingDeveloperCard = ({
             bg-background
             select-none
         "
-    >
-        <div
-            className="
-                h-full
-                w-full
-                min-h-0
-                overflow-y-auto
-                overscroll-contain
-                scrollbar-hide
-            "
         >
             <div
                 className="
+        h-full
+        w-full
+        min-h-0
+        overflow-y-auto
+        overscroll-auto
+        scrollbar-hide
+    "
+            >
+                <div
+                    className="
                     relative
                     h-[67%]
                     min-h-[260px]
                     w-full
                     group
                 "
-            >
-                {images.length > 0 ? (
-                    images.map((src, index) => (
-                        <Image
-                            key={`${src}-${index}`}
-                            src={src}
-                            alt={`${name} profile`}
-                            fill
-                            sizes="400px"
-                            draggable={false}
-                            className={`
+                >
+                    {images.length > 0 ? (
+                        images.map((src, index) => (
+                            <Image
+                                key={`${src}-${index}`}
+                                src={src}
+                                alt={`${name} profile`}
+                                fill
+                                sizes="400px"
+                                draggable={false}
+                                className={`
                                 pointer-events-none
                                 object-cover
                                 object-top
                                 opacity-95
                                 dark:opacity-85
-                                ${
-                                    index === activeIndex
+                                ${index === activeIndex
                                         ? "block"
                                         : "hidden"
-                                }
+                                    }
                             `}
-                        />
-                    ))
-                ) : (
-                    <div className="absolute inset-0 bg-muted" />
-                )}
+                            />
+                        ))
+                    ) : (
+                        <div className="absolute inset-0 bg-muted" />
+                    )}
 
-                {images.length > 1 && (
-                    <>
-                        <ImageProgress
-                            total={images.length}
-                            activeIndex={activeIndex}
-                            duration={duration}
-                            autoPlay={autoPlay}
-                        />
+                    {images.length > 1 && (
+                        <>
+                            <ImageProgress
+                                total={images.length}
+                                activeIndex={activeIndex}
+                                duration={duration}
+                                autoPlay={autoPlay}
+                            />
 
-                        <div
-                            className="
+                            <div className="absolute inset-0 z-10 flex lg:hidden">
+                                <button
+                                    type="button"
+                                    aria-label="Previous image"
+                                    onClick={backProfileImg}
+                                    className="h-full w-1/2"
+                                />
+
+                                <button
+                                    type="button"
+                                    aria-label="Next image"
+                                    onClick={nextProfileImg}
+                                    className="h-full w-1/2"
+                                />
+                            </div>
+
+                            <div
+                                className="
                                 absolute
-                                inset-y-0
-                                right-2
-                                left-2
-                                z-20
-                                hidden
-                                items-center
-                                justify-between
-                                group-hover:flex
+                inset-y-0
+                right-2
+                left-2
+                z-20
+                hidden
+                items-center
+                justify-between
+                lg:group-hover:flex
                             "
-                        >
-                            <ChevronLeft
-                                size={35}
-                                onClick={backProfileImg}
-                                className={`
+                            >
+                                <ChevronLeft
+                                    size={35}
+                                    onClick={backProfileImg}
+                                    className={`
                                     rounded-full
                                     bg-black/45
                                     p-1
                                     text-white
                                     backdrop-blur-sm
                                     transition
-                                    ${
-                                        activeIndex === 0
+                                    ${activeIndex === 0
                                             ? "cursor-not-allowed opacity-30"
                                             : "cursor-pointer opacity-90 hover:opacity-100"
-                                    }
+                                        }
                                 `}
-                            />
+                                />
 
-                            <ChevronRight
-                                size={35}
-                                onClick={nextProfileImg}
-                                className={`
+                                <ChevronRight
+                                    size={35}
+                                    onClick={nextProfileImg}
+                                    className={`
                                     rounded-full
                                     bg-black/45
                                     p-1
                                     text-white
                                     backdrop-blur-sm
                                     transition
-                                    ${
-                                        activeIndex === images.length - 1
+                                    ${activeIndex === images.length - 1
                                             ? "cursor-not-allowed opacity-30"
                                             : "cursor-pointer opacity-90 hover:opacity-100"
-                                    }
+                                        }
                                 `}
-                            />
-                        </div>
-                    </>
-                )}
+                                />
+                            </div>
+                        </>
+                    )}
 
-                <span
-                    className="
+                    <span
+                        className="
                         absolute
                         bottom-3
                         left-3
@@ -224,34 +237,33 @@ const LandingDeveloperCard = ({
                         gap-2
                         text-white
                     "
-                >
-                    <span
-                        className={`
+                    >
+                        <span
+                            className={`
                             size-2
                             rounded-full
-                            ${
-                                isOnline
+                            ${isOnline
                                     ? "animate-dot-blink bg-green-brand"
                                     : "bg-gray-400"
-                            }
+                                }
                         `}
-                    />
+                        />
 
-                    <span
-                        className={`
+                        <span
+                            className={`
                             ${googleSansFlex.className}
                             text-xs
                         `}
-                    >
-                        {isOnline
-                            ? "Online"
-                            : "Active recently"}
+                        >
+                            {isOnline
+                                ? "Online"
+                                : "Active recently"}
+                        </span>
                     </span>
-                </span>
-            </div>
+                </div>
 
-            <div
-                className="
+                <div
+                    className="
                     flex
                     w-full
                     flex-col
@@ -260,101 +272,101 @@ const LandingDeveloperCard = ({
                     px-3
                     py-3
                 "
-            >
-                <div className="flex flex-col">
-                    <div
-                        className={`
+                >
+                    <div className="flex flex-col">
+                        <div
+                            className={`
                             ${googleSans.className}
                             mb-2
                             flex
                             items-center
                             gap-2
                         `}
-                    >
-                        <p className="text-lg">
-                            {name} {age}
-                        </p>
+                        >
+                            <p className="text-lg">
+                                {name} {age}
+                            </p>
 
-                        {verified && (
-                            <VscVerifiedFilled
-                                className="
+                            {verified && (
+                                <VscVerifiedFilled
+                                    className="
                                     h-6
                                     w-6
                                     shrink-0
                                     text-[#358FE5]
                                 "
-                            />
-                        )}
-                    </div>
-
-                    <div
-                        className="
-                            mb-1
-                            flex
-                            min-w-0
-                            items-center
-                            gap-2
-                        "
-                    >
-                        <BriefcaseBusiness
-                            size={15}
-                            className="shrink-0"
-                        />
-
-                        <p
-                            className={`
-                                ${googleSansFlex.className}
-                                truncate
-                                text-xs
-                            `}
-                        >
-                            {role}
-                        </p>
-                    </div>
-
-                    <div
-                        className="
-                            mb-1
-                            flex
-                            min-w-0
-                            items-center
-                            gap-2
-                        "
-                    >
-                        <CiLocationOn
-                            className="shrink-0"
-                        />
-
-                        <p
-                            className={`
-                                ${googleSansFlex.className}
-                                truncate
-                                text-xs
-                            `}
-                        >
-                            {location}
-                        </p>
-                    </div>
-                </div>
-
-                {techStack.length > 0 && (
-                    <div className="flex flex-col gap-1">
-                        <p>
-                            Tech Stack
-                        </p>
+                                />
+                            )}
+                        </div>
 
                         <div
                             className="
+                            mb-1
+                            flex
+                            min-w-0
+                            items-center
+                            gap-2
+                        "
+                        >
+                            <BriefcaseBusiness
+                                size={15}
+                                className="shrink-0"
+                            />
+
+                            <p
+                                className={`
+                                ${googleSansFlex.className}
+                                truncate
+                                text-xs
+                            `}
+                            >
+                                {role}
+                            </p>
+                        </div>
+
+                        <div
+                            className="
+                            mb-1
+                            flex
+                            min-w-0
+                            items-center
+                            gap-2
+                        "
+                        >
+                            <CiLocationOn
+                                className="shrink-0"
+                            />
+
+                            <p
+                                className={`
+                                ${googleSansFlex.className}
+                                truncate
+                                text-xs
+                            `}
+                            >
+                                {location}
+                            </p>
+                        </div>
+                    </div>
+
+                    {techStack.length > 0 && (
+                        <div className="flex flex-col gap-1">
+                            <p>
+                                Tech Stack
+                            </p>
+
+                            <div
+                                className="
                                 flex
                                 min-w-0
                                 gap-2
                             "
-                        >
-                            {visibleTechStack.map(
-                                (tech, index) => (
-                                    <span
-                                        key={`${tech}-${index}`}
-                                        className="
+                            >
+                                {visibleTechStack.map(
+                                    (tech, index) => (
+                                        <span
+                                            key={`${tech}-${index}`}
+                                            className="
                                             flex
                                             h-10
                                             min-w-0
@@ -365,17 +377,17 @@ const LandingDeveloperCard = ({
                                             rounded-xl
                                             bg-[#303131]
                                         "
-                                    >
-                                        <GetLogo
-                                            name={tech}
-                                        />
-                                    </span>
-                                )
-                            )}
+                                        >
+                                            <GetLogo
+                                                name={tech}
+                                            />
+                                        </span>
+                                    )
+                                )}
 
-                            {remainingTechCount > 0 && (
-                                <span
-                                    className="
+                                {remainingTechCount > 0 && (
+                                    <span
+                                        className="
                                         flex
                                         h-10
                                         min-w-0
@@ -392,24 +404,24 @@ const LandingDeveloperCard = ({
                                         sm:px-3
                                         sm:text-sm
                                     "
-                                >
-                                    +
-                                    {
-                                        remainingTechCount
-                                    }
+                                    >
+                                        +
+                                        {
+                                            remainingTechCount
+                                        }
 
-                                    <span className="hidden sm:inline">
-                                        &nbsp;more
+                                        <span className="hidden sm:inline">
+                                            &nbsp;more
+                                        </span>
                                     </span>
-                                </span>
-                            )}
+                                )}
+                            </div>
                         </div>
-                    </div>
-                )}
+                    )}
+                </div>
             </div>
         </div>
-    </div>
-);
+    );
 };
 
 export default LandingDeveloperCard;

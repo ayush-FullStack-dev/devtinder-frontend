@@ -7,7 +7,7 @@ import {
     useMotionValueEvent,
 } from "motion/react";
 import { Ban, CircleX, Heart, X } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import LandingDeveloperCard from "./LandingDeveloperCard";
 import { twMerge } from "tailwind-merge";
 
@@ -33,10 +33,18 @@ const LandingDiscoverCard = ({
     developers,
     className,
 }: LandingDiscoverCardProps) => {
-    const cardRemoveVal = {
-        left: 300,
-        right: 250,
+    const cardRef = useRef<HTMLDivElement>(null);
+
+    const getSwipeThreshold = () => {
+        const width =
+            cardRef.current?.offsetWidth ?? 300;
+
+        return {
+            left: width * 0.70,
+            right: width * 0.70,
+        };
     };
+    const cardSwipeVal = getSwipeThreshold()
 
     const controls = useAnimationControls();
     const x = useMotionValue(0);
@@ -67,9 +75,9 @@ const LandingDiscoverCard = ({
             setActiveSwipe(null);
         }
 
-        if (latest > cardRemoveVal.right) {
+        if (latest > cardSwipeVal.right) {
             setSwipe("right");
-        } else if (latest < -cardRemoveVal.left) {
+        } else if (latest < -cardSwipeVal.left) {
             setSwipe("left");
         } else {
             setSwipe(null);
@@ -168,12 +176,12 @@ const LandingDiscoverCard = ({
 
         const currentX = x.get();
 
-        if (currentX > cardRemoveVal.right) {
+        if (currentX > cardSwipeVal.right) {
             await swipeCard("right");
             return;
         }
 
-        if (currentX < -cardRemoveVal.left) {
+        if (currentX < -cardSwipeVal.left) {
             await swipeCard("left");
             return;
         }
@@ -248,20 +256,21 @@ const LandingDiscoverCard = ({
                     layout
                     layoutId={`developer-card-${activeProfile.id}`}
                     className="
-                        relative
-                        z-10
-                        h-full
-                        w-full
-                    "
-                    drag={!isAnimating}
+        relative
+        z-10
+        h-full
+        w-full
+    "
+                    drag={isAnimating ? false : "x"}
                     dragConstraints={{
                         left: -200,
                         right: 300,
-                        top: -100,
-                        bottom: 0,
                     }}
                     dragElastic={0.45}
-                    style={{ x }}
+                    style={{
+                        x,
+                        touchAction: "pan-y",
+                    }}
                     animate={controls}
                     onDragEnd={handleDragEnd}
                     transition={{
