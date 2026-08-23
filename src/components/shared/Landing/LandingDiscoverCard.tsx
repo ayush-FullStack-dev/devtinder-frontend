@@ -29,20 +29,16 @@ interface LandingDiscoverCardProps {
     className?: string;
 }
 
+const SWIPE_THRESHOLD_RATIO = 0.38;
+const MIN_SWIPE_THRESHOLD = 100;
+const MAX_DRAG = 360;
+
 const LandingDiscoverCard = ({
     developers,
     className,
 }: LandingDiscoverCardProps) => {
     const cardRef = useRef<HTMLDivElement>(null);
-
-    const getSwipeThreshold = () => {
-        const width = cardRef.current?.offsetWidth ?? 300;
-
-        return {
-            left: width * 0.4,
-            right: width * 0.4,
-        };
-    };
+    const animationLockRef = useRef(false);
 
     const controls = useAnimationControls();
     const x = useMotionValue(0);
@@ -53,69 +49,84 @@ const LandingDiscoverCard = ({
     const [swipe, setSwipe] =
         useState<null | "right" | "left">(null);
 
-    const [isAnimating, setIsAnimating] = useState(false);
+    const [isAnimating, setIsAnimating] =
+        useState(false);
 
     const activeProfile = profiles[0];
     const backProfile = profiles[1];
-    useMotionValueEvent(x, "change", (latest) => {
-        if (isAnimating) return;
 
+    const getCardWidth = () => {
+        return (
+            cardRef.current?.getBoundingClientRect()
+                .width ?? 300
+        );
+    };
+
+    const getSwipeThreshold = () => {
+        return Math.max(
+            getCardWidth() *
+            SWIPE_THRESHOLD_RATIO,
+            MIN_SWIPE_THRESHOLD
+        );
+    };
+
+    const getSwipeTarget = (
+        direction: "left" | "right"
+    ) => {
+        const width = getCardWidth();
+
+        const distance = Math.max(
+            width * 1.7,
+            520
+        );
+
+        return direction === "right"
+            ? distance
+            : -distance;
+    };
+
+    useMotionValueEvent(x, "change", (latest) => {
+        if (animationLockRef.current) {
+            return;
+        }
 
         const threshold = getSwipeThreshold();
 
-        if (latest > threshold.right) {
+        if (latest >= threshold) {
             setSwipe("right");
-        } else if (latest < -threshold.left) {
-            setSwipe("left");
-        } else {
-            setSwipe(null);
+            return;
         }
-    });
 
+        if (latest <= -threshold) {
+            setSwipe("left");
+            return;
+        }
 
-    const moveCardToEnd = () => {
-        setProfiles((prev) => {
-            if (prev.length <= 1) {
-                return prev;
-            }
-
-            return [...prev.slice(1), prev[0]];
-        });
-    };
-
-    const resetCard = async () => {
-        await controls.start({
-            x: 0,
-            y: 0,
-            opacity: 1,
-            rotate: 0,
-            transition: {
-                type: "spring",
-                stiffness: 280,
-                damping: 28,
-                mass: 0.8,
-            },
-        });
-
-        x.set(0);
         setSwipe(null);
-    };
+    });
 
     const swipeCard = async (
         direction: "left" | "right"
     ) => {
-        if (isAnimating || profiles.length <= 1) {
+        if (
+            animationLockRef.current ||
+            isAnimating ||
+            profiles.length <= 1
+        ) {
             return;
         }
 
+        animationLockRef.current = true;
         setIsAnimating(true);
         setSwipe(direction);
 
+        controls.stop();
+
         const targetX =
-            direction === "right" ? 650 : -650;
+            getSwipeTarget(direction);
 
         const rotate =
-            direction === "right" ? 10 : -10;
+            direction === "right" ? 8 : -8;
 
         await controls.start({
             x: targetX,
@@ -124,13 +135,18 @@ const LandingDiscoverCard = ({
             rotate,
             transition: {
                 type: "spring",
-                stiffness: 240,
-                damping: 25,
-                mass: 0.8,
+                stiffness: 300,
+                damping: 30,
+                mass: 0.72,
             },
         });
 
-        moveCardToEnd();
+        const nextProfiles = [
+            ...profiles.slice(1),
+            profiles[0],
+        ];
+
+        setProfiles(nextProfiles);
 
         controls.set({
             x: 0,
@@ -143,22 +159,64 @@ const LandingDiscoverCard = ({
         setSwipe(null);
 
         requestAnimationFrame(() => {
+            animationLockRef.current = false;
             setIsAnimating(false);
         });
     };
 
+    const resetCard = async () => {
+        if (animationLockRef.current) {
+            return;
+        }
+
+        animationLockRef.current = true;
+        setIsAnimating(true);
+
+        controls.stop();
+
+        await controls.start({
+            x: 0,
+            y: 0,
+            opacity: 1,
+            rotate: 0,
+            transition: {
+                type: "spring",
+                stiffness: 430,
+                damping: 35,
+                mass: 0.65,
+            },
+        });
+
+        x.set(0);
+        setSwipe(null);
+
+        animationLockRef.current = false;
+        setIsAnimating(false);
+    };
+
+    const handleDragStart = () => {
+        if (animationLockRef.current) {
+            return;
+        }
+
+        controls.stop();
+    };
+
     const handleDragEnd = async () => {
-        if (isAnimating) return;
+        if (animationLockRef.current) {
+            return;
+        }
 
         const currentX = x.get();
-        const threshold = getSwipeThreshold();
+        const threshold =
+            getSwipeThreshold();
 
-        if (currentX > threshold.right) {
+        if (currentX >= threshold) {
             await swipeCard("right");
             return;
         }
 
-        if (currentX < -threshold.left) {
+        if (currentX <= -threshold) {
             await swipeCard("left");
             return;
         }
@@ -174,11 +232,13 @@ const LandingDiscoverCard = ({
         <div
             className={twMerge(
                 `
-            relative
-            h-full
-            w-full
-            shrink-0
-        `,
+                    relative
+                    h-full
+                    w-full
+                    shrink-0
+                    overflow-visible
+                    select-none
+                `,
                 className
             )}
         >
@@ -188,92 +248,119 @@ const LandingDiscoverCard = ({
                     relative
                     h-full
                     w-full
+                    overflow-visible
                 "
             >
                 {backProfile && (
-                    <motion.div
-                        key={backProfile.id}
-                        layout
-                        layoutId={`developer-card-${backProfile.id}`}
-                        transition={{
-                            layout: {
-                                type: "spring",
-                                stiffness: 300,
-                                damping: 30,
-                            },
-                        }}
+                    <div
+                        aria-hidden="true"
                         className="
+                            pointer-events-none
                             absolute
                             inset-0
                             z-0
                             h-full
                             w-full
-                            scale-[0.95]
+                            overflow-hidden
+                            rounded-[inherit]
                             translate-y-3
+                            scale-[0.95]
                         "
                     >
                         <LandingDeveloperCard
+                            key={`back-${backProfile.id}`}
                             name={backProfile.name}
                             age={backProfile.age}
-                            verified={backProfile.verified}
+                            verified={
+                                backProfile.verified
+                            }
                             role={backProfile.role}
-                            location={backProfile.location}
-                            images={backProfile.images}
-                            isOnline={backProfile.isOnline}
-                            techStack={backProfile.techStack}
-                            duration={backProfile.duration}
+                            location={
+                                backProfile.location
+                            }
+                            images={
+                                backProfile.images
+                            }
+                            isOnline={
+                                backProfile.isOnline
+                            }
+                            techStack={
+                                backProfile.techStack
+                            }
+                            duration={
+                                backProfile.duration
+                            }
                             autoPlay={false}
                         />
-                    </motion.div>
+                    </div>
                 )}
 
                 <motion.div
-                    key={activeProfile.id}
-                    layout
-                    layoutId={`developer-card-${activeProfile.id}`}
                     className="
                         relative
                         z-10
                         h-full
                         w-full
+                        overflow-hidden
+                        rounded-[inherit]
                     "
-                    drag={isAnimating ? false : "x"}
+                    drag={
+                        isAnimating
+                            ? false
+                            : "x"
+                    }
                     dragConstraints={{
-                        left: -200,
-                        right: 300,
+                        left: -MAX_DRAG,
+                        right: MAX_DRAG,
                     }}
-                    dragElastic={0.45}
+                    dragElastic={0.3}
+                    dragMomentum={false}
                     style={{
                         x,
                         touchAction: "pan-y",
+                        backfaceVisibility:
+                            "hidden",
+                        WebkitBackfaceVisibility:
+                            "hidden",
                     }}
                     animate={controls}
+                    onDragStart={
+                        handleDragStart
+                    }
                     onDragEnd={handleDragEnd}
-                    transition={{
-                        layout: {
-                            type: "spring",
-                            stiffness: 300,
-                            damping: 30,
-                        },
-                    }}
                 >
                     <LandingDeveloperCard
+                        key={activeProfile.id}
                         name={activeProfile.name}
                         age={activeProfile.age}
-                        verified={activeProfile.verified}
+                        verified={
+                            activeProfile.verified
+                        }
                         role={activeProfile.role}
-                        location={activeProfile.location}
-                        images={activeProfile.images}
-                        isOnline={activeProfile.isOnline}
-                        techStack={activeProfile.techStack}
-                        duration={activeProfile.duration}
+                        location={
+                            activeProfile.location
+                        }
+                        images={
+                            activeProfile.images
+                        }
+                        isOnline={
+                            activeProfile.isOnline
+                        }
+                        techStack={
+                            activeProfile.techStack
+                        }
+                        duration={
+                            activeProfile.duration
+                        }
                         autoPlay={true}
-                        swipeVal={{ swipeSide: swipe }}
+                        swipeVal={{
+                            swipeSide: swipe,
+                        }}
                     />
                 </motion.div>
 
                 <div
-                    className={`                        
+                    className="
                         pointer-events-none
                         absolute
                         inset-x-8
@@ -281,78 +368,85 @@ const LandingDiscoverCard = ({
                         z-30
                         flex
                         items-end
-                        justify-between`
-                    }
-
+                        justify-between
+                    "
                 >
                     <motion.button
                         type="button"
                         whileHover={{
-                            scale: 1.09,
+                            scale: 1.07,
                         }}
                         whileTap={{
-                            scale: 0.92,
-                        }}
-                        animate={{
-                            scale:
-                                swipe === "left"
-                                    ? 1.09
-                                    : 1,
+                            scale: 0.94,
                         }}
                         onClick={() => swipeCard("left")}
-                        disabled={profiles.length <= 1}
-                        className={`  pointer-events-auto
-                            flex
-                            size-11
-                            items-center
-                            justify-center
-                            rounded-full
-                            bg-[#24262A]/95
-                            text-white
-                            shadow-lg
-                            backdrop-blur-sm
-                            sm:size-14
-                            disabled:cursor-not-allowed
-                            disabled:opacity-60 ${swipe === "left" ? "bg-black dark:bg-white" : ""}`}
+                        disabled={
+                            profiles.length <= 1
+                        }
+                        className={`
+        pointer-events-auto
+        flex
+        size-11
+        items-center
+        justify-center
+        rounded-full
+        text-white
+        shadow-lg
+        backdrop-blur-sm
+        transition-none
+        sm:size-14
+        disabled:pointer-events-none
+        disabled:opacity-80
+        ${swipe === "left"
+                                ? "bg-black dark:bg-white"
+                                : "bg-[#24262A]/95"
+                            }
+    `}
                     >
                         <X
                             size={30}
                             strokeWidth={
                                 swipe === "left" ? 4 : 3
                             }
-                            className={swipe === "left" ? "text-white dark:text-black" : ""}
+                            className={
+                                swipe === "left"
+                                    ? "text-white dark:text-black"
+                                    : "text-white"
+                            }
                         />
                     </motion.button>
 
                     <motion.button
                         type="button"
                         whileHover={{
-                            scale: 1.08,
+                            scale: 1.07,
                         }}
                         whileTap={{
-                            scale: 0.92,
-                        }}
-                        animate={{
-                            scale:
-                                 swipe === "right"
-                                    ? 1.09
-                                    : 1,
+                            scale: 0.94,
                         }}
                         onClick={() => swipeCard("right")}
-                        disabled={profiles.length <= 1}
-                        className={`    pointer-events-auto
-                            flex
-                            size-11
-                            items-center
-                            justify-center
-                            rounded-full
-                            bg-[#24262A]/95
-                            text-white
-                            shadow-lg
-                            backdrop-blur-sm
-                            sm:size-14
-                            disabled:cursor-not-allowed
-                            disabled:opacity-60 ${swipe === "right" ? "bg-[#EC180E]" : ""}`}
+                        disabled={
+                            profiles.length <= 1
+                        }
+                        className={`
+        pointer-events-auto
+        flex
+        size-11
+        items-center
+        justify-center
+        rounded-full
+        text-white
+        shadow-lg
+        backdrop-blur-sm
+        transition-none
+        sm:size-14
+        disabled:pointer-events-none
+        disabled:opacity-80
+        ${swipe === "right"
+                                ? "bg-[#EC180E]"
+                                : "bg-[#24262A]/95"
+                            }
+    `}
                     >
                         <Heart
                             size={30}

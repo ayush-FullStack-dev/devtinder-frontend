@@ -68,13 +68,9 @@ const DiscoverSection = () => {
                         lg:max-w-[50vw]
                     `}
                 >
-                    <p>
-                        A lot can happen after your first
-                    </p>
+                    <p>A lot can happen after your first</p>
 
-                    <p className="text-green-brand">
-                        connection.
-                    </p>
+                    <p className="text-green-brand">connection.</p>
                 </div>
 
                 <motion.div
@@ -114,21 +110,30 @@ const DiscoverSection = () => {
                         Find something worth building.
                     </p>
                 </motion.div>
-                <Link href="/discover/feed" className="mt-6 self-start ml-2  xs:self-center
-        lg:self-start">
+
+                <Link
+                    href="/discover/feed"
+                    className="
+                        mt-6
+                        ml-2
+                        self-start
+                        xs:self-center
+                        lg:self-start
+                    "
+                >
                     <AnimatedButton
                         text="Start Connecting"
                         className="
-      h-12
-      rounded-full
-      px-6
-      text-center
-      bg-green-brand
-      w-[90vw]
-      xs:w-[70vw]
-      lg:w-90
-font-bold
-    "
+                            h-12
+                            w-[90vw]
+                            rounded-full
+                            bg-green-brand
+                            px-6
+                            text-center
+                            font-bold
+                            xs:w-[70vw]
+                            lg:w-90
+                        "
                     />
                 </Link>
             </motion.div>
@@ -157,11 +162,11 @@ font-bold
                 }}
                 className="
                     self-auto
-                    sm:self-center
                     w-full
-                    sm:w-[80vw]
                     h-[70vw]
                     min-h-155
+                    sm:w-[80vw]
+                    sm:self-center
                     lg:w-[30vw]
                     lg:max-h-150
                     lg:self-auto

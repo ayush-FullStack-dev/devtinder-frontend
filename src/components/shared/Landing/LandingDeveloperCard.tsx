@@ -15,7 +15,12 @@ import {
     Heart,
     X,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import {
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
+} from "react";
 import { motion } from "motion/react";
 import ImageProgress from "../ImageProgress";
 
@@ -35,6 +40,8 @@ interface LandingDeveloperCardProps {
     };
 }
 
+const IMAGE_FADE_DURATION = 0.28;
+
 const LandingDeveloperCard = ({
     name,
     age,
@@ -48,19 +55,77 @@ const LandingDeveloperCard = ({
     autoPlay = true,
     swipeVal,
 }: LandingDeveloperCardProps) => {
-    const swipeSide = swipeVal?.swipeSide ?? null;
+    const swipeSide =
+        swipeVal?.swipeSide ?? null;
 
-    const [activeIndex, setActiveIndex] = useState(0);
-    const [loadedImages, setLoadedImages] = useState<
-        Record<number, boolean>
-    >({});
+    const [activeIndex, setActiveIndex] =
+        useState(0);
 
-    const visibleTechStack = techStack.slice(0, 4);
+    const [displayedIndex, setDisplayedIndex] =
+        useState(0);
+
+    const [pendingIndex, setPendingIndex] =
+        useState<number | null>(null);
+
+    const preloadCacheRef =
+        useRef<Set<string>>(new Set());
+
+    const imageSignature = useMemo(
+        () => images.join("|"),
+        [images]
+    );
+
+    const visibleTechStack =
+        techStack.slice(0, 4);
 
     const remainingTechCount = Math.max(
         techStack.length - 4,
         0
     );
+
+    const currentImage =
+        images[activeIndex] ?? images[0];
+
+    const displayedImage =
+        images[displayedIndex] ?? images[0];
+
+    const pendingImage =
+        pendingIndex !== null
+            ? images[pendingIndex]
+            : null;
+
+    const preloadImage = (src: string) => {
+        if (
+            !src ||
+            preloadCacheRef.current.has(src)
+        ) {
+            return;
+        }
+
+        preloadCacheRef.current.add(src);
+
+        const image =
+            new window.Image();
+
+        image.decoding = "async";
+        image.src = src;
+
+        if (image.complete) {
+            if (image.naturalWidth === 0) {
+                preloadCacheRef.current.delete(
+                    src
+                );
+            }
+
+            return;
+        }
+
+        image.onerror = () => {
+            preloadCacheRef.current.delete(
+                src
+            );
+        };
+    };
 
     const backProfileImg = () => {
         setActiveIndex((prev) =>
@@ -72,47 +137,102 @@ const LandingDeveloperCard = ({
         setActiveIndex((prev) =>
             Math.min(
                 prev + 1,
-                Math.max(images.length - 1, 0)
+                Math.max(
+                    images.length - 1,
+                    0
+                )
             )
         );
     };
 
-    const handleImageLoad = (index: number) => {
-        setLoadedImages((prev) => ({
-            ...prev,
-            [index]: true,
-        }));
+    const handlePendingImageLoad = (
+        index: number
+    ) => {
+        if (index !== activeIndex) {
+            return;
+        }
+
+        setDisplayedIndex(index);
+        setPendingIndex(null);
+    };
+
+    const handlePendingImageError = (
+        index: number
+    ) => {
+        if (index !== activeIndex) {
+            return;
+        }
+
+        setPendingIndex(null);
+        setActiveIndex(displayedIndex);
     };
 
     useEffect(() => {
         setActiveIndex(0);
-        setLoadedImages({});
-    }, [images]);
+        setDisplayedIndex(0);
+        setPendingIndex(null);
 
+        images.forEach((src) => {
+            preloadImage(src);
+        });
+    }, [imageSignature]);
 
     useEffect(() => {
-        if (!autoPlay || images.length <= 1) {
+        if (
+            activeIndex === displayedIndex ||
+            !images[activeIndex]
+        ) {
             return;
         }
 
-        const timeout = setTimeout(() => {
-            setActiveIndex((prev) => {
-                if (prev >= images.length - 1) {
-                    return 0;
-                }
+        preloadImage(images[activeIndex]);
 
-                return prev + 1;
-            });
-        }, duration);
+        setPendingIndex(activeIndex);
+
+        const nextImage =
+            images[activeIndex + 1];
+
+        const previousImage =
+            images[activeIndex - 1];
+
+        if (nextImage) {
+            preloadImage(nextImage);
+        }
+
+        if (previousImage) {
+            preloadImage(previousImage);
+        }
+    }, [
+        activeIndex,
+        displayedIndex,
+        imageSignature,
+    ]);
+
+    useEffect(() => {
+        if (
+            !autoPlay ||
+            images.length <= 1
+        ) {
+            return;
+        }
+
+        const timeout =
+            window.setTimeout(() => {
+                setActiveIndex((prev) =>
+                    prev >= images.length - 1
+                        ? 0
+                        : prev + 1
+                );
+            }, duration);
 
         return () => {
-            clearTimeout(timeout);
+            window.clearTimeout(timeout);
         };
     }, [
         activeIndex,
         autoPlay,
-        images.length,
         duration,
+        imageSignature,
     ]);
 
     return (
@@ -128,6 +248,7 @@ const LandingDeveloperCard = ({
                 border-border-primary
                 bg-background
                 select-none
+                isolate
             "
         >
             <div
@@ -142,136 +263,253 @@ const LandingDeveloperCard = ({
             >
                 <div
                     className="
+                        group
                         relative
                         h-[67%]
                         min-h-65
                         w-full
                         overflow-hidden
-                        group
+                        bg-background
+                        isolate
+                        [contain:paint]
                     "
                 >
-                    {images.length > 0 ? (
-                        images.map((src, index) => (
-                            <motion.div
-                                key={`${src}-${index}`}
-                                initial={false}
-                                animate={{
-                                    opacity:
-                                        index === activeIndex
-                                            ? 1
-                                            : 0,
-                                }}
-                                transition={{
-                                    opacity: {
-                                        duration: 0.45,
-                                        ease: "easeInOut",
-                                    },
-                                }}
+                    <div
+                        className="
+                            absolute
+                            inset-0
+                            z-0
+                            h-full
+                            w-full
+                            overflow-hidden
+                            bg-background
+                        "
+                    >
+                        {images.length > 0 ? (
+                            <>
+                                {displayedImage && (
+                                    <Image
+                                        key={`displayed-${displayedImage}`}
+                                        src={
+                                            displayedImage
+                                        }
+                                        alt={`${name} profile`}
+                                        fill
+                                        sizes="
+                                            (max-width: 640px) 90vw,
+                                            (max-width: 1024px) 80vw,
+                                            400px
+                                        "
+                                        priority
+                                        fetchPriority="high"
+                                        draggable={false}
+                                        className="
+                                            pointer-events-none
+                                            absolute
+                                            inset-0
+                                            h-full
+                                            w-full
+                                            object-cover
+                                            object-top
+                                            select-none
+                                        "
+                                    />
+                                )}
+
+                                {pendingImage && (
+                                    <motion.div
+                                        key={`pending-${pendingImage}`}
+                                        initial={{
+                                            opacity: 0,
+                                        }}
+                                        animate={{
+                                            opacity: 1,
+                                        }}
+                                        transition={{
+                                            duration:
+                                                IMAGE_FADE_DURATION,
+                                            ease: [
+                                                0.22,
+                                                1,
+                                                0.36,
+                                                1,
+                                            ],
+                                        }}
+                                        className="
+                                            pointer-events-none
+                                            absolute
+                                            inset-0
+                                            z-10
+                                            h-full
+                                            w-full
+                                            overflow-hidden
+                                            bg-background
+                                        "
+                                    >
+                                        <Image
+                                            src={
+                                                pendingImage
+                                            }
+                                            alt={`${name} profile`}
+                                            fill
+                                            sizes="
+                                                (max-width: 640px) 90vw,
+                                                (max-width: 1024px) 80vw,
+                                                400px
+                                            "
+                                            priority={false}
+                                            fetchPriority="auto"
+                                            draggable={
+                                                false
+                                            }
+                                            onLoad={() =>
+                                                handlePendingImageLoad(
+                                                    activeIndex
+                                                )
+                                            }
+                                            onError={() =>
+                                                handlePendingImageError(
+                                                    activeIndex
+                                                )
+                                            }
+                                            className="
+                                                pointer-events-none
+                                                absolute
+                                                inset-0
+                                                h-full
+                                                w-full
+                                                object-cover
+                                                object-top
+                                                select-none
+                                            "
+                                        />
+                                    </motion.div>
+                                )}
+
+                                <div
+                                    aria-hidden="true"
+                                    className="
+                                        pointer-events-none
+                                        absolute
+                                        inset-0
+                                        z-20
+                                        h-full
+                                        w-full
+                                        bg-transparent
+                                    "
+                                />
+                            </>
+                        ) : (
+                            <div
                                 className="
-                                    pointer-events-none
                                     absolute
                                     inset-0
-                                    z-0
-                                    overflow-hidden
-                                    will-change-[opacity]
+                                    h-full
+                                    w-full
+                                    bg-muted
                                 "
-                            >
-                                <Image
-                                    src={src}
-                                    alt={`${name} profile`}
-                                    fill
-                                    sizes="400px"
-                                    priority={index === 0}
-                                    draggable={false}
-                                    onLoad={() => handleImageLoad(index)}
-                                    className={`
-        pointer-events-none
-        object-cover
-        object-top
-        select-none
-        transition-[filter,transform]
-        duration-500
-        ${loadedImages[index]
-                                            ? "blur-0"
-                                            : "blur-md"
-                                        }
-    `}
-                                />
-                            </motion.div>
-                        ))
-                    ) : (
-                        <div className="absolute inset-0 bg-muted" />
-                    )}
+                            />
+                        )}
+                    </div>
 
-                    {swipeVal && (
-                        <>
-                            <div
-                                className={`
-                                    absolute
-                                    top-8
-                                    right-5
-                                    z-30
-                                    rotate-25
-                                    transition-all
-                                    duration-200
-                                    ${swipeSide === "left"
-                                        ? "scale-100 opacity-90"
-                                        : "scale-75 opacity-0"
-                                    }
-                                `}
-                            >
+                    {swipeSide && (
+                        <motion.div
+                            initial={{
+                                opacity: 0,
+                                scale: 0.82,
+                            }}
+                            animate={{
+                                opacity: 1,
+                                scale: 1,
+                            }}
+                            transition={{
+                                type: "spring",
+                                stiffness: 380,
+                                damping: 26,
+                                mass: 0.5,
+                            }}
+                            className={`
+                                pointer-events-none
+                                absolute
+                                top-8
+                                z-30
+                                origin-center
+                                ${
+                                    swipeSide ===
+                                    "right"
+                                        ? "left-5"
+                                        : "right-5"
+                                }
+                            `}
+                        >
+                            {swipeSide ===
+                            "right" ? (
+                                <Heart
+                                    size={100}
+                                    strokeWidth={2.5}
+                                    color="#EF4444"
+                                    fill="#EF4444"
+                                />
+                            ) : (
                                 <X
                                     size={100}
                                     strokeWidth={4}
                                 />
-                            </div>
-
-                            <div
-                                className={`
-                                    absolute
-                                    top-8
-                                    left-5
-                                    z-30
-                                    -rotate-25
-                                    transition-all
-                                    duration-200
-                                    ${swipeSide === "right"
-                                        ? "scale-100 opacity-100"
-                                        : "scale-75 opacity-0"
-                                    }
-                                `}
-                            >
-                                <Heart
-                                    size={100}
-                                    color="#EF4444"
-                                    fill="#EF4444"
-                                />
-                            </div>
-                        </>
+                            )}
+                        </motion.div>
                     )}
 
                     {images.length > 1 && (
                         <>
                             <ImageProgress
-                                total={images.length}
-                                activeIndex={activeIndex}
+                                total={
+                                    images.length
+                                }
+                                activeIndex={
+                                    activeIndex
+                                }
                                 duration={duration}
-                                autoPlay={autoPlay}
+                                autoPlay={
+                                    autoPlay
+                                }
                             />
 
                             <div className="absolute inset-0 z-10 flex lg:hidden">
                                 <button
                                     type="button"
                                     aria-label="Previous image"
-                                    onClick={backProfileImg}
-                                    className="h-full w-1/2"
+                                    onClick={
+                                        backProfileImg
+                                    }
+                                    disabled={
+                                        activeIndex ===
+                                        0
+                                    }
+                                    className="
+                                        h-full
+                                        w-1/2
+                                        cursor-pointer
+                                        disabled:cursor-default
+                                    "
                                 />
 
                                 <button
                                     type="button"
                                     aria-label="Next image"
-                                    onClick={nextProfileImg}
-                                    className="h-full w-1/2"
+                                    onClick={
+                                        nextProfileImg
+                                    }
+                                    disabled={
+                                        activeIndex >=
+                                        images.length -
+                                            1
+                                    }
+                                    className="
+                                        h-full
+                                        w-1/2
+                                        cursor-pointer
+                                        disabled:cursor-default
+                                    "
                                 />
                             </div>
 
@@ -288,46 +526,67 @@ const LandingDeveloperCard = ({
                                     lg:group-hover:flex
                                 "
                             >
-                                <ChevronLeft
-                                    size={35}
-                                    onClick={backProfileImg}
-                                    className={`
+                                <button
+                                    type="button"
+                                    aria-label="Previous image"
+                                    onClick={
+                                        backProfileImg
+                                    }
+                                    disabled={
+                                        activeIndex ===
+                                        0
+                                    }
+                                    className="
                                         rounded-full
                                         bg-black/45
-                                        p-1
                                         text-white
                                         backdrop-blur-sm
                                         transition
-                                        ${activeIndex === 0
-                                            ? "cursor-not-allowed opacity-30"
-                                            : "cursor-pointer opacity-90 hover:opacity-100"
-                                        }
-                                    `}
-                                />
+                                        hover:bg-black/60
+                                        disabled:cursor-not-allowed
+                                        disabled:opacity-30
+                                    "
+                                >
+                                    <ChevronLeft
+                                        size={35}
+                                        className="p-1"
+                                    />
+                                </button>
 
-                                <ChevronRight
-                                    size={35}
-                                    onClick={nextProfileImg}
-                                    className={`
+                                <button
+                                    type="button"
+                                    aria-label="Next image"
+                                    onClick={
+                                        nextProfileImg
+                                    }
+                                    disabled={
+                                        activeIndex >=
+                                        images.length -
+                                            1
+                                    }
+                                    className="
                                         rounded-full
                                         bg-black/45
-                                        p-1
                                         text-white
                                         backdrop-blur-sm
                                         transition
-                                        ${activeIndex ===
-                                            images.length - 1
-                                            ? "cursor-not-allowed opacity-30"
-                                            : "cursor-pointer opacity-90 hover:opacity-100"
-                                        }
-                                    `}
-                                />
+                                        hover:bg-black/60
+                                        disabled:cursor-not-allowed
+                                        disabled:opacity-30
+                                    "
+                                >
+                                    <ChevronRight
+                                        size={35}
+                                        className="p-1"
+                                    />
+                                </button>
                             </div>
                         </>
                     )}
 
                     <span
                         className="
+                            pointer-events-none
                             absolute
                             bottom-3
                             left-3
@@ -342,9 +601,10 @@ const LandingDeveloperCard = ({
                             className={`
                                 size-2
                                 rounded-full
-                                ${isOnline
-                                    ? "animate-dot-blink bg-green-brand"
-                                    : "bg-gray-400"
+                                ${
+                                    isOnline
+                                        ? "animate-dot-blink bg-green-brand"
+                                        : "bg-gray-400"
                                 }
                             `}
                         />
@@ -364,6 +624,8 @@ const LandingDeveloperCard = ({
 
                 <div
                     className="
+                        relative
+                        z-10
                         flex
                         w-full
                         flex-col
@@ -371,9 +633,17 @@ const LandingDeveloperCard = ({
                         bg-background
                         px-3
                         py-3
+                        isolate
                     "
                 >
-                    <div className="flex flex-col">
+                    <div
+                        className="
+                            relative
+                            z-10
+                            flex
+                            flex-col
+                        "
+                    >
                         <div
                             className={`
                                 ${googleSans.className}
@@ -416,6 +686,7 @@ const LandingDeveloperCard = ({
                             <p
                                 className={`
                                     ${googleSansFlex.className}
+                                    min-w-0
                                     truncate
                                     text-xs
                                 `}
@@ -438,6 +709,7 @@ const LandingDeveloperCard = ({
                             <p
                                 className={`
                                     ${googleSansFlex.className}
+                                    min-w-0
                                     truncate
                                     text-xs
                                 `}
@@ -448,44 +720,78 @@ const LandingDeveloperCard = ({
                     </div>
 
                     {techStack.length > 0 && (
-                        <div className="flex flex-col gap-1">
-                            <p>Tech Stack</p>
+                        <div
+                            className="
+                                relative
+                                z-10
+                                flex
+                                flex-col
+                                gap-1
+                            "
+                        >
+                            <p
+                                className="
+                                    relative
+                                    z-10
+                                    select-none
+                                "
+                            >
+                                Tech Stack
+                            </p>
 
                             <div
                                 className="
+                                    relative
+                                    z-10
                                     flex
                                     min-w-0
                                     gap-2
+                                    select-none
                                 "
                             >
                                 {visibleTechStack.map(
-                                    (tech, index) => (
+                                    (
+                                        tech,
+                                        index
+                                    ) => (
                                         <span
                                             key={`${tech}-${index}`}
                                             className="
+                                                relative
+                                                z-10
                                                 flex
                                                 h-10
                                                 min-w-0
                                                 flex-1
+                                                shrink-0
                                                 items-center
                                                 justify-center
                                                 overflow-hidden
                                                 rounded-xl
                                                 bg-[#303131]
+                                                select-none
                                             "
                                         >
-                                            <GetLogo name={tech} />
+                                            <GetLogo
+                                                name={
+                                                    tech
+                                                }
+                                            />
                                         </span>
                                     )
                                 )}
 
-                                {remainingTechCount > 0 && (
+                                {remainingTechCount >
+                                    0 && (
                                     <span
                                         className="
+                                            relative
+                                            z-10
                                             flex
                                             h-10
                                             min-w-0
                                             flex-1
+                                            shrink-0
                                             items-center
                                             justify-center
                                             overflow-hidden
@@ -495,11 +801,15 @@ const LandingDeveloperCard = ({
                                             px-2
                                             text-xs
                                             text-white
+                                            select-none
                                             sm:px-3
                                             sm:text-sm
                                         "
                                     >
-                                        +{remainingTechCount}
+                                        +
+                                        {
+                                            remainingTechCount
+                                        }
 
                                         <span className="hidden sm:inline">
                                             &nbsp;more
