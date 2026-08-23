@@ -64,7 +64,8 @@ const DiscoverSection = () => {
                         xs:text-6xl
                         sm:text-7xl
                         md:text-8xl
-                        lg:max-w-145
+                        lg:text-[8vw]
+                        lg:max-w-[50vw]
                     `}
                 >
                     <p>
@@ -113,7 +114,7 @@ const DiscoverSection = () => {
                         Find something worth building.
                     </p>
                 </motion.div>
-                <Link href="/signup" className="mt-6 self-start ml-2  xs:self-center
+                <Link href="/discover/feed" className="mt-6 self-start ml-2  xs:self-center
         lg:self-start">
                     <AnimatedButton
                         text="Start Connecting"
@@ -158,12 +159,11 @@ font-bold
                     self-auto
                     sm:self-center
                     w-full
-                    sm:w-[75vw]
+                    sm:w-[80vw]
                     h-[70vw]
                     min-h-155
-                    max-w-none
-                    lg:w-100
-                    lg:max-h-155
+                    lg:w-[30vw]
+                    lg:max-h-150
                     lg:self-auto
                 "
             >

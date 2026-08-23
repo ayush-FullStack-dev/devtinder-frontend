@@ -201,8 +201,7 @@ const LandingDiscoverCard = ({
             h-full
             w-full
             shrink-0
-            lg:w-[clamp(280px,30vw,400px)]
-            lg:max-w-none
+          
         `,
                 className
             )}
