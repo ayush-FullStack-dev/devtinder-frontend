@@ -2,10 +2,11 @@
 
 import {
     motion,
-    useAnimationControls,
     useMotionValue,
     useMotionValueEvent,
+    animate,
 } from "motion/react";
+import { flushSync } from "react-dom";
 import { Heart, X } from "lucide-react";
 import {
     useEffect,
@@ -20,7 +21,6 @@ import {
     MAX_DRAG,
     SWIPE_THRESHOLD_RATIO,
 } from "@/constants/landing";
-import { softLoginCheck } from "@/actions/softloginCheck";
 
 export interface DeveloperProfile {
     id: string;
@@ -41,6 +41,22 @@ interface LandingDiscoverCardProps {
     isAllowedLike: boolean;
 }
 
+const SWIPE_SPRING = {
+    type: "spring",
+    stiffness: 300,
+    damping: 30,
+    mass: 0.72,
+} as const;
+
+const RETURN_SPRING = {
+    type: "spring",
+    stiffness: 430,
+    damping: 35,
+    mass: 0.65,
+} as const;
+
+const EXTRA_EXIT_DISTANCE = 180;
+
 const LandingDiscoverCard = ({
     developers,
     className,
@@ -48,8 +64,10 @@ const LandingDiscoverCard = ({
 }: LandingDiscoverCardProps) => {
     const cardRef = useRef<HTMLDivElement>(null);
     const animationLockRef = useRef(false);
-    const controls = useAnimationControls();
+
     const x = useMotionValue(0);
+    const rotate = useMotionValue(0);
+    const opacity = useMotionValue(1);
 
     const [profiles, setProfiles] =
         useState<DeveloperProfile[]>(developers);
@@ -99,6 +117,12 @@ const LandingDiscoverCard = ({
             : -distance;
     };
 
+    const stopCardAnimations = () => {
+        x.stop();
+        rotate.stop();
+        opacity.stop();
+    };
+
     useMotionValueEvent(
         x,
         "change",
@@ -137,7 +161,7 @@ const LandingDiscoverCard = ({
         setIsAnimating(true);
         setSwipe("right");
 
-        controls.stop();
+        stopCardAnimations();
 
         const width = getCardWidth();
 
@@ -146,33 +170,22 @@ const LandingDiscoverCard = ({
             300
         );
 
-        await controls.start({
-            x: likeTarget,
-            y: 0,
-            rotate: 8,
-            opacity: 1,
-            transition: {
-                type: "spring",
-                stiffness: 300,
-                damping: 30,
-                mass: 0.72,
-            },
-        });
+        await Promise.all([
+            animate(
+                x,
+                likeTarget,
+                SWIPE_SPRING
+            ),
+            animate(rotate, 8, SWIPE_SPRING),
+        ]);
 
-        await controls.start({
-            x: 0,
-            y: 0,
-            rotate: 0,
-            opacity: 1,
-            transition: {
-                type: "spring",
-                stiffness: 430,
-                damping: 35,
-                mass: 0.65,
-            },
-        });
+        await Promise.all([
+            animate(x, 0, RETURN_SPRING),
+            animate(rotate, 0, RETURN_SPRING),
+        ]);
 
         x.set(0);
+        rotate.set(0);
         setSwipe(null);
 
         animationLockRef.current = false;
@@ -204,44 +217,49 @@ const LandingDiscoverCard = ({
         setIsAnimating(true);
         setSwipe(direction);
 
-        controls.stop();
+        stopCardAnimations();
 
-        const targetX =
+        const currentX = x.get();
+
+        const baseTarget =
             getSwipeTarget(direction);
 
-        const rotate =
-            direction === "right"
-                ? 8
-                : -8;
+        const targetX =
+            direction === "left"
+                ? Math.min(
+                      baseTarget,
+                      currentX -
+                          EXTRA_EXIT_DISTANCE
+                  )
+                : Math.max(
+                      baseTarget,
+                      currentX +
+                          EXTRA_EXIT_DISTANCE
+                  );
 
-        await controls.start({
-            x: targetX,
-            y: 0,
-            opacity: 0,
-            rotate,
-            transition: {
-                type: "spring",
-                stiffness: 300,
-                damping: 30,
-                mass: 0.72,
-            },
-        });
+        const rotateTarget =
+            direction === "right" ? 8 : -8;
 
-        const nextProfiles = [
-            ...profiles.slice(1),
-            profiles[0],
-        ];
+        await Promise.all([
+            animate(x, targetX, SWIPE_SPRING),
+            animate(
+                rotate,
+                rotateTarget,
+                SWIPE_SPRING
+            ),
+            animate(opacity, 0, SWIPE_SPRING),
+        ]);
 
-        setProfiles(nextProfiles);
-
-        controls.set({
-            x: 0,
-            y: 0,
-            opacity: 1,
-            rotate: 0,
+        flushSync(() => {
+            setProfiles((prev) => [
+                ...prev.slice(1),
+                prev[0],
+            ]);
         });
 
         x.set(0);
+        rotate.set(0);
+        opacity.set(1);
         setSwipe(null);
 
         const shouldShowOverlay =
@@ -249,14 +267,12 @@ const LandingDiscoverCard = ({
 
         pendingOverlayRef.current = false;
 
-        requestAnimationFrame(() => {
-            animationLockRef.current = false;
-            setIsAnimating(false);
+        animationLockRef.current = false;
+        setIsAnimating(false);
 
-            if (shouldShowOverlay) {
-                setShowOverlay(true);
-            }
-        });
+        if (shouldShowOverlay) {
+            setShowOverlay(true);
+        }
     };
 
     const resetCard = async () => {
@@ -267,22 +283,17 @@ const LandingDiscoverCard = ({
         animationLockRef.current = true;
         setIsAnimating(true);
 
-        controls.stop();
+        stopCardAnimations();
 
-        await controls.start({
-            x: 0,
-            y: 0,
-            opacity: 1,
-            rotate: 0,
-            transition: {
-                type: "spring",
-                stiffness: 430,
-                damping: 35,
-                mass: 0.65,
-            },
-        });
+        await Promise.all([
+            animate(x, 0, RETURN_SPRING),
+            animate(rotate, 0, RETURN_SPRING),
+            animate(opacity, 1, RETURN_SPRING),
+        ]);
 
         x.set(0);
+        rotate.set(0);
+        opacity.set(1);
         setSwipe(null);
 
         animationLockRef.current = false;
@@ -306,7 +317,7 @@ const LandingDiscoverCard = ({
             return;
         }
 
-        controls.stop();
+        stopCardAnimations();
     };
 
     const handleDragEnd = async () => {
@@ -502,13 +513,14 @@ const LandingDiscoverCard = ({
                     dragMomentum={false}
                     style={{
                         x,
+                        rotate,
+                        opacity,
                         touchAction: "pan-y",
                         backfaceVisibility:
                             "hidden",
                         WebkitBackfaceVisibility:
                             "hidden",
                     }}
-                    animate={controls}
                     onDragStart={
                         handleDragStart
                     }
