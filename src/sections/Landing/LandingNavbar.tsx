@@ -256,9 +256,8 @@ const LandingNavbar = () => {
                 duration-500
                 ease-[cubic-bezier(0.22,1,0.36,1)]
 
-                ${
-                    navbarActive
-                        ? `
+                ${navbarActive
+                    ? `
                             border-b
                             border-white/5
                             bg-[var(--bg-secondary)]/95
@@ -266,7 +265,7 @@ const LandingNavbar = () => {
                             backdrop-blur-xl
                             backdrop-saturate-150
                         `
-                        : `
+                    : `
                             border-b
                             border-transparent
                             bg-transparent
@@ -353,10 +352,9 @@ const LandingNavbar = () => {
                                             transition-all
                                             duration-200
                                             ease-out
-                                            ${
-                                                isActive
-                                                    ? "font-bold"
-                                                    : "font-medium hover:font-bold"
+                                            ${isActive
+                                                ? "font-bold"
+                                                : "font-medium hover:font-bold"
                                             }
                                         `}
                                     >
@@ -494,7 +492,7 @@ const LandingNavbar = () => {
                                                         delay:
                                                             isVisible
                                                                 ? index *
-                                                                  0.06
+                                                                0.06
                                                                 : 0,
                                                         ease: [
                                                             0.22,

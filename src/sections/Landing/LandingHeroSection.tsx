@@ -16,7 +16,7 @@ const HeroSection = () => {
                 items-center
                 justify-center
                 px-4
-                pt-30
+                pt-25
             "
         >
             <div className="flex flex-col items-center gap-4">

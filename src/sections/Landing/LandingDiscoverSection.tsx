@@ -18,19 +18,15 @@ const LandingDiscoverSection = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
                 flex-col
                 gap-10
                 px-2
-                py-10
-
                 sm:px-8
-
                 md:gap-14
                 md:px-12
-
+                mb-5
                 lg:flex-row
                 lg:items-center
                 lg:justify-around
                 lg:gap-8
                 lg:px-2
-                lg:py-24
             "
         >
             <motion.div

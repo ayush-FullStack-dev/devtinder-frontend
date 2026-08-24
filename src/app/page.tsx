@@ -20,7 +20,8 @@ export async function PageLayout() {
                 overflow-y-auto
                 bg-background
                 scrollbar-hide
-                overscroll-contain
+                gap-30
+                lg:gap-40
             "
         >
             <Navbar />
@@ -46,7 +47,7 @@ export async function PageLayout() {
                     scroll-mt-24
                 "
             >
-                <DiscoverSection isLoggedIn={isLoggedIn}/>
+                <DiscoverSection isLoggedIn={isLoggedIn} />
             </section>
         </main>
     );
