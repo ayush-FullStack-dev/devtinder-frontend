@@ -168,14 +168,12 @@ const LandingDiscoverSection = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
                 }}
                 className="
                     h-[min(70vw,620px)]
-                    min-h-120
+                    min-h-155
                     w-full
                     self-auto
-
                     sm:w-[80vw]
                     sm:self-center
-
-                    lg:max-h-150
+                    lg:max-h-155
                     lg:w-[30vw]
                     lg:self-auto
                 "

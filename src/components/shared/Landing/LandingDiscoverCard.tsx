@@ -526,7 +526,7 @@ const LandingDiscoverCard = ({
                         className={`
                             pointer-events-auto
                             flex
-                            size-14
+                            size-15
                             items-center
                             justify-center
                             rounded-full
@@ -578,7 +578,7 @@ const LandingDiscoverCard = ({
                         className={`
                             pointer-events-auto
                             flex
-                             size-14
+                             size-15
                             items-center
                             justify-center
                             rounded-full
