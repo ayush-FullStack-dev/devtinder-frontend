@@ -1,5 +1,3 @@
-"use client";
-
 import JsonLd from "@/constants/JsonLd";
 import Navbar from "../sections/Landing/LandingNavbar";
 import HeroSection from "../sections/Landing/LandingHeroSection";
@@ -17,10 +15,8 @@ export function PageLayout() {
                 flex-col
                 overflow-x-hidden
                 overflow-y-auto
-                scroll-smooth
                 bg-background
                 scrollbar-hide
-                gap-30
                 overscroll-contain
             "
         >

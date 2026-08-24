@@ -1,42 +1,41 @@
 "use client";
 
 import { googleSans } from "@/assets/fonts/font.google";
+import AnimatedButton from "@/components/shared/AnimatedButton";
 import Link from "next/link";
 import { motion } from "motion/react";
-import AnimatedButton from "@/components/shared/AnimatedButton";
 
 const HeroSection = () => {
     return (
         <section
             className="
-                min-h-full
-                shrink-0
-                px-4
-                pt-30
                 flex
+                min-h-dvh
+                shrink-0
                 flex-col
                 items-center
                 justify-center
+                px-4
+                pt-30
             "
         >
-            <div className="flex flex-col items-center gap-4 xs:gap-4">
+            <div className="flex flex-col items-center gap-4">
                 <motion.h1
                     id="hero-heading"
                     initial={{
                         opacity: 0,
-                        y: 40,
-                        filter: "blur(10px)",
+                        y: 30,
                     }}
                     animate={{
                         opacity: 1,
                         y: 0,
-                        filter: "blur(0px)",
                     }}
                     transition={{
-                        duration: 0.8,
+                        duration: 0.7,
                         ease: [0.22, 1, 0.36, 1],
                     }}
-                    className={`${googleSans.className}
+                    className={`
+                        ${googleSans.className}
                         text-center
                         font-semibold
                         leading-[0.95]
@@ -47,14 +46,22 @@ const HeroSection = () => {
                         xl:text-[12vw]
                     `}
                 >
-                    <span className="block">Meet Build</span>
+                    <span className="block">
+                        Meet Build
+                    </span>
 
                     <motion.span
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
+                        initial={{
+                            opacity: 0,
+                            y: 16,
+                        }}
+                        animate={{
+                            opacity: 1,
+                            y: 0,
+                        }}
                         transition={{
-                            delay: 0.25,
-                            duration: 0.6,
+                            delay: 0.2,
+                            duration: 0.5,
                             ease: [0.22, 1, 0.36, 1],
                         }}
                         className="block text-green-brand"
@@ -66,18 +73,19 @@ const HeroSection = () => {
                 <motion.div
                     initial={{
                         opacity: 0,
-                        y: 24,
+                        y: 18,
                     }}
                     animate={{
                         opacity: 1,
                         y: 0,
                     }}
                     transition={{
-                        delay: 0.35,
-                        duration: 0.6,
+                        delay: 0.3,
+                        duration: 0.5,
                         ease: [0.22, 1, 0.36, 1],
                     }}
-                    className={`${googleSans.className}
+                    className={`
+                        ${googleSans.className}
                         max-w-xs
                         text-center
                         text-sm
@@ -101,8 +109,8 @@ const HeroSection = () => {
                 <motion.div
                     initial={{
                         opacity: 0,
-                        y: 20,
-                        scale: 0.96,
+                        y: 16,
+                        scale: 0.98,
                     }}
                     animate={{
                         opacity: 1,
@@ -110,8 +118,8 @@ const HeroSection = () => {
                         scale: 1,
                     }}
                     transition={{
-                        delay: 0.5,
-                        duration: 0.5,
+                        delay: 0.42,
+                        duration: 0.45,
                         ease: [0.22, 1, 0.36, 1],
                     }}
                     className="
@@ -126,12 +134,16 @@ const HeroSection = () => {
                         xl:w-130
                     "
                 >
-                    <Link href="/signup" className="block w-full">
+                    <Link
+                        href="/signup"
+                        className="block w-full"
+                    >
                         <AnimatedButton
                             className="
                                 h-12
                                 w-full
                                 rounded-full
+                                bg-green-brand
                                 px-4
                                 text-base
                                 xs:h-13
@@ -141,7 +153,6 @@ const HeroSection = () => {
                                 lg:h-15
                                 lg:text-xl
                                 xl:text-2xl
-                                bg-green-brand
                             "
                             text="Get Started"
                         />

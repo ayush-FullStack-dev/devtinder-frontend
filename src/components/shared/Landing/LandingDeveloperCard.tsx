@@ -55,36 +55,27 @@ const LandingDeveloperCard = ({
     autoPlay = true,
     swipeVal,
 }: LandingDeveloperCardProps) => {
-    const swipeSide =
-        swipeVal?.swipeSide ?? null;
+    const swipeSide = swipeVal?.swipeSide ?? null;
 
-    const [activeIndex, setActiveIndex] =
-        useState(0);
+    const [activeIndex, setActiveIndex] = useState(0);
+    const [displayedIndex, setDisplayedIndex] = useState(0);
+    const [pendingIndex, setPendingIndex] = useState<number | null>(null);
 
-    const [displayedIndex, setDisplayedIndex] =
-        useState(0);
-
-    const [pendingIndex, setPendingIndex] =
-        useState<number | null>(null);
-
-    const preloadCacheRef =
-        useRef<Set<string>>(new Set());
+    const preloadCacheRef = useRef<Set<string>>(new Set());
+    const transitionIdRef = useRef(0);
+    const mountedRef = useRef(false);
 
     const imageSignature = useMemo(
         () => images.join("|"),
         [images]
     );
 
-    const visibleTechStack =
-        techStack.slice(0, 4);
+    const visibleTechStack = techStack.slice(0, 4);
 
     const remainingTechCount = Math.max(
         techStack.length - 4,
         0
     );
-
-    const currentImage =
-        images[activeIndex] ?? images[0];
 
     const displayedImage =
         images[displayedIndex] ?? images[0];
@@ -104,43 +95,77 @@ const LandingDeveloperCard = ({
 
         preloadCacheRef.current.add(src);
 
-        const image =
-            new window.Image();
+        const image = new window.Image();
 
         image.decoding = "async";
         image.src = src;
 
         if (image.complete) {
             if (image.naturalWidth === 0) {
-                preloadCacheRef.current.delete(
-                    src
-                );
+                preloadCacheRef.current.delete(src);
             }
 
             return;
         }
 
         image.onerror = () => {
-            preloadCacheRef.current.delete(
-                src
-            );
+            preloadCacheRef.current.delete(src);
         };
     };
 
+    const changeImage = (index: number) => {
+        if (
+            index < 0 ||
+            index >= images.length ||
+            index === activeIndex
+        ) {
+            return;
+        }
+
+        const transitionId =
+            ++transitionIdRef.current;
+
+        setActiveIndex(index);
+
+        if (!mountedRef.current) {
+            setDisplayedIndex(index);
+            return;
+        }
+
+        preloadImage(images[index]);
+
+        setPendingIndex(index);
+
+        const nextImage =
+            images[index + 1];
+
+        const previousImage =
+            images[index - 1];
+
+        if (nextImage) {
+            preloadImage(nextImage);
+        }
+
+        if (previousImage) {
+            preloadImage(previousImage);
+        }
+
+        if (transitionId !== transitionIdRef.current) {
+            return;
+        }
+    };
+
     const backProfileImg = () => {
-        setActiveIndex((prev) =>
-            Math.max(prev - 1, 0)
+        changeImage(
+            Math.max(activeIndex - 1, 0)
         );
     };
 
     const nextProfileImg = () => {
-        setActiveIndex((prev) =>
+        changeImage(
             Math.min(
-                prev + 1,
-                Math.max(
-                    images.length - 1,
-                    0
-                )
+                activeIndex + 1,
+                Math.max(images.length - 1, 0)
             )
         );
     };
@@ -148,33 +173,77 @@ const LandingDeveloperCard = ({
     const handlePendingImageLoad = (
         index: number
     ) => {
-        if (index !== activeIndex) {
+        if (
+            !mountedRef.current ||
+            index !== activeIndex ||
+            index === displayedIndex
+        ) {
             return;
         }
 
-        setDisplayedIndex(index);
-        setPendingIndex(null);
+        const transitionId =
+            transitionIdRef.current;
+
+        requestAnimationFrame(() => {
+            if (
+                !mountedRef.current ||
+                transitionId !==
+                transitionIdRef.current
+            ) {
+                return;
+            }
+
+            setDisplayedIndex(index);
+            setPendingIndex((current) =>
+                current === index
+                    ? null
+                    : current
+            );
+        });
     };
 
     const handlePendingImageError = (
         index: number
     ) => {
-        if (index !== activeIndex) {
+        if (
+            !mountedRef.current ||
+            index !== activeIndex
+        ) {
             return;
         }
 
-        setPendingIndex(null);
+        const transitionId =
+            transitionIdRef.current;
+
+        if (
+            transitionId !==
+            transitionIdRef.current
+        ) {
+            return;
+        }
+
+        setPendingIndex((current) =>
+            current === index ? null : current
+        );
+
         setActiveIndex(displayedIndex);
     };
 
     useEffect(() => {
+        mountedRef.current = true;
+
+        transitionIdRef.current += 1;
+
         setActiveIndex(0);
         setDisplayedIndex(0);
         setPendingIndex(null);
 
-        images.forEach((src) => {
-            preloadImage(src);
-        });
+        images.forEach(preloadImage);
+
+        return () => {
+            mountedRef.current = false;
+            transitionIdRef.current += 1;
+        };
     }, [imageSignature]);
 
     useEffect(() => {
@@ -218,11 +287,14 @@ const LandingDeveloperCard = ({
 
         const timeout =
             window.setTimeout(() => {
-                setActiveIndex((prev) =>
-                    prev >= images.length - 1
-                        ? 0
-                        : prev + 1
-                );
+                setActiveIndex((prev) => {
+                    const nextIndex =
+                        prev >= images.length - 1
+                            ? 0
+                            : prev + 1;
+
+                    return nextIndex;
+                });
             }, duration);
 
         return () => {
@@ -233,6 +305,7 @@ const LandingDeveloperCard = ({
         autoPlay,
         duration,
         imageSignature,
+        images.length,
     ]);
 
     return (
@@ -271,7 +344,7 @@ const LandingDeveloperCard = ({
                         overflow-hidden
                         bg-background
                         isolate
-                        [contain:paint]
+                        contain-paint
                     "
                 >
                     <div
@@ -290,9 +363,7 @@ const LandingDeveloperCard = ({
                                 {displayedImage && (
                                     <Image
                                         key={`displayed-${displayedImage}`}
-                                        src={
-                                            displayedImage
-                                        }
+                                        src={displayedImage}
                                         alt={`${name} profile`}
                                         fill
                                         sizes="
@@ -318,7 +389,7 @@ const LandingDeveloperCard = ({
 
                                 {pendingImage && (
                                     <motion.div
-                                        key={`pending-${pendingImage}`}
+                                        key={`pending-${pendingIndex}`}
                                         initial={{
                                             opacity: 0,
                                         }}
@@ -347,9 +418,7 @@ const LandingDeveloperCard = ({
                                         "
                                     >
                                         <Image
-                                            src={
-                                                pendingImage
-                                            }
+                                            src={pendingImage}
                                             alt={`${name} profile`}
                                             fill
                                             sizes="
@@ -359,17 +428,15 @@ const LandingDeveloperCard = ({
                                             "
                                             priority={false}
                                             fetchPriority="auto"
-                                            draggable={
-                                                false
-                                            }
+                                            draggable={false}
                                             onLoad={() =>
                                                 handlePendingImageLoad(
-                                                    activeIndex
+                                                    pendingIndex!
                                                 )
                                             }
                                             onError={() =>
                                                 handlePendingImageError(
-                                                    activeIndex
+                                                    pendingIndex!
                                                 )
                                             }
                                             className="
@@ -434,16 +501,13 @@ const LandingDeveloperCard = ({
                                 top-8
                                 z-30
                                 origin-center
-                                ${
-                                    swipeSide ===
-                                    "right"
-                                        ? "left-5"
-                                        : "right-5"
+                                ${swipeSide === "right"
+                                    ? "left-5"
+                                    : "right-5"
                                 }
                             `}
                         >
-                            {swipeSide ===
-                            "right" ? (
+                            {swipeSide === "right" ? (
                                 <Heart
                                     size={100}
                                     strokeWidth={2.5}
@@ -462,28 +526,19 @@ const LandingDeveloperCard = ({
                     {images.length > 1 && (
                         <>
                             <ImageProgress
-                                total={
-                                    images.length
-                                }
-                                activeIndex={
-                                    activeIndex
-                                }
+                                total={images.length}
+                                activeIndex={activeIndex}
                                 duration={duration}
-                                autoPlay={
-                                    autoPlay
-                                }
+                                autoPlay={autoPlay}
                             />
 
                             <div className="absolute inset-0 z-10 flex lg:hidden">
                                 <button
                                     type="button"
                                     aria-label="Previous image"
-                                    onClick={
-                                        backProfileImg
-                                    }
+                                    onClick={backProfileImg}
                                     disabled={
-                                        activeIndex ===
-                                        0
+                                        activeIndex === 0
                                     }
                                     className="
                                         h-full
@@ -496,13 +551,10 @@ const LandingDeveloperCard = ({
                                 <button
                                     type="button"
                                     aria-label="Next image"
-                                    onClick={
-                                        nextProfileImg
-                                    }
+                                    onClick={nextProfileImg}
                                     disabled={
                                         activeIndex >=
-                                        images.length -
-                                            1
+                                        images.length - 1
                                     }
                                     className="
                                         h-full
@@ -529,12 +581,9 @@ const LandingDeveloperCard = ({
                                 <button
                                     type="button"
                                     aria-label="Previous image"
-                                    onClick={
-                                        backProfileImg
-                                    }
+                                    onClick={backProfileImg}
                                     disabled={
-                                        activeIndex ===
-                                        0
+                                        activeIndex === 0
                                     }
                                     className="
                                         rounded-full
@@ -556,13 +605,10 @@ const LandingDeveloperCard = ({
                                 <button
                                     type="button"
                                     aria-label="Next image"
-                                    onClick={
-                                        nextProfileImg
-                                    }
+                                    onClick={nextProfileImg}
                                     disabled={
                                         activeIndex >=
-                                        images.length -
-                                            1
+                                        images.length - 1
                                     }
                                     className="
                                         rounded-full
@@ -601,10 +647,9 @@ const LandingDeveloperCard = ({
                             className={`
                                 size-2
                                 rounded-full
-                                ${
-                                    isOnline
-                                        ? "animate-dot-blink bg-green-brand"
-                                        : "bg-gray-400"
+                                ${isOnline
+                                    ? "animate-dot-blink bg-green-brand"
+                                    : "bg-gray-400"
                                 }
                             `}
                         />
@@ -669,15 +714,7 @@ const LandingDeveloperCard = ({
                             )}
                         </div>
 
-                        <div
-                            className="
-                                mb-1
-                                flex
-                                min-w-0
-                                items-center
-                                gap-2
-                            "
-                        >
+                        <div className="mb-1 flex min-w-0 items-center gap-2">
                             <BriefcaseBusiness
                                 size={15}
                                 className="shrink-0"
@@ -695,15 +732,7 @@ const LandingDeveloperCard = ({
                             </p>
                         </div>
 
-                        <div
-                            className="
-                                mb-1
-                                flex
-                                min-w-0
-                                items-center
-                                gap-2
-                            "
-                        >
+                        <div className="mb-1 flex min-w-0 items-center gap-2">
                             <CiLocationOn className="shrink-0" />
 
                             <p
@@ -720,40 +749,14 @@ const LandingDeveloperCard = ({
                     </div>
 
                     {techStack.length > 0 && (
-                        <div
-                            className="
-                                relative
-                                z-10
-                                flex
-                                flex-col
-                                gap-1
-                            "
-                        >
-                            <p
-                                className="
-                                    relative
-                                    z-10
-                                    select-none
-                                "
-                            >
+                        <div className="relative z-10 flex flex-col gap-1">
+                            <p className="relative z-10 select-none">
                                 Tech Stack
                             </p>
 
-                            <div
-                                className="
-                                    relative
-                                    z-10
-                                    flex
-                                    min-w-0
-                                    gap-2
-                                    select-none
-                                "
-                            >
+                            <div className="relative z-10 flex min-w-0 gap-2 select-none">
                                 {visibleTechStack.map(
-                                    (
-                                        tech,
-                                        index
-                                    ) => (
+                                    (tech, index) => (
                                         <span
                                             key={`${tech}-${index}`}
                                             className="
@@ -772,17 +775,12 @@ const LandingDeveloperCard = ({
                                                 select-none
                                             "
                                         >
-                                            <GetLogo
-                                                name={
-                                                    tech
-                                                }
-                                            />
+                                            <GetLogo name={tech} />
                                         </span>
                                     )
                                 )}
 
-                                {remainingTechCount >
-                                    0 && (
+                                {remainingTechCount > 0 && (
                                     <span
                                         className="
                                             relative
@@ -806,10 +804,7 @@ const LandingDeveloperCard = ({
                                             sm:text-sm
                                         "
                                     >
-                                        +
-                                        {
-                                            remainingTechCount
-                                        }
+                                        +{remainingTechCount}
 
                                         <span className="hidden sm:inline">
                                             &nbsp;more

@@ -7,7 +7,7 @@ interface ImageProgressProps {
     activeIndex: number;
     duration?: number;
     className?: string;
-    autoPlay: boolean
+    autoPlay: boolean;
 }
 
 const ImageProgress = ({
@@ -15,58 +15,100 @@ const ImageProgress = ({
     activeIndex,
     duration = 5000,
     className = "",
-    autoPlay
+    autoPlay,
 }: ImageProgressProps) => {
     const [progress, setProgress] = useState(0);
 
     useEffect(() => {
-        if (!autoPlay) return;
+        if (!autoPlay) {
+            setProgress(0);
+            return;
+        }
 
         setProgress(0);
 
-        const startTime = Date.now();
+        const startTime = performance.now();
 
-        const interval = setInterval(() => {
-            const elapsed = Date.now() - startTime;
-            const nextProgress = Math.min((elapsed / duration) * 100, 100);
+        const update = () => {
+            const elapsed =
+                performance.now() - startTime;
+
+            const nextProgress = Math.min(
+                (elapsed / duration) * 100,
+                100
+            );
 
             setProgress(nextProgress);
 
-            if (nextProgress >= 100) {
-                clearInterval(interval);
+            if (nextProgress < 100) {
+                requestAnimationFrame(update);
             }
-        }, 16);
+        };
 
-        return () => clearInterval(interval);
-    }, [activeIndex, duration, autoPlay]);
+        const frame = requestAnimationFrame(update);
+
+        return () => {
+            cancelAnimationFrame(frame);
+        };
+    }, [
+        activeIndex,
+        duration,
+        autoPlay,
+    ]);
 
     return (
         <div
-            className={`absolute top-3 left-3 right-3 z-30 flex gap-1.5 ${className}`}
+            className={`
+                absolute
+                top-3
+                right-3
+                left-3
+                z-30
+                flex
+                gap-1.5
+                ${className}
+            `}
         >
-            {Array.from({ length: total }).map((_, index) => {
-                const isPrevious = index < activeIndex;
-                const isActive = index === activeIndex;
+            {Array.from({ length: total }).map(
+                (_, index) => {
+                    const isPrevious =
+                        index < activeIndex;
 
-                return (
-                    <div
-                        key={index}
-                        className="relative h-1 flex-1 overflow-hidden rounded-full bg-white/30"
-                    >
+                    const isActive =
+                        index === activeIndex;
+
+                    return (
                         <div
-                            className="absolute inset-y-0 left-0 rounded-full bg-white"
-                            style={{
-                                width: isPrevious
-                                    ? "100%"
-                                    : isActive
-                                        ? `${progress}%`
-                                        : "0%",
-                                transition: "none",
-                            }}
-                        />
-                    </div>
-                );
-            })}
+                            key={index}
+                            className="
+                                relative
+                                h-1
+                                flex-1
+                                overflow-hidden
+                                rounded-full
+                                bg-white/30
+                            "
+                        >
+                            <div
+                                className="
+                                    absolute
+                                    inset-y-0
+                                    left-0
+                                    rounded-full
+                                    bg-white
+                                "
+                                style={{
+                                    width: isPrevious
+                                        ? "100%"
+                                        : isActive
+                                            ? `${progress}%`
+                                            : "0%",
+                                }}
+                            />
+                        </div>
+                    );
+                }
+            )}
         </div>
     );
 };

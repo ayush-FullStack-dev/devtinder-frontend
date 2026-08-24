@@ -7,51 +7,55 @@ import { DeveloperProfilesDemoData } from "@/constants/landing";
 import Link from "next/link";
 import { motion } from "motion/react";
 
-const DiscoverSection = () => {
+const LandingDiscoverSection = () => {
     return (
         <section
             id="discover"
             className="
-                shrink-0
-                w-full
                 flex
+                w-full
+                shrink-0
                 flex-col
                 gap-10
-                py-10
                 px-2
+                py-10
 
                 sm:px-8
+
                 md:gap-14
                 md:px-12
 
-                lg:gap-8
-                lg:px-2
-                lg:py-0
                 lg:flex-row
                 lg:items-center
                 lg:justify-around
+                lg:gap-8
+                lg:px-2
+                lg:py-24
             "
         >
             <motion.div
                 initial={{
                     opacity: 0,
-                    x: -60,
-                    filter: "blur(8px)",
+                    x: -40,
                 }}
                 whileInView={{
                     opacity: 1,
                     x: 0,
-                    filter: "blur(0px)",
                 }}
                 viewport={{
                     once: true,
-                    amount: 0.25,
+                    amount: 0.1,
                 }}
                 transition={{
-                    duration: 0.8,
+                    duration: 0.65,
                     ease: [0.22, 1, 0.36, 1],
                 }}
-                className="flex flex-col gap-2 -mt-5"
+                className="
+                    -mt-5
+                    flex
+                    flex-col
+                    gap-2
+                "
             >
                 <div
                     className={`
@@ -64,19 +68,23 @@ const DiscoverSection = () => {
                         xs:text-6xl
                         sm:text-7xl
                         md:text-8xl
-                        lg:text-[8vw]
                         lg:max-w-[50vw]
+                        lg:text-[8vw]
                     `}
                 >
-                    <p>A lot can happen after your first</p>
+                    <p>
+                        A lot can happen after your first
+                    </p>
 
-                    <p className="text-green-brand">connection.</p>
+                    <p className="text-green-brand">
+                        connection.
+                    </p>
                 </div>
 
                 <motion.div
                     initial={{
                         opacity: 0,
-                        y: 20,
+                        y: 14,
                     }}
                     whileInView={{
                         opacity: 1,
@@ -84,11 +92,11 @@ const DiscoverSection = () => {
                     }}
                     viewport={{
                         once: true,
-                        amount: 0.25,
+                        amount: 0.1,
                     }}
                     transition={{
-                        delay: 0.15,
-                        duration: 0.6,
+                        delay: 0.08,
+                        duration: 0.5,
                         ease: [0.22, 1, 0.36, 1],
                     }}
                     className={`
@@ -141,34 +149,34 @@ const DiscoverSection = () => {
             <motion.div
                 initial={{
                     opacity: 0,
-                    x: 60,
-                    y: 20,
-                    scale: 0.96,
+                    x: 40,
+                    scale: 0.98,
                 }}
                 whileInView={{
                     opacity: 1,
                     x: 0,
-                    y: 0,
                     scale: 1,
                 }}
                 viewport={{
                     once: true,
-                    amount: 0.2,
+                    amount: 0.08,
                 }}
                 transition={{
-                    duration: 0.85,
-                    delay: 0.1,
+                    duration: 0.7,
+                    delay: 0.05,
                     ease: [0.22, 1, 0.36, 1],
                 }}
                 className="
-                    self-auto
+                    h-[min(70vw,620px)]
+                    min-h-120
                     w-full
-                    h-[70vw]
-                    min-h-155
+                    self-auto
+
                     sm:w-[80vw]
                     sm:self-center
-                    lg:w-[30vw]
+
                     lg:max-h-150
+                    lg:w-[30vw]
                     lg:self-auto
                 "
             >
@@ -181,4 +189,4 @@ const DiscoverSection = () => {
     );
 };
 
-export default DiscoverSection;
+export default LandingDiscoverSection;

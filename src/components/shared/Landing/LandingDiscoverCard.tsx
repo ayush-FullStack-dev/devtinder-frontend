@@ -10,6 +10,7 @@ import { Heart, X } from "lucide-react";
 import { useRef, useState } from "react";
 import LandingDeveloperCard from "./LandingDeveloperCard";
 import { twMerge } from "tailwind-merge";
+import ConnectionOverlay from "../discover/ConnectionOverlay";
 
 export interface DeveloperProfile {
     id: string;
@@ -33,13 +34,14 @@ const SWIPE_THRESHOLD_RATIO = 0.38;
 const MIN_SWIPE_THRESHOLD = 100;
 const MAX_DRAG = 360;
 
+const isAllowedLike = false;
+
 const LandingDiscoverCard = ({
     developers,
     className,
 }: LandingDiscoverCardProps) => {
     const cardRef = useRef<HTMLDivElement>(null);
     const animationLockRef = useRef(false);
-
     const controls = useAnimationControls();
     const x = useMotionValue(0);
 
@@ -51,6 +53,12 @@ const LandingDiscoverCard = ({
 
     const [isAnimating, setIsAnimating] =
         useState(false);
+
+    const [showOverlay, setShowOverlay] =
+        useState(false);
+
+    const pendingOverlayRef =
+        useRef(false);
 
     const activeProfile = profiles[0];
     const backProfile = profiles[1];
@@ -65,7 +73,7 @@ const LandingDiscoverCard = ({
     const getSwipeThreshold = () => {
         return Math.max(
             getCardWidth() *
-            SWIPE_THRESHOLD_RATIO,
+                SWIPE_THRESHOLD_RATIO,
             MIN_SWIPE_THRESHOLD
         );
     };
@@ -85,25 +93,87 @@ const LandingDiscoverCard = ({
             : -distance;
     };
 
-    useMotionValueEvent(x, "change", (latest) => {
-        if (animationLockRef.current) {
+    useMotionValueEvent(
+        x,
+        "change",
+        (latest) => {
+            if (animationLockRef.current) {
+                return;
+            }
+
+            const threshold =
+                getSwipeThreshold();
+
+            if (latest >= threshold) {
+                setSwipe("right");
+                return;
+            }
+
+            if (latest <= -threshold) {
+                setSwipe("left");
+                return;
+            }
+
+            setSwipe(null);
+        }
+    );
+
+    const showLikeDemo = async () => {
+        if (
+            animationLockRef.current ||
+            isAnimating ||
+            showOverlay
+        ) {
             return;
         }
 
-        const threshold = getSwipeThreshold();
+        animationLockRef.current = true;
+        setIsAnimating(true);
+        setSwipe("right");
 
-        if (latest >= threshold) {
-            setSwipe("right");
-            return;
-        }
+        controls.stop();
 
-        if (latest <= -threshold) {
-            setSwipe("left");
-            return;
-        }
+        const width = getCardWidth();
 
+        const likeTarget = Math.max(
+            width * 0.95,
+            300
+        );
+
+        await controls.start({
+            x: likeTarget,
+            y: 0,
+            rotate: 8,
+            opacity: 1,
+            transition: {
+                type: "spring",
+                stiffness: 300,
+                damping: 30,
+                mass: 0.72,
+            },
+        });
+
+        await controls.start({
+            x: 0,
+            y: 0,
+            rotate: 0,
+            opacity: 1,
+            transition: {
+                type: "spring",
+                stiffness: 430,
+                damping: 35,
+                mass: 0.65,
+            },
+        });
+
+        x.set(0);
         setSwipe(null);
-    });
+
+        animationLockRef.current = false;
+        setIsAnimating(false);
+
+        setShowOverlay(true);
+    };
 
     const swipeCard = async (
         direction: "left" | "right"
@@ -113,6 +183,14 @@ const LandingDiscoverCard = ({
             isAnimating ||
             profiles.length <= 1
         ) {
+            return;
+        }
+
+        if (
+            direction === "right" &&
+            !isAllowedLike
+        ) {
+            await showLikeDemo();
             return;
         }
 
@@ -126,7 +204,9 @@ const LandingDiscoverCard = ({
             getSwipeTarget(direction);
 
         const rotate =
-            direction === "right" ? 8 : -8;
+            direction === "right"
+                ? 8
+                : -8;
 
         await controls.start({
             x: targetX,
@@ -158,9 +238,20 @@ const LandingDiscoverCard = ({
         x.set(0);
         setSwipe(null);
 
+        const shouldShowOverlay =
+            pendingOverlayRef.current;
+
+        pendingOverlayRef.current = false;
+
         requestAnimationFrame(() => {
-            animationLockRef.current = false;
+            animationLockRef.current =
+                false;
+
             setIsAnimating(false);
+
+            if (shouldShowOverlay) {
+                setShowOverlay(true);
+            }
         });
     };
 
@@ -190,12 +281,26 @@ const LandingDiscoverCard = ({
         x.set(0);
         setSwipe(null);
 
-        animationLockRef.current = false;
+        animationLockRef.current =
+            false;
+
         setIsAnimating(false);
     };
 
+    const handleLike = () => {
+        if (isAllowedLike) {
+            void swipeCard("right");
+            return;
+        }
+
+        void showLikeDemo();
+    };
+
     const handleDragStart = () => {
-        if (animationLockRef.current) {
+        if (
+            animationLockRef.current ||
+            showOverlay
+        ) {
             return;
         }
 
@@ -203,15 +308,24 @@ const LandingDiscoverCard = ({
     };
 
     const handleDragEnd = async () => {
-        if (animationLockRef.current) {
+        if (
+            animationLockRef.current ||
+            showOverlay
+        ) {
             return;
         }
 
         const currentX = x.get();
+
         const threshold =
             getSwipeThreshold();
 
         if (currentX >= threshold) {
+            if (!isAllowedLike) {
+                await showLikeDemo();
+                return;
+            }
+
             await swipeCard("right");
             return;
         }
@@ -242,6 +356,13 @@ const LandingDiscoverCard = ({
                 className
             )}
         >
+            <ConnectionOverlay
+                show={showOverlay}
+                onClose={() =>
+                    setShowOverlay(false)
+                }
+            />
+
             <div
                 ref={cardRef}
                 className="
@@ -269,12 +390,18 @@ const LandingDiscoverCard = ({
                     >
                         <LandingDeveloperCard
                             key={`back-${backProfile.id}`}
-                            name={backProfile.name}
-                            age={backProfile.age}
+                            name={
+                                backProfile.name
+                            }
+                            age={
+                                backProfile.age
+                            }
                             verified={
                                 backProfile.verified
                             }
-                            role={backProfile.role}
+                            role={
+                                backProfile.role
+                            }
                             location={
                                 backProfile.location
                             }
@@ -305,7 +432,8 @@ const LandingDiscoverCard = ({
                         rounded-[inherit]
                     "
                     drag={
-                        isAnimating
+                        isAnimating ||
+                        showOverlay
                             ? false
                             : "x"
                     }
@@ -327,16 +455,26 @@ const LandingDiscoverCard = ({
                     onDragStart={
                         handleDragStart
                     }
-                    onDragEnd={handleDragEnd}
+                    onDragEnd={
+                        handleDragEnd
+                    }
                 >
                     <LandingDeveloperCard
-                        key={activeProfile.id}
-                        name={activeProfile.name}
-                        age={activeProfile.age}
+                        key={
+                            activeProfile.id
+                        }
+                        name={
+                            activeProfile.name
+                        }
+                        age={
+                            activeProfile.age
+                        }
                         verified={
                             activeProfile.verified
                         }
-                        role={activeProfile.role}
+                        role={
+                            activeProfile.role
+                        }
                         location={
                             activeProfile.location
                         }
@@ -379,37 +517,45 @@ const LandingDiscoverCard = ({
                         whileTap={{
                             scale: 0.94,
                         }}
-                        onClick={() => swipeCard("left")}
+                        onClick={() =>
+                            swipeCard("left")
+                        }
                         disabled={
-                            profiles.length <= 1
+                            profiles.length <=
+                            1
                         }
                         className={`
-        pointer-events-auto
-        flex
-        size-11
-        items-center
-        justify-center
-        rounded-full
-        text-white
-        shadow-lg
-        backdrop-blur-sm
-        transition-none
-        sm:size-14
-        disabled:pointer-events-none
-        disabled:opacity-80
-        ${swipe === "left"
-                                ? "bg-black dark:bg-white"
-                                : "bg-[#24262A]/95"
+                            pointer-events-auto
+                            flex
+                            size-15
+                            items-center
+                            justify-center
+                            rounded-full
+                            text-white
+                            shadow-lg
+                            backdrop-blur-sm
+                            transition-none
+                            disabled:pointer-events-none
+                            disabled:opacity-80
+                            ${
+                                swipe ===
+                                "left"
+                                    ? "bg-black dark:bg-white"
+                                    : "bg-[#24262A]/95"
                             }
-    `}
+                        `}
                     >
                         <X
                             size={30}
                             strokeWidth={
-                                swipe === "left" ? 4 : 3
+                                swipe ===
+                                "left"
+                                    ? 4
+                                    : 2
                             }
                             className={
-                                swipe === "left"
+                                swipe ===
+                                "left"
                                     ? "text-white dark:text-black"
                                     : "text-white"
                             }
@@ -424,42 +570,51 @@ const LandingDiscoverCard = ({
                         whileTap={{
                             scale: 0.94,
                         }}
-                        onClick={() => swipeCard("right")}
+                        onClick={
+                            handleLike
+                        }
                         disabled={
-                            profiles.length <= 1
+                            profiles.length <=
+                            1
                         }
                         className={`
-        pointer-events-auto
-        flex
-        size-11
-        items-center
-        justify-center
-        rounded-full
-        text-white
-        shadow-lg
-        backdrop-blur-sm
-        transition-none
-        sm:size-14
-        disabled:pointer-events-none
-        disabled:opacity-80
-        ${swipe === "right"
-                                ? "bg-[#EC180E]"
-                                : "bg-[#24262A]/95"
+                            pointer-events-auto
+                            flex
+                            size-15
+                            items-center
+                            justify-center
+                            rounded-full
+                            text-white
+                            shadow-lg
+                            backdrop-blur-sm
+                            transition-none
+                            disabled:pointer-events-none
+                            disabled:opacity-80
+                            ${
+                                swipe ===
+                                "right"
+                                    ? "bg-[#EC180E]"
+                                    : "bg-[#24262A]/95"
                             }
-    `}
+                        `}
                     >
                         <Heart
                             size={30}
                             strokeWidth={
-                                swipe === "right" ? 3 : 2
+                                swipe ===
+                                "right"
+                                    ? 3
+                                    : 2
                             }
                             color={
-                                swipe === "right"
+                                swipe ===
+                                "right"
                                     ? "#FFFFFF"
                                     : "#CD130A"
                             }
                             fill={
-                                swipe === "right"
+                                swipe ===
+                                "right"
                                     ? "#FFFFFF"
                                     : "none"
                             }

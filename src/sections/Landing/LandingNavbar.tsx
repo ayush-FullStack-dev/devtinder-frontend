@@ -6,13 +6,16 @@ import AnimatedButton from "@/components/shared/AnimatedButton";
 import PrimaryButton from "@/components/shared/PrimaryButton";
 import { motion } from "motion/react";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const LandingNavbar = () => {
     const [scrolled, setScrolled] = useState(false);
     const [activeMenu, setActiveMenu] = useState<string | null>(null);
     const [hidden, setHidden] = useState(false);
+
     const lastScrollTop = useRef(0);
+    const animationFrame = useRef<number | null>(null);
+    const scrollAnimationFrame = useRef<number | null>(null);
 
     const navItems = [
         {
@@ -51,99 +54,23 @@ const LandingNavbar = () => {
         },
     ];
 
-    const scrollToSection = (sectionId: string) => {
-        const scrollContainer =
-            document.getElementById("main-scroll");
+    const updateNavbarState = useCallback(() => {
+        if (animationFrame.current !== null) return;
 
-        const section =
-            document.getElementById(sectionId);
+        animationFrame.current = requestAnimationFrame(() => {
+            animationFrame.current = null;
 
-        if (!scrollContainer || !section) return;
+            const scrollContainer =
+                document.getElementById("main-scroll");
 
-        const start = scrollContainer.scrollTop;
-
-        const containerRect =
-            scrollContainer.getBoundingClientRect();
-
-        const sectionRect =
-            section.getBoundingClientRect();
-
-        const target =
-            start +
-            sectionRect.top -
-            containerRect.top;
-
-        const distance = target - start;
-
-        const duration = Math.min(
-            Math.max(Math.abs(distance) * 0.45, 550),
-            1100
-        );
-
-        const startTime = performance.now();
-
-        const easeOutExpo = (t: number) => {
-            return t === 1
-                ? 1
-                : 1 - Math.pow(2, -10 * t);
-        };
-
-        const animateScroll = (currentTime: number) => {
-            const elapsed =
-                currentTime - startTime;
-
-            const progress = Math.min(
-                elapsed / duration,
-                1
-            );
-
-            const easedProgress =
-                easeOutExpo(progress);
-
-            scrollContainer.scrollTop =
-                start +
-                distance * easedProgress;
-
-            if (progress < 1) {
-                requestAnimationFrame(
-                    animateScroll
-                );
-            }
-        };
-
-        requestAnimationFrame(animateScroll);
-
-        window.history.replaceState(
-            null,
-            "",
-            `/#${sectionId}`
-        );
-    };
-
-    useEffect(() => {
-        const scrollContainer =
-            document.getElementById("main-scroll");
-
-        const updateNavbarState = () => {
-            const containerScrollTop =
+            const currentScrollTop =
                 scrollContainer?.scrollTop ?? 0;
 
-            const windowScrollTop =
-                window.scrollY ||
-                document.documentElement.scrollTop ||
-                0;
-
-            const currentScrollTop = Math.max(
-                containerScrollTop,
-                windowScrollTop
-            );
+            const delta =
+                currentScrollTop - lastScrollTop.current;
 
             const hasHash =
                 window.location.hash.length > 0;
-
-            const delta =
-                currentScrollTop -
-                lastScrollTop.current;
 
             setScrolled(
                 currentScrollTop > 4 || hasHash
@@ -159,21 +86,17 @@ const LandingNavbar = () => {
                 setHidden(false);
             }
 
-            lastScrollTop.current =
-                currentScrollTop;
-        };
+            lastScrollTop.current = currentScrollTop;
+        });
+    }, [activeMenu]);
 
-        requestAnimationFrame(
-            updateNavbarState
-        );
+    useEffect(() => {
+        const scrollContainer =
+            document.getElementById("main-scroll");
+
+        updateNavbarState();
 
         scrollContainer?.addEventListener(
-            "scroll",
-            updateNavbarState,
-            { passive: true }
-        );
-
-        window.addEventListener(
             "scroll",
             updateNavbarState,
             { passive: true }
@@ -191,16 +114,113 @@ const LandingNavbar = () => {
             );
 
             window.removeEventListener(
-                "scroll",
-                updateNavbarState
-            );
-
-            window.removeEventListener(
                 "hashchange",
                 updateNavbarState
             );
+
+            if (animationFrame.current !== null) {
+                cancelAnimationFrame(
+                    animationFrame.current
+                );
+
+                animationFrame.current = null;
+            }
         };
-    }, [activeMenu]);
+    }, [updateNavbarState]);
+
+    const scrollToSection = useCallback(
+        (sectionId: string) => {
+            const scrollContainer =
+                document.getElementById("main-scroll");
+
+            const section =
+                document.getElementById(sectionId);
+
+            if (!scrollContainer || !section) return;
+
+            if (scrollAnimationFrame.current !== null) {
+                cancelAnimationFrame(
+                    scrollAnimationFrame.current
+                );
+
+                scrollAnimationFrame.current = null;
+            }
+
+            const start =
+                scrollContainer.scrollTop;
+
+            const containerRect =
+                scrollContainer.getBoundingClientRect();
+
+            const sectionRect =
+                section.getBoundingClientRect();
+
+            const target =
+                start +
+                sectionRect.top -
+                containerRect.top;
+
+            const distance = target - start;
+
+            if (Math.abs(distance) < 2) {
+                return;
+            }
+
+            const duration = Math.min(
+                Math.max(
+                    Math.abs(distance) * 0.35,
+                    450
+                ),
+                850
+            );
+
+            const startTime = performance.now();
+
+            const easeOutCubic = (t: number) => {
+                return 1 - Math.pow(1 - t, 3);
+            };
+
+            const animateScroll = (
+                currentTime: number
+            ) => {
+                const elapsed =
+                    currentTime - startTime;
+
+                const progress = Math.min(
+                    elapsed / duration,
+                    1
+                );
+
+                const easedProgress =
+                    easeOutCubic(progress);
+
+                scrollContainer.scrollTop =
+                    start +
+                    distance * easedProgress;
+
+                if (progress < 1) {
+                    scrollAnimationFrame.current =
+                        requestAnimationFrame(
+                            animateScroll
+                        );
+                } else {
+                    scrollAnimationFrame.current = null;
+                }
+            };
+
+            scrollAnimationFrame.current =
+                requestAnimationFrame(
+                    animateScroll
+                );
+
+            window.history.replaceState(
+                null,
+                "",
+                `/#${sectionId}`
+            );
+        },
+        []
+    );
 
     const navbarActive =
         scrolled || activeMenu !== null;
@@ -233,22 +253,23 @@ const LandingNavbar = () => {
                 px-5
 
                 transition-[background-color,border-color,box-shadow,backdrop-filter]
-                duration-700
+                duration-500
                 ease-[cubic-bezier(0.22,1,0.36,1)]
 
-                ${navbarActive
-                    ? `
-                            bg-[var(--bg-secondary)]/95
-                            backdrop-blur-xl
-                            backdrop-saturate-150
+                ${
+                    navbarActive
+                        ? `
                             border-b
                             border-white/5
+                            bg-[var(--bg-secondary)]/95
                             shadow-[0_8px_30px_rgba(0,0,0,0.12)]
+                            backdrop-blur-xl
+                            backdrop-saturate-150
                         `
-                    : `
-                            bg-transparent
+                        : `
                             border-b
                             border-transparent
+                            bg-transparent
                             shadow-none
                         `
                 }
@@ -263,25 +284,25 @@ const LandingNavbar = () => {
                 <div
                     className="
                         grid
+                        w-full
                         grid-cols-[minmax(0,1fr)_auto_minmax(260px,1fr)]
                         items-center
-                        w-full
                         py-5
                     "
                 >
-                    <div className="justify-self-start shrink-0">
+                    <div className="shrink-0 justify-self-start">
                         <LogoHorizontal />
                     </div>
 
                     <nav
                         className={`
                             hidden
-                            lg:grid
-                            grid-cols-4
                             w-[35vw]
                             min-w-[540px]
-                            2xl:w-[40vw]
+                            grid-cols-4
                             text-md
+                            lg:grid
+                            2xl:w-[40vw]
                             ${googleSansFlex.className}
                         `}
                         aria-label="Main navigation"
@@ -295,8 +316,8 @@ const LandingNavbar = () => {
                                     key={item.name}
                                     className="
                                         flex
-                                        justify-center
                                         min-w-max
+                                        justify-center
                                     "
                                     onMouseEnter={() =>
                                         setActiveMenu(
@@ -327,14 +348,15 @@ const LandingNavbar = () => {
                                             }
                                         }}
                                         className={`
-                                            whitespace-nowrap
                                             cursor-pointer
+                                            whitespace-nowrap
                                             transition-all
                                             duration-200
                                             ease-out
-                                            ${isActive
-                                                ? "font-bold"
-                                                : "font-medium hover:font-bold"
+                                            ${
+                                                isActive
+                                                    ? "font-bold"
+                                                    : "font-medium hover:font-bold"
                                             }
                                         `}
                                     >
@@ -348,12 +370,12 @@ const LandingNavbar = () => {
                     <div
                         className="
                             hidden
-                            lg:flex
-                            shrink-0
                             min-w-[260px]
+                            shrink-0
                             items-center
                             justify-self-end
                             gap-5
+                            lg:flex
                         "
                     >
                         <Link href="/signup">
@@ -390,29 +412,25 @@ const LandingNavbar = () => {
                 <motion.div
                     initial={false}
                     animate={{
-                        height: activeMenu
-                            ? 150
-                            : 0,
-                        opacity: activeMenu
-                            ? 1
-                            : 0,
+                        height: activeMenu ? 150 : 0,
+                        opacity: activeMenu ? 1 : 0,
                     }}
                     transition={{
                         height: {
-                            duration: 0.45,
+                            duration: 0.4,
                             ease: [0.22, 1, 0.36, 1],
                         },
                         opacity: {
-                            duration: 0.25,
+                            duration: 0.2,
                             ease: "easeOut",
                         },
                     }}
                     className="
                         hidden
-                        lg:grid
-                        grid-cols-[minmax(0,1fr)_auto_minmax(260px,1fr)]
                         w-full
+                        grid-cols-[minmax(0,1fr)_auto_minmax(260px,1fr)]
                         overflow-hidden
+                        lg:grid
                     "
                 >
                     <div />
@@ -420,11 +438,11 @@ const LandingNavbar = () => {
                     <div
                         className={`
                             grid
-                            grid-cols-4
                             w-[35vw]
                             min-w-[540px]
-                            2xl:w-[40vw]
+                            grid-cols-4
                             text-md
+                            2xl:w-[40vw]
                             ${googleSansFlex.className}
                         `}
                     >
@@ -433,8 +451,8 @@ const LandingNavbar = () => {
                                 key={item.name}
                                 className="
                                     flex
-                                    justify-center
                                     min-w-max
+                                    justify-center
                                 "
                             >
                                 <div
@@ -469,18 +487,14 @@ const LandingNavbar = () => {
                                                         y:
                                                             isVisible
                                                                 ? 0
-                                                                : 12,
-                                                        filter:
-                                                            isVisible
-                                                                ? "blur(0px)"
-                                                                : "blur(4px)",
+                                                                : 10,
                                                     }}
                                                     transition={{
-                                                        duration: 0.4,
+                                                        duration: 0.3,
                                                         delay:
                                                             isVisible
                                                                 ? index *
-                                                                0.07
+                                                                  0.06
                                                                 : 0,
                                                         ease: [
                                                             0.22,
@@ -503,11 +517,11 @@ const LandingNavbar = () => {
                                                             relative
                                                             block
                                                             w-fit
-                                                            whitespace-nowrap
                                                             cursor-pointer
+                                                            whitespace-nowrap
                                                             after:absolute
-                                                            after:left-0
                                                             after:-bottom-1
+                                                            after:left-0
                                                             after:h-px
                                                             after:w-0
                                                             after:bg-current
