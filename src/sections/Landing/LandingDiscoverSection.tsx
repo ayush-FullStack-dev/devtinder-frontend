@@ -7,7 +7,7 @@ import { DeveloperProfilesDemoData } from "@/constants/landing";
 import Link from "next/link";
 import { motion } from "motion/react";
 
-const LandingDiscoverSection = () => {
+const LandingDiscoverSection = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
     return (
         <section
             id="discover"
@@ -183,6 +183,7 @@ const LandingDiscoverSection = () => {
                 <LandingDiscoverCard
                     developers={DeveloperProfilesDemoData}
                     className="h-full w-full"
+                    isAllowedLike={isLoggedIn}
                 />
             </motion.div>
         </section>

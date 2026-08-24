@@ -2,8 +2,11 @@ import JsonLd from "@/constants/JsonLd";
 import Navbar from "../sections/Landing/LandingNavbar";
 import HeroSection from "../sections/Landing/LandingHeroSection";
 import DiscoverSection from "../sections/Landing/LandingDiscoverSection";
+import { softLoginCheck } from "@/actions/softloginCheck";
 
-export function PageLayout() {
+export async function  PageLayout() {
+    const isLoggedIn = await softLoginCheck()
+
     return (
         <main
             id="main-scroll"
@@ -43,7 +46,7 @@ export function PageLayout() {
                     scroll-mt-24
                 "
             >
-                <DiscoverSection />
+                <DiscoverSection isLoggedIn={isLoggedIn}/>
             </section>
         </main>
     );

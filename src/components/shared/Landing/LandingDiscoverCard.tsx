@@ -11,6 +11,8 @@ import { useRef, useState } from "react";
 import LandingDeveloperCard from "./LandingDeveloperCard";
 import { twMerge } from "tailwind-merge";
 import ConnectionOverlay from "../discover/ConnectionOverlay";
+import { MIN_SWIPE_THRESHOLD, MAX_DRAG, SWIPE_THRESHOLD_RATIO } from "@/constants/landing";
+import { softLoginCheck } from "@/actions/softloginCheck";
 
 export interface DeveloperProfile {
     id: string;
@@ -28,17 +30,14 @@ export interface DeveloperProfile {
 interface LandingDiscoverCardProps {
     developers: DeveloperProfile[];
     className?: string;
+    isAllowedLike: boolean
 }
 
-const SWIPE_THRESHOLD_RATIO = 0.38;
-const MIN_SWIPE_THRESHOLD = 100;
-const MAX_DRAG = 360;
-
-const isAllowedLike = false;
 
 const LandingDiscoverCard = ({
     developers,
     className,
+    isAllowedLike
 }: LandingDiscoverCardProps) => {
     const cardRef = useRef<HTMLDivElement>(null);
     const animationLockRef = useRef(false);
@@ -73,7 +72,7 @@ const LandingDiscoverCard = ({
     const getSwipeThreshold = () => {
         return Math.max(
             getCardWidth() *
-                SWIPE_THRESHOLD_RATIO,
+            SWIPE_THRESHOLD_RATIO,
             MIN_SWIPE_THRESHOLD
         );
     };
@@ -433,7 +432,7 @@ const LandingDiscoverCard = ({
                     "
                     drag={
                         isAnimating ||
-                        showOverlay
+                            showOverlay
                             ? false
                             : "x"
                     }
@@ -537,11 +536,10 @@ const LandingDiscoverCard = ({
                             transition-none
                             disabled:pointer-events-none
                             disabled:opacity-80
-                            ${
-                                swipe ===
+                            ${swipe ===
                                 "left"
-                                    ? "bg-black dark:bg-white"
-                                    : "bg-[#24262A]/95"
+                                ? "bg-black dark:bg-white"
+                                : "bg-[#24262A]/95"
                             }
                         `}
                     >
@@ -549,13 +547,13 @@ const LandingDiscoverCard = ({
                             size={30}
                             strokeWidth={
                                 swipe ===
-                                "left"
+                                    "left"
                                     ? 4
                                     : 2
                             }
                             className={
                                 swipe ===
-                                "left"
+                                    "left"
                                     ? "text-white dark:text-black"
                                     : "text-white"
                             }
@@ -590,11 +588,10 @@ const LandingDiscoverCard = ({
                             transition-none
                             disabled:pointer-events-none
                             disabled:opacity-80
-                            ${
-                                swipe ===
+                            ${swipe ===
                                 "right"
-                                    ? "bg-[#EC180E]"
-                                    : "bg-[#24262A]/95"
+                                ? "bg-[#EC180E]"
+                                : "bg-[#24262A]/95"
                             }
                         `}
                     >
@@ -602,19 +599,19 @@ const LandingDiscoverCard = ({
                             size={30}
                             strokeWidth={
                                 swipe ===
-                                "right"
+                                    "right"
                                     ? 3
                                     : 2
                             }
                             color={
                                 swipe ===
-                                "right"
+                                    "right"
                                     ? "#FFFFFF"
                                     : "#CD130A"
                             }
                             fill={
                                 swipe ===
-                                "right"
+                                    "right"
                                     ? "#FFFFFF"
                                     : "none"
                             }
