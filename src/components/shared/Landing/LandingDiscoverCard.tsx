@@ -7,11 +7,19 @@ import {
     useMotionValueEvent,
 } from "motion/react";
 import { Heart, X } from "lucide-react";
-import { useRef, useState } from "react";
+import {
+    useEffect,
+    useRef,
+    useState,
+} from "react";
 import LandingDeveloperCard from "./LandingDeveloperCard";
 import { twMerge } from "tailwind-merge";
 import ConnectionOverlay from "../discover/ConnectionOverlay";
-import { MIN_SWIPE_THRESHOLD, MAX_DRAG, SWIPE_THRESHOLD_RATIO } from "@/constants/landing";
+import {
+    MIN_SWIPE_THRESHOLD,
+    MAX_DRAG,
+    SWIPE_THRESHOLD_RATIO,
+} from "@/constants/landing";
 import { softLoginCheck } from "@/actions/softloginCheck";
 
 export interface DeveloperProfile {
@@ -30,14 +38,13 @@ export interface DeveloperProfile {
 interface LandingDiscoverCardProps {
     developers: DeveloperProfile[];
     className?: string;
-    isAllowedLike: boolean
+    isAllowedLike: boolean;
 }
-
 
 const LandingDiscoverCard = ({
     developers,
     className,
-    isAllowedLike
+    isAllowedLike,
 }: LandingDiscoverCardProps) => {
     const cardRef = useRef<HTMLDivElement>(null);
     const animationLockRef = useRef(false);
@@ -243,9 +250,7 @@ const LandingDiscoverCard = ({
         pendingOverlayRef.current = false;
 
         requestAnimationFrame(() => {
-            animationLockRef.current =
-                false;
-
+            animationLockRef.current = false;
             setIsAnimating(false);
 
             if (shouldShowOverlay) {
@@ -280,9 +285,7 @@ const LandingDiscoverCard = ({
         x.set(0);
         setSwipe(null);
 
-        animationLockRef.current =
-            false;
-
+        animationLockRef.current = false;
         setIsAnimating(false);
     };
 
@@ -336,6 +339,61 @@ const LandingDiscoverCard = ({
 
         await resetCard();
     };
+
+    useEffect(() => {
+        const handleKeyDown = (
+            event: KeyboardEvent
+        ) => {
+            if (
+                animationLockRef.current ||
+                isAnimating ||
+                showOverlay ||
+                profiles.length <= 1
+            ) {
+                return;
+            }
+
+            const target =
+                event.target as HTMLElement | null;
+
+            if (
+                target?.closest(
+                    "input, textarea, select, button, [contenteditable='true']"
+                )
+            ) {
+                return;
+            }
+
+            if (event.key === "ArrowLeft") {
+                event.preventDefault();
+                void swipeCard("left");
+                return;
+            }
+
+            if (event.key === "ArrowRight") {
+                event.preventDefault();
+                void handleLike();
+
+            }
+        };
+
+        window.addEventListener(
+            "keydown",
+            handleKeyDown
+        );
+
+        return () => {
+            window.removeEventListener(
+                "keydown",
+                handleKeyDown
+            );
+        };
+    }, [
+        isAnimating,
+        showOverlay,
+        profiles.length,
+        isAllowedLike,
+    ]);
 
     if (!activeProfile) {
         return null;
@@ -459,9 +517,7 @@ const LandingDiscoverCard = ({
                     }
                 >
                     <LandingDeveloperCard
-                        key={
-                            activeProfile.id
-                        }
+                        key={activeProfile.id}
                         name={
                             activeProfile.name
                         }
@@ -568,9 +624,7 @@ const LandingDiscoverCard = ({
                         whileTap={{
                             scale: 0.94,
                         }}
-                        onClick={
-                            handleLike
-                        }
+                        onClick={handleLike}
                         disabled={
                             profiles.length <=
                             1
@@ -578,7 +632,7 @@ const LandingDiscoverCard = ({
                         className={`
                             pointer-events-auto
                             flex
-                             size-15
+                            size-15
                             items-center
                             justify-center
                             rounded-full

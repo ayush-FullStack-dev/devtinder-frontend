@@ -144,7 +144,9 @@ const ConnectionOverlayClient = ({
                             items-center
                             justify-around
                             rounded-xl
-                            px-7
+                            px-1
+                            xs:px-2
+                            sm:px-7
                             ${isDark
                                 ? "bg-[#22201f] text-white"
                                 : "border border-[#E5E5E5] bg-white text-[#24262A]"
@@ -229,7 +231,7 @@ const ConnectionOverlayClient = ({
                                     self-center
                                 `}
                             >
-                                <h1 className="text-2xl font-bold">
+                                <h1 className="text-mid xs:text-xl sm:text-2xl font-bold">
                                     Ready to make a connection?
                                 </h1>
 
@@ -239,7 +241,8 @@ const ConnectionOverlayClient = ({
                                         flex
                                         flex-col
                                         gap-1
-                                        text-sm
+                                        text-xs
+                                        xs:text-sm
                                         leading-5
                                         ${isDark
                                             ? "text-muted-foreground"
