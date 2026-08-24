@@ -62,8 +62,27 @@ const LandingDiscoverCard = ({
     className,
     isAllowedLike,
 }: LandingDiscoverCardProps) => {
-    const cardRef = useRef<HTMLDivElement>(null);
-    const animationLockRef = useRef(false);
+    const cardRef =
+        useRef<HTMLDivElement>(null);
+
+    const animationLockRef =
+        useRef(false);
+
+    const keyboardDirectionRef =
+        useRef<null | "left" | "right">(null);
+
+    const pressedKeysRef =
+        useRef<Set<"left" | "right">>(new Set());
+
+    const keyboardHoldAnimationRef =
+        useRef<ReturnType<typeof animate> | null>(
+            null
+        );
+
+    const keyboardRotateAnimationRef =
+        useRef<ReturnType<typeof animate> | null>(
+            null
+        );
 
     const x = useMotionValue(0);
     const rotate = useMotionValue(0);
@@ -110,6 +129,21 @@ const LandingDiscoverCard = ({
         const distance = Math.max(
             width * 1.7,
             520
+        );
+
+        return direction === "right"
+            ? distance
+            : -distance;
+    };
+
+    const getKeyboardHoldTarget = (
+        direction: "left" | "right"
+    ) => {
+        const width = getCardWidth();
+
+        const distance = Math.max(
+            width * 0.55,
+            180
         );
 
         return direction === "right"
@@ -227,15 +261,15 @@ const LandingDiscoverCard = ({
         const targetX =
             direction === "left"
                 ? Math.min(
-                      baseTarget,
-                      currentX -
-                          EXTRA_EXIT_DISTANCE
-                  )
+                    baseTarget,
+                    currentX -
+                    EXTRA_EXIT_DISTANCE
+                )
                 : Math.max(
-                      baseTarget,
-                      currentX +
-                          EXTRA_EXIT_DISTANCE
-                  );
+                    baseTarget,
+                    currentX +
+                    EXTRA_EXIT_DISTANCE
+                );
 
         const rotateTarget =
             direction === "right" ? 8 : -8;
@@ -351,10 +385,200 @@ const LandingDiscoverCard = ({
         await resetCard();
     };
 
+    const startKeyboardHold = (
+        direction: "left" | "right"
+    ) => {
+        if (
+            animationLockRef.current ||
+            isAnimating ||
+            showOverlay ||
+            profiles.length <= 1
+        ) {
+            return;
+        }
+
+        pressedKeysRef.current.add(direction);
+
+        if (
+            keyboardDirectionRef.current === direction
+        ) {
+            return;
+        }
+
+        keyboardDirectionRef.current = direction;
+
+        keyboardHoldAnimationRef.current?.stop();
+
+        keyboardRotateAnimationRef.current?.stop();
+
+        stopCardAnimations();
+
+        setSwipe(direction);
+
+        const target =
+            getKeyboardHoldTarget(direction);
+
+        keyboardHoldAnimationRef.current =
+            animate(x, target, {
+                type: "tween",
+                duration: 0.8,
+                ease: "easeOut",
+            });
+
+        keyboardRotateAnimationRef.current =
+            animate(
+                rotate,
+                direction === "right" ? 8 : -8,
+                {
+                    type: "tween",
+                    duration: 0.8,
+                    ease: "easeOut",
+                }
+            );
+    };
+
+    const releaseKeyboardHold = async (
+        direction: "left" | "right"
+    ) => {
+        pressedKeysRef.current.delete(direction);
+
+        if (
+            keyboardDirectionRef.current !== direction
+        ) {
+            return;
+        }
+
+        const oppositeDirection =
+            direction === "left"
+                ? "right"
+                : "left";
+
+        if (
+            pressedKeysRef.current.has(
+                oppositeDirection
+            )
+        ) {
+            startKeyboardHold(
+                oppositeDirection
+            );
+
+            return;
+        }
+
+        keyboardDirectionRef.current = null;
+
+        keyboardHoldAnimationRef.current?.stop();
+
+        keyboardRotateAnimationRef.current?.stop();
+
+        keyboardHoldAnimationRef.current = null;
+
+        keyboardRotateAnimationRef.current = null;
+
+        const currentX = x.get();
+
+        if (Math.abs(currentX) < 2) {
+            await resetCard();
+            return;
+        }
+
+        if (
+            direction === "right" &&
+            !isAllowedLike
+        ) {
+            animationLockRef.current = true;
+
+            setIsAnimating(true);
+
+            setSwipe("right");
+
+            stopCardAnimations();
+
+            const width = getCardWidth();
+
+            const likeTarget = Math.max(
+                width * 0.95,
+                300
+            );
+
+            await Promise.all([
+                animate(
+                    x,
+                    likeTarget,
+                    SWIPE_SPRING
+                ),
+                animate(
+                    rotate,
+                    8,
+                    SWIPE_SPRING
+                ),
+            ]);
+
+            await Promise.all([
+                animate(
+                    x,
+                    0,
+                    RETURN_SPRING
+                ),
+                animate(
+                    rotate,
+                    0,
+                    RETURN_SPRING
+                ),
+            ]);
+
+            x.set(0);
+
+            rotate.set(0);
+
+            opacity.set(1);
+
+            setSwipe(null);
+
+            animationLockRef.current = false;
+
+            setIsAnimating(false);
+
+            setShowOverlay(true);
+
+            return;
+        }
+
+        await swipeCard(direction);
+    };
+
     useEffect(() => {
+        const isInteractiveTarget = (
+            target: EventTarget | null
+        ) => {
+            const element =
+                target as HTMLElement | null;
+
+            return Boolean(
+                element?.closest(
+                    "input, textarea, select, button, [contenteditable='true']"
+                )
+            );
+        };
+
         const handleKeyDown = (
             event: KeyboardEvent
         ) => {
+            if (
+                event.key !== "ArrowLeft" &&
+                event.key !== "ArrowRight"
+            ) {
+                return;
+            }
+
+            if (
+                isInteractiveTarget(event.target)
+            ) {
+                return;
+            }
+
+            event.preventDefault();
+
             if (
                 animationLockRef.current ||
                 isAnimating ||
@@ -364,28 +588,48 @@ const LandingDiscoverCard = ({
                 return;
             }
 
-            const target =
-                event.target as HTMLElement | null;
+            const direction =
+                event.key === "ArrowLeft"
+                    ? "left"
+                    : "right";
 
+            startKeyboardHold(direction);
+        };
+
+        const handleKeyUp = (
+            event: KeyboardEvent
+        ) => {
             if (
-                target?.closest(
-                    "input, textarea, select, button, [contenteditable='true']"
-                )
+                event.key !== "ArrowLeft" &&
+                event.key !== "ArrowRight"
             ) {
                 return;
             }
 
-            if (event.key === "ArrowLeft") {
-                event.preventDefault();
-                void swipeCard("left");
-                return;
-            }
+            event.preventDefault();
 
-            if (event.key === "ArrowRight") {
-                event.preventDefault();
-                void handleLike();
+            const direction =
+                event.key === "ArrowLeft"
+                    ? "left"
+                    : "right";
 
-            }
+            void releaseKeyboardHold(direction);
+        };
+
+        const handleWindowBlur = () => {
+            pressedKeysRef.current.clear();
+
+            keyboardDirectionRef.current = null;
+
+            keyboardHoldAnimationRef.current?.stop();
+
+            keyboardRotateAnimationRef.current?.stop();
+
+            keyboardHoldAnimationRef.current = null;
+
+            keyboardRotateAnimationRef.current = null;
+
+            void resetCard();
         };
 
         window.addEventListener(
@@ -393,11 +637,37 @@ const LandingDiscoverCard = ({
             handleKeyDown
         );
 
+        window.addEventListener(
+            "keyup",
+            handleKeyUp
+        );
+
+        window.addEventListener(
+            "blur",
+            handleWindowBlur
+        );
+
         return () => {
             window.removeEventListener(
                 "keydown",
                 handleKeyDown
             );
+
+            window.removeEventListener(
+                "keyup",
+                handleKeyUp
+            );
+
+            window.removeEventListener(
+                "blur",
+                handleWindowBlur
+            );
+
+            pressedKeysRef.current.clear();
+
+            keyboardHoldAnimationRef.current?.stop();
+
+            keyboardRotateAnimationRef.current?.stop();
         };
     }, [
         isAnimating,

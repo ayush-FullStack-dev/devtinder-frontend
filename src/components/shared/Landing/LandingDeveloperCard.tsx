@@ -358,12 +358,18 @@ const LandingDeveloperCard = ({
     ]);
 
     useEffect(() => {
+        if (
+            !autoPlay ||
+            images.length <= 1
+        ) {
+            return;
+        }
+
         const handleKeyDown = (
             event: KeyboardEvent
         ) => {
             if (
-                event.code !== "Space" ||
-                images.length <= 1
+                event.code !== "Space"
             ) {
                 return;
             }
@@ -398,6 +404,7 @@ const LandingDeveloperCard = ({
     }, [
         activeIndex,
         images.length,
+        autoPlay,
     ]);
 
     return (
@@ -455,9 +462,7 @@ const LandingDeveloperCard = ({
                                 {displayedImage && (
                                     <Image
                                         key={`displayed-${displayedImage}`}
-                                        src={
-                                            displayedImage
-                                        }
+                                        src={displayedImage}
                                         alt={`${name} profile`}
                                         fill
                                         sizes="
@@ -512,9 +517,7 @@ const LandingDeveloperCard = ({
                                         "
                                     >
                                         <Image
-                                            src={
-                                                pendingImage
-                                            }
+                                            src={pendingImage}
                                             alt={`${name} profile`}
                                             fill
                                             sizes="
@@ -522,13 +525,9 @@ const LandingDeveloperCard = ({
                                                 (max-width: 1024px) 80vw,
                                                 400px
                                             "
-                                            priority={
-                                                false
-                                            }
+                                            priority={false}
                                             fetchPriority="auto"
-                                            draggable={
-                                                false
-                                            }
+                                            draggable={false}
                                             onLoad={() =>
                                                 handlePendingImageLoad(
                                                     pendingIndex!
@@ -629,18 +628,10 @@ const LandingDeveloperCard = ({
                     {images.length > 1 && (
                         <>
                             <ImageProgress
-                                total={
-                                    images.length
-                                }
-                                activeIndex={
-                                    activeIndex
-                                }
-                                duration={
-                                    duration
-                                }
-                                autoPlay={
-                                    autoPlay
-                                }
+                                total={images.length}
+                                activeIndex={activeIndex}
+                                duration={duration}
+                                autoPlay={autoPlay}
                             />
 
                             <div className="absolute inset-0 z-10 flex lg:hidden">
@@ -651,8 +642,7 @@ const LandingDeveloperCard = ({
                                         backProfileImg
                                     }
                                     disabled={
-                                        activeIndex ===
-                                        0
+                                        activeIndex === 0
                                     }
                                     className="
                                         h-full
@@ -670,8 +660,7 @@ const LandingDeveloperCard = ({
                                     }
                                     disabled={
                                         activeIndex >=
-                                        images.length -
-                                            1
+                                        images.length - 1
                                     }
                                     className="
                                         h-full
@@ -702,8 +691,7 @@ const LandingDeveloperCard = ({
                                         backProfileImg
                                     }
                                     disabled={
-                                        activeIndex ===
-                                        0
+                                        activeIndex === 0
                                     }
                                     className="
                                         rounded-full
@@ -730,8 +718,7 @@ const LandingDeveloperCard = ({
                                     }
                                     disabled={
                                         activeIndex >=
-                                        images.length -
-                                            1
+                                        images.length - 1
                                     }
                                     className="
                                         rounded-full
