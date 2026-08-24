@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface ImageProgressProps {
     total: number;
@@ -19,6 +19,8 @@ const ImageProgress = ({
 }: ImageProgressProps) => {
     const [progress, setProgress] = useState(0);
 
+    const frameRef = useRef(0);
+
     useEffect(() => {
         if (!autoPlay) {
             setProgress(0);
@@ -29,7 +31,13 @@ const ImageProgress = ({
 
         const startTime = performance.now();
 
+        let cancelled = false;
+
         const update = () => {
+            if (cancelled) {
+                return;
+            }
+
             const elapsed =
                 performance.now() - startTime;
 
@@ -41,14 +49,17 @@ const ImageProgress = ({
             setProgress(nextProgress);
 
             if (nextProgress < 100) {
-                requestAnimationFrame(update);
+                frameRef.current =
+                    requestAnimationFrame(update);
             }
         };
 
-        const frame = requestAnimationFrame(update);
+        frameRef.current =
+            requestAnimationFrame(update);
 
         return () => {
-            cancelAnimationFrame(frame);
+            cancelled = true;
+            cancelAnimationFrame(frameRef.current);
         };
     }, [
         activeIndex,

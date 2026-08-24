@@ -103,6 +103,23 @@ const LandingDiscoverCard = ({
     const pendingOverlayRef =
         useRef(false);
 
+    const isAnimatingRef =
+        useRef(false);
+
+    const showOverlayRef =
+        useRef(false);
+
+    const profilesLengthRef =
+        useRef(developers.length);
+
+    const isAllowedLikeRef =
+        useRef(isAllowedLike);
+
+    isAnimatingRef.current = isAnimating;
+    showOverlayRef.current = showOverlay;
+    profilesLengthRef.current = profiles.length;
+    isAllowedLikeRef.current = isAllowedLike;
+
     const activeProfile = profiles[0];
     const backProfile = profiles[1];
 
@@ -142,8 +159,8 @@ const LandingDiscoverCard = ({
         const width = getCardWidth();
 
         const distance = Math.max(
-            width * 0.55,
-            180
+            width * 0.8,
+            300
         );
 
         return direction === "right"
@@ -284,6 +301,9 @@ const LandingDiscoverCard = ({
             animate(opacity, 0, SWIPE_SPRING),
         ]);
 
+        x.set(0);
+        rotate.set(0);
+
         flushSync(() => {
             setProfiles((prev) => [
                 ...prev.slice(1),
@@ -291,8 +311,6 @@ const LandingDiscoverCard = ({
             ]);
         });
 
-        x.set(0);
-        rotate.set(0);
         opacity.set(1);
         setSwipe(null);
 
@@ -390,9 +408,9 @@ const LandingDiscoverCard = ({
     ) => {
         if (
             animationLockRef.current ||
-            isAnimating ||
-            showOverlay ||
-            profiles.length <= 1
+            isAnimatingRef.current ||
+            showOverlayRef.current ||
+            profilesLengthRef.current <= 1
         ) {
             return;
         }
@@ -484,7 +502,7 @@ const LandingDiscoverCard = ({
 
         if (
             direction === "right" &&
-            !isAllowedLike
+            !isAllowedLikeRef.current
         ) {
             animationLockRef.current = true;
 
@@ -581,9 +599,9 @@ const LandingDiscoverCard = ({
 
             if (
                 animationLockRef.current ||
-                isAnimating ||
-                showOverlay ||
-                profiles.length <= 1
+                isAnimatingRef.current ||
+                showOverlayRef.current ||
+                profilesLengthRef.current <= 1
             ) {
                 return;
             }
@@ -669,12 +687,8 @@ const LandingDiscoverCard = ({
 
             keyboardRotateAnimationRef.current?.stop();
         };
-    }, [
-        isAnimating,
-        showOverlay,
-        profiles.length,
-        isAllowedLike,
-    ]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     if (!activeProfile) {
         return null;

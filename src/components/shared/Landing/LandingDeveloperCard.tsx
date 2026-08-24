@@ -245,16 +245,6 @@ const LandingDeveloperCard = ({
             return;
         }
 
-        const transitionId =
-            transitionIdRef.current;
-
-        if (
-            transitionId !==
-            transitionIdRef.current
-        ) {
-            return;
-        }
-
         setPendingIndex(
             (current) =>
                 current === index
