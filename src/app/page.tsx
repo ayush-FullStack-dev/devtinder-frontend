@@ -4,7 +4,7 @@ import HeroSection from "../sections/Landing/LandingHeroSection";
 import DiscoverSection from "../sections/Landing/LandingDiscoverSection";
 import { softLoginCheck } from "@/actions/softloginCheck";
 
-export async function  PageLayout() {
+export async function PageLayout() {
     const isLoggedIn = await softLoginCheck()
 
     return (

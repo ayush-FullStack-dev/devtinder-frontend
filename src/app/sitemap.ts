@@ -6,14 +6,38 @@ export default function sitemap(): MetadataRoute.Sitemap {
     {
       url: `${TRUSTED_APP_ORIGIN}/`,
       lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 1,
+    },
+    {
+      url: `${TRUSTED_APP_ORIGIN}/about`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${TRUSTED_APP_ORIGIN}/contact`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${TRUSTED_APP_ORIGIN}/privacy`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.5,
     },
     {
       url: `${TRUSTED_APP_ORIGIN}/login`,
       lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.6,
     },
     {
       url: `${TRUSTED_APP_ORIGIN}/signup`,
       lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.6,
     },
   ];
 }

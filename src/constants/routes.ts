@@ -5,6 +5,9 @@ export const VALID_ROUTES = [
   "/verify",
   "/dashboard",
   "/error",
+  "/about",
+  "/contact",
+  "/privacy",
 ];
 
-export const DYNAMIC_ROUTE_PREFIXES = [];
+export const DYNAMIC_ROUTE_PREFIXES: string[] = [];
