@@ -3,6 +3,7 @@ import Navbar from "../sections/Landing/LandingNavbar";
 import HeroSection from "../sections/Landing/LandingHeroSection";
 import DiscoverSection from "../sections/Landing/LandingDiscoverSection";
 import { softLoginCheck } from "@/actions/softloginCheck";
+import LandingHowItWorksSection from "@/sections/Landing/LandingHowItWorksSection";
 
 export async function PageLayout() {
     const isLoggedIn = await softLoginCheck()
@@ -21,7 +22,6 @@ export async function PageLayout() {
                 bg-background
                 scrollbar-hide
                 gap-30
-                lg:gap-40
             "
         >
             <Navbar />
@@ -44,10 +44,21 @@ export async function PageLayout() {
                     relative
                     w-full
                     shrink-0
-                    scroll-mt-24
+                    py-10
                 "
             >
                 <DiscoverSection isLoggedIn={isLoggedIn} />
+            </section>
+            <section
+                id="discover"
+                className="
+                    relative
+                    w-full
+                    shrink-0
+                    py-10
+                "
+            >
+                <LandingHowItWorksSection/>
             </section>
         </main>
     );

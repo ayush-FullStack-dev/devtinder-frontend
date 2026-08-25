@@ -27,7 +27,7 @@ export default function LogoHorizontal({
     router.push("/");
   };
   return (
-    <div className={`inline-flex items-center gap-2 ${className ?? ""}`} onClick={handleClick}>
+    <div className={`inline-flex items-center cursor-pointer gap-2 ${className ?? ""}`} onClick={handleClick}>
       <LogoMark
         monoChrome={!!monoChrome || !!logoMonoChrome}
         className={`h-6 w-auto ${markClassName ?? "shrink-0 size-8"}`}

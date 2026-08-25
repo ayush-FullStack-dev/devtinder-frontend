@@ -886,7 +886,9 @@ const LandingDiscoverCard = ({
                             shadow-lg
                             backdrop-blur-sm
                             transition-none
+                            cursor-pointer
                             disabled:pointer-events-none
+                              disabled:cursor-not-allowed
                             disabled:opacity-80
                             ${swipe ===
                                 "left"
@@ -936,7 +938,9 @@ const LandingDiscoverCard = ({
                             shadow-lg
                             backdrop-blur-sm
                             transition-none
+                            cursor-pointer
                             disabled:pointer-events-none
+                            disabled:cursor-not-allowed
                             disabled:opacity-80
                             ${swipe ===
                                 "right"

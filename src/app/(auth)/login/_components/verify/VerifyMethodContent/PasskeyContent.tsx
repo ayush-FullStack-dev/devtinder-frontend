@@ -155,6 +155,7 @@ const PasskeyContent = ({
     border-primary/15 bg-primary/5
     p-4
     dark:border-primary/25 dark:bg-primary/10
+    cursor-pointer
   "
           onClick={() => authenticatePasskey(true)}
         >

@@ -41,10 +41,11 @@ const AnimatedButton = ({
         text-white
 
           transition-all duration-300 ease-out
-
+         
           hover:bg-green-brand
           hover:border-green-brand
-
+          
+          cursor-pointer
           disabled:cursor-not-allowed
           disabled:opacity-50
         `,

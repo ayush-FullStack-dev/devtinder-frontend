@@ -9,8 +9,7 @@ import { motion } from "motion/react";
 
 const LandingDiscoverSection = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
     return (
-        <section
-            id="discover"
+        <div
             className="
                 flex
                 w-full
@@ -180,7 +179,7 @@ const LandingDiscoverSection = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
                     isAllowedLike={isLoggedIn}
                 />
             </motion.div>
-        </section>
+        </div>
     );
 };
 

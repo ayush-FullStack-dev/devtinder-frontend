@@ -25,7 +25,7 @@ export default function LogoName({
 
   return (
     <Component
-      className={`select-none pointer-events-none ${monoChrome ? "text-[var(--foreground-logo)]" : ""
+      className={`select-none cursor-pointer pointer-events-none ${monoChrome ? "text-[var(--foreground-logo)]" : ""
         } ${className ?? ""}`}
       onClick={handleClick}
       draggable={false}

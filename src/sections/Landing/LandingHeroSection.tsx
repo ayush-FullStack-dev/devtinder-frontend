@@ -7,7 +7,7 @@ import { motion } from "motion/react";
 
 const HeroSection = () => {
     return (
-        <section
+        <div
             className="
                 flex
                 min-h-dvh
@@ -159,7 +159,7 @@ const HeroSection = () => {
                     </Link>
                 </motion.div>
             </div>
-        </section>
+        </div>
     );
 };
 

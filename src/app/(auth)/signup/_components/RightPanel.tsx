@@ -26,16 +26,32 @@ const RightPanel = () => {
                         <span className="text-[#2BA96F]">Grow together.</span>
                     </div>
 
-                    <div className="w-full overflow-hidden opacity-90 select-none pointer-events-none font-serif ">
+                    <div className="w-full overflow-hidden opacity-90 select-none pointer-events-none font-serif">
+                        <div className="flex w-max animate-code-one gap-2">
+                            <span className="shrink-0 whitespace-nowrap text-[#1b3629]">
+                                {`const dev = findMatch(skills); if (dev) connect(dev); function connect(dev) { const match = createMatch(dev); return match; } const team = buildTogether(matches); team.add(dev);`}
+                            </span>
 
-                        <span className="block w-max whitespace-nowrap text-[#1b3629] animate-code-one">
-                            {`const dev = findMatch(skills); if (dev) connect(dev); function connect(dev) { const match = createMatch(dev); return match; } const team = buildTogether(matches); team.add(dev);`}
-                        </span>
+                            <span
+                                aria-hidden="true"
+                                className="shrink-0 whitespace-nowrap text-[#1b3629]"
+                            >
+                                {`const dev = findMatch(skills); if (dev) connect(dev); function connect(dev) { const match = createMatch(dev); return match; } const team = buildTogether(matches); team.add(dev);`}
+                            </span>
+                        </div>
 
-                        <span className="block w-max whitespace-nowrap text-[#1b3629] animate-code-two">
-                            {`team.grow(); function findMatch(skills) { return developers.find(dev => dev.skills.some(skill => skills.includes(skill))); }`}
-                        </span>
+                        <div className="flex w-max animate-code-two gap-2">
+                            <span className="shrink-0 whitespace-nowrap text-[#1b3629]">
+                                {`team.grow(); function findMatch(skills) { return developers.find(dev => dev.skills.some(skill => skills.includes(skill))); }`}
+                            </span>
 
+                            <span
+                                aria-hidden="true"
+                                className="shrink-0 whitespace-nowrap text-[#1b3629]"
+                            >
+                                {`team.grow(); function findMatch(skills) { return developers.find(dev => dev.skills.some(skill => skills.includes(skill))); }`}
+                            </span>
+                        </div>
                     </div>
 
                 </div>

@@ -219,7 +219,7 @@ const LandingDeveloperCard = ({
             if (
                 !mountedRef.current ||
                 transitionId !==
-                    transitionIdRef.current
+                transitionIdRef.current
             ) {
                 return;
             }
@@ -277,7 +277,7 @@ const LandingDeveloperCard = ({
     useEffect(() => {
         if (
             activeIndex ===
-                displayedIndex ||
+            displayedIndex ||
             !images[activeIndex]
         ) {
             return;
@@ -324,7 +324,7 @@ const LandingDeveloperCard = ({
                     (prev) => {
                         const nextIndex =
                             prev >=
-                            images.length -
+                                images.length -
                                 1
                                 ? 0
                                 : prev + 1;
@@ -590,16 +590,15 @@ const LandingDeveloperCard = ({
                                 top-8
                                 z-30
                                 origin-center
-                                ${
-                                    swipeSide ===
+                                ${swipeSide ===
                                     "right"
-                                        ? "left-5"
-                                        : "right-5"
+                                    ? "left-5"
+                                    : "right-5"
                                 }
                             `}
                         >
                             {swipeSide ===
-                            "right" ? (
+                                "right" ? (
                                 <Heart
                                     size={100}
                                     strokeWidth={2.5}
@@ -690,7 +689,8 @@ const LandingDeveloperCard = ({
                                         backdrop-blur-sm
                                         transition
                                         hover:bg-black/60
-                                        disabled:cursor-not-allowed
+                                         cursor-pointer
+                                      disabled:cursor-not-allowed
                                         disabled:opacity-30
                                     "
                                 >
@@ -717,6 +717,7 @@ const LandingDeveloperCard = ({
                                         backdrop-blur-sm
                                         transition
                                         hover:bg-black/60
+                                        cursor-pointer
                                         disabled:cursor-not-allowed
                                         disabled:opacity-30
                                     "
@@ -747,10 +748,9 @@ const LandingDeveloperCard = ({
                             className={`
                                 size-2
                                 rounded-full
-                                ${
-                                    isOnline
-                                        ? "animate-dot-blink bg-green-brand"
-                                        : "bg-gray-400"
+                                ${isOnline
+                                    ? "animate-dot-blink bg-green-brand"
+                                    : "bg-gray-400"
                                 }
                             `}
                         />
@@ -890,8 +890,8 @@ const LandingDeveloperCard = ({
 
                                 {remainingTechCount >
                                     0 && (
-                                    <span
-                                        className="
+                                        <span
+                                            className="
                                             relative
                                             z-10
                                             flex
@@ -912,17 +912,17 @@ const LandingDeveloperCard = ({
                                             sm:px-3
                                             sm:text-sm
                                         "
-                                    >
-                                        +
-                                        {
-                                            remainingTechCount
-                                        }
+                                        >
+                                            +
+                                            {
+                                                remainingTechCount
+                                            }
 
-                                        <span className="hidden sm:inline">
-                                            &nbsp;more
+                                            <span className="hidden sm:inline">
+                                                &nbsp;more
+                                            </span>
                                         </span>
-                                    </span>
-                                )}
+                                    )}
                             </div>
                         </div>
                     )}

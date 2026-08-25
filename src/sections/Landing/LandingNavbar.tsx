@@ -251,7 +251,6 @@ const LandingNavbar = () => {
                 z-40
                 w-full
                 px-5
-
                 transition-[background-color,border-color,box-shadow,backdrop-filter]
                 duration-500
                 ease-[cubic-bezier(0.22,1,0.36,1)]

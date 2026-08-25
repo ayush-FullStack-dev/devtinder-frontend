@@ -66,7 +66,7 @@ const VerifyMethodFooter = ({
           >
             Having trouble?{" "}
             <span
-              className="tracking-tight text-primary font-medium"
+              className="tracking-tight text-primary font-medium  cursor-pointer"
               onClick={navigate}
             >
               Try another sign-in option.

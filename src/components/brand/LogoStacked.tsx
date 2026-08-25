@@ -30,7 +30,7 @@ export default function LogoStacked({
 
   return (
     <div
-      className={`inline-flex justify-center items-center flex-col gap-2 ${className ?? ""} `} onClick={handleClick}
+      className={`inline-flex justify-center cursor-pointer items-center flex-col gap-2 ${className ?? ""} `} onClick={handleClick}
     >
       <LogoMark
         monoChrome={!!monoChrome || !!logoMonoChrome}

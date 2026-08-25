@@ -25,7 +25,7 @@ export default function LogoMark({
 
   return (
     <Component
-      className={`select-none pointer-events-none ${monoChrome ? "text-[var(--foreground-logo)]" : ""
+      className={`select-none pointer-events-none cursor-pointer ${monoChrome ? "text-[var(--foreground-logo)]" : ""
         } ${className ?? ""}`}
       onClick={handleClick}
       draggable={false}
