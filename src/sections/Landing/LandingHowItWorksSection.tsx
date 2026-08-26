@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
     motion,
     useMotionValue,
@@ -17,10 +17,42 @@ import MacWindowFrame from "@/components/shared/frames/MacWindowFrame";
 const LandingHowItWorksSection = () => {
     const sectionRef = useRef<HTMLElement>(null);
 
+    const [isDesktop, setIsDesktop] = useState(false);
+
     const scrollProgress = useMotionValue(0);
 
     useEffect(() => {
-        const container = document.getElementById("main-scroll");
+        const mediaQuery = window.matchMedia(
+            "(min-width: 1024px)"
+        );
+
+        const updateMedia = () => {
+            setIsDesktop(mediaQuery.matches);
+        };
+
+        updateMedia();
+
+        mediaQuery.addEventListener(
+            "change",
+            updateMedia
+        );
+
+        return () => {
+            mediaQuery.removeEventListener(
+                "change",
+                updateMedia
+            );
+        };
+    }, []);
+
+    useEffect(() => {
+        if (!isDesktop) {
+            scrollProgress.set(0);
+            return;
+        }
+
+        const container =
+            document.getElementById("main-scroll");
 
         if (!container) return;
 
@@ -42,7 +74,7 @@ const LandingHowItWorksSection = () => {
                 Math.max(
                     1,
                     section.offsetHeight -
-                        container.clientHeight
+                    container.clientHeight
                 );
 
             const progressValue = Math.max(
@@ -80,7 +112,7 @@ const LandingHowItWorksSection = () => {
                 updateProgress
             );
         };
-    }, [scrollProgress]);
+    }, [isDesktop, scrollProgress]);
 
     const textY = useTransform(
         scrollProgress,
@@ -105,44 +137,53 @@ const LandingHowItWorksSection = () => {
             ref={sectionRef}
             className="
                 relative
+                flex
+                min-h-dvh
                 w-full
-                min-h-[125svh]
                 shrink-0
-                xs:min-h-[130svh]
-                sm:min-h-[135svh]
-                md:min-h-[140svh]
+                flex-col
+
                 lg:min-h-[170svh]
+                lg:block
+
                 sm:px-4
             "
         >
-            {/* Sticky Text */}
             <motion.div
                 className="
-                    sticky
-                    top-0
+                    relative
                     z-0
                     flex
-                    h-[100svh]
+                    min-h-[55svh]
                     w-full
                     shrink-0
                     items-center
                     justify-center
+
+                    lg:sticky
+                    lg:top-0
                     lg:h-dvh
+                    lg:min-h-0
                 "
             >
                 <motion.div
-                    style={{
-                        opacity: textOpacity,
-                        y: textY,
-                        scale: textScale,
-                    }}
+                    style={
+                        isDesktop
+                            ? {
+                                opacity: textOpacity,
+                                y: textY,
+                                scale: textScale,
+                            }
+                            : undefined
+                    }
                     className="
                         flex
                         w-full
                         shrink-0
                         flex-col
                         items-center
-                        will-change-transform
+
+                        lg:will-change-transform
                     "
                 >
                     <motion.div
@@ -216,9 +257,11 @@ const LandingHowItWorksSection = () => {
                                 font-bold
                                 leading-[0.95]
                                 tracking-tight
+
                                 xs:text-[12vw]
                                 sm:text-[12vw]
                                 md:text-[11vw]
+
                                 lg:text-[8vw]
                             `}
                         >
@@ -271,20 +314,17 @@ const LandingHowItWorksSection = () => {
                 </motion.div>
             </motion.div>
 
-            {/* Video */}
             <div
                 className="
                     relative
                     z-10
-                    mt-[-12svh]
                     w-full
                     shrink-0
-                    xs:mt-[-14svh]
-                    sm:mt-[-16svh]
-                    md:mt-[-8vh]
+
+                    lg:mt-[-8vh]
                 "
             >
-                {/* Tablet and Desktop */}
+           
                 <MacWindowFrame
                     className="
                         relative
@@ -293,7 +333,9 @@ const LandingHowItWorksSection = () => {
                         w-full
                         shrink-0
                         overflow-hidden
+
                         sm:block
+
                         lg:max-w-[83vw]
                     "
                 >
@@ -324,18 +366,17 @@ const LandingHowItWorksSection = () => {
                     />
                 </MacWindowFrame>
 
-                {/* Mobile */}
                 <div
                     className="
-                        relative
-                        block
-                        aspect-video
-                        w-full
-                        shrink-0
-                        overflow-hidden
-                        rounded-lg
-                        sm:hidden
-                    "
+        relative
+        block
+        h-[55svh]
+        w-full
+        shrink-0
+        overflow-hidden
+        rounded-lg
+        sm:hidden
+    "
                 >
                     <video
                         autoPlay
@@ -345,12 +386,12 @@ const LandingHowItWorksSection = () => {
                         preload="auto"
                         src="/videos/LandingHowItWorks.mp4"
                         className="
-                            absolute
-                            inset-0
-                            h-full
-                            w-full
-                            object-cover
-                        "
+            absolute
+            inset-0
+            h-full
+            w-full
+            object-fill
+        "
                     />
                 </div>
             </div>
