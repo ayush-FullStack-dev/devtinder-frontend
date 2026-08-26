@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import {
     motion,
     useMotionValue,
@@ -18,8 +18,6 @@ const LandingHowItWorksSection = () => {
     const sectionRef = useRef<HTMLElement>(null);
     const scrollProgress = useMotionValue(0);
 
-    const [progress, setProgress] = useState(0);
-
     useEffect(() => {
         const container = document.getElementById("main-scroll");
 
@@ -30,14 +28,18 @@ const LandingHowItWorksSection = () => {
 
             if (!section) return;
 
-            const containerRect = container.getBoundingClientRect();
-            const sectionRect = section.getBoundingClientRect();
+            const containerRect =
+                container.getBoundingClientRect();
+
+            const sectionRect =
+                section.getBoundingClientRect();
 
             const sectionTop =
                 sectionRect.top - containerRect.top;
 
             const scrollDistance =
-                section.offsetHeight - container.clientHeight;
+                section.offsetHeight -
+                container.clientHeight;
 
             if (scrollDistance <= 0) return;
 
@@ -50,7 +52,6 @@ const LandingHowItWorksSection = () => {
             );
 
             scrollProgress.set(progressValue);
-            setProgress(progressValue);
         };
 
         updateProgress();
@@ -77,23 +78,23 @@ const LandingHowItWorksSection = () => {
                 updateProgress
             );
         };
-    }, []);
+    }, [scrollProgress]);
 
     const textY = useTransform(
         scrollProgress,
-        [0, 0.45],
+        [0, 0.4],
         [0, -80]
     );
 
-    const opacity = useTransform(
+    const textOpacity = useTransform(
         scrollProgress,
-        [0, 0.75],
+        [0, 0.65],
         [1, 0]
     );
 
-    const scale = useTransform(
+    const textScale = useTransform(
         scrollProgress,
-        [0, 0.45],
+        [0, 0.4],
         [1, 0.65]
     );
 
@@ -103,10 +104,10 @@ const LandingHowItWorksSection = () => {
             className="
                 relative
                 min-h-[140vh]
-                lg:min-h-[170vh]
                 w-full
                 shrink-0
                 sm:px-4
+                lg:min-h-[170vh]
             "
         >
             <motion.div
@@ -116,94 +117,142 @@ const LandingHowItWorksSection = () => {
                     z-0
                     flex
                     h-[60dvh]
-                    lg:h-dvh
                     w-full
                     items-center
                     justify-center
+                    lg:h-dvh
                 "
             >
                 <motion.div
                     style={{
-                        opacity,
+                        opacity: textOpacity,
                         y: textY,
-                        scale,
-                    }}
-                    initial={{
-                        opacity: 0,
-                        scale: 0.94,
-                        filter: "blur(12px)",
-                    }}
-                    whileInView={{
-                        opacity: 1,
-                        scale: 1,
-                        filter: "blur(0px)",
-                    }}
-                    viewport={{
-                        once: true,
-                        amount: 0.3,
-                    }}
-                    transition={{
-                        duration: 0.9,
-                        ease: [0.16, 1, 0.3, 1],
+                        scale: textScale,
                     }}
                     className="
                         flex
                         flex-col
                         items-center
+                        will-change-transform
                     "
                 >
-                    <motion.h2
+                    <motion.div
                         initial={{
                             opacity: 0,
-                            letterSpacing: "0.3em",
+                            scale: 0.97,
+                            filter: "blur(8px)",
                         }}
                         whileInView={{
                             opacity: 1,
-                            letterSpacing: "0em",
+                            scale: 1,
+                            filter: "blur(0px)",
                         }}
                         viewport={{
                             once: true,
+                            amount: 0.15,
                         }}
                         transition={{
-                            delay: 0.1,
-                            duration: 0.7,
+                            duration: 0.55,
                             ease: [0.16, 1, 0.3, 1],
                         }}
-                        className={`
-                            ${googleSansFlex.className}
-                            text-xl
-                            text-green-brand
-                        `}
-                    >
-                        HOW IT WORKS
-                    </motion.h2>
-
-                    <h1
-                        className={`
-                            ${googleSans.className}
+                        className="
                             flex
-                            w-full
                             flex-col
                             items-center
-                            text-4xl
-                            xs:text-[12vw]
-                            sm:text-[12vw]
-                            md:text-[11vw]
-                            lg:text-[8vw]
-                            font-bold
-                            leading-[0.95]
-                            tracking-tight
-                        `}
+                            will-change-transform
+                        "
                     >
-                        <p>From connection</p>
+                        <motion.h2
+                            initial={{
+                                opacity: 0,
+                                y: 10,
+                                letterSpacing: "0.1em",
+                            }}
+                            whileInView={{
+                                opacity: 1,
+                                y: 0,
+                                letterSpacing: "0em",
+                            }}
+                            viewport={{
+                                once: true,
+                            }}
+                            transition={{
+                                delay: 0.05,
+                                duration: 0.4,
+                                ease: [0.22, 1, 0.36, 1],
+                            }}
+                            className={`
+                                ${googleSansFlex.className}
+                                text-xl
+                                text-green-brand
+                            `}
+                        >
+                            HOW IT WORKS
+                        </motion.h2>
 
-                        <p>
-                            to{" "}
-                            <span className="text-green-brand">
-                                creation.
-                            </span>
-                        </p>
-                    </h1>
+                        <h1
+                            className={`
+                                ${googleSans.className}
+                                flex
+                                w-full
+                                flex-col
+                                items-center
+                                text-4xl
+                                font-bold
+                                leading-[0.95]
+                                tracking-tight
+                                xs:text-[12vw]
+                                sm:text-[12vw]
+                                md:text-[11vw]
+                                lg:text-[8vw]
+                            `}
+                        >
+                            <motion.p
+                                initial={{
+                                    opacity: 0,
+                                    y: 24,
+                                }}
+                                whileInView={{
+                                    opacity: 1,
+                                    y: 0,
+                                }}
+                                viewport={{
+                                    once: true,
+                                }}
+                                transition={{
+                                    delay: 0.1,
+                                    duration: 0.45,
+                                    ease: [0.22, 1, 0.36, 1],
+                                }}
+                            >
+                                From connection
+                            </motion.p>
+
+                            <motion.p
+                                initial={{
+                                    opacity: 0,
+                                    y: 24,
+                                }}
+                                whileInView={{
+                                    opacity: 1,
+                                    y: 0,
+                                }}
+                                viewport={{
+                                    once: true,
+                                }}
+                                transition={{
+                                    delay: 0.16,
+                                    duration: 0.45,
+                                    ease: [0.22, 1, 0.36, 1],
+                                }}
+                            >
+                                to{" "}
+                                <span className="text-green-brand">
+                                    creation.
+                                </span>
+                            </motion.p>
+                        </h1>
+                    </motion.div>
                 </motion.div>
             </motion.div>
 
@@ -215,7 +264,7 @@ const LandingHowItWorksSection = () => {
                     isolate
                 "
             >
-                <MacWindowFrame className="mx-auto w-full lg:max-w-[83vw] hidden sm:block">
+                <MacWindowFrame className="mx-auto hidden w-full sm:block lg:max-w-[83vw]">
                     <video
                         autoPlay
                         loop
@@ -243,8 +292,8 @@ const LandingHowItWorksSection = () => {
                         block
                         aspect-video
                         w-full
-                        object-cover
                         rounded-lg
+                        object-cover
                         sm:hidden
                     "
                 />
