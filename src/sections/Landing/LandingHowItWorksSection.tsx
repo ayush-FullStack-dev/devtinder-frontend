@@ -16,6 +16,7 @@ import MacWindowFrame from "@/components/shared/frames/MacWindowFrame";
 
 const LandingHowItWorksSection = () => {
     const sectionRef = useRef<HTMLElement>(null);
+
     const scrollProgress = useMotionValue(0);
 
     useEffect(() => {
@@ -38,10 +39,11 @@ const LandingHowItWorksSection = () => {
                 sectionRect.top - containerRect.top;
 
             const scrollDistance =
-                section.offsetHeight -
-                container.clientHeight;
-
-            if (scrollDistance <= 0) return;
+                Math.max(
+                    1,
+                    section.offsetHeight -
+                        container.clientHeight
+                );
 
             const progressValue = Math.max(
                 0,
@@ -82,8 +84,8 @@ const LandingHowItWorksSection = () => {
 
     const textY = useTransform(
         scrollProgress,
-        [0, 0.4],
-        [0, -80]
+        [0, 0.6],
+        [0, -20]
     );
 
     const textOpacity = useTransform(
@@ -103,21 +105,26 @@ const LandingHowItWorksSection = () => {
             ref={sectionRef}
             className="
                 relative
-                min-h-[140vh]
                 w-full
+                min-h-[125svh]
                 shrink-0
+                xs:min-h-[130svh]
+                sm:min-h-[135svh]
+                md:min-h-[140svh]
+                lg:min-h-[170svh]
                 sm:px-4
-                lg:min-h-[170vh]
             "
         >
+            {/* Sticky Text */}
             <motion.div
                 className="
                     sticky
                     top-0
                     z-0
                     flex
-                    h-[60dvh]
+                    h-[100svh]
                     w-full
+                    shrink-0
                     items-center
                     justify-center
                     lg:h-dvh
@@ -131,6 +138,8 @@ const LandingHowItWorksSection = () => {
                     }}
                     className="
                         flex
+                        w-full
+                        shrink-0
                         flex-col
                         items-center
                         will-change-transform
@@ -157,6 +166,8 @@ const LandingHowItWorksSection = () => {
                         }}
                         className="
                             flex
+                            w-full
+                            shrink-0
                             flex-col
                             items-center
                             will-change-transform
@@ -183,8 +194,10 @@ const LandingHowItWorksSection = () => {
                             }}
                             className={`
                                 ${googleSansFlex.className}
-                                text-xl
+                                text-base
                                 text-green-brand
+                                xs:text-lg
+                                sm:text-xl
                             `}
                         >
                             HOW IT WORKS
@@ -195,8 +208,10 @@ const LandingHowItWorksSection = () => {
                                 ${googleSans.className}
                                 flex
                                 w-full
+                                shrink-0
                                 flex-col
                                 items-center
+                                text-center
                                 text-4xl
                                 font-bold
                                 leading-[0.95]
@@ -256,15 +271,32 @@ const LandingHowItWorksSection = () => {
                 </motion.div>
             </motion.div>
 
+            {/* Video */}
             <div
                 className="
                     relative
                     z-10
-                    mt-[-8vh]
-                    isolate
+                    mt-[-12svh]
+                    w-full
+                    shrink-0
+                    xs:mt-[-14svh]
+                    sm:mt-[-16svh]
+                    md:mt-[-8vh]
                 "
             >
-                <MacWindowFrame className="mx-auto hidden w-full sm:block lg:max-w-[83vw]">
+                {/* Tablet and Desktop */}
+                <MacWindowFrame
+                    className="
+                        relative
+                        mx-auto
+                        hidden
+                        w-full
+                        shrink-0
+                        overflow-hidden
+                        sm:block
+                        lg:max-w-[83vw]
+                    "
+                >
                     <video
                         autoPlay
                         loop
@@ -273,30 +305,54 @@ const LandingHowItWorksSection = () => {
                         preload="auto"
                         src="/videos/LandingHowItWorks.mp4"
                         className="
-                            block
-                            aspect-video
+                            absolute
+                            inset-0
+                            h-full
                             w-full
                             object-cover
                         "
                     />
+
+                    <div
+                        className="
+                            relative
+                            z-10
+                            aspect-video
+                            w-full
+                            shrink-0
+                        "
+                    />
                 </MacWindowFrame>
 
-                <video
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    preload="auto"
-                    src="/videos/LandingHowItWorks.mp4"
+                {/* Mobile */}
+                <div
                     className="
+                        relative
                         block
                         aspect-video
                         w-full
+                        shrink-0
+                        overflow-hidden
                         rounded-lg
-                        object-cover
                         sm:hidden
                     "
-                />
+                >
+                    <video
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        preload="auto"
+                        src="/videos/LandingHowItWorks.mp4"
+                        className="
+                            absolute
+                            inset-0
+                            h-full
+                            w-full
+                            object-cover
+                        "
+                    />
+                </div>
             </div>
         </section>
     );
