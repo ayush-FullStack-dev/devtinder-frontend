@@ -8,6 +8,17 @@ export const VALID_ROUTES = [
   "/about",
   "/contact",
   "/privacy",
+  "/how-it-works",
+];
+
+export const excludeRoutes = [
+  "/",
+  "/dashboard",
+  "/verify",
+  "/about",
+  "/contact",
+  "/privacy",
+  "/how-it-works",
 ];
 
 export const DYNAMIC_ROUTE_PREFIXES: string[] = [];

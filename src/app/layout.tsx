@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     title: `${AppName} — Connect, Collaborate & Build with Developers`,
     description:
-      "DevTinder is a developer matchmaking platform where software engineers discover, connect, and collaborate with other developers.",
+      `${AppName} is a developer matchmaking platform where software engineers discover, connect, and collaborate with other developers.`,
     url: process.env.NEXT_PUBLIC_APP_URL!,
     images: [
       {
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${AppName} — Connect, Collaborate & Build with Developers`,
     description:
-      "DevTinder is a developer matchmaking platform where software engineers discover, connect, and collaborate with other developers.",
+      `${AppName} is a developer matchmaking platform where software engineers discover, connect, and collaborate with other developers.`,
     images: ["/brand/social/og-image.png"],
   },
   robots: {
