@@ -21,7 +21,8 @@ export async function PageLayout() {
                 overflow-y-auto
                 bg-background
                 scrollbar-hide
-                gap-30
+                gap-20
+                lg:gap-30
             "
         >
             <Navbar />
@@ -58,7 +59,7 @@ export async function PageLayout() {
                     py-10
                 "
             >
-                <LandingHowItWorksSection/>
+                <LandingHowItWorksSection />
             </section>
         </main>
     );

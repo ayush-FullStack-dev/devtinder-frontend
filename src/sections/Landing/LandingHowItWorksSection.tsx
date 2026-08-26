@@ -82,19 +82,19 @@ const LandingHowItWorksSection = () => {
     const textY = useTransform(
         scrollProgress,
         [0, 0.45],
-        [0, -90]
+        [0, -80]
     );
 
     const opacity = useTransform(
         scrollProgress,
-        [0, 0.45],
-        [1, 0.2]
+        [0, 0.75],
+        [1, 0]
     );
 
     const scale = useTransform(
         scrollProgress,
         [0, 0.45],
-        [1, 0.94]
+        [1, 0.65]
     );
 
     return (
@@ -203,7 +203,7 @@ const LandingHowItWorksSection = () => {
                     muted
                     playsInline
                     preload="auto"
-                    src="/videos/comp.mp4"
+                    src="/videos/LandingHowItWorks.mp4"
                     className="
                             block
                             aspect-video
