@@ -109,7 +109,6 @@ const LandingHowItWorksSection = () => {
                 sm:px-4
             "
         >
-
             <motion.div
                 className="
                     sticky
@@ -129,13 +128,47 @@ const LandingHowItWorksSection = () => {
                         y: textY,
                         scale,
                     }}
+                    initial={{
+                        opacity: 0,
+                        scale: 0.94,
+                        filter: "blur(12px)",
+                    }}
+                    whileInView={{
+                        opacity: 1,
+                        scale: 1,
+                        filter: "blur(0px)",
+                    }}
+                    viewport={{
+                        once: true,
+                        amount: 0.3,
+                    }}
+                    transition={{
+                        duration: 0.9,
+                        ease: [0.16, 1, 0.3, 1],
+                    }}
                     className="
                         flex
                         flex-col
                         items-center
                     "
                 >
-                    <h2
+                    <motion.h2
+                        initial={{
+                            opacity: 0,
+                            letterSpacing: "0.3em",
+                        }}
+                        whileInView={{
+                            opacity: 1,
+                            letterSpacing: "0em",
+                        }}
+                        viewport={{
+                            once: true,
+                        }}
+                        transition={{
+                            delay: 0.1,
+                            duration: 0.7,
+                            ease: [0.16, 1, 0.3, 1],
+                        }}
                         className={`
                             ${googleSansFlex.className}
                             text-xl
@@ -143,7 +176,7 @@ const LandingHowItWorksSection = () => {
                         `}
                     >
                         HOW IT WORKS
-                    </h2>
+                    </motion.h2>
 
                     <h1
                         className={`
@@ -198,6 +231,7 @@ const LandingHowItWorksSection = () => {
                         "
                     />
                 </MacWindowFrame>
+
                 <video
                     autoPlay
                     loop
@@ -206,13 +240,13 @@ const LandingHowItWorksSection = () => {
                     preload="auto"
                     src="/videos/LandingHowItWorks.mp4"
                     className="
-                            block
-                            aspect-video
-                            w-full
-                            object-cover
-                            rounded-lg
-                            sm:hidden
-                        "
+                        block
+                        aspect-video
+                        w-full
+                        object-cover
+                        rounded-lg
+                        sm:hidden
+                    "
                 />
             </div>
         </section>
