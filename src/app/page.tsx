@@ -56,7 +56,7 @@ export async function PageLayout() {
                     relative
                     w-full
                     shrink-0
-                    py-10
+                    lg:pb-10
                 "
             >
                 <LandingHowItWorksSection />

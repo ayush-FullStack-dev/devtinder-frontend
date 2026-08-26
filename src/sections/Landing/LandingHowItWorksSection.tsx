@@ -102,11 +102,11 @@ const LandingHowItWorksSection = () => {
             ref={sectionRef}
             className="
                 relative
-                min-h-[170vh]
+                min-h-[140vh]
+                lg:min-h-[170vh]
                 w-full
                 shrink-0
                 sm:px-4
-                px-2
             "
         >
 
@@ -116,7 +116,8 @@ const LandingHowItWorksSection = () => {
                     top-0
                     z-0
                     flex
-                    h-dvh
+                    h-[60dvh]
+                    lg:h-dvh
                     w-full
                     items-center
                     justify-center
