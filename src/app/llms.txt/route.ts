@@ -27,23 +27,23 @@ DevTinder is a web-based platform that helps developers find and connect with ot
 
 ## How Agents Should Use This Site
 
-### Public Pages (no authentication required)
+### Public Pages
 
-- [Homepage](https://devtinder.tech/) — Platform overview and developer discovery preview
-- [About](https://devtinder.tech/about) — What DevTinder is and how it works
-- [Contact](https://devtinder.tech/contact) — How to reach the DevTinder team
-- [Privacy Policy](https://devtinder.tech/privacy) — Data handling and privacy practices
-- [Sitemap](https://devtinder.tech/sitemap.xml) — XML sitemap of public pages
-- [robots.txt](https://devtinder.tech/robots.txt) — Crawler directives
-- [llms.txt](https://devtinder.tech/llms.txt) — This file
+- [Homepage](https://devtinder.tech/)
+- [About](https://devtinder.tech/about)
+- [Contact](https://devtinder.tech/contact)
+- [Privacy Policy](https://devtinder.tech/privacy)
+- [Sitemap](https://devtinder.tech/sitemap.xml)
+- [robots.txt](https://devtinder.tech/robots.txt)
+- [llms.txt](https://devtinder.tech/llms.txt)
 
 ### Authentication Required
 
-- Login: [https://devtinder.tech/login](https://devtinder.tech/login) — Sign in to an existing account
-- Sign Up: [https://devtinder.tech/signup](https://devtinder.tech/signup) — Create a new account
-- Dashboard — Personalized developer feed (requires authentication)
-- Profile management — Edit your developer profile (requires authentication)
-- Connections and messaging — Communicate with matched developers (requires authentication)
+- Login: https://devtinder.tech/login
+- Sign Up: https://devtinder.tech/signup
+- Dashboard — Requires authentication
+- Profile management — Requires authentication
+- Connections and messaging — Requires authentication
 
 ### Important Notes for Agents
 
@@ -64,8 +64,9 @@ DevTinder is a web-based platform that helps developers find and connect with ot
 
 export async function GET() {
   return new NextResponse(LLMS_TXT, {
+    status: 200,
     headers: {
-      "Content-Type": "text/markdown; charset=utf-8",
+      "Content-Type": "text/plain; charset=utf-8",
       "Cache-Control": "public, max-age=86400, s-maxage=86400",
     },
   });
