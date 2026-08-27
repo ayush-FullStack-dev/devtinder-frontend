@@ -44,7 +44,7 @@ const videoJsonLd = {
     thumbnailUrl: [
         `${TRUSTED_APP_ORIGIN}/brand/social/og-image.png`,
     ],
-    uploadDate: "2026-08-26",
+    uploadDate: "2026-08-27T00:00:00+05:30",
     contentUrl: `${TRUSTED_APP_ORIGIN}/videos/LandingHowItWorks.mp4`,
     embedUrl: `${TRUSTED_APP_ORIGIN}/how-it-works`,
     publisher: {
