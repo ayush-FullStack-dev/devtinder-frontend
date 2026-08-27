@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { broadcast } from "@/lib/broadcast-channel";
 
 type VerifyRedirectProps = {
     delay?: number;
@@ -16,7 +17,13 @@ export default function VerifyRedirect({
     const [countdown, setCountdown] = useState(totalSeconds);
     const [showFallback, setShowFallback] = useState(false);
 
+
     useEffect(() => {
+        broadcast("signup-status", {
+            status: "VERIFIED",
+        });
+
+
         const countdownTimer = setInterval(() => {
             setCountdown((current) => {
                 if (current <= 1) {

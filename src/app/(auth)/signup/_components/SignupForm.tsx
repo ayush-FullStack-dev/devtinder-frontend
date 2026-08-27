@@ -9,7 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Eye, EyeOff } from "lucide-react";
-import EmailVerificationModal from "@/components/shared/auth/EmailVerificationModal";
+import EmailVerificationModal from "@/app/(auth)/verify/_components/EmailVerificationModal";
 
 type SignupFormProps = {
   setStep: (step: 1 | 2) => void;

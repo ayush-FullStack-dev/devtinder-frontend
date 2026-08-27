@@ -26,6 +26,7 @@ const EmailVerificationModal = ({
 
     const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
     const redirectingRef = useRef(false);
+    const webSocketVerified = useRef(false);
 
     const clearTimer = useCallback(() => {
         if (intervalRef.current !== null) {
@@ -52,14 +53,45 @@ const EmailVerificationModal = ({
     }, [clearTimer]);
 
     useEffect(() => {
+        if (!show) return;
+
+        const channel = new BroadcastChannel("signup-status");
+
+        const handleStatus = (event: MessageEvent) => {
+            if (!webSocketVerified.current) return;
+            if (redirectingRef.current) return;
+
+            const status = event.data?.status;
+
+            redirectingRef.current = true;
+
+            channel.close();
+
+            if (status === "VERIFIED") {
+                router.replace("/dashboard");
+            } else {
+                router.replace("/login");
+            }
+        };
+
+        channel.onmessage = handleStatus;
+
+        return () => {
+            channel.close();
+        };
+    }, [show, router]);
+
+    useEffect(() => {
         if (!show || !sentMail) return;
 
         const normalizedEmail = sentMail.trim().toLowerCase();
 
+        webSocketVerified.current = false;
+
         const socket = getSocket(
             `/auth?type=verification&email=${encodeURIComponent(normalizedEmail)}`,
         );
-        
+
         const handleVerified = (data: { emailId?: string }) => {
             const verifiedEmail = data?.emailId
                 ?.trim()
@@ -72,13 +104,9 @@ const EmailVerificationModal = ({
                 return;
             }
 
-            if (redirectingRef.current) return;
-
-            redirectingRef.current = true;
+            webSocketVerified.current = true;
 
             socket.off("email:verified", handleVerified);
-
-            router.replace("/dashboard");
         };
 
         socket.on("email:verified", handleVerified);
@@ -90,7 +118,7 @@ const EmailVerificationModal = ({
         return () => {
             socket.off("email:verified", handleVerified);
         };
-    }, [show, sentMail, router]);
+    }, [show, sentMail]);
 
     useEffect(() => {
         if (show) {
@@ -98,14 +126,12 @@ const EmailVerificationModal = ({
         } else {
             clearTimer();
             setResendCooldown(0);
+            webSocketVerified.current = false;
+            redirectingRef.current = false;
         }
 
         return clearTimer;
-    }, [
-        show,
-        startCooldown,
-        clearTimer,
-    ]);
+    }, [show, startCooldown, clearTimer]);
 
     const resend = async () => {
         if (resending || resendCooldown > 0) return;
@@ -136,7 +162,7 @@ const EmailVerificationModal = ({
             }
 
             startCooldown();
-        } catch (error) {
+        } catch {
         } finally {
             setResending(false);
         }
@@ -166,10 +192,10 @@ const EmailVerificationModal = ({
                     relative
                     box-border
                     flex
-                    min-h-[420px]
+                    min-h-105
                     max-h-[90dvh]
                     w-full
-                    max-w-[420px]
+                    max-w-105
                     min-w-0
                     flex-col
                     items-center
@@ -183,13 +209,11 @@ const EmailVerificationModal = ({
                     sm:px-6
                 "
             >
-                {/* Logo */}
                 <LogoMark
                     monoChrome={true}
                     className="h-8"
                 />
 
-                {/* Heading */}
                 <h1
                     className={`
                         ${googleSansFlex.className}
@@ -202,7 +226,6 @@ const EmailVerificationModal = ({
                     Verify your email
                 </h1>
 
-                {/* Email message */}
                 <div
                     className={`
                         ${googleSans.className}
@@ -221,7 +244,6 @@ const EmailVerificationModal = ({
                     </p>
                 </div>
 
-                {/* Resend */}
                 <p
                     className={`
                         ${googleSans.className}
@@ -255,10 +277,8 @@ const EmailVerificationModal = ({
                     </button>
                 </p>
 
-                {/* Flexible space */}
                 <div className="flex-1" />
 
-                {/* Back button */}
                 <Link
                     href="/login"
                     className={`
@@ -285,7 +305,6 @@ const EmailVerificationModal = ({
                     Back to login
                 </Link>
 
-                {/* Terms */}
                 <p
                     className={`
                         ${googleSans.className}
