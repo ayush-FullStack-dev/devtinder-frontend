@@ -288,3 +288,5 @@ export const DeveloperProfilesDemoData = [
     githubActivity: "Active",
   },
 ];
+
+export type DeveloperProfile = (typeof DeveloperProfilesDemoData)[number];

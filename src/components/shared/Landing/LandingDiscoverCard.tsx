@@ -115,6 +115,15 @@ const LandingDiscoverCard = ({
     const isAllowedLikeRef =
         useRef(isAllowedLike);
 
+    const nextProfileReadyRef =
+        useRef(false);
+
+    const nextProfileReadyPromiseRef =
+        useRef<Promise<void> | null>(null);
+
+    const nextProfileReadyResolveRef =
+        useRef<(() => void) | null>(null);
+
     isAnimatingRef.current = isAnimating;
     showOverlayRef.current = showOverlay;
     profilesLengthRef.current = profiles.length;
@@ -122,6 +131,23 @@ const LandingDiscoverCard = ({
 
     const activeProfile = profiles[0];
     const backProfile = profiles[1];
+
+    const waitForNextProfileReady =
+        async () => {
+            if (nextProfileReadyRef.current) {
+                return;
+            }
+
+            await Promise.race([
+                nextProfileReadyPromiseRef.current,
+                new Promise<void>((resolve) => {
+                    window.setTimeout(
+                        resolve,
+                        1500
+                    );
+                }),
+            ]);
+        };
 
     const getCardWidth = () => {
         return (
@@ -300,6 +326,8 @@ const LandingDiscoverCard = ({
             ),
             animate(opacity, 0, SWIPE_SPRING),
         ]);
+
+        await waitForNextProfileReady();
 
         x.set(0);
         rotate.set(0);
@@ -566,6 +594,65 @@ const LandingDiscoverCard = ({
     };
 
     useEffect(() => {
+        setProfiles(developers);
+    }, [developers]);
+
+
+    useEffect(() => {
+        nextProfileReadyRef.current = false;
+
+        nextProfileReadyPromiseRef.current =
+            new Promise<void>((resolve) => {
+                nextProfileReadyResolveRef.current =
+                    resolve;
+            });
+
+        const src =
+            backProfile?.images?.[0];
+
+        if (!src) {
+            nextProfileReadyRef.current = true;
+
+            nextProfileReadyResolveRef.current?.();
+
+            return;
+        }
+
+        const image =
+            new window.Image();
+
+        image.decoding = "async";
+        image.src = src;
+
+        const markReady = async () => {
+            try {
+                if (image.decode) {
+                    await image.decode();
+                }
+            } catch { }
+
+            nextProfileReadyRef.current = true;
+
+            nextProfileReadyResolveRef.current?.();
+        };
+
+        if (image.complete) {
+            void markReady();
+            return;
+        }
+
+        image.onload = () => {
+            void markReady();
+        };
+
+        image.onerror = () => {
+            nextProfileReadyRef.current = true;
+
+            nextProfileReadyResolveRef.current?.();
+        };
+    }, [backProfile?.id]);
+
+    useEffect(() => {
         const isInteractiveTarget = (
             target: EventTarget | null
         ) => {
@@ -687,7 +774,6 @@ const LandingDiscoverCard = ({
 
             keyboardRotateAnimationRef.current?.stop();
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     if (!activeProfile) {

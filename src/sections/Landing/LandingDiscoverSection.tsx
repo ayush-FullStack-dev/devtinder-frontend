@@ -3,11 +3,21 @@
 import { googleSans } from "@/assets/fonts/font.google";
 import AnimatedButton from "@/components/shared/AnimatedButton";
 import LandingDiscoverCard from "@/components/shared/Landing/LandingDiscoverCard";
-import { DeveloperProfilesDemoData } from "@/constants/landing";
+import { DeveloperProfile, DeveloperProfilesDemoData } from "@/constants/landing";
 import Link from "next/link";
 import { motion } from "motion/react";
+import { shuffle } from "@/helpers/shuffle";
+import { useEffect, useState } from "react";
 
 const LandingDiscoverSection = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
+    const [developers, setDevelopers] = useState<DeveloperProfile[]>(
+        DeveloperProfilesDemoData
+    );
+
+    useEffect(() => {
+        setDevelopers(shuffle(DeveloperProfilesDemoData));
+    }, []);
+
     return (
         <div
             className="
@@ -174,7 +184,7 @@ const LandingDiscoverSection = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
                 "
             >
                 <LandingDiscoverCard
-                    developers={DeveloperProfilesDemoData}
+                    developers={developers}
                     className="h-full w-full"
                     isAllowedLike={isLoggedIn}
                 />

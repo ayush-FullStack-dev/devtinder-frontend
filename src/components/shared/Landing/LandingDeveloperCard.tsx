@@ -98,39 +98,42 @@ const LandingDeveloperCard = ({
             ? images[pendingIndex]
             : null;
 
-    const preloadImage = (src: string) => {
-        if (
-            !src ||
-            preloadCacheRef.current.has(src)
-        ) {
-            return;
+    const preloadImage = async (
+        src: string
+    ): Promise<boolean> => {
+        if (!src) {
+            return false;
         }
 
-        preloadCacheRef.current.add(src);
+        if (preloadCacheRef.current.has(src)) {
+            return true;
+        }
 
-        const image =
-            new window.Image();
+        const image = new window.Image();
 
         image.decoding = "async";
         image.src = src;
 
-        if (image.complete) {
-            if (
-                image.naturalWidth === 0
-            ) {
-                preloadCacheRef.current.delete(
-                    src
+        try {
+            if (!image.complete) {
+                await new Promise<void>(
+                    (resolve, reject) => {
+                        image.onload = () => resolve();
+                        image.onerror = () => reject();
+                    }
                 );
             }
 
-            return;
-        }
+            if (image.decode) {
+                await image.decode();
+            }
 
-        image.onerror = () => {
-            preloadCacheRef.current.delete(
-                src
-            );
-        };
+            preloadCacheRef.current.add(src);
+
+            return true;
+        } catch {
+            return false;
+        }
     };
 
     const changeImage = (
@@ -154,7 +157,7 @@ const LandingDeveloperCard = ({
             return;
         }
 
-        preloadImage(images[index]);
+        void preloadImage(images[index]);
 
         setPendingIndex(index);
 
@@ -165,11 +168,11 @@ const LandingDeveloperCard = ({
             images[index - 1];
 
         if (nextImage) {
-            preloadImage(nextImage);
+            void preloadImage(nextImage);
         }
 
         if (previousImage) {
-            preloadImage(previousImage);
+            void preloadImage(previousImage);
         }
 
         if (
@@ -266,7 +269,11 @@ const LandingDeveloperCard = ({
         setDisplayedIndex(0);
         setPendingIndex(null);
 
-        images.forEach(preloadImage);
+        void preloadImage(images[0]);
+
+        if (images[1]) {
+            void preloadImage(images[1]);
+        }
 
         return () => {
             mountedRef.current = false;
@@ -276,20 +283,17 @@ const LandingDeveloperCard = ({
 
     useEffect(() => {
         if (
-            activeIndex ===
-            displayedIndex ||
+            activeIndex === displayedIndex ||
             !images[activeIndex]
         ) {
             return;
         }
 
-        preloadImage(
+        void preloadImage(
             images[activeIndex]
         );
 
-        setPendingIndex(
-            activeIndex
-        );
+        setPendingIndex(activeIndex);
 
         const nextImage =
             images[activeIndex + 1];
@@ -298,11 +302,11 @@ const LandingDeveloperCard = ({
             images[activeIndex - 1];
 
         if (nextImage) {
-            preloadImage(nextImage);
+            void preloadImage(nextImage);
         }
 
         if (previousImage) {
-            preloadImage(previousImage);
+            void preloadImage(previousImage);
         }
     }, [
         activeIndex,
