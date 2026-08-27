@@ -44,6 +44,7 @@ const HeroSection = () => {
                         md:text-[14vw]
                         lg:text-[13vw]
                         xl:text-[12vw]
+                        will-change-transform
                     `}
                 >
                     <span className="block">
@@ -64,7 +65,11 @@ const HeroSection = () => {
                             duration: 0.5,
                             ease: [0.22, 1, 0.36, 1],
                         }}
-                        className="block text-green-brand"
+                        className="
+                            block
+                            text-green-brand
+                            will-change-transform
+                        "
                     >
                         Ship.
                     </motion.span>
@@ -126,6 +131,7 @@ const HeroSection = () => {
                         mt-4
                         w-full
                         max-w-xs
+                        will-change-transform
                         xs:max-w-sm
                         sm:w-110
                         sm:max-w-none

@@ -3,13 +3,20 @@
 import { googleSans } from "@/assets/fonts/font.google";
 import AnimatedButton from "@/components/shared/AnimatedButton";
 import LandingDiscoverCard from "@/components/shared/Landing/LandingDiscoverCard";
-import { DeveloperProfile, DeveloperProfilesDemoData } from "@/constants/landing";
+import {
+    DeveloperProfile,
+    DeveloperProfilesDemoData,
+} from "@/constants/landing";
+import { shuffle } from "@/helpers/shuffle";
 import Link from "next/link";
 import { motion } from "motion/react";
-import { shuffle } from "@/helpers/shuffle";
 import { useEffect, useState } from "react";
 
-const LandingDiscoverSection = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
+const LandingDiscoverSection = ({
+    isLoggedIn,
+}: {
+    isLoggedIn: boolean;
+}) => {
     const [developers, setDevelopers] = useState<DeveloperProfile[]>(
         DeveloperProfilesDemoData
     );
@@ -60,6 +67,7 @@ const LandingDiscoverSection = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
                     flex
                     flex-col
                     gap-2
+                    will-change-transform
                 "
             >
                 <div
@@ -77,9 +85,7 @@ const LandingDiscoverSection = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
                         lg:text-[8vw]
                     `}
                 >
-                    <p>
-                        A lot can happen after your first
-                    </p>
+                    <p>A lot can happen after your first</p>
 
                     <p className="text-green-brand">
                         connection.
@@ -176,6 +182,7 @@ const LandingDiscoverSection = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
                     min-h-155
                     w-full
                     self-auto
+                    will-change-transform
                     sm:w-[80vw]
                     sm:self-center
                     lg:max-h-155

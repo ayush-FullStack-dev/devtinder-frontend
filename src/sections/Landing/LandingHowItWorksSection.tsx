@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import {
     motion,
-    useMotionValue,
+    useScroll,
     useTransform,
 } from "motion/react";
 
@@ -16,12 +16,14 @@ import MacWindowFrame from "@/components/shared/frames/MacWindowFrame";
 
 const LandingHowItWorksSection = () => {
     const sectionRef = useRef<HTMLElement>(null);
-
     const [isDesktop, setIsDesktop] = useState(false);
-
-    const scrollProgress = useMotionValue(0);
+    const [container, setContainer] = useState<HTMLElement | null>(null);
 
     useEffect(() => {
+        setContainer(
+            document.getElementById("main-scroll")
+        );
+
         const mediaQuery = window.matchMedia(
             "(min-width: 1024px)"
         );
@@ -45,89 +47,28 @@ const LandingHowItWorksSection = () => {
         };
     }, []);
 
-    useEffect(() => {
-        if (!isDesktop) {
-            scrollProgress.set(0);
-            return;
-        }
-
-        const container =
-            document.getElementById("main-scroll");
-
-        if (!container) return;
-
-        const updateProgress = () => {
-            const section = sectionRef.current;
-
-            if (!section) return;
-
-            const containerRect =
-                container.getBoundingClientRect();
-
-            const sectionRect =
-                section.getBoundingClientRect();
-
-            const sectionTop =
-                sectionRect.top - containerRect.top;
-
-            const scrollDistance =
-                Math.max(
-                    1,
-                    section.offsetHeight -
-                    container.clientHeight
-                );
-
-            const progressValue = Math.max(
-                0,
-                Math.min(
-                    1,
-                    -sectionTop / scrollDistance
-                )
-            );
-
-            scrollProgress.set(progressValue);
-        };
-
-        updateProgress();
-
-        container.addEventListener(
-            "scroll",
-            updateProgress,
-            { passive: true }
-        );
-
-        window.addEventListener(
-            "resize",
-            updateProgress
-        );
-
-        return () => {
-            container.removeEventListener(
-                "scroll",
-                updateProgress
-            );
-
-            window.removeEventListener(
-                "resize",
-                updateProgress
-            );
-        };
-    }, [isDesktop, scrollProgress]);
+    const { scrollYProgress } = useScroll({
+        container: container
+            ? { current: container }
+            : undefined,
+        target: sectionRef,
+        offset: ["start start", "end end"],
+    });
 
     const textY = useTransform(
-        scrollProgress,
+        scrollYProgress,
         [0, 0.6],
         [0, -20]
     );
 
     const textOpacity = useTransform(
-        scrollProgress,
+        scrollYProgress,
         [0, 0.65],
         [1, 0]
     );
 
     const textScale = useTransform(
-        scrollProgress,
+        scrollYProgress,
         [0, 0.4],
         [1, 0.65]
     );
@@ -142,11 +83,9 @@ const LandingHowItWorksSection = () => {
                 w-full
                 shrink-0
                 flex-col
-
+                sm:px-4
                 lg:min-h-[170svh]
                 lg:block
-
-                sm:px-4
             "
         >
             <motion.div
@@ -159,7 +98,6 @@ const LandingHowItWorksSection = () => {
                     shrink-0
                     items-center
                     justify-center
-
                     lg:sticky
                     lg:top-0
                     lg:h-dvh
@@ -182,7 +120,6 @@ const LandingHowItWorksSection = () => {
                         shrink-0
                         flex-col
                         items-center
-
                         lg:will-change-transform
                     "
                 >
@@ -190,12 +127,10 @@ const LandingHowItWorksSection = () => {
                         initial={{
                             opacity: 0,
                             scale: 0.97,
-                            filter: "blur(8px)",
                         }}
                         whileInView={{
                             opacity: 1,
                             scale: 1,
-                            filter: "blur(0px)",
                         }}
                         viewport={{
                             once: true,
@@ -257,11 +192,9 @@ const LandingHowItWorksSection = () => {
                                 font-bold
                                 leading-[0.95]
                                 tracking-tight
-
                                 xs:text-[12vw]
                                 sm:text-[12vw]
                                 md:text-[11vw]
-
                                 lg:text-[8vw]
                             `}
                         >
@@ -320,11 +253,9 @@ const LandingHowItWorksSection = () => {
                     z-10
                     w-full
                     shrink-0
-
                     lg:mt-[-8vh]
                 "
             >
-           
                 <MacWindowFrame
                     className="
                         relative
@@ -333,9 +264,7 @@ const LandingHowItWorksSection = () => {
                         w-full
                         shrink-0
                         overflow-hidden
-
                         sm:block
-
                         lg:max-w-[83vw]
                     "
                 >
@@ -344,7 +273,7 @@ const LandingHowItWorksSection = () => {
                         loop
                         muted
                         playsInline
-                        preload="auto"
+                        preload="metadata"
                         src="/videos/LandingHowItWorks.mp4"
                         className="
                             absolute
@@ -368,30 +297,30 @@ const LandingHowItWorksSection = () => {
 
                 <div
                     className="
-        relative
-        block
-        h-[55svh]
-        w-full
-        shrink-0
-        overflow-hidden
-        rounded-lg
-        sm:hidden
-    "
+                        relative
+                        block
+                        h-[55svh]
+                        w-full
+                        shrink-0
+                        overflow-hidden
+                        rounded-lg
+                        sm:hidden
+                    "
                 >
                     <video
                         autoPlay
                         loop
                         muted
                         playsInline
-                        preload="auto"
+                        preload="metadata"
                         src="/videos/LandingHowItWorks.mp4"
                         className="
-            absolute
-            inset-0
-            h-full
-            w-full
-            object-fill
-        "
+                            absolute
+                            inset-0
+                            h-full
+                            w-full
+                            object-fill
+                        "
                     />
                 </div>
             </div>

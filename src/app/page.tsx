@@ -6,35 +6,35 @@ import { softLoginCheck } from "@/actions/softloginCheck";
 import LandingHowItWorksSection from "@/sections/Landing/LandingHowItWorksSection";
 
 export async function PageLayout() {
-    const isLoggedIn = await softLoginCheck()
+    const isLoggedIn = await softLoginCheck();
 
     return (
         <main
             id="main-scroll"
             className="
-        relative
-        flex
-        h-dvh
-        w-full
-        flex-col
-        gap-20
-        overflow-x-hidden
-        overflow-y-auto
-        bg-background
-        scrollbar-hide
-        lg:gap-30
-    "
+                relative
+                flex
+                h-dvh
+                w-full
+                flex-col
+                gap-20
+                overflow-x-hidden
+                overflow-y-auto
+                bg-background
+                scrollbar-hide
+                lg:gap-30
+            "
         >
             <Navbar />
 
             <section
                 id="home"
                 className="
-            relative
-            min-h-dvh
-            w-full
-            shrink-0
-        "
+                    relative
+                    min-h-dvh
+                    w-full
+                    shrink-0
+                "
             >
                 <HeroSection />
             </section>
@@ -42,11 +42,11 @@ export async function PageLayout() {
             <section
                 id="discover"
                 className="
-            relative
-            w-full
-            shrink-0
-            py-10
-        "
+                    relative
+                    w-full
+                    shrink-0
+                    py-10
+                "
             >
                 <DiscoverSection isLoggedIn={isLoggedIn} />
             </section>
@@ -54,11 +54,11 @@ export async function PageLayout() {
             <section
                 id="how-it-works"
                 className="
-            relative
-            w-full
-            shrink-0
-            pb-10
-        "
+                    relative
+                    w-full
+                    shrink-0
+                    pb-10
+                "
             >
                 <LandingHowItWorksSection />
             </section>
