@@ -1,12 +1,12 @@
 import jakarta from "@/assets/fonts/font.jakarta";
 import poppins from "@/assets/fonts/font.poppins";
-import React from "react";
+import { IconComponent } from "@/types/icon.type";
 
 type props = {
   title: string;
   description: string;
   className?: string;
-  icon: React.ElementType;
+  icon: IconComponent;
 };
 
 const FeatureItem = ({ className, title, description, icon: Icon }: props) => {

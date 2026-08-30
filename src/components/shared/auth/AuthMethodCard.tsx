@@ -2,7 +2,7 @@ import { RadioGroupItem } from "@/components/ui/radio-group";
 import IconWithBg from "@/components/shared/auth/IconWithBg";
 import AuthMethodHeader from "@/components/shared/auth/AuthMethodHeader";
 import { FaAngleRight } from "react-icons/fa6";
-import React from "react";
+import { IconComponent } from "@/types/icon.type";
 
 type props = {
   title: string;
@@ -11,7 +11,7 @@ type props = {
   onClick?: () => void;
   handleMethodConfirm?: () => void;
   activeCard?: boolean;
-  icon: React.ElementType;
+  icon: IconComponent;
   method: string;
   recommend?: boolean;
 };

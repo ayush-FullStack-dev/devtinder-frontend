@@ -7,13 +7,14 @@ import {
 } from "lucide-react";
 
 import { LockKeyIcon } from "@phosphor-icons/react";
+import { IconComponent } from "@/types/icon.type";
 
 export const loginMethodDetails: Record<
   LoginMethod,
   {
     title: string;
     description: string;
-    icon: React.ElementType;
+    icon: IconComponent;
   }
 > = {
   trusted_session: {
