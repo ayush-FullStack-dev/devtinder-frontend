@@ -83,6 +83,7 @@ const LandingHowItWorksSection = () => {
                 w-full
                 shrink-0
                 flex-col
+                gap-10
                 sm:px-4
                 lg:min-h-[170svh]
                 lg:block
@@ -137,7 +138,7 @@ const LandingHowItWorksSection = () => {
                             amount: 0.15,
                         }}
                         transition={{
-                            duration: 0.55,
+                            duration: 0.90,
                             ease: [0.16, 1, 0.3, 1],
                         }}
                         className="
@@ -299,7 +300,9 @@ const LandingHowItWorksSection = () => {
                     className="
                         relative
                         block
-                        h-[55svh]
+                        h-full
+                        min-h-100
+                        max-h-[55svh]
                         w-full
                         shrink-0
                         overflow-hidden

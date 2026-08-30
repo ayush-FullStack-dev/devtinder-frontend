@@ -28,7 +28,10 @@ const signupBaseSchema = z.object({
     .string()
     .min(1, "Password is required")
     .min(8, "Password must be at least 8 characters long")
-    .max(100, "Password must be at max 100 characters long"),
+    .max(100, "Password must be at max 100 characters long")
+    .regex(/[A-Z]/, "Password must include one uppercase letter")
+    .regex(/[0-9]/, "Password must include one number")
+    .regex(/[^A-Za-z0-9]/, "Password must include one special character"),
 
   confirmPassword: z.string().min(1, "Confirm password is required"),
 });
