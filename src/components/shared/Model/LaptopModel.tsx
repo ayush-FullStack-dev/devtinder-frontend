@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useRef } from "react";
+import { Suspense, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import {
     OrbitControls,
@@ -14,9 +14,7 @@ import * as THREE from "three";
 function Laptop() {
     const { scene } = useGLTF("/models/laptop.glb");
 
-    const configured = useRef(false);
-
-    if (!configured.current) {
+    useEffect(() => {
         scene.traverse((object) => {
             if (object instanceof THREE.Mesh) {
                 object.castShadow = false;
@@ -27,10 +25,7 @@ function Laptop() {
                 }
             }
         });
-
-        configured.current = true;
-    }
-
+    }, [scene]);
     return <primitive object={scene} />;
 }
 
@@ -41,7 +36,7 @@ export default function LaptopModel() {
         <Canvas
             camera={{
                 position: [0, 0, 5],
-                fov: 40,
+                fov: 30,
                 near: 0.1,
                 far: 100,
             }}
@@ -53,13 +48,13 @@ export default function LaptopModel() {
                 toneMapping: THREE.ACESFilmicToneMapping,
                 toneMappingExposure: 1,
             }}
-            performance={{
-                min: 0.5,
-                max: 1,
-                debounce: 200,
+            style={{
+                width: "100%",
+                height: "100%",
+                display: "block",
+                touchAction: "pan-y",
             }}
         >
-      
             <ambientLight intensity={0.55} />
 
             <directionalLight
@@ -67,7 +62,6 @@ export default function LaptopModel() {
                 intensity={1.5}
             />
 
-      
             <directionalLight
                 position={[-4, 2, 3]}
                 intensity={0.35}
@@ -78,12 +72,7 @@ export default function LaptopModel() {
                 environmentIntensity={0.7}
             />
 
-            <Bounds
-                fit
-                clip
-                observe
-                margin={1.5}
-            >
+            <Bounds fit margin={1.52}>
                 <Center>
                     <group position={[1, 0, 0]}>
                         <Suspense fallback={null}>

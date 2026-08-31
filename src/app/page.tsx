@@ -72,7 +72,7 @@ export async function PageLayout() {
                     min-h-dvh
                     w-full
                     shrink-0
-                    pb-10
+                    py-10
                 "
             >
                 <LandingWhyDevTinderSection />
