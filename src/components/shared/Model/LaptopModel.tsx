@@ -74,7 +74,9 @@ export default function LaptopModel() {
             />
 
             <Center>
-                <group scale={0.20}>
+                <group
+                    scale={0.19}
+                >
                     <Suspense fallback={null}>
                         <Laptop />
                     </Suspense>

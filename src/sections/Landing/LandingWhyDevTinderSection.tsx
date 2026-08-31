@@ -137,7 +137,7 @@ const LandingWhyDevTinderSection = () => {
                     className="
                         absolute
                         right-0
-                        -top-20
+                        -top-10
                         z-20
                         hidden
                         h-[110vh]
