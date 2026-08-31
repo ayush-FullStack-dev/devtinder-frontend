@@ -137,12 +137,12 @@ const LandingWhyDevTinderSection = () => {
                     className="
                         absolute
                         right-0
-                        -top-15
+                        -top-10
                         z-20
                         hidden
                         h-[110vh]
                         pr-auto
-                        w-[vw]
+                        w-[50vw]
                         lg:flex
                     "
                 >
