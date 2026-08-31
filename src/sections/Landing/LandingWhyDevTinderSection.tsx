@@ -22,7 +22,7 @@ const LandingWhyDevTinderSection = () => {
     }, []);
 
     return (
-        <section className="relative flex min-h-screen w-full shrink-0 flex-col overflow-hidden p-2 lg:flex-row lg:p-4">
+        <section className="relative flex min-h-screen w-full shrink-0 flex-col p-2 lg:flex-row lg:p-4">
             <motion.div
                 initial={{
                     opacity: 0,
@@ -136,13 +136,14 @@ const LandingWhyDevTinderSection = () => {
                 <div
                     className="
                         absolute
-                        -right-10
-                        -top-35
-                        z-5
+                        right-0
+                        -top-15
+                        z-20
                         hidden
-                        h-[130vh]
-                        w-[50vw]
-                        lg:block
+                        h-[110vh]
+                        pr-auto
+                        w-[vw]
+                        lg:flex
                     "
                 >
                     <LaptopModel />

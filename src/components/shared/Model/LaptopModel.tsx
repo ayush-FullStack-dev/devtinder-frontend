@@ -34,9 +34,10 @@ useGLTF.preload("/models/laptop.glb");
 export default function LaptopModel() {
     return (
         <Canvas
+            className="py-2"
             camera={{
                 position: [0, 0, 5],
-                fov: 30,
+                fov: 32,
                 near: 0.1,
                 far: 100,
             }}
@@ -72,15 +73,16 @@ export default function LaptopModel() {
                 environmentIntensity={0.7}
             />
 
-            <Bounds fit margin={1.52}>
-                <Center>
-                    <group position={[1, 0, 0]}>
-                        <Suspense fallback={null}>
-                            <Laptop />
-                        </Suspense>
-                    </group>
-                </Center>
-            </Bounds>
+            <Center>
+                <group
+                    position={[0.5, 0, 0]}
+                    scale={0.20}
+                >
+                    <Suspense fallback={null}>
+                        <Laptop />
+                    </Suspense>
+                </group>
+            </Center>
 
             <OrbitControls
                 enableZoom={false}

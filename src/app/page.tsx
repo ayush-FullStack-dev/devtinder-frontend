@@ -66,7 +66,7 @@ export async function PageLayout() {
                 <LandingHowItWorksSection />
             </section>
             <section
-                id="how-it-works"
+                id="why-devtinder"
                 className="
                     relative
                     min-h-dvh
