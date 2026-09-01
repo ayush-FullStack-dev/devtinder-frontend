@@ -44,7 +44,7 @@ const AnimatedButton = ({
          
           hover:bg-green-brand
           hover:border-green-brand
-          
+    
           cursor-pointer
           disabled:cursor-not-allowed
           disabled:opacity-50
@@ -52,24 +52,23 @@ const AnimatedButton = ({
                 className
             )}
         >
-            {/* Text */}
+
             <span
-                className="
-          absolute
-          flex items-center justify-center
-          transition-all duration-300 ease-out
-          group-hover:translate-x-8
-          group-hover:opacity-0
-        "
+                className={`
+    absolute
+    flex items-center justify-center
+    transition-all duration-300 ease-out
+    ${!disabled ? "group-hover:translate-x-8 group-hover:opacity-0" : ""}
+  `}
             >
                 {text}
             </span>
 
-            {/* Icon */}
+
             <Icon
                 size={18}
-                className="
-          absolute
+                className={`  
+                    absolute
           translate-x-8
           opacity-0
 
@@ -77,9 +76,8 @@ const AnimatedButton = ({
           duration-300
           ease-out
 
-          group-hover:translate-x-0
-          group-hover:opacity-100
-        "
+          ${!disabled ? "group-hover:translate-x-0 group-hover:opacity-100" : ""}
+          `}
             />
         </button>
     );

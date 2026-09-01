@@ -121,7 +121,6 @@ const SignupForm = ({
     >
       <EmailVerificationModal show={verificationSent} sentMail={verificationEmail}/>
       
-      {/* Password */}
       <div className="flex flex-col gap-2">
         <FloatingLabelInput
           name="password"
@@ -148,7 +147,6 @@ const SignupForm = ({
         <FieldError name="password" />
       </div>
 
-      {/* Confirm Password */}
       <div className="flex flex-col gap-2">
         <FloatingLabelInput
           name="confirmPassword"

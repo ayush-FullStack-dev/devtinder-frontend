@@ -9,7 +9,6 @@ export default function DeviceInitializer() {
   useEffect(() => {
     setDeviceInfo(localStorage);
 
-    // Server-side for api usages
     const deviceId = localStorage.getItem("deviceId");
     const deviceSize = localStorage.getItem("deviceSize");
 

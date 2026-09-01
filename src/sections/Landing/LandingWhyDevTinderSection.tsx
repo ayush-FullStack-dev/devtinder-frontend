@@ -139,13 +139,12 @@ const LandingWhyDevTinderSection = () => {
                         right-[-14vw]
                         -top-30
                         z-20
-                        hidden
+                        block
                         h-[110vh]
                         pr-auto
                         w-[75vw]
                         2xl:w-[55vw]
                         2xl:right-[-5vw]
-                        lg:flex
                     "
                 >
                     <LaptopModel />

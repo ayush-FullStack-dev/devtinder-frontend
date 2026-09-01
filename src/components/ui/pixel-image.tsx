@@ -24,9 +24,9 @@ interface PixelImageProps {
   grid?: PredefinedGridKey
   customGrid?: Grid
   grayscaleAnimation?: boolean
-  pixelFadeInDuration?: number // in ms
-  maxAnimationDelay?: number // in ms
-  colorRevealDelay?: number // in ms
+  pixelFadeInDuration?: number 
+  maxAnimationDelay?: number 
+  colorRevealDelay?: number 
 }
 
 export const PixelImage = ({

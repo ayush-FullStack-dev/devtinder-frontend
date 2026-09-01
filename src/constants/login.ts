@@ -20,30 +20,30 @@ export const loginMethodDetails: Record<
   trusted_session: {
     title: "Trusted Device",
     description: "Continue with this trusted device",
-    icon: ShieldCheckIcon, // reference jaisa shield + check
+    icon: ShieldCheckIcon, 
   },
 
   passkey: {
     title: "Passkey",
     description: "Use your passkey to sign in",
-    icon: FingerprintIcon, // fingerprint icon
+    icon: FingerprintIcon,
   },
 
   password: {
     title: "Password",
     description: "Enter your account password",
-    icon: LockKeyIcon, // lock icon
+    icon: LockKeyIcon, 
   },
 
   security_code: {
     title: "Security Code",
     description: "Enter your 10-character code",
-    icon: KeyRoundIcon, // code/key feeling
+    icon: KeyRoundIcon, 
   },
 
   session_approval: {
     title: "Session Approval",
     description: "Approve sign-in from another device",
-    icon: MailCheckIcon, // approval/verification feel
+    icon: MailCheckIcon, 
   },
 };

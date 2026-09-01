@@ -3,7 +3,7 @@
 import { googleSansFlex } from "@/assets/fonts/font.google";
 import LogoHorizontal from "@/components/brand/LogoHorizontal";
 import AnimatedButton from "@/components/shared/AnimatedButton";
-import PrimaryButton from "@/components/shared/PrimaryButton";
+import HoverFillButton from "@/components/shared/HoverFillButton";
 import { motion } from "motion/react";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -259,7 +259,7 @@ const LandingNavbar = () => {
                     ? `
                             border-b
                             border-white/5
-                            bg-[var(--bg-secondary)]/95
+                            bg-bg-secondary/95
                             shadow-[0_8px_30px_rgba(0,0,0,0.12)]
                             backdrop-blur-xl
                             backdrop-saturate-150
@@ -296,7 +296,7 @@ const LandingNavbar = () => {
                         className={`
                             hidden
                             w-[35vw]
-                            min-w-[540px]
+                            min-w-135
                             grid-cols-4
                             text-md
                             lg:grid
@@ -367,7 +367,7 @@ const LandingNavbar = () => {
                     <div
                         className="
                             hidden
-                            min-w-[260px]
+                            min-w-65
                             shrink-0
                             items-center
                             justify-self-end
@@ -388,17 +388,15 @@ const LandingNavbar = () => {
                         </Link>
 
                         <Link href="/login">
-                            <PrimaryButton
-                                showIcon={false}
+                            <HoverFillButton
                                 className="
-                                    h-10
-                                    w-25
+                                    h-11
+                                    w-30
                                     rounded-2xl
                                     border
                                     border-green-primary
                                     bg-transparent
                                     text-showcase
-                                    hover:bg-green-brand
                                 "
                                 text="Log In"
                             />
@@ -436,7 +434,7 @@ const LandingNavbar = () => {
                         className={`
                             grid
                             w-[35vw]
-                            min-w-[540px]
+                            min-w-135
                             grid-cols-4
                             text-md
                             2xl:w-[40vw]
@@ -541,7 +539,7 @@ const LandingNavbar = () => {
                         ))}
                     </div>
 
-                    <div className="min-w-[260px]" />
+                    <div className="min-w-65" />
                 </motion.div>
             </div>
         </motion.header>

@@ -318,7 +318,7 @@ const SignupFormIdentifer = ({ setStep, setSignupData, signupData }: SignupFormI
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col gap-2"
     >
-      {/* Name */}
+
       <div className="mb-2 flex flex-col gap-1">
         <FloatingLabelInput
           name="name"
@@ -333,7 +333,7 @@ const SignupFormIdentifer = ({ setStep, setSignupData, signupData }: SignupFormI
         <FieldError name="name" />
       </div>
 
-      {/* Username */}
+
       <div className="mb-2 flex flex-col gap-1">
         <FloatingLabelInput
           name="username"
@@ -359,7 +359,7 @@ const SignupFormIdentifer = ({ setStep, setSignupData, signupData }: SignupFormI
         <FieldError name="username" />
       </div>
 
-      {/* Email */}
+
       <div className="mb-2 flex flex-col gap-1">
         <FloatingLabelInput
           name="email"
@@ -381,7 +381,6 @@ const SignupFormIdentifer = ({ setStep, setSignupData, signupData }: SignupFormI
         <FieldError name="email" />
       </div>
 
-      {/* Gender */}
       <div className="mb-2 flex flex-col gap-1">
         <FloatingLabelSelect
           name="gender"
