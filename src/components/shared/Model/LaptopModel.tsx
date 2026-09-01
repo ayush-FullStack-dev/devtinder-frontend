@@ -1,11 +1,9 @@
 "use client";
 
-import { Suspense, useEffect } from "react";
+import { Suspense, useMemo, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import {
     OrbitControls,
-    Bounds,
-    Center,
     Environment,
     useGLTF,
 } from "@react-three/drei";
@@ -14,19 +12,38 @@ import * as THREE from "three";
 function Laptop() {
     const { scene } = useGLTF("/models/laptop.glb");
 
+    const model = useMemo(() => {
+        const clone = scene.clone(true);
+
+        clone.updateMatrixWorld(true);
+
+        const box = new THREE.Box3().setFromObject(clone);
+        const center = new THREE.Vector3();
+
+        box.getCenter(center);
+        clone.position.sub(center);
+        clone.updateMatrixWorld(true);
+
+        return clone;
+    }, [scene]);
+
     useEffect(() => {
-        scene.traverse((object) => {
+        model.traverse((object) => {
             if (object instanceof THREE.Mesh) {
                 object.castShadow = false;
                 object.receiveShadow = false;
 
-                if (object.material instanceof THREE.MeshStandardMaterial) {
+                if (
+                    object.material instanceof
+                    THREE.MeshStandardMaterial
+                ) {
                     object.material.envMapIntensity = 0.8;
                 }
             }
         });
-    }, [scene]);
-    return <primitive object={scene} />;
+    }, [model]);
+
+    return <primitive object={model} />;
 }
 
 useGLTF.preload("/models/laptop.glb");
@@ -73,15 +90,11 @@ export default function LaptopModel() {
                 environmentIntensity={0.7}
             />
 
-            <Center>
-                <group
-                    scale={0.19}
-                >
-                    <Suspense fallback={null}>
-                        <Laptop />
-                    </Suspense>
-                </group>
-            </Center>
+            <group scale={0.19} position={[0, 0, 0]}>
+                <Suspense fallback={null}>
+                    <Laptop />
+                </Suspense>
+            </group>
 
             <OrbitControls
                 enableZoom={false}
