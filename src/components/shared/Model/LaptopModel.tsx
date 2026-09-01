@@ -74,7 +74,6 @@ useGLTF.preload("/models/laptop.glb");
 export default function LaptopModel() {
     return (
         <Canvas
-            className="py-2"
             camera={{
                 position: [0, 0, 5],
                 fov: 32,
@@ -100,7 +99,7 @@ export default function LaptopModel() {
 
             <directionalLight
                 position={[4, 6, 5]}
-                intensity={1.5}
+                intensity={1}
             />
 
             <directionalLight
@@ -110,7 +109,7 @@ export default function LaptopModel() {
 
             <Environment
                 preset="studio"
-                environmentIntensity={0.7}
+                environmentIntensity={0.5}
             />
 
             <ResponsiveLaptop />
