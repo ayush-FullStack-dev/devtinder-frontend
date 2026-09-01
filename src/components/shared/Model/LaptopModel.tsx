@@ -1,7 +1,7 @@
 "use client";
 
 import { Suspense, useMemo, useEffect } from "react";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useThree } from "@react-three/fiber";
 import {
     OrbitControls,
     Environment,
@@ -22,6 +22,7 @@ function Laptop() {
 
         box.getCenter(center);
         clone.position.sub(center);
+
         clone.updateMatrixWorld(true);
 
         return clone;
@@ -44,6 +45,28 @@ function Laptop() {
     }, [model]);
 
     return <primitive object={model} />;
+}
+
+function ResponsiveLaptop() {
+    const { size } = useThree();
+
+    const baseScale = 0.25;
+
+    const scaleMultiplier = THREE.MathUtils.clamp(
+        size.width / 1440,
+        0.75,
+        1.35
+    );
+
+    const scale = baseScale * scaleMultiplier;
+
+    return (
+        <group scale={scale} position={[0, 0, 0]}>
+            <Suspense fallback={null}>
+                <Laptop />
+            </Suspense>
+        </group>
+    );
 }
 
 useGLTF.preload("/models/laptop.glb");
@@ -90,11 +113,7 @@ export default function LaptopModel() {
                 environmentIntensity={0.7}
             />
 
-            <group scale={0.19} position={[0, 0, 0]}>
-                <Suspense fallback={null}>
-                    <Laptop />
-                </Suspense>
-            </group>
+            <ResponsiveLaptop />
 
             <OrbitControls
                 enableZoom={false}
