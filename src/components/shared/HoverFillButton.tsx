@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useRef } from "react";
 import type { IconType } from "react-icons";
 import { FaArrowRight } from "react-icons/fa6";
+import { Loader2 } from "lucide-react";
 import { twMerge } from "tailwind-merge";
-import { motion } from "motion/react";
 
 type HoverFillButtonProps = {
     text: string;
@@ -18,68 +18,17 @@ type HoverFillButtonProps = {
 const HoverFillButton = ({
     text,
     icon,
-    className,
     onClick,
+    className,
     type = "button",
     disabled = false,
 }: HoverFillButtonProps) => {
     const Icon = icon || FaArrowRight;
-
-    const [isHovered, setIsHovered] = useState(false);
-
-    const fillVariants = {
-        rest: {
-            left: 12,
-            top: "50%",
-            width: 12,
-            height: 12,
-            x: 0,
-            y: "-50%",
-        },
-
-        hover: {
-            left: "50%",
-            top: "50%",
-            width: 150,
-            height: 150,
-            x: "-50%",
-            y: "-50%",
-        },
-    };
-
-    const labelVariants = {
-        rest: {
-            x: 0,
-            opacity: 1,
-        },
-
-        hover: {
-            x: -10,
-            opacity: 0,
-        },
-    };
-
-    const hoverLabelVariants = {
-        rest: {
-            x: -24,
-            opacity: 0,
-        },
-
-        hover: {
-            x: 0,
-            opacity: 1,
-        },
-    };
-
     return (
-        <motion.button
+        <button
             type={type}
             onClick={onClick}
             disabled={disabled}
-            initial="rest"
-            animate={isHovered ? "hover" : "rest"}
-            onHoverStart={() => !disabled && setIsHovered(true)}
-            onHoverEnd={() => setIsHovered(false)}
             className={twMerge(
                 `
         group relative inline-flex
@@ -90,6 +39,9 @@ const HoverFillButton = ({
         border border-green-primary
         bg-transparent
         text-white
+
+        transition-all duration-300 ease-out
+
         cursor-pointer
         disabled:cursor-not-allowed
         disabled:opacity-50
@@ -98,52 +50,110 @@ const HoverFillButton = ({
             )}
         >
             {!disabled && (
-                <motion.span
-                    variants={fillVariants}
-                    transition={{
-                        duration: 1.1,
-                        ease: [0.22, 1, 0.36, 1],
-                    }}
+                <span
                     className="
-                absolute
-                z-20
-                rounded-full
+                absolute inset-y-0 left-0
+                w-full
+                -translate-x-full
+
+                flex items-center justify-center
                 bg-green-brand
-            "
-                />
-            )}
 
-            <motion.span
-                variants={labelVariants}
-                transition={{
-                    duration: 0,
-                }}
-                className="
-            relative z-10
-            flex items-center gap-2
-        "
-            >
-                {text}
-            </motion.span>
+                transition-transform
+                duration-300
+                ease-out
 
-            {!disabled && (
-                <motion.span
-                    variants={hoverLabelVariants}
-                    transition={{
-                        duration: isHovered ? 0.8 : 0,
-                        ease: [0.22, 1, 0.36, 1],
-                    }}
-                    className="
-                absolute z-30
-                flex items-center gap-2
-                whitespace-nowrap
+                group-hover:translate-x-0
             "
                 >
-                    <span>{text}</span>
-                    <Icon className="size-4 shrink-0" />
-                </motion.span>
+                    <span
+                        className="
+                    absolute
+                    left-3
+                    top-1/2
+                    flex items-center gap-2
+                    -translate-y-1/2
+
+                    text-white
+                    whitespace-nowrap
+
+                    transition-all
+                    duration-300
+                    ease-out
+
+                    group-hover:left-1/2
+                    group-hover:-translate-x-1/2
+                "
+                    >
+                        <span
+                            className="
+                        size-3
+                        rounded-full
+                        bg-green-brand
+
+                        transition-all
+                        duration-300
+                        ease-out
+
+                        group-hover:scale-0
+                        group-hover:opacity-0
+                    "
+                        />
+
+                        <span
+                            className="
+                        -translate-x-2
+                        opacity-0
+
+                        transition-all
+                        duration-300
+                        ease-out
+                        delay-75
+
+                        group-hover:translate-x-0
+                        group-hover:opacity-100
+                    "
+                        >
+                            {text}
+                        </span>
+
+                        <Icon
+                            className="
+                        size-4
+                        -translate-x-2
+                        opacity-0
+
+                        transition-all
+                        duration-300
+                        ease-out
+                        delay-100
+
+                        group-hover:translate-x-0
+                        group-hover:opacity-100
+                    "
+                        />
+                    </span>
+                </span>
             )}
-        </motion.button>
+
+            <span
+                className={`
+            absolute z-10
+            flex items-center gap-2
+
+            transition-all
+            duration-300
+            ease-out
+
+            ${!disabled
+                        ? "group-hover:-translate-x-2 group-hover:opacity-0"
+                        : ""
+                    }
+        `}
+            >
+                <span>{text}</span>
+            </span>
+        </button>
     );
 };
 
