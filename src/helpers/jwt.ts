@@ -1,22 +1,23 @@
-import jwt from "jsonwebtoken";
-import type { Secret } from "jsonwebtoken";
+import { importSPKI, jwtVerify } from "jose";
 
 const publicKey = process.env.JWT_PUBLIC_KEY?.replace(/\\n/g, "\n");
 
-if (!publicKey) {
-  throw new Error("JWT_PUBLIC_KEY is not configured");
-}
-
-export function verifyToken(token: string): boolean {
+export async function verifyToken(token: string): Promise<boolean> {
   try {
-    jwt.verify(token, publicKey as Secret, {
+    if (!publicKey) {
+      throw new Error("JWT_PUBLIC_KEY is not configured");
+    }
+
+    const key = await importSPKI(publicKey, "RS256");
+
+    await jwtVerify(token, key, {
       audience: process.env.JWT_AUDIENCE,
       issuer: process.env.JWT_ISSUER,
-      algorithms: ["RS256"],
     });
 
     return true;
-  } catch {
+  } catch (error) {
+    console.error("verifyToken error:", error);
     return false;
   }
 }
