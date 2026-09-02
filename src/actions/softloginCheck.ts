@@ -1,6 +1,7 @@
 "use server";
 
 import { verifyToken } from "@/helpers/jwt";
+import { unsignCookie } from "@/helpers/cookie";
 import { cookies } from "next/headers";
 
 const ACCESS_TOKEN_COOKIE = "accessToken";
@@ -16,7 +17,13 @@ export const softLoginCheck = async (
   const cookieName =
     tokenType === "access" ? ACCESS_TOKEN_COOKIE : REFRESH_TOKEN_COOKIE;
 
-  const token = cookieStore.get(cookieName)?.value;
+  const rawToken = cookieStore.get(cookieName)?.value;
+
+  if (!rawToken) {
+    return false;
+  }
+
+  const token = unsignCookie(rawToken);
 
   if (!token) {
     return false;
