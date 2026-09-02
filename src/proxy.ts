@@ -145,6 +145,8 @@ export async function proxy(req: NextRequest) {
 
   const isUnsafeRoute = unSafeRoute.some((route) => pathname.startsWith(route));
 
+  const isAuthOnlyRoute = pathname === "/login" || pathname === "/signup";
+
   try {
     const isDynamicRouteValid = DYNAMIC_ROUTE_PREFIXES.some((prefix) =>
       pathname.startsWith(prefix),
@@ -157,8 +159,18 @@ export async function proxy(req: NextRequest) {
     const isAccessTokenValid = await softLoginCheck("access");
 
     if (isAccessTokenValid) {
-      if (isUnsafeRoute) {
+      if (isAuthOnlyRoute) {
         return addVaryHeader(NextResponse.redirect(safeAppUrl("/dashboard")));
+      }
+
+      return addVaryHeader(NextResponse.next());
+    }
+
+    if (isAuthOnlyRoute) {
+      const isRefreshTokenValid = await softLoginCheck("refresh");
+
+      if (isRefreshTokenValid) {
+        return refreshAuth(req, "/dashboard");
       }
 
       return addVaryHeader(NextResponse.next());
