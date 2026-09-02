@@ -1,73 +1,96 @@
 "use client";
 
-import { googleSans, googleSansFlex } from "@/assets/fonts/font.google";
+import {
+    googleSans,
+    googleSansFlex,
+} from "@/assets/fonts/font.google";
 import LaptopModel from "@/components/shared/Model/LaptopModel";
-import { motion } from "motion/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const LandingWhyDevTinderSection = () => {
+    const sectionRef = useRef<HTMLElement>(null);
+
     const [isDesktop, setIsDesktop] = useState(false);
+    const [shouldLoad3D, setShouldLoad3D] = useState(false);
+    const [modelReady, setModelReady] = useState(false);
 
     useEffect(() => {
-        const mediaQuery = window.matchMedia("(min-width: 1024px)");
+        const mediaQuery = window.matchMedia(
+            "(min-width: 1024px)"
+        );
 
-        const update = () => setIsDesktop(mediaQuery.matches);
+        const update = () => {
+            setIsDesktop(mediaQuery.matches);
+        };
 
         update();
+
         mediaQuery.addEventListener("change", update);
 
         return () => {
-            mediaQuery.removeEventListener("change", update);
+            mediaQuery.removeEventListener(
+                "change",
+                update
+            );
         };
     }, []);
 
+    useEffect(() => {
+        if (!isDesktop || shouldLoad3D) return;
+
+        const section = sectionRef.current;
+        const scrollContainer =
+            document.getElementById("main-scroll");
+
+        if (!section || !scrollContainer) return;
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (!entry.isIntersecting) return;
+
+                setShouldLoad3D(true);
+                observer.disconnect();
+            },
+            {
+                root: scrollContainer,
+                rootMargin: "600px 0px",
+                threshold: 0,
+            }
+        );
+
+        observer.observe(section);
+
+        return () => {
+            observer.disconnect();
+        };
+    }, [isDesktop, shouldLoad3D]);
+
     return (
-        <section className="relative flex min-h-screen w-full shrink-0 flex-col p-2 lg:flex-row lg:p-4">
-            <motion.div
-                initial={{
-                    opacity: 0,
-                    scale: 0.97,
-                }}
-                whileInView={{
-                    opacity: 1,
-                    scale: 1,
-                }}
-                viewport={{
-                    once: true,
-                    amount: 0.3,
-                }}
-                transition={{
-                    duration: 0.9,
-                    ease: [0.16, 1, 0.3, 1],
-                }}
+        <section
+            ref={sectionRef}
+            className="
+                relative
+                flex
+                min-h-screen
+                w-full
+                shrink-0
+                flex-col
+                overflow-visible
+                p-2
+                lg:flex-row
+                lg:p-4
+            "
+        >
+            <div
                 className="
                     relative
-                    z-10
+                    z-30
                     flex
                     flex-col
                     gap-5
-                    will-change-transform
                 "
             >
-                <motion.h2
-                    initial={{
-                        opacity: 0,
-                        y: 10,
-                        letterSpacing: "0.1em",
-                    }}
-                    whileInView={{
-                        opacity: 1,
-                        y: 0,
-                        letterSpacing: "0em",
-                    }}
-                    viewport={{
-                        once: true,
-                    }}
-                    transition={{
-                        delay: 0.05,
-                        duration: 0.4,
-                        ease: [0.22, 1, 0.36, 1],
-                    }}
+                <h2
                     className={`
                         ${googleSansFlex.className}
                         pl-0
@@ -79,7 +102,7 @@ const LandingWhyDevTinderSection = () => {
                     `}
                 >
                     WHY DEVTINDER
-                </motion.h2>
+                </h2>
 
                 <h1
                     className={`
@@ -98,20 +121,16 @@ const LandingWhyDevTinderSection = () => {
                         lg:leading-[0.95]
                     `}
                 >
-                    <motion.span>
-                        Not another{" "}
-                    </motion.span>
-
-                    <motion.span className="text-green-brand">
+                    Not another{" "}
+                    <span className="text-green-brand">
                         devloper{" "}
-                    </motion.span>
-
-                    <motion.p>
+                    </span>
+                    <span>
                         directory.
-                    </motion.p>
+                    </span>
                 </h1>
 
-                <motion.div
+                <div
                     className={`
                         ${googleSansFlex.className}
                         max-w-xs
@@ -126,39 +145,109 @@ const LandingWhyDevTinderSection = () => {
                         lg:pl-5
                     `}
                 >
-                    <p>DevTinder is built for real connections.</p>
-                    <p>No clutter. No noise. just the right developers,</p>
-                    <p>building the right things, together.</p>
-                </motion.div>
-            </motion.div>
+                    <p>
+                        DevTinder is built for real connections.
+                    </p>
+
+                    <p>
+                        No clutter. No noise. just the right developers,
+                    </p>
+
+                    <p>
+                        building the right things, together.
+                    </p>
+                </div>
+            </div>
 
             {isDesktop ? (
                 <div
                     className="
-                        absolute
-                        right-[-14vw]
-                        -top-30
-                        z-20
-                        block
-                        h-[110vh]
-                        pr-auto
-                        w-[75vw]
-                        2xl:w-[55vw]
-                        2xl:right-[-5vw]
-                    "
+            pointer-events-none
+            absolute
+            right-[-14vw]
+            -top-30
+            z-20
+            block
+            h-[110vh]
+            w-[75vw]
+            2xl:right-[-5vw]
+            2xl:w-[55vw]
+        "
                 >
-                    <LaptopModel />
+                    <div
+                        className={`
+                absolute
+                inset-0
+                transition-opacity
+                duration-300
+                ease-in-out
+                w-[55vw]
+                 2xl:w-[40vw]
+                ${modelReady
+                                ? "opacity-0"
+                                : "opacity-100"
+                            }
+            `}
+                    >
+                        <img
+                            src="/images/laptop-3D-fallback.png"
+                            alt="DevTinder developer collaboration interface"
+                            className="
+                            ml-20
+                    absolute
+                    inset-0
+                    h-full
+                    w-full
+                    object-contain
+                "
+                            loading="eager"
+                            decoding="async"
+                        />
+                    </div>
+
+                    {shouldLoad3D && (
+                        <div
+                            className={`
+                    absolute
+                    inset-0
+                    transition-opacity
+                    duration-300
+                    ease-out
+                    ${modelReady
+                                    ? "opacity-100"
+                                    : "opacity-0"
+                                }
+                `}
+                        >
+                            <LaptopModel
+                                onReady={() =>
+                                    setModelReady(true)
+                                }
+                            />
+                        </div>
+                    )}
                 </div>
             ) : (
-                <div className="relative mt-20 flex h-auto w-full justify-center">
+                <div
+                    className="
+            relative
+            mt-20
+            flex
+            w-full
+            justify-center
+        "
+                >
                     <img
                         src="/images/LaptopModel.png"
-                        alt="LaptopModel"
-                        className="h-auto w-full object-contain"
+                        alt="DevTinder developer collaboration interface"
+                        className="
+                h-auto
+                w-full
+                object-contain
+            "
+                        loading="eager"
+                        decoding="async"
                     />
-
-                    <div className="absolute inset-0 z-10 h-auto w-full opacity-0">
-                    </div>
                 </div>
             )}
         </section>

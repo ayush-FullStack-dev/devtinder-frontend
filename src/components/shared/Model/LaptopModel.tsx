@@ -1,16 +1,21 @@
 "use client";
 
-import { Suspense, useMemo, useEffect } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { Canvas, useThree } from "@react-three/fiber";
 import {
-    OrbitControls,
     Environment,
+    OrbitControls,
     useGLTF,
 } from "@react-three/drei";
 import * as THREE from "three";
 
-function Laptop() {
+type LaptopProps = {
+    onReady?: () => void;
+};
+
+function Laptop({ onReady }: LaptopProps) {
     const { scene } = useGLTF("/models/laptop.glb");
+    const readyRef = useRef(false);
 
     const model = useMemo(() => {
         const clone = scene.clone(true);
@@ -30,48 +35,56 @@ function Laptop() {
 
     useEffect(() => {
         model.traverse((object) => {
-            if (object instanceof THREE.Mesh) {
-                object.castShadow = false;
-                object.receiveShadow = false;
+            if (!(object instanceof THREE.Mesh)) return;
 
+            object.castShadow = false;
+            object.receiveShadow = false;
+
+            const materials = Array.isArray(object.material)
+                ? object.material
+                : [object.material];
+
+            materials.forEach((material) => {
                 if (
-                    object.material instanceof
-                    THREE.MeshStandardMaterial
+                    material instanceof THREE.MeshStandardMaterial
                 ) {
-                    object.material.envMapIntensity = 0.8;
+                    material.envMapIntensity = 0.7;
                 }
-            }
+            });
         });
-    }, [model]);
+
+        if (!readyRef.current) {
+            readyRef.current = true;
+            onReady?.();
+        }
+    }, [model, onReady]);
 
     return <primitive object={model} />;
 }
 
-function ResponsiveLaptop() {
+function ResponsiveLaptop({
+    onReady,
+}: LaptopProps) {
     const { size } = useThree();
 
-    const baseScale = 0.25;
-
-    const scaleMultiplier = THREE.MathUtils.clamp(
-        size.width / 1440,
-        0.75,
-        1.35
-    );
-
-    const scale = baseScale * scaleMultiplier;
+    const scale =
+        0.25 *
+        THREE.MathUtils.clamp(
+            size.width / 1440,
+            0.75,
+            1.35
+        );
 
     return (
-        <group scale={scale} position={[0, 0, 0]}>
-            <Suspense fallback={null}>
-                <Laptop />
-            </Suspense>
+        <group scale={scale}>
+            <Laptop onReady={onReady} />
         </group>
     );
 }
 
-useGLTF.preload("/models/laptop.glb");
-
-export default function LaptopModel() {
+export default function LaptopModel({
+    onReady,
+}: LaptopProps) {
     return (
         <Canvas
             camera={{
@@ -80,7 +93,7 @@ export default function LaptopModel() {
                 near: 0.1,
                 far: 100,
             }}
-            dpr={[1, 1.5]}
+            dpr={[1, 1.25]}
             gl={{
                 antialias: true,
                 alpha: true,
@@ -107,17 +120,16 @@ export default function LaptopModel() {
                 intensity={0.35}
             />
 
-            <Environment
-                preset="studio"
-                environmentIntensity={0.5}
-            />
+            <Environment preset="studio" />
 
-            <ResponsiveLaptop />
+            <ResponsiveLaptop
+                onReady={onReady}
+            />
 
             <OrbitControls
                 enableZoom={false}
                 enablePan={false}
-                enableDamping
+                enableDamping={true}
                 dampingFactor={0.08}
                 rotateSpeed={0.6}
                 minPolarAngle={Math.PI * 0.32}
