@@ -10,7 +10,7 @@ import {
 import { shuffle } from "@/helpers/shuffle";
 import Link from "next/link";
 import { motion } from "motion/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const LandingDiscoverSection = ({
     isLoggedIn,
@@ -20,13 +20,32 @@ const LandingDiscoverSection = ({
     const [developers, setDevelopers] = useState<DeveloperProfile[]>(
         DeveloperProfilesDemoData
     );
+    const sectionRef = useRef<HTMLElement>(null);
+    const [isVisible, setIsVisible] = useState(false);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                setIsVisible(entry.isIntersecting);
+            },
+            {
+                threshold: 0.3,
+            }
+        );
+
+        if (sectionRef.current) {
+            observer.observe(sectionRef.current);
+        }
+
+        return () => observer.disconnect();
+    }, []);
 
     useEffect(() => {
         setDevelopers(shuffle(DeveloperProfilesDemoData));
     }, []);
 
     return (
-        <div
+        <section
             className="
                 flex
                 w-full
@@ -44,6 +63,7 @@ const LandingDiscoverSection = ({
                 lg:gap-8
                 lg:px-2
             "
+            ref={sectionRef}
         >
             <motion.div
                 initial={{
@@ -196,9 +216,10 @@ const LandingDiscoverSection = ({
                     developers={developers}
                     className="h-full w-full"
                     isAllowedLike={isLoggedIn}
+                    isVisible={isVisible}
                 />
             </motion.div>
-        </div>
+        </section>
     );
 };
 

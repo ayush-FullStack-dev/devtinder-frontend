@@ -39,6 +39,7 @@ interface LandingDiscoverCardProps {
     developers: DeveloperProfile[];
     className?: string;
     isAllowedLike: boolean;
+    isVisible: boolean
 }
 
 const SWIPE_SPRING = {
@@ -61,6 +62,7 @@ const LandingDiscoverCard = ({
     developers,
     className,
     isAllowedLike,
+    isVisible
 }: LandingDiscoverCardProps) => {
     const cardRef =
         useRef<HTMLDivElement>(null);
@@ -927,7 +929,7 @@ const LandingDiscoverCard = ({
                         duration={
                             activeProfile.duration
                         }
-                        autoPlay={true}
+                        autoPlay={isVisible}
                         swipeVal={{
                             swipeSide: swipe,
                         }}
