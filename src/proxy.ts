@@ -9,6 +9,7 @@ import {
 import { buildApiUrl, safeAppUrl, safeRedirectPath } from "@/constants/url";
 import { backendProxy } from "./lib/proxy/backendProxy";
 import { refreshAuth } from "./lib/auth/refreshAuth";
+import { softLoginCheck } from "./actions/softloginCheck";
 
 const MARKDOWN_PAGES: Record<string, string> = {
   "/": `# DevTinder — Connect, Collaborate & Build with Developers
@@ -153,59 +154,25 @@ export async function proxy(req: NextRequest) {
       return NextResponse.rewrite(new URL("/not-found", req.url));
     }
 
-    const cookieHeader = req.headers.get("cookie") || "";
+    const isAccessTokenValid = await softLoginCheck("access");
 
-    const response = await fetch(buildApiUrl(routes.accountInfo), {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Cookie: cookieHeader,
-      },
-      cache: "no-store",
-    });
-
-    const data = await response.json();
-
-    const isLoggedIn: boolean = data.isLoggedIn;
-
-    if (isLoggedIn) {
-      const userDataString = JSON.stringify({
-        isLoggedIn: data.isLoggedIn,
-        user: data.user,
-        profile: data.profile,
-      });
-
+    if (isAccessTokenValid) {
       if (isUnsafeRoute) {
-        const redirectResponse = NextResponse.redirect(
-          safeAppUrl("/dashboard"),
-        );
-
-        redirectResponse.headers.set("x-user-data", userDataString);
-
-        return addVaryHeader(redirectResponse);
+        return addVaryHeader(NextResponse.redirect(safeAppUrl("/dashboard")));
       }
 
-      return addVaryHeader(
-        NextResponse.next({
-          request: {
-            headers: new Headers([
-              ...req.headers,
-              ["x-user-data", userDataString],
-            ]),
-          },
-        }),
-      );
+      return addVaryHeader(NextResponse.next());
     }
 
-    if (data.code === "refresh_auth_token") {
-      const redirectUrl = safeRedirectPath(
-        pathname.startsWith("/login") ? "/dashboard" : pathname,
-      );
+    if (isUnsafeRoute) {
+      const isRefreshTokenValid = await softLoginCheck("refresh");
 
-      return refreshAuth(req, redirectUrl);
-    }
+      if (isRefreshTokenValid) {
+        const redirectUrl = safeRedirectPath(pathname);
 
-    if (!isUnsafeRoute) {
+        return refreshAuth(req, redirectUrl);
+      }
+
       return addVaryHeader(NextResponse.redirect(safeAppUrl("/login")));
     }
 

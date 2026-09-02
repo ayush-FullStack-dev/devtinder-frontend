@@ -7,7 +7,7 @@ import LandingHowItWorksSection from "@/sections/Landing/LandingHowItWorksSectio
 import LandingWhyDevTinderSection from "@/sections/Landing/LandingWhyDevTinderSection";
 
 export async function PageLayout() {
-    const isLoggedIn = await softLoginCheck();
+    const isLoggedIn = await softLoginCheck("refresh");
 
     return (
         <main
