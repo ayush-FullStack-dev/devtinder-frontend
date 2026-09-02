@@ -162,44 +162,44 @@ const LandingWhyDevTinderSection = () => {
             {isDesktop ? (
                 <div
                     className="
-            pointer-events-none
-            absolute
-            right-[-14vw]
-            -top-30
-            z-20
-            block
-            h-[110vh]
-            w-[75vw]
-            2xl:right-[-5vw]
-            2xl:w-[55vw]
-        "
+                        pointer-events-none
+                        absolute
+                        right-[-14vw]
+                        -top-30
+                        z-20
+                        block
+                        h-[110vh]
+                        w-[75vw]
+                        2xl:right-[-5vw]
+                        2xl:w-[55vw]
+                    "
                 >
                     <div
                         className={`
-                absolute
-                inset-0
-                transition-opacity
-                duration-300
-                ease-in-out
-                w-[55vw]
-                 2xl:w-[40vw]
-                ${modelReady
+                            absolute
+                            inset-0
+                            w-[55vw]
+                            transition-opacity
+                            duration-300
+                            ease-in-out
+                            2xl:w-[40vw]
+                            ${modelReady
                                 ? "opacity-0"
                                 : "opacity-100"
                             }
-            `}
+                        `}
                     >
                         <img
                             src="/images/laptop-3D-fallback.png"
                             alt="DevTinder developer collaboration interface"
                             className="
-                            ml-20
-                    absolute
-                    inset-0
-                    h-full
-                    w-full
-                    object-contain
-                "
+                                absolute
+                                inset-0
+                                ml-20
+                                h-full
+                                w-full
+                                object-contain
+                            "
                             loading="eager"
                             decoding="async"
                         />
@@ -208,16 +208,16 @@ const LandingWhyDevTinderSection = () => {
                     {shouldLoad3D && (
                         <div
                             className={`
-                    absolute
-                    inset-0
-                    transition-opacity
-                    duration-300
-                    ease-out
-                    ${modelReady
+                                absolute
+                                inset-0
+                                transition-opacity
+                                duration-300
+                                ease-out
+                                ${modelReady
                                     ? "opacity-100"
                                     : "opacity-0"
                                 }
-                `}
+                            `}
                         >
                             <LaptopModel
                                 onReady={() =>
@@ -230,21 +230,25 @@ const LandingWhyDevTinderSection = () => {
             ) : (
                 <div
                     className="
-            relative
-            mt-20
-            flex
-            w-full
-            justify-center
-        "
+        relative
+        mt-auto
+        flex
+        w-full
+        justify-center
+        pt-16
+    "
                 >
                     <img
                         src="/images/LaptopModel.png"
                         alt="DevTinder developer collaboration interface"
                         className="
-                h-auto
-                w-full
-                object-contain
-            "
+            h-full
+            min-h-75
+            max-h-full
+            w-full
+           min-w-75
+            max-w-full
+        "
                         loading="eager"
                         decoding="async"
                     />
