@@ -142,6 +142,8 @@ const HeroSection = () => {
                 >
                     <Link
                         href="/signup"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="block w-full"
                     >
                         <AnimatedButton

@@ -8,7 +8,6 @@ import { Heart, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
-import { useRouter } from "next/navigation";
 import { createPortal } from "react-dom";
 
 type ConnectionOverlayClientProps = {
@@ -22,7 +21,9 @@ const ConnectionOverlayClient = ({
     className,
     onClose,
 }: ConnectionOverlayClientProps) => {
-    const router = useRouter();
+    const handleSignup = () => {
+        window.open("/signup", "_blank", "noopener,noreferrer");
+    };
     const { resolvedTheme } = useTheme();
 
     const [open, setOpen] = useState(show);
@@ -262,9 +263,7 @@ const ConnectionOverlayClient = ({
 
                         <motion.button
                             type="button"
-                            onClick={() =>
-                                router.push("/signup")
-                            }
+                            onClick={handleSignup}
                             whileTap={{
                                 scale: 0.985,
                             }}

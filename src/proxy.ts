@@ -1,10 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { routes } from "@/constants/api";
-import { DYNAMIC_ROUTE_PREFIXES, excludeRoutes, unSafeRoute, VALID_ROUTES } from "@/constants/routes";
+import {
+  DYNAMIC_ROUTE_PREFIXES,
+  excludeRoutes,
+  unSafeRoute,
+  VALID_ROUTES,
+} from "@/constants/routes";
 import { buildApiUrl, safeAppUrl, safeRedirectPath } from "@/constants/url";
 import { backendProxy } from "./lib/proxy/backendProxy";
 import { refreshAuth } from "./lib/auth/refreshAuth";
-
 
 const MARKDOWN_PAGES: Record<string, string> = {
   "/": `# DevTinder — Connect, Collaborate & Build with Developers
@@ -157,7 +161,7 @@ export async function proxy(req: NextRequest) {
         "Content-Type": "application/json",
         Cookie: cookieHeader,
       },
-      next: { revalidate: 30 },
+      cache: "no-store",
     });
 
     const data = await response.json();

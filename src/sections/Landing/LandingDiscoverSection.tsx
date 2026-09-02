@@ -132,6 +132,8 @@ const LandingDiscoverSection = ({
 
                 <Link
                     href="/discover/feed"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="
                         mt-6
                         ml-2

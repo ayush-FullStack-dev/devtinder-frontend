@@ -334,6 +334,8 @@ const LandingNavbar = () => {
                                 >
                                     <Link
                                         href={item.href}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
                                         onClick={(event) => {
                                             if (
                                                 item.scrollToSection
@@ -375,7 +377,10 @@ const LandingNavbar = () => {
                             lg:flex
                         "
                     >
-                        <Link href="/signup">
+                        <Link href="/signup"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
                             <AnimatedButton
                                 className="
                                     h-11.5
@@ -387,7 +392,10 @@ const LandingNavbar = () => {
                             />
                         </Link>
 
-                        <Link href="/login">
+                        <Link href="/login"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
                             <HoverFillButton
                                 className="
                                     h-11
@@ -508,6 +516,8 @@ const LandingNavbar = () => {
                                                         href={
                                                             subItem.href
                                                         }
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
                                                         className="
                                                             relative
                                                             block
