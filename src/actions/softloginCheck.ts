@@ -3,9 +3,8 @@
 import { verifyToken } from "@/helpers/jwt";
 import { unsignCookie } from "@/helpers/cookie";
 import { cookies } from "next/headers";
+import { ACCESS_TOKEN_COOKIE, REFRESH_TOKEN_COOKIE } from "@/constants/cookie";
 
-const ACCESS_TOKEN_COOKIE = "accessToken";
-const REFRESH_TOKEN_COOKIE = "refreshToken";
 
 type TokenType = "access" | "refresh";
 

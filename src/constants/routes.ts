@@ -1,4 +1,5 @@
-export const unSafeRoute = ["/login", "/signup"];
+export const safeRoute = ["/login", "/signup"];
+export const protectedRoutes = ["/profile", "/settings"];
 export const excludeRoutes = [
   "/",
   "/dashboard",
@@ -7,8 +8,13 @@ export const excludeRoutes = [
   "/contact",
   "/privacy",
   "/how-it-works",
+  "/error",
 ];
 
-export const VALID_ROUTES = [...excludeRoutes, ...unSafeRoute, "/error"];
+export const VALID_ROUTES = [
+  ...excludeRoutes,
+  ...safeRoute,
+  ...protectedRoutes,
+];
 
 export const DYNAMIC_ROUTE_PREFIXES: string[] = [];

@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { getDeviceInfo } from "@/actions/device";
 import { apiUrl, routes } from "@/constants/api";
 import { safeRedirectPath } from "@/constants/url";
+import { clearAuthCookies } from "@/actions/clearAuthCookies";
 
 export async function POST(req: Request) {
   try {
@@ -78,6 +79,7 @@ export async function POST(req: Request) {
 
       case "logout":
       case "logout-all":
+        await clearAuthCookies();
         return new NextResponse(null, {
           status: 303,
           headers: {
@@ -87,6 +89,7 @@ export async function POST(req: Request) {
         });
 
       default:
+        await clearAuthCookies();
         return new NextResponse(null, {
           status: 303,
           headers: {

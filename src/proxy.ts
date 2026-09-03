@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { routes } from "@/constants/api";
 import {
   DYNAMIC_ROUTE_PREFIXES,
   excludeRoutes,
-  unSafeRoute,
+  safeRoute,
+  protectedRoutes,
   VALID_ROUTES,
 } from "@/constants/routes";
-import { buildApiUrl, safeAppUrl, safeRedirectPath } from "@/constants/url";
+import { safeAppUrl, safeRedirectPath } from "@/constants/url";
 import { backendProxy } from "./lib/proxy/backendProxy";
 import { refreshAuth } from "./lib/auth/refreshAuth";
 import { softLoginCheck } from "./actions/softloginCheck";
@@ -103,12 +103,15 @@ function addVaryHeader(response: NextResponse): NextResponse {
     .split(",")
     .map((v) => v.trim())
     .filter(Boolean);
+
   if (!values.some((v) => v.toLowerCase() === "accept")) {
     values.push("Accept");
   }
+
   if (!values.some((v) => v.toLowerCase() === "accept-encoding")) {
     values.push("Accept-Encoding");
   }
+
   response.headers.set("Vary", values.join(", "));
   return response;
 }
@@ -143,9 +146,13 @@ export async function proxy(req: NextRequest) {
     return addVaryHeader(NextResponse.next());
   }
 
-  const isUnsafeRoute = unSafeRoute.some((route) => pathname.startsWith(route));
+  const isSafeRoute = safeRoute.some(
+    (route) => pathname === route || pathname.startsWith(`${route}/`),
+  );
 
-  const isAuthOnlyRoute = pathname === "/login" || pathname === "/signup";
+  const isUnsafeRoute = protectedRoutes.some(
+    (route) => pathname === route || pathname.startsWith(`${route}/`),
+  );
 
   try {
     const isDynamicRouteValid = DYNAMIC_ROUTE_PREFIXES.some((prefix) =>
@@ -159,14 +166,14 @@ export async function proxy(req: NextRequest) {
     const isAccessTokenValid = await softLoginCheck("access");
 
     if (isAccessTokenValid) {
-      if (isAuthOnlyRoute) {
+      if (isSafeRoute) {
         return addVaryHeader(NextResponse.redirect(safeAppUrl("/dashboard")));
       }
 
       return addVaryHeader(NextResponse.next());
     }
 
-    if (isAuthOnlyRoute) {
+    if (isSafeRoute) {
       const isRefreshTokenValid = await softLoginCheck("refresh");
 
       if (isRefreshTokenValid) {

@@ -1,3 +1,4 @@
+import { AuthCookieOptions } from "@/constants/cookie";
 import { cookies } from "next/headers";
 
 export async function POST(req: Request) {
@@ -12,8 +13,7 @@ export async function POST(req: Request) {
 
   cookieStore.delete({
     name: "approvalId",
-    domain: `.${process.env.NEXT_PUBLIC_DOMAIN!}`,
-    path: "/",
+    ...AuthCookieOptions,
   });
 
   return Response.json({

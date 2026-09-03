@@ -7,3 +7,10 @@ export const COOKIE_OPTIONS = {
   path: "/",
   maxAge: 60 * 60 * 24 * 365 * 10,
 };
+
+export const AuthCookieOptions = {
+  domain: `.${process.env.NEXT_PUBLIC_DOMAIN!}`,
+  path: "/",
+};
+export const ACCESS_TOKEN_COOKIE = "accessToken";
+export const REFRESH_TOKEN_COOKIE = "refreshToken";
