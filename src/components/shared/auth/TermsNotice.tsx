@@ -3,24 +3,51 @@ import Link from "next/link";
 import { IoShieldCheckmarkOutline } from "react-icons/io5";
 import { twMerge } from "tailwind-merge";
 
-const TermNotice = ({ className, linkClassName }: { className?: string; linkClassName?: string }) => {
+type TermNoticeProps = {
+  className?: string;
+  linkClassName?: string;
+};
+
+const TermNotice = ({
+  className,
+  linkClassName,
+}: TermNoticeProps) => {
   return (
-    <div className={`flex gap-2 items-center text-sm w-full xs:w-70 ${className}`}>
-      <IoShieldCheckmarkOutline size={50} color="var(--muted-foreground)" />
+    <div
+      className={twMerge(
+        "flex w-full items-center justify-center gap-3 text-sm",
+        className,
+      )}
+    >
+      <IoShieldCheckmarkOutline
+        className="size-7 shrink-0 text-muted-foreground"
+        aria-hidden="true"
+      />
+
       <p
-        className={`${jakarta.className} font-bold tracking-wide text-muted-foreground`}
+        className={twMerge(
+          jakarta.className,
+          "font-bold leading-relaxed tracking-wide text-muted-foreground",
+        )}
       >
         By continuing, you agree to our{" "}
+        <br />
         <Link
-          className={twMerge("tracking-tight text-link hover:text-link-hover font-medium",linkClassName)}
           href="/terms"
+          className={twMerge(
+            "font-medium tracking-tight text-link transition-colors hover:text-link-hover",
+            linkClassName,
+          )}
         >
           Terms of Service
         </Link>{" "}
         and{" "}
         <Link
-          className={twMerge("tracking-tight text-link hover:text-link-hover font-medium",linkClassName)}
           href="/privacy"
+          className={twMerge(
+            "font-medium tracking-tight text-link transition-colors hover:text-link-hover",
+            linkClassName,
+          )}
         >
           Privacy Policy
         </Link>
