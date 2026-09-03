@@ -19,7 +19,7 @@ const HeroSection = () => {
                 pt-25
             "
         >
-            <div className="flex flex-col items-center gap-4">
+            <div className="flex flex-col items-center gap-[4vh]">
                 <motion.h1
                     id="hero-heading"
                     initial={{
@@ -102,6 +102,9 @@ const HeroSection = () => {
                         sm:text-lg
                         md:max-w-lg
                         md:text-xl
+                        lg:max-w-full
+                        lg:text-2xl
+                        3xl:text-[2.5vh]
                     `}
                 >
                     <p>
@@ -136,8 +139,11 @@ const HeroSection = () => {
                         sm:w-110
                         sm:max-w-none
                         md:w-115
-                        lg:w-120
-                        xl:w-130
+                        lg:w-125
+                        xl:w-140
+                        2xl:w-150
+                        3xl:w-[55vw]
+                        8xl:w-[35vw]
                     "
                 >
                     <Link
@@ -160,7 +166,18 @@ const HeroSection = () => {
                                 sm:text-xl
                                 lg:h-15
                                 lg:text-xl
+                                xl:h-16
                                 xl:text-2xl
+                                2xl:h-17
+                                2xl:text-2xl
+                                3xl:h-[7vh]
+                                3xl:text-[2.2vh]
+                                5xl:h-[7.5vh]
+                                5xl:text-[2.5vh]
+                                7xl:h-[8vh]
+                                7xl:text-[2.7vh]
+                                10xl:h-[8.5vh]
+                                10xl:text-[3vh]
                             "
                             text="Get Started"
                         />

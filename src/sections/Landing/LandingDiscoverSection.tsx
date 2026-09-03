@@ -51,17 +51,20 @@ const LandingDiscoverSection = ({
                 w-full
                 shrink-0
                 flex-col
-                gap-10
+                gap-[4vh]
                 px-2
                 sm:px-8
-                md:gap-14
+                md:gap-[5vh]
                 md:px-12
                 mb-5
                 lg:flex-row
                 lg:items-center
                 lg:justify-around
-                lg:gap-8
+                lg:gap-[3vh]
                 lg:px-2
+                3xl:gap-[4vh]
+                5xl:gap-[5vh]
+                7xl:gap-[6vh]
             "
             ref={sectionRef}
         >
@@ -86,8 +89,11 @@ const LandingDiscoverSection = ({
                     -mt-5
                     flex
                     flex-col
-                    gap-2
+                    gap-[2vh]
                     will-change-transform
+                    3xl:gap-[2.5vh]
+                    5xl:gap-[3vh]
+                    7xl:gap-[3.5vh]
                 "
             >
                 <div
@@ -103,6 +109,10 @@ const LandingDiscoverSection = ({
                         md:text-8xl
                         lg:max-w-[50vw]
                         lg:text-[8vw]
+                        3xl:text-[7vw]
+                        5xl:text-[6.5vw]
+                        7xl:text-[6vw]
+                        10xl:text-[5.5vw]
                     `}
                 >
                     <p>A lot can happen after your first</p>
@@ -140,7 +150,11 @@ const LandingDiscoverSection = ({
                         sm:text-lg
                         md:text-xl
                         lg:ml-2
-                        lg:max-w-lg
+                        lg:text-2xl
+                        3xl:text-[2.5vh]
+                        5xl:text-[2.7vh]
+                        7xl:text-[3vh]
+                        10xl:text-[3.2vh]
                     `}
                 >
                     <p>
@@ -155,7 +169,7 @@ const LandingDiscoverSection = ({
                     target="_blank"
                     rel="noopener noreferrer"
                     className="
-                        mt-6
+                        mt-[2vh]
                         ml-2
                         self-start
                         xs:self-center
@@ -173,7 +187,29 @@ const LandingDiscoverSection = ({
                             text-center
                             font-bold
                             xs:w-[70vw]
+                            sm:h-14
+                            sm:text-lg
                             lg:w-90
+                            lg:h-15
+                            lg:text-xl
+                            xl:w-100
+                            xl:h-16
+                            xl:text-xl
+                            2xl:w-110
+                            2xl:h-17
+                            2xl:text-2xl
+                            3xl:w-[24vw]
+                            3xl:h-[7vh]
+                            3xl:text-[2.2vh]
+                            5xl:w-[22vw]
+                            5xl:h-[7.5vh]
+                            5xl:text-[2.5vh]
+                            7xl:w-[20vw]
+                            7xl:h-[8vh]
+                            7xl:text-[2.7vh]
+                            10xl:w-[18vw]
+                            10xl:h-[8.5vh]
+                            10xl:text-[3vh]
                         "
                     />
                 </Link>
@@ -207,8 +243,13 @@ const LandingDiscoverSection = ({
                     will-change-transform
                     sm:w-[80vw]
                     sm:self-center
-                    lg:max-h-155
                     lg:w-[30vw]
+                    lg:max-h-155
+                    3xl:min-h-0
+                    3xl:max-h-none
+                    3xl:h-[min(55vh,900px)]
+                    5xl:h-[min(60vh,1500px)]
+                    7xl:h-[min(65vh,2000px)]
                     lg:self-auto
                 "
             >

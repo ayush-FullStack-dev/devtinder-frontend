@@ -175,6 +175,13 @@ const LandingHowItWorksSection = () => {
                                 text-green-brand
                                 xs:text-lg
                                 sm:text-xl
+                                xl:text-2xl
+                                3xl:text-2xl
+                                4xl:text-3xl
+                                5xl:text-4xl
+                                7xl:text-6xl
+                               8xl:text-7xl
+                               9xl:text-9xl
                             `}
                         >
                             HOW IT WORKS

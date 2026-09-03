@@ -15,23 +15,17 @@ const LandingWhyDevTinderSection = () => {
     const [modelReady, setModelReady] = useState(false);
 
     useEffect(() => {
-        const mediaQuery = window.matchMedia(
-            "(min-width: 1024px)"
-        );
+        const mediaQuery = window.matchMedia("(min-width: 1024px)");
 
         const update = () => {
             setIsDesktop(mediaQuery.matches);
         };
 
         update();
-
         mediaQuery.addEventListener("change", update);
 
         return () => {
-            mediaQuery.removeEventListener(
-                "change",
-                update
-            );
+            mediaQuery.removeEventListener("change", update);
         };
     }, []);
 
@@ -60,9 +54,7 @@ const LandingWhyDevTinderSection = () => {
 
         observer.observe(section);
 
-        return () => {
-            observer.disconnect();
-        };
+        return () => observer.disconnect();
     }, [isDesktop, shouldLoad3D]);
 
     return (
@@ -71,14 +63,23 @@ const LandingWhyDevTinderSection = () => {
             className="
                 relative
                 flex
-                min-h-screen
+                min-h-svh
                 w-full
                 shrink-0
                 flex-col
                 overflow-visible
                 p-2
+                sm:p-4
+                md:p-6
                 lg:flex-row
-                lg:p-4
+                lg:items-center
+                lg:p-6
+                xl:p-8
+                2xl:p-10
+                3xl:p-12
+                5xl:p-16
+                7xl:p-20
+                10xl:p-24
             "
         >
             <div
@@ -86,8 +87,20 @@ const LandingWhyDevTinderSection = () => {
                     relative
                     z-30
                     flex
+                    w-full
                     flex-col
-                    gap-5
+                    gap-4
+                    sm:gap-5
+                    md:gap-6
+                    lg:gap-[4vh]
+                    lg:w-[55vw]
+                    lg:max-w-262.5
+                    xl:max-w-300
+                    2xl:max-w-300
+                    3xl:max-w-375
+                    5xl:max-w-1750
+                    7xl:max-w-2000
+                    10xl:max-w-2300
                 "
             >
                 <h2
@@ -95,10 +108,18 @@ const LandingWhyDevTinderSection = () => {
                         ${googleSansFlex.className}
                         pl-0
                         text-base
+                        leading-none
                         text-green-brand
                         xs:text-lg
                         sm:text-xl
+                        md:text-2xl
                         lg:pl-3
+                        lg:text-2xl
+                        2xl:text-3xl
+                        3xl:text-4xl
+                        5xl:text-5xl
+                        7xl:text-6xl
+                        10xl:text-7xl
                     `}
                 >
                     WHY DEVTINDER
@@ -110,31 +131,34 @@ const LandingWhyDevTinderSection = () => {
                         w-full
                         shrink-0
                         font-bold
-                        leading-none
-                        tracking-tight
-                        text-[16vw]
-                        xs:text-[15vw]
-                        sm:text-[13vw]
-                        md:text-[9.5vw]
-                        lg:w-[55vw]
-                        lg:text-[9vw]
-                        lg:leading-[0.95]
+                        leading-[0.92]
+                        tracking-[-0.04em]
+                        text-[15vw]
+                        xs:text-[14vw]
+                        sm:text-[12vw]
+                        md:text-[9vw]
+                        lg:w-full
+                        lg:text-[7.8vw]
+                        lg:leading-[0.9]
+                        xl:text-[7.5vw]
+                        2xl:text-[7vw]
+                        3xl:text-[6.5vw]
+                        5xl:text-[6vw]
+                        7xl:text-[5.5vw]
+                        10xl:text-[5vw]
                     `}
                 >
                     Not another{" "}
                     <span className="text-green-brand">
-                        devloper{" "}
+                        developer{" "}
                     </span>
-                    <span>
-                        directory.
-                    </span>
+                    <span>directory.</span>
                 </h1>
 
                 <div
                     className={`
                         ${googleSansFlex.className}
-                        max-w-xs
-                        pl-0
+                        w-full
                         text-sm
                         leading-relaxed
                         text-muted-foreground
@@ -142,7 +166,11 @@ const LandingWhyDevTinderSection = () => {
                         xs:text-base
                         sm:max-w-md
                         sm:text-lg
-                        lg:pl-5
+                        md:max-w-lg
+                        md:text-xl
+                        lg:max-w-full
+                        lg:text-2xl
+                        3xl:text-[2.5vh]
                     `}
                 >
                     <p>
@@ -150,7 +178,8 @@ const LandingWhyDevTinderSection = () => {
                     </p>
 
                     <p>
-                        No clutter. No noise. just the right developers,
+                        No clutter. No noise. Just the right
+                        developers,
                     </p>
 
                     <p>
@@ -164,25 +193,35 @@ const LandingWhyDevTinderSection = () => {
                     className="
                         pointer-events-none
                         absolute
-                        right-[-14vw]
-                        -top-30
+                        right-[-18vw]
+                        top-1/2
                         z-20
                         block
-                        h-[110vh]
-                        w-[75vw]
-                        2xl:right-[-5vw]
-                        2xl:w-[55vw]
+                        h-[105vh]
+                        w-[78vw]
+                        -translate-y-1/2
+                        2xl:right-[-8vw]
+                        2xl:h-screen
+                        2xl:w-[58vw]
+                        3xl:right-[-7vw]
+                        3xl:h-[95vh]
+                        3xl:w-[60vw]
+                        5xl:right-[-7vw]
+                        7xl:right-[-5vw]
+                        5xl:h-dvh
+                        5xl:w-[60vw]
+                        10xl:right-[-4vw]
                     "
                 >
                     <div
                         className={`
                             absolute
                             inset-0
-                            w-[55vw]
+                            h-full
+                            w-full
                             transition-opacity
-                            duration-300
+                            duration-500
                             ease-in-out
-                            2xl:w-[40vw]
                             ${modelReady
                                 ? "opacity-0"
                                 : "opacity-100"
@@ -195,7 +234,6 @@ const LandingWhyDevTinderSection = () => {
                             className="
                                 absolute
                                 inset-0
-                                ml-20
                                 h-full
                                 w-full
                                 object-contain
@@ -210,8 +248,10 @@ const LandingWhyDevTinderSection = () => {
                             className={`
                                 absolute
                                 inset-0
+                                h-full
+                                w-full
                                 transition-opacity
-                                duration-300
+                                duration-500
                                 ease-out
                                 ${modelReady
                                     ? "opacity-100"
@@ -219,36 +259,40 @@ const LandingWhyDevTinderSection = () => {
                                 }
                             `}
                         >
-                            <LaptopModel
-                                onReady={() =>
-                                    setModelReady(true)
-                                }
-                            />
+                            {/* <LaptopModel
+                                onReady={() => setModelReady(true)}
+                            /> */}
                         </div>
                     )}
                 </div>
             ) : (
                 <div
                     className="
-        relative
-        mt-auto
-        flex
-        w-full
-        justify-center
-        pt-16
-    "
+                        relative
+                        mt-auto
+                        flex
+                        w-full
+                        justify-center
+                        overflow-visible
+                        pt-12
+                        xs:pt-16
+                        sm:pt-20
+                        md:pt-24
+                    "
                 >
                     <img
                         src="/images/LaptopModel.png"
                         alt="DevTinder developer collaboration interface"
                         className="
-            h-full
-            min-h-75
-            max-h-full
-            w-full
-           min-w-75
-            max-w-full
-        "
+                            h-auto
+                            w-full
+                            min-w-0
+                            max-w-175
+                            object-contain
+                            xs:max-w-[750px]
+                            sm:max-w-112.5
+                            md:max-w-250
+                        "
                         loading="eager"
                         decoding="async"
                     />

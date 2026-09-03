@@ -59,12 +59,14 @@
 }
 
 @theme inline {
-  --breakpoint-xxs: 300px;
-  --breakpoint-xs: 360px;
-  --breakpoint-mobile: 480px;
-  --breakpoint-3xl: 1920px;
-  --breakpoint-4xl: 2560px;
-  --breakpoint-5xl: 3840px;
+   --breakpoint-3xl: 120rem;  
+  --breakpoint-4xl: 160rem;  
+  --breakpoint-5xl: 180rem;  
+  --breakpoint-6xl: 200rem;  
+  --breakpoint-7xl: 215rem;  
+  --breakpoint-8xl: 240rem;  
+  --breakpoint-9xl: 256rem;  
+  --breakpoint-10xl: 320rem; 
 
   --text-mid: 1.0625rem;
 

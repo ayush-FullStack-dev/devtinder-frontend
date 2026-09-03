@@ -18,7 +18,7 @@ export async function PageLayout() {
                 h-dvh
                 w-full
                 flex-col
-                gap-25
+                gap-[5%]
                 overflow-x-hidden
                 overflow-y-auto
                 bg-background
