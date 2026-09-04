@@ -218,8 +218,13 @@ const LandingWhyDevTinderSection = () => {
                             absolute
                             inset-0
                             h-full
-                            w-[52vw]
-                           ml-[10vw]
+                            w-[45vw]
+                            ml-[5vw]
+                            3xl:w-[40vw]
+                            3xl:ml-[4vw]
+                            5xl:w-[35vw]
+                            7xl:w-[30vw]
+                            7xl:ml-[2vw]
                             transition-opacity
                             duration-500
                             ease-in-out
