@@ -8,7 +8,6 @@ import { clearAuthCookies } from "@/actions/clearAuthCookies";
 export async function POST(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
-
     const redirectParam = searchParams.get("redirect") ?? "/dashboard";
     const redirectUrl = safeRedirectPath(redirectParam);
 
@@ -19,6 +18,7 @@ export async function POST(req: Request) {
       headers: {
         "Content-Type": "application/json",
         Cookie: req.headers.get("cookie") ?? "",
+        "User-Agent": req.headers.get("user-agent") ?? "",
       },
       body: JSON.stringify({
         deviceId,
@@ -27,76 +27,99 @@ export async function POST(req: Request) {
       }),
     });
 
-    const data = await response.json();
-
-    const responseHeaders = new Headers();
-
     const setCookies = response.headers.getSetCookie
       ? response.headers.getSetCookie()
       : response.headers.get("set-cookie")
         ? [response.headers.get("set-cookie")!]
         : [];
 
-    for (const cookie of setCookies) {
-      const modifiedCookie = cookie.replace(
-        /;\s*domain=\.?devtinder\.tech/gi,
-        "",
-      );
+    if (response.status === 429) {
+      const retryAfter = response.headers.get("retry-after");
 
-      responseHeaders.append("set-cookie", modifiedCookie);
+      return NextResponse.json(
+        {
+          action: "rate_limited",
+          message: "Too many refresh attempts. Please try again later.",
+          retryAfter,
+        },
+        {
+          status: 429,
+          headers: retryAfter
+            ? {
+                "Retry-After": retryAfter,
+              }
+            : undefined,
+        },
+      );
     }
 
+    const data = await response.json();
+
     switch (data.action) {
-      case "token_refreshed":
-        return new NextResponse(null, {
+      case "token_refreshed": {
+        const nextResponse = new NextResponse(null, {
           status: 303,
           headers: {
-            ...Object.fromEntries(responseHeaders.entries()),
             Location: new URL(redirectUrl, req.url).toString(),
           },
         });
 
-      case "stepup":
-        return new NextResponse(null, {
+        for (const cookie of setCookies) {
+          nextResponse.headers.append("set-cookie", cookie);
+        }
+
+        return nextResponse;
+      }
+
+      case "reauth": {
+        const nextResponse = new NextResponse(null, {
           status: 303,
           headers: {
-            ...Object.fromEntries(responseHeaders.entries()),
             Location: new URL("/mfa/2fa", req.url).toString(),
           },
         });
 
-      case "await_approval":
-        return new NextResponse(null, {
-          status: 303,
-          headers: {
-            ...Object.fromEntries(responseHeaders.entries()),
-            Location: new URL(
-              `/auth/session-approval?approvalId=${encodeURIComponent(data.approvalId)}`,
-              req.url,
-            ).toString(),
-          },
-        });
+        for (const cookie of setCookies) {
+          nextResponse.headers.append("set-cookie", cookie);
+        }
+
+        return nextResponse;
+      }
 
       case "logout":
-      case "logout-all":
+      case "logout-all": {
         await clearAuthCookies();
-        return new NextResponse(null, {
+
+        const nextResponse = new NextResponse(null, {
           status: 303,
           headers: {
-            ...Object.fromEntries(responseHeaders.entries()),
             Location: new URL("/login", req.url).toString(),
           },
         });
 
-      default:
+        for (const cookie of setCookies) {
+          nextResponse.headers.append("set-cookie", cookie);
+        }
+
+        return nextResponse;
+      }
+
+      default: {
         await clearAuthCookies();
-        return new NextResponse(null, {
+
+        const nextResponse = new NextResponse(null, {
           status: 303,
           headers: {
-            ...Object.fromEntries(responseHeaders.entries()),
             Location: new URL("/login", req.url).toString(),
           },
         });
+
+        for (const cookie of setCookies) {
+          nextResponse.headers.append("set-cookie", cookie);
+        }
+
+        return nextResponse;
+      }
     }
   } catch (e) {
     const title = e instanceof Error ? e.name : "Something went wrong";

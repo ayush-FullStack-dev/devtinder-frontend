@@ -17,7 +17,6 @@ export async function verifyToken(token: string): Promise<boolean> {
 
     return true;
   } catch (error) {
-    console.error("verifyToken error:", error);
     return false;
   }
 }

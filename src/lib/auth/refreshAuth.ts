@@ -1,17 +1,18 @@
 import { NextResponse } from "next/server";
+
 import type { NextRequest } from "next/server";
 
-export async function refreshAuth(
-  request: NextRequest,
-  redirectUrl: string,
-) {
+export async function refreshAuth(request: NextRequest, redirectUrl: string) {
   const refreshUrl = new URL("/api/refresh", request.url);
   refreshUrl.searchParams.set("redirect", redirectUrl);
+
+  const userAgent = request.headers.get("user-agent");
 
   const response = await fetch(refreshUrl, {
     method: "POST",
     headers: {
       Cookie: request.headers.get("cookie") ?? "",
+      ...(userAgent ? { "User-Agent": userAgent } : {}),
     },
     redirect: "manual",
   });

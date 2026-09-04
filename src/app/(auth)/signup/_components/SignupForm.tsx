@@ -108,7 +108,6 @@ const SignupForm = ({
       setVerificationSent(true);
 
     } catch (error) {
-      console.error("Signup failed:", error);
     } finally {
       setIsSubmiting(false);
     }
