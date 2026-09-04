@@ -7,15 +7,8 @@ import DecorativeCurve from "@/../public/images/DecorativeCurve.svg";
 
 const RightPanel = () => {
   const styleClassName = `
-    bg-[#f1f1f2]
-    border
-    border-[#dedee1]
-
-    shadow-[0_20px_60px_rgba(24,24,27,0.08)]
-
+   bg-[#e8e8e8]
     dark:bg-[#181a19]
-    dark:border-white/[0.08]
-    dark:shadow-[0_20px_80px_rgba(0,0,0,0.55)]
   `;
 
   return (

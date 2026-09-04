@@ -21,9 +21,8 @@ h-dvh
     md:h-[95dvh]
     min-h-155
     rounded-none md:rounded-xl
-    bg-surface
-    border border-border-primary
-    shadow-none md:shadow-card
+    bg-[#e8e8e8]
+    dark:bg-[#181a19]
   "
     >
       <div className="

@@ -79,15 +79,12 @@ const LeftPanel = ({ onResponseResolve, isTrusted }: ResponseResolveProps) => {
   overflow-hidden
 
   rounded-none
-  border border-border-primary
-  bg-surface
-  shadow-card
-
+   bg-[#e8e8e8]
+    dark:bg-[#181a19]
   md:h-[96dvh]
   md:w-[85vw]
   md:rounded-xl
   md:p-3
-
   xl:w-[49vw]
 "
     >
