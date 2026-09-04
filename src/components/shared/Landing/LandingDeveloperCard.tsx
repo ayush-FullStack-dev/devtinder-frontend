@@ -604,15 +604,16 @@ const LandingDeveloperCard = ({
                             {swipeSide ===
                                 "right" ? (
                                 <Heart
-                                    size={100}
+                                     className="size-[20vw]  sm:size-[16vw]  md:size-[12vw]  lg:size-[7vw] rotate-15"
                                     strokeWidth={2.5}
                                     color="#EF4444"
                                     fill="#EF4444"
                                 />
                             ) : (
                                 <X
-                                    size={100}
+                                    className="size-[20vw] sm:size-[16vw]  md:size-[12vw] lg:size-[7vw] -rotate-20"
                                     strokeWidth={4}
+                                    color="white"
                                 />
                             )}
                         </motion.div>

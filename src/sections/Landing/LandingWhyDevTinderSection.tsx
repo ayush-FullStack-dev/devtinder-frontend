@@ -218,7 +218,8 @@ const LandingWhyDevTinderSection = () => {
                             absolute
                             inset-0
                             h-full
-                            w-full
+                            w-[52vw]
+                           ml-[10vw]
                             transition-opacity
                             duration-500
                             ease-in-out
@@ -259,9 +260,9 @@ const LandingWhyDevTinderSection = () => {
                                 }
                             `}
                         >
-                            {/* <LaptopModel
+                            <LaptopModel
                                 onReady={() => setModelReady(true)}
-                            /> */}
+                            />
                         </div>
                     )}
                 </div>
