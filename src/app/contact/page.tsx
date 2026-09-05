@@ -1,3 +1,4 @@
+
 import type { Metadata } from "next";
 import Link from "next/link";
 import { AppName } from "@/constants/constants";
@@ -49,6 +50,7 @@ export default function ContactPage() {
           >
             Get In Touch
           </h2>
+
           <p>
             For general inquiries, support requests, and feedback, you can
             reach the {AppName} team by emailing{" "}
@@ -66,6 +68,7 @@ export default function ContactPage() {
           >
             What You Can Contact Us About
           </h2>
+
           <ul className="list-inside list-disc space-y-2 pl-2">
             <li>Account issues and technical support</li>
             <li>Bug reports and feature requests</li>
@@ -80,12 +83,52 @@ export default function ContactPage() {
           >
             Response Times
           </h2>
+
           <p>
             We prioritize all incoming messages and typically respond within
             one to two business days. For urgent account-related issues,
             please include your username in the subject line so we can locate
             your account quickly. Security-related reports are given the
             highest priority.
+          </p>
+
+          <h2
+            className={`${googleSans.className} pt-4 text-2xl font-semibold text-foreground`}
+          >
+            Legal Information
+          </h2>
+
+          <p>
+            The following information is provided for legal, payment-provider,
+            and business verification purposes.
+          </p>
+
+          <p>
+            <span className="text-foreground">Legal Name:</span>{" "}
+            MANORAMA DEVI
+            <br />
+            <span className="text-foreground">Official Email:</span>{" "}
+            <a
+              href="mailto:ayush.shriv.dev@gmail.com"
+              className="text-green-brand transition-colors hover:text-green-accent"
+            >
+              ayush.shriv.dev@gmail.com
+            </a>
+            <br />   
+          </p>
+
+          <p>
+            The above information is provided for legal and payment-provider
+            verification purposes. For all user support, account issues,
+            feedback, bug reports, and other platform-related inquiries,
+            please contact{" "}
+            <a
+              href="mailto:support@devtinder.tech"
+              className="text-green-brand transition-colors hover:text-green-accent"
+            >
+              support@devtinder.tech
+            </a>
+            . We aim to respond to all support messages within 48 hours.
           </p>
         </div>
 
@@ -95,6 +138,7 @@ export default function ContactPage() {
           >
             Learn more
           </p>
+
           <ul
             className={`${googleSansFlex.className} flex flex-wrap gap-6 text-sm`}
           >
@@ -106,6 +150,7 @@ export default function ContactPage() {
                 Home
               </Link>
             </li>
+
             <li>
               <Link
                 href="/about"
@@ -114,6 +159,7 @@ export default function ContactPage() {
                 About
               </Link>
             </li>
+
             <li>
               <Link
                 href="/privacy"
