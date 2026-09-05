@@ -13,7 +13,7 @@ export async function POST(req: Request) {
 
     const { deviceId, deviceSize } = await getDeviceInfo();
 
-    const response = await fetch(apiUrl(routes.refresh), {
+    const backendResponse = await fetch(apiUrl(routes.refresh), {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -27,14 +27,14 @@ export async function POST(req: Request) {
       }),
     });
 
-    const setCookies = response.headers.getSetCookie
-      ? response.headers.getSetCookie()
-      : response.headers.get("set-cookie")
-        ? [response.headers.get("set-cookie")!]
+    const setCookies = backendResponse.headers.getSetCookie
+      ? backendResponse.headers.getSetCookie()
+      : backendResponse.headers.get("set-cookie")
+        ? [backendResponse.headers.get("set-cookie")!]
         : [];
 
-    if (response.status === 429) {
-      const retryAfter = response.headers.get("retry-after");
+    if (backendResponse.status === 429) {
+      const retryAfter = backendResponse.headers.get("retry-after");
 
       return NextResponse.json(
         {
@@ -53,73 +53,54 @@ export async function POST(req: Request) {
       );
     }
 
-    const data = await response.json();
+    const data = await backendResponse.json();
 
-    switch (data.action) {
-      case "token_refreshed": {
-        const nextResponse = new NextResponse(null, {
-          status: 303,
-          headers: {
-            Location: new URL(redirectUrl, req.url).toString(),
-          },
-        });
+    if (data.action === "token_refreshed") {
+      const response = NextResponse.redirect(
+        new URL(redirectUrl || "/dashboard", req.url),
+        303,
+      );
 
-        for (const cookie of setCookies) {
-          nextResponse.headers.append("set-cookie", cookie);
-        }
+      for (const cookie of setCookies) {
+        const modifiedCookie = cookie.replace(
+          /;\s*domain=\.?devtinder\.tech/gi,
+          "",
+        );
 
-        return nextResponse;
+        response.headers.append("set-cookie", modifiedCookie);
       }
 
-      case "reauth": {
-        const nextResponse = new NextResponse(null, {
-          status: 303,
-          headers: {
-            Location: new URL("/mfa/2fa", req.url).toString(),
-          },
-        });
+      return response;
+    } else if (data.action === "reauth") {
+      const nextResponse = new NextResponse(null, {
+        status: 303,
+        headers: {
+          Location: new URL("/auth/reauth", req.url).toString(),
+        },
+      });
 
-        for (const cookie of setCookies) {
-          nextResponse.headers.append("set-cookie", cookie);
-        }
+      return nextResponse;
+    } else if (data.action === "logout" || data.action === "logout-all") {
+      await clearAuthCookies();
 
-        return nextResponse;
-      }
+      const nextResponse = new NextResponse(null, {
+        status: 303,
+        headers: {
+          Location: new URL("/login", req.url).toString(),
+        },
+      });
 
-      case "logout":
-      case "logout-all": {
-        await clearAuthCookies();
+      return nextResponse;
+    } else {
+      await clearAuthCookies();
+      const nextResponse = new NextResponse(null, {
+        status: 303,
+        headers: {
+          Location: new URL("/login", req.url).toString(),
+        },
+      });
 
-        const nextResponse = new NextResponse(null, {
-          status: 303,
-          headers: {
-            Location: new URL("/login", req.url).toString(),
-          },
-        });
-
-        for (const cookie of setCookies) {
-          nextResponse.headers.append("set-cookie", cookie);
-        }
-
-        return nextResponse;
-      }
-
-      default: {
-        await clearAuthCookies();
-
-        const nextResponse = new NextResponse(null, {
-          status: 303,
-          headers: {
-            Location: new URL("/login", req.url).toString(),
-          },
-        });
-
-        for (const cookie of setCookies) {
-          nextResponse.headers.append("set-cookie", cookie);
-        }
-
-        return nextResponse;
-      }
+      return nextResponse;
     }
   } catch (e) {
     const title = e instanceof Error ? e.name : "Something went wrong";
