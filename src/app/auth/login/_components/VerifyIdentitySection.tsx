@@ -1,5 +1,5 @@
-import LeftPanel from "@/app/(auth)/login/_components/verify/LeftPanel";
-import RightPanel from "@/app/(auth)/login/_components/verify/RightPanel";
+import LeftPanel from "@/app/auth/login/_components/verify/LeftPanel";
+import RightPanel from "@/app/auth/login/_components/verify/RightPanel";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { useLoginStore } from "@/store/login.store";
@@ -39,7 +39,7 @@ const VerifyIdentitySection = () => {
 
   useEffect(() => {
     if (step !== 2) {
-      router.replace("/login");
+      router.replace("/auth/login");
     }
   }, [router, step]);
 

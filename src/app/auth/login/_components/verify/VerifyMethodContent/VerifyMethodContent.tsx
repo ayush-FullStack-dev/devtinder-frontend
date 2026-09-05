@@ -1,7 +1,7 @@
 import { LoginMethod } from "@/types/auth/login/login.type";
-import PasskeyContent from "@/app/(auth)/login/_components/verify/VerifyMethodContent/PasskeyContent";
-import PasswordContent from "@/app/(auth)/login/_components/verify/VerifyMethodContent/PasswordContent";
-import VerifyMethodFooter from "@/app/(auth)/login/_components/verify/VerifyMethodContent/VeifyMethodFooter";
+import PasskeyContent from "@/app/auth/login/_components/verify/VerifyMethodContent/PasskeyContent";
+import PasswordContent from "@/app/auth/login/_components/verify/VerifyMethodContent/PasswordContent";
+import VerifyMethodFooter from "@/app/auth/login/_components/verify/VerifyMethodContent/VeifyMethodFooter";
 import SecurityCodeContent from "./SecurityCodeContent";
 import SessionApprovalContent from "./SessionApprovalContent";
 

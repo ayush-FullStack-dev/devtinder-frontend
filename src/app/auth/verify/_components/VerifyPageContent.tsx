@@ -388,7 +388,7 @@ function VerifyPageContent({
                             )}
 
                             <Link
-                                href="/login"
+                                href="/auth/login"
                                 className="
                                     flex
                                     min-h-11
@@ -418,7 +418,7 @@ function VerifyPageContent({
                     ) : (
                         <>
                             <Link
-                                href="/login"
+                                href="/auth/login"
                                 className="
                                     flex
                                     h-[52px]

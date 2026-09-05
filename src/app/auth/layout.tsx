@@ -5,7 +5,7 @@ export const metadata: Metadata = {
     title: "Login or Sign Up",
     description: `Log in or sign up to connect, collaborate, and build with developers on ${AppName}.`,
     alternates: {
-        canonical: "/login",
+        canonical: "/auth/login",
     },
 };
 

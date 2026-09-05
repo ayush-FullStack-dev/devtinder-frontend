@@ -39,8 +39,8 @@ DevTinder is a web-based platform that helps developers find and connect with ot
 
 ### Authentication Required
 
-- Login: https://devtinder.tech/login
-- Sign Up: https://devtinder.tech/signup
+- Login: https://devtinder.tech/auth/login
+- Sign Up: https://devtinder.tech/auth/signup
 - Dashboard — Requires authentication
 - Profile management — Requires authentication
 - Connections and messaging — Requires authentication

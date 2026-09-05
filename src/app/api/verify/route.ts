@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
 
   if (!token) {
     return NextResponse.redirect(
-      new URL("/verify?status=invalid", request.url),
+      new URL("/auth/verify?status=invalid", request.url),
       303,
     );
   }
@@ -45,7 +45,7 @@ export async function GET(request: NextRequest) {
       }
     } catch {}
 
-    const verifyUrl = new URL("/verify", request.url);
+    const verifyUrl = new URL("/auth/verify", request.url);
 
     verifyUrl.searchParams.set("status", status);
 
@@ -73,7 +73,7 @@ export async function GET(request: NextRequest) {
     return response;
   } catch {
     return NextResponse.redirect(
-      new URL("/verify?status=error", request.url),
+      new URL("/auth/verify?status=error", request.url),
       303,
     );
   }

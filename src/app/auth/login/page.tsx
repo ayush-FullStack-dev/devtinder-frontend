@@ -1,8 +1,8 @@
 "use client";
 
-import IdentifyFormSection from "@/app/(auth)/login/_components/IdentifyFormSection";
+import IdentifyFormSection from "@/app/auth/login/_components/IdentifyFormSection";
 import { useLoginStore } from "@/store/login.store";
-import VerifyIdentitySection from "@/app/(auth)/login/_components/VerifyIdentitySection";
+import VerifyIdentitySection from "@/app/auth/login/_components/VerifyIdentitySection";
 import { useTheme } from "next-themes";
 
 

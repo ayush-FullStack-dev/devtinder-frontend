@@ -76,7 +76,7 @@ const LeftPanel = () => {
           >
             Already have an account?{" "}
             <Link
-              href="/login"
+              href="/auth/login"
               className="font-medium tracking-tight text-green-dark hover:text-green-hover"
             >
               Log in

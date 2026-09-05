@@ -147,7 +147,7 @@ const HeroSection = () => {
                     "
                 >
                     <Link
-                        href="/signup"
+                        href="/auth/signup"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="block w-full"

@@ -377,7 +377,7 @@ const LandingNavbar = () => {
                             lg:flex
                         "
                     >
-                        <Link href="/signup"
+                        <Link href="/auth/signup"
                             target="_blank"
                             rel="noopener noreferrer"
                         >
@@ -392,7 +392,7 @@ const LandingNavbar = () => {
                             />
                         </Link>
 
-                        <Link href="/login"
+                        <Link href="/auth/login"
                             target="_blank"
                             rel="noopener noreferrer"
                         >

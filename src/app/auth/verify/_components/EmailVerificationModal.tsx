@@ -70,7 +70,7 @@ const EmailVerificationModal = ({
             if (status === "VERIFIED") {
                 router.replace("/dashboard");
             } else {
-                router.replace("/login");
+                router.replace("/auth/login");
             }
         };
 
@@ -280,7 +280,7 @@ const EmailVerificationModal = ({
                 <div className="flex-1" />
 
                 <Link
-                    href="/login"
+                    href="/auth/login"
                     className={`
                         ${googleSans.className}
                         flex

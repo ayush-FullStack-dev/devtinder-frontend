@@ -1,4 +1,4 @@
-import { LoginFormIdentfy } from "@/app/(auth)/login/_components/identify/LoginForm";
+import { LoginFormIdentfy } from "@/app/auth/login/_components/identify/LoginForm";
 import AuthHeader from "@/components/shared/auth/login/IdentifyLoginHeader";
 import SeparatorWithText from "@/components/shared/SeparatorWithText";
 import IconTextButton from "@/components/shared/IconTextButton";
@@ -42,7 +42,7 @@ flex flex-col
         <SeparatorWithText text="Or" className="w-full" />
 
         <IconTextButton
-          href="/signup"
+          href="/auth/signup"
           text="Create an Account"
           icon={FaRegUser}
           className="mr-auto ml-auto h-15 w-full"

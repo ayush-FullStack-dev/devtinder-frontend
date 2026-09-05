@@ -86,7 +86,7 @@ export async function POST(req: Request) {
       const nextResponse = new NextResponse(null, {
         status: 303,
         headers: {
-          Location: new URL("/login", req.url).toString(),
+          Location: new URL("/auth/login", req.url).toString(),
         },
       });
 
@@ -96,7 +96,7 @@ export async function POST(req: Request) {
       const nextResponse = new NextResponse(null, {
         status: 303,
         headers: {
-          Location: new URL("/login", req.url).toString(),
+          Location: new URL("/auth/login", req.url).toString(),
         },
       });
 

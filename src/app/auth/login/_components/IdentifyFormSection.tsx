@@ -1,5 +1,5 @@
-import LeftPanel from "@/app/(auth)/login/_components/identify/LeftPanel";
-import RightPanel from "@/app/(auth)/login/_components/identify/RightPanel";
+import LeftPanel from "@/app/auth/login/_components/identify/LeftPanel";
+import RightPanel from "@/app/auth/login/_components/identify/RightPanel";
 
 const IdentifyFormSection = () => {
   return (

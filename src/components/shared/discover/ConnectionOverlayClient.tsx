@@ -22,7 +22,7 @@ const ConnectionOverlayClient = ({
     onClose,
 }: ConnectionOverlayClientProps) => {
     const handleSignup = () => {
-        window.open("/signup", "_blank", "noopener,noreferrer");
+        window.open("/auth/signup", "_blank", "noopener,noreferrer");
     };
     const { resolvedTheme } = useTheme();
 

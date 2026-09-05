@@ -28,13 +28,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.5,
     },
     {
-      url: `${TRUSTED_APP_ORIGIN}/login`,
+      url: `${TRUSTED_APP_ORIGIN}/auth/login`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.6,
     },
     {
-      url: `${TRUSTED_APP_ORIGIN}/signup`,
+      url: `${TRUSTED_APP_ORIGIN}/auth/signup`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.6,

@@ -7,8 +7,8 @@ import { useEffect, useState } from "react";
 import { LoginMethod } from "@/types/auth/login/login.type";
 import { useRouter } from "next/navigation";
 import LogoHorizontal from "@/components/brand/LogoHorizontal";
-import VerifyMethodSelector from "@/app/(auth)/login/_components/verify/VerifyMethodSelector";
-import VerifyMethodContent from "@/app/(auth)/login/_components/verify/VerifyMethodContent/VerifyMethodContent";
+import VerifyMethodSelector from "@/app/auth/login/_components/verify/VerifyMethodSelector";
+import VerifyMethodContent from "@/app/auth/login/_components/verify/VerifyMethodContent/VerifyMethodContent";
 
 type ResponseResolveProps = {
   onResponseResolve: (
@@ -41,7 +41,7 @@ const LeftPanel = ({ onResponseResolve, isTrusted }: ResponseResolveProps) => {
 
   useEffect(() => {
     if (step !== 1) {
-      router.replace("/login");
+      router.replace("/auth/login");
     }
   }, [step, router]);
 
@@ -61,7 +61,7 @@ const LeftPanel = ({ onResponseResolve, isTrusted }: ResponseResolveProps) => {
       setStep(1);
     }
 
-    router.replace("/login");
+    router.replace("/auth/login");
   };
 
   if (!hasHydrated) return null;

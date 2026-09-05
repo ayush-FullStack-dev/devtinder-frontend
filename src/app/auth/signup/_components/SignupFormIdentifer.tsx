@@ -294,7 +294,7 @@ const SignupFormIdentifer = ({ setStep, setSignupData, signupData }: SignupFormI
           !pending.email ? (
           <span className="text-danger hidden xs:inline text-sm lg:text-mid">
             <Link
-              href="/login"
+              href="/auth/login"
               className="text-link hover:text-link-hover"
             >
               Sign in

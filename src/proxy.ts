@@ -30,8 +30,8 @@ DevTinder is built for developers of all experience levels — frontend engineer
 
 ## Get Started
 
-- [Sign Up](https://devtinder.tech/signup)
-- [Log In](https://devtinder.tech/login)
+- [Sign Up](https://devtinder.tech/auth/signup)
+- [Log In](https://devtinder.tech/auth/login)
 - [About](https://devtinder.tech/about)
 - [Contact](https://devtinder.tech/contact)
 - [Privacy Policy](https://devtinder.tech/privacy)
@@ -192,7 +192,7 @@ export async function proxy(req: NextRequest) {
         return refreshAuth(req, redirectUrl);
       }
 
-      return addVaryHeader(NextResponse.redirect(safeAppUrl("/login")));
+      return addVaryHeader(NextResponse.redirect(safeAppUrl("/auth/login")));
     }
 
     return addVaryHeader(NextResponse.next());

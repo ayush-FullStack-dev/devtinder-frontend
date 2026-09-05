@@ -1,9 +1,9 @@
-export const safeRoute = ["/login", "/signup"];
+export const safeRoute = ["/auth/login", "/auth/signup"];
 export const protectedRoutes = ["/profile", "/settings"];
 export const excludeRoutes = [
   "/",
   "/dashboard",
-  "/verify",
+  "/auth/verify",
   "/about",
   "/contact",
   "/privacy",
