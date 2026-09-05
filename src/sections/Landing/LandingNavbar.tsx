@@ -279,24 +279,33 @@ const LandingNavbar = () => {
                     setActiveMenu(null)
                 }
             >
+                {/* Main Navbar */}
                 <div
                     className="
-                        grid
+                        relative
+                        flex
                         w-full
-                        grid-cols-[minmax(0,1fr)_auto_minmax(260px,1fr)]
                         items-center
+                        justify-between
                         py-5
                     "
                 >
-                    <div className="shrink-0 justify-self-start">
+                    {/* Logo */}
+                    <div className="shrink-0">
                         <LogoHorizontal />
                     </div>
 
+                    {/* Center Navigation */}
                     <nav
                         className={`
+                            absolute
+                            left-1/2
+                            top-1/2
                             hidden
                             w-[35vw]
-                            min-w-135
+                            min-w-140
+                            -translate-x-1/2
+                            -translate-y-1/2
                             grid-cols-4
                             text-md
                             lg:grid
@@ -366,45 +375,52 @@ const LandingNavbar = () => {
                         })}
                     </nav>
 
+                    {/* Right Actions */}
                     <div
                         className="
                             hidden
                             min-w-65
                             shrink-0
                             items-center
-                            justify-self-end
+                            justify-end
                             gap-5
                             lg:flex
                         "
                     >
-                        <Link href="/auth/signup"
+                        <Link
+                            href="/auth/signup"
                             target="_blank"
                             rel="noopener noreferrer"
                         >
                             <AnimatedButton
                                 className="
+                                    hidden
                                     h-11.5
                                     w-37
                                     rounded-3xl
                                     bg-green-brand
+                                    xl:inline-flex
                                 "
                                 text="Get Started"
                             />
                         </Link>
 
-                        <Link href="/auth/login"
+                        <Link
+                            href="/auth/login"
                             target="_blank"
                             rel="noopener noreferrer"
                         >
                             <HoverFillButton
                                 className="
-                                    h-11
-                                    w-30
-                                    rounded-2xl
+                                    h-12
+                                    w-35
+                                    rounded-full
                                     border
                                     border-green-primary
                                     bg-transparent
                                     text-showcase
+                                    xl:h-11
+                                    xl:w-30
                                 "
                                 text="Log In"
                             />
@@ -412,6 +428,7 @@ const LandingNavbar = () => {
                     </div>
                 </div>
 
+                {/* Submenu */}
                 <motion.div
                     initial={false}
                     animate={{
@@ -429,25 +446,26 @@ const LandingNavbar = () => {
                         },
                     }}
                     className="
+                        relative
                         hidden
                         w-full
-                        grid-cols-[minmax(0,1fr)_auto_minmax(260px,1fr)]
                         overflow-hidden
-                        lg:grid
+                        lg:block
                     "
                 >
-                    <div />
-
                     <div
-                        className={`
-                            grid
+                        className="
+                            absolute
+                            left-1/2
+                            top-0
                             w-[35vw]
                             min-w-135
+                            -translate-x-1/2
                             grid-cols-4
                             text-md
+                            lg:grid
                             2xl:w-[40vw]
-                            ${googleSansFlex.className}
-                        `}
+                        "
                     >
                         {navItems.map((item) => (
                             <div
@@ -548,8 +566,6 @@ const LandingNavbar = () => {
                             </div>
                         ))}
                     </div>
-
-                    <div className="min-w-65" />
                 </motion.div>
             </div>
         </motion.header>
