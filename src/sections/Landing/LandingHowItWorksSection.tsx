@@ -297,6 +297,7 @@ const LandingHowItWorksSection = () => {
                             relative
                             z-10
                             aspect-video
+                            opacity-0
                             w-full
                             shrink-0
                         "
@@ -323,6 +324,7 @@ const LandingHowItWorksSection = () => {
                         muted
                         playsInline
                         preload="metadata"
+                        poster="/brand/social/og-image.png"
                         src="/videos/LandingHowItWorks.mp4"
                         className="
                             absolute
