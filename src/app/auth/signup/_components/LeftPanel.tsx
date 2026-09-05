@@ -37,7 +37,7 @@ const LeftPanel = () => {
 
         <div className={`flex flex-col ${step === 1 ? "gap-8" : "gap-10"}`}>
           {step === 1 ?
-            <LogoHorizontal monoChrome /> :
+            <LogoHorizontal monoChrome className="mb-4"/> :
             <BackButton className="mr-auto" onClick={() => (setStep(1))} />
           }
           {step !== 1 ?

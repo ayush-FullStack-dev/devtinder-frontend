@@ -17,7 +17,7 @@ const LeftPanel = () => {
     w-screen
     md:w-[85vw]
     xl:w-[43vw]
-h-dvh
+    h-dvh
     md:h-[95dvh]
     min-h-155
     rounded-none md:rounded-xl
@@ -27,20 +27,23 @@ h-dvh
     >
       <div className="
 flex flex-col
- gap-6
+ gap-7
  w-full h-full min-h-50 max-h-160
- px-3 xs:px-4 sm:px-5 justify-evenly 
+ px-4 xs:px-4 sm:px-5 justify-between
+ py-2
 ">
 
-        <LogoHorizontal className="mt-2 lg:mb-5" monoChrome={true} />
 
-        <AuthHeader />
+        <div className="flex flex-col gap-[9vh]">
+          <LogoHorizontal className="mt-6 " monoChrome={true} />
+          <div className="flex flex-col w-full gap-[6vh]">
+            <AuthHeader />
 
-        <LoginFormIdentfy />
+            <LoginFormIdentfy />
+          </div>
+        </div>
       </div>
       <div className="px-2 flex flex-col gap-4 mt-auto mb-2 w-full">
-        <SeparatorWithText text="Or" className="w-full" />
-
         <IconTextButton
           href="/auth/signup"
           text="Create an Account"
