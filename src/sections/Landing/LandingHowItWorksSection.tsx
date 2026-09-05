@@ -324,7 +324,6 @@ const LandingHowItWorksSection = () => {
                         muted
                         playsInline
                         preload="metadata"
-                        poster="/brand/social/og-image.png"
                         src="/videos/LandingHowItWorks.mp4"
                         className="
                             absolute
