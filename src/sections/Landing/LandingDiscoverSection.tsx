@@ -255,7 +255,7 @@ const LandingDiscoverSection = ({
             >
                 <LandingDiscoverCard
                     developers={developers}
-                    className="h-full w-full"
+                    className="h-full w-full min-h-155"
                     isAllowedLike={isLoggedIn}
                     isVisible={isVisible}
                 />
