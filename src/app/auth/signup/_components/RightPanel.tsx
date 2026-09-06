@@ -3,30 +3,29 @@ import Image from "next/image";
 
 const RightPanel = () => {
     return (
-        <div className="dark relative w-[55vw] hidden lg:flex items-center justify-center rounded-r-2xl overflow-hidden">
-
-            <div className="absolute inset-0 bg-white dark:bg-black text-black dark:text-white">
-
+        <div className="dark relative hidden h-full min-h-0 w-[55vw] overflow-hidden rounded-r-2xl lg:flex">
+            <div className="absolute inset-0 bg-black text-white">
                 <Image
                     src="/images/signup-illustration.png"
                     alt="auth background"
                     fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    sizes="55vw"
                     className="object-cover"
+                    priority
                 />
+                <div className="absolute inset-0 z-5 bg-gradient-to-r from-black/50 via-transparent to-black/50" />
 
-                <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-black/50 z-5" />
-
-                <div className={`${poynter.className} relative h-full flex flex-col justify-between pt-30 pb-10 absolute z-6`}>
-
-                    <div className={`ml-[15%] w-fit flex flex-col text-7xl opacity-95`}>
+                <div
+                    className={`${poynter.className} absolute inset-0 z-6 flex h-full flex-col justify-between pt-30 pb-10`}
+                >
+                    <div className="ml-[15%] flex w-fit flex-col text-7xl opacity-95">
                         <span>Find your</span>
                         <span className="text-[#2BA96F]">Dev match.</span>
                         <span>Build together.</span>
                         <span className="text-[#2BA96F]">Grow together.</span>
                     </div>
 
-                    <div className="w-full overflow-hidden opacity-90 select-none pointer-events-none font-serif">
+                    <div className="text-[1vw] w-full overflow-hidden font-serif opacity-90 select-none pointer-events-none">
                         <div className="flex w-max animate-code-one gap-2">
                             <span className="shrink-0 whitespace-nowrap text-[#1b3629]">
                                 {`const dev = findMatch(skills); if (dev) connect(dev); function connect(dev) { const match = createMatch(dev); return match; } const team = buildTogether(matches); team.add(dev);`}
@@ -53,7 +52,6 @@ const RightPanel = () => {
                             </span>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
