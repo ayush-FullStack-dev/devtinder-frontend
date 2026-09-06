@@ -35,19 +35,15 @@ const LeftPanel = () => {
     <div className="w-full lg:w-[45vw]">
       <div className="relative flex h-dvh flex-col px-2 md:px-4">
 
-        <div className="relative flex shrink-0 items-center pt-6">
+        <div className={`relative flex shrink-0  flex-col ${step === 1 ? "pt-5 gap-4" : "pt-3 gap-7"} w-full`}>
           {step === 1 ? (
             <LogoHorizontal monoChrome />
           ) : (
-            <BackButton onClick={() => setStep(1)} />
+            <BackButton className="mr-auto" onClick={() => (setStep(1))} />
           )}
 
           {step !== 1 && (
-            <SignupProgress
-              currentStep={step}
-              finalStep={2}
-              className="absolute left-1/2 -translate-x-1/2"
-            />
+            <SignupProgress currentStep={step} finalStep={2} />
           )}
         </div>
 
@@ -101,7 +97,7 @@ const LeftPanel = () => {
             </div>
           ) : (
             <TermNotice
-              className="mx-auto -mb-2"
+              className="mx-auto mb-1"
               linkClassName="text-[#168b60] hover:text-[#18a370]"
             />
           )}
