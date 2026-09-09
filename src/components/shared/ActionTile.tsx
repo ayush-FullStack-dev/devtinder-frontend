@@ -1,5 +1,4 @@
 import { FaAngleRight } from "react-icons/fa6";
-import React from "react";
 import { googleSans } from "@/assets/fonts/font.google";
 import type { IconComponent } from "@/types/icon.type";
 

@@ -7,30 +7,33 @@ import Link from "next/link"
 
 const LandingFaqSection = () => {
     return (
-        <section className="w-full flex flex-col lg:flex-row lg:justify-around">
-            <div
-                className="
-                    relative
-                    z-30
-                    w-full
-                    flex
-                    flex-col
-                    gap-6
-                    sm:gap-7
-                    md:gap-8
-                    lg:w-[50vw]
-                    lg:gap-[4vh]
-                    xl:max-w-[42vw]
-                    2xl:max-w-[38vw]
-                    3xl:max-w-[36vw]
-                    4xl:max-w-[35vw]
-                    5xl:max-w-[34vw]
-                    7xl:max-w-[32vw]
-                    8xl:max-w-[31vw]
-                    9xl:max-w-[30vw]
-                    10xl:max-w-[29vw]
-                "
-            >
+        <section className="w-full flex flex-col items-center lg:items-start lg:flex-row lg:justify-around">
+            <div className="
+    relative
+    z-30
+    w-full
+    flex
+    py-5
+    lg:pl-0
+    pl-5
+    flex-col
+    gap-6
+    sm:gap-7
+    md:gap-8
+    lg:w-[50vw]
+    lg:gap-[4vh]
+    xl:max-w-[42vw]
+    2xl:max-w-[38vw]
+    3xl:max-w-[36vw]
+    4xl:max-w-[35vw]
+    5xl:max-w-[34vw]
+    7xl:max-w-[32vw]
+    8xl:max-w-[31vw]
+    9xl:max-w-[30vw]
+    10xl:max-w-[29vw]
+
+    max-lg:hidden
+">
                 <h2
                     className={`
                         ${googleSansFlex.className}
@@ -134,9 +137,28 @@ const LandingFaqSection = () => {
                     .
                 </p>
             </div>
-            <div className="w-[35vw] mt-20">
+
+            <div
+                className={`
+        hidden
+        max-lg:block
+        w-[95%]
+        ${googleSansFlex.className}
+        text-center
+        mb-5
+        text-[9vw]
+        sm:text-[8vw]
+        font-medium
+        leading-none
+    `}
+            >
+                Frequently Asked Questions
+            </div>
+
+            <div className="mt-10 w-[95%] lg:mt-10 lg:w-[35vw]">
                 <FaqAccordion />
             </div>
+
         </section>
     )
 }
