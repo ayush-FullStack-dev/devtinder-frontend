@@ -5,6 +5,7 @@ import DiscoverSection from "../sections/Landing/LandingDiscoverSection";
 import { softLoginCheck } from "@/actions/softloginCheck";
 import LandingHowItWorksSection from "@/sections/Landing/LandingHowItWorksSection";
 import LandingWhyDevTinderSection from "@/sections/Landing/LandingWhyDevTinderSection";
+import LandingFaqSection from "@/sections/Landing/LandingFaqSection";
 
 export async function PageLayout() {
     const isLoggedIn = await softLoginCheck("refresh");
@@ -76,6 +77,18 @@ export async function PageLayout() {
                 "
             >
                 <LandingWhyDevTinderSection />
+            </section>
+            <section
+                id="frequently-asked-questions"
+                className="
+                    relative
+                    min-h-dvh
+                    w-full
+                    shrink-0
+                    py-10
+                "
+            >
+                <LandingFaqSection />
             </section>
         </main>
     );
