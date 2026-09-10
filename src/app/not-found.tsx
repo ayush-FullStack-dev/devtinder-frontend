@@ -8,8 +8,8 @@ import HeroSection from "@/components/shared/NotFound/HeroScene";
 
 const NotFound = () => {
   return (
-    <div className="dark min-h-screen w-full bg-black text-white relative overflow-hidden">
-      <div className="absolute top-8 left-5 w-full px-0 lg:px-10 flex items-center justify-between z-10">
+    <div className="dark relative min-h-screen w-full overflow-hidden bg-black text-white">
+      <div className="absolute top-8 left-5 z-10 flex w-full items-center justify-between px-0 lg:px-10">
         <LogoHorizontal
           logoMonoChrome
           workMarkMonoChrome
@@ -17,24 +17,25 @@ const NotFound = () => {
         />
       </div>
 
-      <div className="flex min-h-screen flex-col items-center justify-center -mt-2 pl-5 pr-3">
-        <HeroSection />
+      <main className="flex min-h-screen flex-col items-center justify-center px-5 pb-5 pt-12 lg:-mt-2 lg:pl-5 lg:pr-3 lg:pt-0">
+        <div className="flex w-full max-w-5xl flex-col items-center">
+          <HeroSection />
 
-        <ErrorContent
-          name="Looks like you're lost."
-          message="The page you're looking for doesn't exist or has been moved."
-          description="Don't worry, you can find your way back home."
-        />
+          <ErrorContent
+            name="Looks like you're lost."
+            message="The page you're looking for doesn't exist or has been moved."
+            description="Don't worry, you can find your way back home."
+          />
 
-        <IconTextButton
-          text="Back to Home"
-          icon={ArrowLeft}
-          className="w-50 h-12 text-[16px] mt-5"
-          href="/"
-        />
-      </div>
+          <IconTextButton
+            text="Back to Home"
+            icon={ArrowLeft}
+            className="mt-7 h-12 w-50 text-[16px]"
+            href="/"
+          />
+        </div>
+      </main>
     </div>
   );
 };
-
 export default NotFound;

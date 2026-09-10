@@ -32,8 +32,8 @@ const LeftPanel = () => {
 
 
   return (
-    <div className="w-full lg:w-[45vw]">
-      <div className="relative flex h-dvh flex-col px-2 md:px-4">
+    <div className="w-full lg:w-[45vw] h-full min-h-dvh">
+      <div className="relative flex h-full min-h-dvh flex-col px-2 md:px-4">
 
         <div className={`relative flex shrink-0  flex-col ${step === 1 ? "pt-5 gap-4" : "pt-3 gap-7"} w-full`}>
           {step === 1 ? (
