@@ -1,24 +1,17 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import {
-    motion,
-    useScroll,
-    useTransform,
-} from "motion/react";
-
+import { motion, useScroll, useTransform } from "motion/react";
 import {
     googleSans,
     googleSansFlex,
 } from "@/assets/fonts/font.google";
-
-import MacWindowFrame from "@/components/shared/frames/MacWindowFrame";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 const LandingHowItWorksSection = () => {
     const sectionRef = useRef<HTMLElement>(null);
-    const [isDesktop, setIsDesktop] = useState(false);
     const [container, setContainer] = useState<HTMLElement | null>(null);
+    const [isDesktop, setIsDesktop] = useState(false);
     const reduced = useReducedMotion();
 
     useEffect(() => {
@@ -31,7 +24,6 @@ const LandingHowItWorksSection = () => {
         };
 
         updateMedia();
-
         mediaQuery.addEventListener("change", updateMedia);
 
         return () => {
@@ -40,14 +32,11 @@ const LandingHowItWorksSection = () => {
     }, []);
 
     const { scrollYProgress } = useScroll({
-        container: container
-            ? { current: container }
-            : undefined,
+        container: container ? { current: container } : undefined,
         target: sectionRef,
         offset: ["start start", "end end"],
     });
 
-    // Text scroll animation — unchanged from new version
     const rawTextY = useTransform(
         scrollYProgress,
         [0, 0.6],
@@ -151,9 +140,7 @@ const LandingHowItWorksSection = () => {
                             initial={{
                                 opacity: 0,
                                 y: reduced ? 0 : 10,
-                                letterSpacing: reduced
-                                    ? "0em"
-                                    : "0.1em",
+                                letterSpacing: reduced ? "0em" : "0.1em",
                             }}
                             whileInView={{
                                 opacity: 1,
@@ -254,7 +241,6 @@ const LandingHowItWorksSection = () => {
                 </motion.div>
             </motion.div>
 
-            {/* VIDEO — EXACTLY OLD BEHAVIOUR, NO EXTRA MOTION */}
             <div
                 className="
                     relative
@@ -264,16 +250,18 @@ const LandingHowItWorksSection = () => {
                     lg:mt-[-8vh]
                 "
             >
-                <MacWindowFrame
+                <div
                     className="
                         relative
                         mx-auto
-                        hidden
+                        block
+                        aspect-video
                         w-full
                         shrink-0
                         overflow-hidden
-                        sm:block
-                        lg:max-w-[83vw]
+                        sm:rounded-lg
+                        lg:w-[90vw]
+                        lg:max-w-none
                     "
                 >
                     <video
@@ -289,48 +277,6 @@ const LandingHowItWorksSection = () => {
                             h-full
                             w-full
                             object-cover
-                        "
-                    />
-
-                    <div
-                        className="
-                            relative
-                            z-10
-                            aspect-video
-                            opacity-0
-                            w-full
-                            shrink-0
-                        "
-                    />
-                </MacWindowFrame>
-
-                <div
-                    className="
-                        relative
-                        block
-                        h-full
-                        min-h-100
-                        max-h-[55svh]
-                        w-full
-                        shrink-0
-                        overflow-hidden
-                        rounded-lg
-                        sm:hidden
-                    "
-                >
-                    <video
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        preload="metadata"
-                        src="/videos/LandingHowItWorks.mp4"
-                        className="
-                            absolute
-                            inset-0
-                            h-full
-                            w-full
-                            object-fill
                         "
                     />
                 </div>

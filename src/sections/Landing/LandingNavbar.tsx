@@ -9,7 +9,13 @@ import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
-const LandingNavbar = () => {
+type LandingNavbarProps = {
+    activeSection?: string;
+};
+
+const LandingNavbar = ({
+    activeSection = "hero",
+}: LandingNavbarProps) => {
     const [scrolled, setScrolled] = useState(false);
     const [activeMenu, setActiveMenu] = useState<string | null>(null);
     const [hidden, setHidden] = useState(false);
@@ -20,6 +26,8 @@ const LandingNavbar = () => {
     const lastScrollTop = useRef(0);
     const animationFrame = useRef<number | null>(null);
     const scrollAnimationFrame = useRef<number | null>(null);
+
+    const isHeroActive = activeSection === "hero";
 
     const navItems = [
         {
@@ -146,7 +154,8 @@ const LandingNavbar = () => {
         const containerRect =
             scrollContainer.getBoundingClientRect();
 
-        const sectionRect = section.getBoundingClientRect();
+        const sectionRect =
+            section.getBoundingClientRect();
 
         const target =
             start + sectionRect.top - containerRect.top;
@@ -162,7 +171,8 @@ const LandingNavbar = () => {
 
         const startTime = performance.now();
 
-        const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+        const easeOutCubic = (t: number) =>
+            1 - Math.pow(1 - t, 3);
 
         const animateScroll = (currentTime: number) => {
             const elapsed = currentTime - startTime;
@@ -183,17 +193,33 @@ const LandingNavbar = () => {
         scrollAnimationFrame.current =
             requestAnimationFrame(animateScroll);
 
-        window.history.replaceState(null, "", `/#${sectionId}`);
+        window.history.replaceState(
+            null,
+            "",
+            `/#${sectionId}`
+        );
     }, []);
 
-    const navbarActive = scrolled || activeMenu !== null;
+    const navbarActive =
+        scrolled || activeMenu !== null;
 
     const entranceY = reduced ? 0 : -12;
     const entranceOpacity = reduced ? 1 : 0;
 
+    const heroContentClass = isHeroActive
+        ? "text-white"
+        : "";
+
+    const heroButtonClass = isHeroActive
+        ? "text-white border-white"
+        : "";
+
     return (
         <motion.header
-            initial={{ y: entranceY, opacity: entranceOpacity }}
+            initial={{
+                y: entranceY,
+                opacity: entranceOpacity,
+            }}
             animate={{
                 y:
                     hidden && activeMenu === null
@@ -238,6 +264,7 @@ const LandingNavbar = () => {
                 transition-[background-color,border-color,box-shadow,backdrop-filter]
                 duration-500
                 ease-[cubic-bezier(0.22,1,0.36,1)]
+                ${heroContentClass}
 
                 ${
                     navbarActive
@@ -274,16 +301,31 @@ const LandingNavbar = () => {
                 >
                     <motion.div
                         className="shrink-0"
-                        initial={{ opacity: reduced ? 1 : 0, x: reduced ? 0 : -8 }}
-                        animate={{ opacity: 1, x: 0 }}
+                        initial={{
+                            opacity: reduced ? 1 : 0,
+                            x: reduced ? 0 : -8,
+                        }}
+                        animate={{
+                            opacity: 1,
+                            x: 0,
+                        }}
                         transition={{
                             delay: 0.1,
                             duration: 0.5,
                             ease: [0.22, 1, 0.36, 1],
                         }}
                     >
-                        <LogoHorizontal />
+                        <div
+                            className={
+                                isHeroActive
+                                    ? "text-white"
+                                    : ""
+                            }
+                        >
+                            <LogoHorizontal />
+                        </div>
                     </motion.div>
+
                     <nav
                         className={`
                             absolute
@@ -299,11 +341,13 @@ const LandingNavbar = () => {
                             lg:grid
                             2xl:w-[40vw]
                             ${googleSansFlex.className}
+                            ${heroContentClass}
                         `}
                         aria-label="Main navigation"
                     >
                         {navItems.map((item, i) => {
-                            const isActive = activeMenu === item.name;
+                            const isActive =
+                                activeMenu === item.name;
 
                             return (
                                 <motion.div
@@ -317,7 +361,10 @@ const LandingNavbar = () => {
                                         opacity: reduced ? 1 : 0,
                                         y: reduced ? 0 : -6,
                                     }}
-                                    animate={{ opacity: 1, y: 0 }}
+                                    animate={{
+                                        opacity: 1,
+                                        y: 0,
+                                    }}
                                     transition={{
                                         delay: 0.18 + i * 0.06,
                                         duration: 0.4,
@@ -337,8 +384,11 @@ const LandingNavbar = () => {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         onClick={(event) => {
-                                            if (item.scrollToSection) {
+                                            if (
+                                                item.scrollToSection
+                                            ) {
                                                 event.preventDefault();
+
                                                 scrollToSection(
                                                     item.scrollToSection
                                                 );
@@ -378,7 +428,10 @@ const LandingNavbar = () => {
                             opacity: reduced ? 1 : 0,
                             x: reduced ? 0 : 8,
                         }}
-                        animate={{ opacity: 1, x: 0 }}
+                        animate={{
+                            opacity: 1,
+                            x: 0,
+                        }}
                         transition={{
                             delay: 0.22,
                             duration: 0.5,
@@ -391,14 +444,19 @@ const LandingNavbar = () => {
                             rel="noopener noreferrer"
                         >
                             <AnimatedButton
-                                className="
+                                className={`
                                     hidden
                                     h-11.5
                                     w-37
                                     rounded-3xl
                                     bg-green-brand
                                     xl:inline-flex
-                                "
+                                    ${
+                                        isHeroActive
+                                            ? "text-white"
+                                            : ""
+                                    }
+                                `}
                                 text="Get Started"
                             />
                         </Link>
@@ -409,7 +467,7 @@ const LandingNavbar = () => {
                             rel="noopener noreferrer"
                         >
                             <HoverFillButton
-                                className="
+                                className={`
                                     h-12
                                     w-35
                                     rounded-full
@@ -419,7 +477,8 @@ const LandingNavbar = () => {
                                     text-showcase
                                     xl:h-11
                                     xl:w-30
-                                "
+                                    ${heroButtonClass}
+                                `}
                                 text="Log In"
                             />
                         </Link>
@@ -451,7 +510,7 @@ const LandingNavbar = () => {
                     "
                 >
                     <div
-                        className="
+                        className={`
                             absolute
                             left-1/2
                             top-0
@@ -462,7 +521,8 @@ const LandingNavbar = () => {
                             text-md
                             lg:grid
                             2xl:w-[40vw]
-                        "
+                            ${heroContentClass}
+                        `}
                     >
                         {navItems.map((item) => (
                             <div
@@ -485,16 +545,20 @@ const LandingNavbar = () => {
                                     {item.submenu.map(
                                         (subItem, index) => {
                                             const isVisible =
-                                                activeMenu === item.name;
+                                                activeMenu ===
+                                                item.name;
 
                                             return (
                                                 <motion.div
-                                                    key={subItem.name}
+                                                    key={
+                                                        subItem.name
+                                                    }
                                                     initial={false}
                                                     animate={{
-                                                        opacity: isVisible
-                                                            ? 1
-                                                            : 0,
+                                                        opacity:
+                                                            isVisible
+                                                                ? 1
+                                                                : 0,
                                                         y: isVisible
                                                             ? 0
                                                             : 10,
@@ -502,10 +566,13 @@ const LandingNavbar = () => {
                                                     transition={{
                                                         duration: 0.3,
                                                         delay: isVisible
-                                                            ? index * 0.06
+                                                            ? index *
+                                                              0.06
                                                             : 0,
                                                         ease: [
-                                                            0.22, 1, 0.36,
+                                                            0.22,
+                                                            1,
+                                                            0.36,
                                                             1,
                                                         ],
                                                     }}
@@ -516,7 +583,9 @@ const LandingNavbar = () => {
                                                     }
                                                 >
                                                     <Link
-                                                        href={subItem.href}
+                                                        href={
+                                                            subItem.href
+                                                        }
                                                         target="_blank"
                                                         rel="noopener noreferrer"
                                                         className="
@@ -537,7 +606,9 @@ const LandingNavbar = () => {
                                                             hover:after:w-full
                                                         "
                                                     >
-                                                        {subItem.name}
+                                                        {
+                                                            subItem.name
+                                                        }
                                                     </Link>
                                                 </motion.div>
                                             );
