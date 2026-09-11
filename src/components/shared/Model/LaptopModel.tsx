@@ -1,10 +1,18 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
-import { Canvas, useThree } from "@react-three/fiber";
+import {
+    memo,
+    useEffect,
+    useMemo,
+    useRef,
+} from "react";
+import {
+    Canvas,
+    useFrame,
+    useThree,
+} from "@react-three/fiber";
 import {
     Environment,
-    OrbitControls,
     useGLTF,
 } from "@react-three/drei";
 import * as THREE from "three";
@@ -13,8 +21,13 @@ type LaptopProps = {
     onReady?: () => void;
 };
 
-function Laptop({ onReady }: LaptopProps) {
-    const { scene } = useGLTF("/models/laptop.glb");
+const MODEL_PATH = "/models/laptop.glb";
+
+function Laptop({
+    onReady,
+}: LaptopProps) {
+    const { scene } = useGLTF(MODEL_PATH);
+
     const readyRef = useRef(false);
 
     const model = useMemo(() => {
@@ -22,10 +35,14 @@ function Laptop({ onReady }: LaptopProps) {
 
         clone.updateMatrixWorld(true);
 
-        const box = new THREE.Box3().setFromObject(clone);
-        const center = new THREE.Vector3();
+        const box = new THREE.Box3().setFromObject(
+            clone
+        );
 
-        box.getCenter(center);
+        const center = box.getCenter(
+            new THREE.Vector3()
+        );
+
         clone.position.sub(center);
 
         clone.updateMatrixWorld(true);
@@ -35,56 +52,111 @@ function Laptop({ onReady }: LaptopProps) {
 
     useEffect(() => {
         model.traverse((object) => {
-            if (!(object instanceof THREE.Mesh)) return;
+            if (!(object instanceof THREE.Mesh)) {
+                return;
+            }
 
             object.castShadow = false;
             object.receiveShadow = false;
+            object.frustumCulled = true;
 
-            const materials = Array.isArray(object.material)
+            const materials = Array.isArray(
+                object.material
+            )
                 ? object.material
                 : [object.material];
 
-            materials.forEach((material) => {
+            for (const material of materials) {
                 if (
-                    material instanceof THREE.MeshStandardMaterial
+                    material instanceof
+                    THREE.MeshStandardMaterial
                 ) {
                     material.envMapIntensity = 0.7;
                 }
-            });
+            }
         });
 
-        if (!readyRef.current) {
-            readyRef.current = true;
-            onReady?.();
+        if (readyRef.current) {
+            return;
         }
+
+        readyRef.current = true;
+        onReady?.();
     }, [model, onReady]);
 
-    return <primitive object={model} />;
-}
-
-function ResponsiveLaptop({
-    onReady,
-}: LaptopProps) {
-    const { size } = useThree();
-
-    const scale =
-        0.25 *
-        THREE.MathUtils.clamp(
-            size.width / 1440,
-            0.75,
-            0.80
-        );
-
     return (
-        <group scale={scale}>
-            <Laptop onReady={onReady} />
-        </group>
+        <primitive
+            object={model}
+            dispose={null}
+        />
     );
 }
 
-export default function LaptopModel({
+const MemoizedLaptop = memo(Laptop);
+
+type ResponsiveLaptopProps = LaptopProps & {
+    isActive: boolean;
+};
+
+const ResponsiveLaptop = memo(
+    function ResponsiveLaptop({
+        onReady,
+        isActive,
+    }: ResponsiveLaptopProps) {
+        const { size } = useThree();
+
+        const groupRef =
+            useRef<THREE.Group>(null);
+
+        const scale = useMemo(
+            () =>
+                0.25 *
+                THREE.MathUtils.clamp(
+                    size.width / 1440,
+                    0.75,
+                    0.80
+                ),
+            [size.width]
+        );
+
+        useFrame((_, delta) => {
+            if (!isActive) {
+                return;
+            }
+
+            const group = groupRef.current;
+
+            if (!group) {
+                return;
+            }
+
+            group.rotation.y += delta * 0.35;
+        });
+
+        return (
+            <group
+                ref={groupRef}
+                scale={scale}
+            >
+                <MemoizedLaptop
+                    onReady={onReady}
+                />
+            </group>
+        );
+    }
+);
+
+type LaptopCanvasProps = LaptopProps & {
+    isActive?: boolean;
+};
+
+function LaptopCanvas({
     onReady,
-}: LaptopProps) {
+    isActive = true,
+}: LaptopCanvasProps) {
+    const canvasRef =
+        useRef<HTMLCanvasElement>(null);
+
     return (
         <Canvas
             camera={{
@@ -97,9 +169,16 @@ export default function LaptopModel({
             gl={{
                 antialias: true,
                 alpha: true,
-                powerPreference: "high-performance",
-                toneMapping: THREE.ACESFilmicToneMapping,
+                powerPreference:
+                    "high-performance",
+                toneMapping:
+                    THREE.ACESFilmicToneMapping,
                 toneMappingExposure: 1,
+            }}
+            frameloop="always"
+            onCreated={({ gl }) => {
+                canvasRef.current =
+                    gl.domElement;
             }}
             style={{
                 width: "100%",
@@ -108,7 +187,9 @@ export default function LaptopModel({
                 touchAction: "pan-y",
             }}
         >
-            <ambientLight intensity={0.55} />
+            <ambientLight
+                intensity={0.55}
+            />
 
             <directionalLight
                 position={[4, 6, 5]}
@@ -124,17 +205,12 @@ export default function LaptopModel({
 
             <ResponsiveLaptop
                 onReady={onReady}
-            />
-
-            <OrbitControls
-                enableZoom={false}
-                enablePan={false}
-                enableDamping={true}
-                dampingFactor={0.08}
-                rotateSpeed={0.6}
-                minPolarAngle={Math.PI * 0.32}
-                maxPolarAngle={Math.PI * 0.68}
+                isActive={isActive}
             />
         </Canvas>
     );
 }
+
+export default memo(LaptopCanvas);
+
+useGLTF.preload(MODEL_PATH);

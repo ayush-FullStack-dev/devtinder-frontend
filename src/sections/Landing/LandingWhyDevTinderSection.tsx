@@ -5,56 +5,122 @@ import {
     googleSansFlex,
 } from "@/assets/fonts/font.google";
 import LaptopModel from "@/components/shared/Model/LaptopModel";
-import { useEffect, useRef, useState } from "react";
+import {
+    useEffect,
+    useRef,
+    useState,
+} from "react";
 
 const LandingWhyDevTinderSection = () => {
     const sectionRef = useRef<HTMLElement>(null);
 
-    const [isDesktop, setIsDesktop] = useState(false);
-    const [shouldLoad3D, setShouldLoad3D] = useState(false);
-    const [modelReady, setModelReady] = useState(false);
+    const [isDesktop, setIsDesktop] =
+        useState(false);
+
+    const [shouldLoad3D, setShouldLoad3D] =
+        useState(false);
+
+    const [modelReady, setModelReady] =
+        useState(false);
 
     useEffect(() => {
-        const mediaQuery = window.matchMedia("(min-width: 1024px)");
+        const mediaQuery = window.matchMedia(
+            "(min-width: 1024px)"
+        );
 
         const update = () => {
             setIsDesktop(mediaQuery.matches);
         };
 
         update();
-        mediaQuery.addEventListener("change", update);
+
+        mediaQuery.addEventListener(
+            "change",
+            update
+        );
 
         return () => {
-            mediaQuery.removeEventListener("change", update);
+            mediaQuery.removeEventListener(
+                "change",
+                update
+            );
         };
     }, []);
 
     useEffect(() => {
-        if (!isDesktop || shouldLoad3D) return;
+        if (!isDesktop || shouldLoad3D) {
+            return;
+        }
 
         const section = sectionRef.current;
         const scrollContainer =
             document.getElementById("main-scroll");
 
-        if (!section || !scrollContainer) return;
+        if (!section || !scrollContainer) {
+            return;
+        }
 
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (!entry.isIntersecting) return;
+        let idleId: number | undefined;
+        let timeoutId:
+            | ReturnType<typeof setTimeout>
+            | undefined;
 
-                setShouldLoad3D(true);
-                observer.disconnect();
-            },
-            {
-                root: scrollContainer,
-                rootMargin: "600px 0px",
-                threshold: 0,
-            }
-        );
+        const load = () => {
+            setShouldLoad3D(true);
+        };
+
+        const observer =
+            new IntersectionObserver(
+                ([entry]) => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    }
+
+                    observer.disconnect();
+
+                    if (
+                        "requestIdleCallback" in
+                        window
+                    ) {
+                        idleId =
+                            window.requestIdleCallback(
+                                load,
+                                {
+                                    timeout: 1500,
+                                }
+                            );
+                    } else {
+                        timeoutId = setTimeout(
+                            load,
+                            300
+                        );
+                    }
+                },
+                {
+                    root: scrollContainer,
+                    rootMargin: "100px 0px",
+                    threshold: 0.01,
+                }
+            );
 
         observer.observe(section);
 
-        return () => observer.disconnect();
+        return () => {
+            observer.disconnect();
+
+            if (
+                idleId !== undefined &&
+                "cancelIdleCallback" in window
+            ) {
+                window.cancelIdleCallback(
+                    idleId
+                );
+            }
+
+            if (timeoutId !== undefined) {
+                clearTimeout(timeoutId);
+            }
+        };
     }, [isDesktop, shouldLoad3D]);
 
     return (
@@ -174,16 +240,18 @@ const LandingWhyDevTinderSection = () => {
                     `}
                 >
                     <p>
-                        DevTinder is built for real connections.
+                        DevTinder is built for real
+                        connections.
                     </p>
 
                     <p>
-                        No clutter. No noise. Just the right
-                        developers,
+                        No clutter. No noise. Just the
+                        right developers,
                     </p>
 
                     <p>
-                        building the right things, together.
+                        building the right things,
+                        together.
                     </p>
                 </div>
             </div>
@@ -228,9 +296,10 @@ const LandingWhyDevTinderSection = () => {
                             transition-opacity
                             duration-500
                             ease-in-out
-                            ${modelReady
-                                ? "opacity-0"
-                                : "opacity-100"
+                            ${
+                                modelReady
+                                    ? "opacity-0"
+                                    : "opacity-100"
                             }
                         `}
                     >
@@ -259,14 +328,19 @@ const LandingWhyDevTinderSection = () => {
                                 transition-opacity
                                 duration-500
                                 ease-out
-                                ${modelReady
-                                    ? "opacity-100"
-                                    : "opacity-0"
+                                ${
+                                    modelReady
+                                        ? "opacity-100"
+                                        : "opacity-0"
                                 }
                             `}
                         >
                             <LaptopModel
-                                onReady={() => setModelReady(true)}
+                                onReady={() =>
+                                    setModelReady(
+                                        true
+                                    )
+                                }
                             />
                         </div>
                     )}
