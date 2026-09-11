@@ -179,7 +179,7 @@ function ResponsiveLaptop({
             0.25 *
             THREE.MathUtils.clamp(
                 size.width / 1440,
-                0.75,
+                1,
                 0.8
             )
         );
