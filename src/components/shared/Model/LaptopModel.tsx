@@ -23,6 +23,7 @@ type LaptopProps = {
 };
 
 const MODEL_PATH = "/models/laptop.glb";
+const SCREEN_VIDEO_PATH = "/videos/LandingHowItWorks.mp4";
 
 function Laptop({
     onReady,
@@ -52,6 +53,9 @@ function Laptop({
     }, [scene]);
 
     useEffect(() => {
+        let video: HTMLVideoElement | null = null;
+        let videoTexture: THREE.VideoTexture | null = null;
+
         model.traverse((object) => {
             if (!(object instanceof THREE.Mesh)) {
                 return;
@@ -61,29 +65,93 @@ function Laptop({
             object.receiveShadow = false;
             object.frustumCulled = true;
 
-            const materials = Array.isArray(
-                object.material
-            )
-                ? object.material
-                : [object.material];
+            if (object.name !== "Screen_Display") {
+                const materials = Array.isArray(
+                    object.material
+                )
+                    ? object.material
+                    : [object.material];
 
-            for (const material of materials) {
-                if (
-                    material instanceof
-                    THREE.MeshStandardMaterial
-                ) {
-                    material.envMapIntensity = 0.7;
+                for (const material of materials) {
+                    if (
+                        material instanceof
+                        THREE.MeshStandardMaterial
+                    ) {
+                        material.envMapIntensity = 0.7;
+                    }
                 }
+
+                return;
             }
+
+            video = document.createElement("video");
+            video.src = SCREEN_VIDEO_PATH;
+            video.loop = true;
+            video.muted = true;
+            video.playsInline = true;
+            video.autoplay = true;
+            video.preload = "auto";
+
+            videoTexture =
+                new THREE.VideoTexture(video);
+
+            videoTexture.colorSpace =
+                THREE.SRGBColorSpace;
+            videoTexture.center.set(0.5, 0.5);
+            videoTexture.rotation = Math.PI;
+
+
+            videoTexture.minFilter =
+                THREE.LinearFilter;
+
+            videoTexture.magFilter =
+                THREE.LinearFilter;
+
+            videoTexture.generateMipmaps = false;
+
+            const screenMaterial =
+                new THREE.MeshBasicMaterial({
+                    map: videoTexture,
+                    side: THREE.DoubleSide,
+                    toneMapped: false,
+                });
+
+            object.material = screenMaterial;
+
+            object.material.needsUpdate = true;
+
+            video.addEventListener(
+                "loadeddata",
+                () => {
+                    video?.play()
+                },
+                { once: true }
+            );
+
+            video.addEventListener(
+                "error",
+                () => {
+                }
+            );
+
+            video.load();
         });
 
-        if (readyRef.current) {
-            return;
+        if (!readyRef.current) {
+            readyRef.current = true;
+            onReady?.();
         }
 
-        readyRef.current = true;
-        onReady?.();
-    }, [model, onReady]);
+        return () => {
+            if (video) {
+                video.pause();
+                video.removeAttribute("src");
+                video.load();
+            }
+
+            videoTexture?.dispose();
+        };
+    }, [model]);
 
     return (
         <primitive
