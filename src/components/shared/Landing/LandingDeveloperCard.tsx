@@ -628,7 +628,7 @@ const LandingDeveloperCard = ({
                                 autoPlay={autoPlay}
                             />
 
-                            <div className="absolute inset-0 z-10 flex lg:hidden">
+                            <div className="absolute inset-0 z-10 flex xl:hidden">
                                 <button
                                     type="button"
                                     aria-label="Previous image"
@@ -675,7 +675,7 @@ const LandingDeveloperCard = ({
                                     hidden
                                     items-center
                                     justify-between
-                                    lg:group-hover:flex
+                                    xl:group-hover:flex
                                 "
                             >
                                 <button

@@ -229,9 +229,12 @@ const LandingDiscoverSection = ({
                     will-change-transform
                     sm:w-[80vw]
                     sm:self-center
-                    lg:w-[30vw]
+                    lg:w-[40vw]
+                    xl:w-[35vw]
+                    2xl:w-[32vw]
                     lg:max-h-155
                     3xl:min-h-0
+                    4xl:w-[33vw]
                     3xl:max-h-none
                     3xl:h-[min(55vh,900px)]
                     5xl:h-[min(60vh,1500px)]
