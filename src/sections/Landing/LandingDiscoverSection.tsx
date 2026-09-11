@@ -11,6 +11,7 @@ import { shuffle } from "@/helpers/shuffle";
 import Link from "next/link";
 import { motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 const LandingDiscoverSection = ({
     isLoggedIn,
@@ -22,15 +23,14 @@ const LandingDiscoverSection = ({
     );
     const sectionRef = useRef<HTMLElement>(null);
     const [isVisible, setIsVisible] = useState(false);
+    const reduced = useReducedMotion();
 
     useEffect(() => {
         const observer = new IntersectionObserver(
             ([entry]) => {
                 setIsVisible(entry.isIntersecting);
             },
-            {
-                threshold: 0.3,
-            }
+            { threshold: 0.3 }
         );
 
         if (sectionRef.current) {
@@ -43,6 +43,8 @@ const LandingDiscoverSection = ({
     useEffect(() => {
         setDevelopers(shuffle(DeveloperProfilesDemoData));
     }, []);
+
+    const ease = [0.22, 1, 0.36, 1] as const;
 
     return (
         <section
@@ -69,22 +71,10 @@ const LandingDiscoverSection = ({
             ref={sectionRef}
         >
             <motion.div
-                initial={{
-                    opacity: 0,
-                    x: -40,
-                }}
-                whileInView={{
-                    opacity: 1,
-                    x: 0,
-                }}
-                viewport={{
-                    once: true,
-                    amount: 0.1,
-                }}
-                transition={{
-                    duration: 0.65,
-                    ease: [0.22, 1, 0.36, 1],
-                }}
+                initial={{ opacity: 0, x: reduced ? 0 : -48 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, amount: 0.1 }}
+                transition={{ duration: 0.7, ease }}
                 className="
                     -mt-5
                     flex
@@ -115,31 +105,31 @@ const LandingDiscoverSection = ({
                         10xl:text-[5.5vw]
                     `}
                 >
-                    <p>A lot can happen after your first</p>
+                    <motion.p
+                        initial={{ opacity: 0, x: reduced ? 0 : -24 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true, amount: 0.1 }}
+                        transition={{ delay: 0.05, duration: 0.55, ease }}
+                    >
+                        A lot can happen after your first
+                    </motion.p>
 
-                    <p className="text-green-brand">
+                    <motion.p
+                        className="text-green-brand"
+                        initial={{ opacity: 0, x: reduced ? 0 : -24 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true, amount: 0.1 }}
+                        transition={{ delay: 0.12, duration: 0.55, ease }}
+                    >
                         connection.
-                    </p>
+                    </motion.p>
                 </div>
 
                 <motion.div
-                    initial={{
-                        opacity: 0,
-                        y: 14,
-                    }}
-                    whileInView={{
-                        opacity: 1,
-                        y: 0,
-                    }}
-                    viewport={{
-                        once: true,
-                        amount: 0.1,
-                    }}
-                    transition={{
-                        delay: 0.08,
-                        duration: 0.5,
-                        ease: [0.22, 1, 0.36, 1],
-                    }}
+                    initial={{ opacity: 0, y: reduced ? 0 : 14 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.1 }}
+                    transition={{ delay: 0.2, duration: 0.5, ease }}
                     className={`
                         ${googleSans.className}
                         max-w-full
@@ -164,77 +154,73 @@ const LandingDiscoverSection = ({
                     </p>
                 </motion.div>
 
-                <Link
-                    href="/discover/feed"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="
-                        mt-[2vh]
-                        ml-2
-                        self-start
-                        xs:self-center
-                        lg:self-start
-                    "
+                <motion.div
+                    initial={{ opacity: 0, y: reduced ? 0 : 12 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.1 }}
+                    transition={{ delay: 0.28, duration: 0.48, ease }}
                 >
-                    <AnimatedButton
-                        text="Start Connecting"
+                    <Link
+                        href="/discover/feed"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="
-                            h-12
-                            w-[90vw]
-                            rounded-full
-                            bg-green-brand
-                            px-6
-                            text-center
-                            font-bold
-                            xs:w-[70vw]
-                            sm:h-14
-                            sm:text-lg
-                            lg:w-90
-                            lg:h-15
-                            lg:text-xl
-                            xl:w-100
-                            xl:h-16
-                            xl:text-xl
-                            2xl:w-110
-                            2xl:h-17
-                            2xl:text-2xl
-                            3xl:w-[24vw]
-                            3xl:h-[7vh]
-                            3xl:text-[2.2vh]
-                            5xl:w-[22vw]
-                            5xl:h-[7.5vh]
-                            5xl:text-[2.5vh]
-                            7xl:w-[20vw]
-                            7xl:h-[8vh]
-                            7xl:text-[2.7vh]
-                            10xl:w-[18vw]
-                            10xl:h-[8.5vh]
-                            10xl:text-[3vh]
+                            mt-[2vh]
+                            ml-2
+                            self-start
+                            xs:self-center
+                            lg:self-start
                         "
-                    />
-                </Link>
+                    >
+                        <AnimatedButton
+                            text="Start Connecting"
+                            className="
+                                h-12
+                                w-[90vw]
+                                rounded-full
+                                bg-green-brand
+                                px-6
+                                text-center
+                                font-bold
+                                xs:w-[70vw]
+                                sm:h-14
+                                sm:text-lg
+                                lg:w-90
+                                lg:h-15
+                                lg:text-xl
+                                xl:w-100
+                                xl:h-16
+                                xl:text-xl
+                                2xl:w-110
+                                2xl:h-17
+                                2xl:text-2xl
+                                3xl:w-[24vw]
+                                3xl:h-[7vh]
+                                3xl:text-[2.2vh]
+                                5xl:w-[22vw]
+                                5xl:h-[7.5vh]
+                                5xl:text-[2.5vh]
+                                7xl:w-[20vw]
+                                7xl:h-[8vh]
+                                7xl:text-[2.7vh]
+                                10xl:w-[18vw]
+                                10xl:h-[8.5vh]
+                                10xl:text-[3vh]
+                            "
+                        />
+                    </Link>
+                </motion.div>
             </motion.div>
 
             <motion.div
                 initial={{
                     opacity: 0,
-                    x: 40,
-                    scale: 0.98,
+                    x: reduced ? 0 : 48,
+                    scale: reduced ? 1 : 0.97,
                 }}
-                whileInView={{
-                    opacity: 1,
-                    x: 0,
-                    scale: 1,
-                }}
-                viewport={{
-                    once: true,
-                    amount: 0.08,
-                }}
-                transition={{
-                    duration: 0.7,
-                    delay: 0.05,
-                    ease: [0.22, 1, 0.36, 1],
-                }}
+                whileInView={{ opacity: 1, x: 0, scale: 1 }}
+                viewport={{ once: true, amount: 0.08 }}
+                transition={{ duration: 0.72, delay: 0.08, ease }}
                 className="
                     h-[min(70vw,620px)]
                     min-h-155

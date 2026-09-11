@@ -13,20 +13,18 @@ import {
 } from "@/assets/fonts/font.google";
 
 import MacWindowFrame from "@/components/shared/frames/MacWindowFrame";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 const LandingHowItWorksSection = () => {
     const sectionRef = useRef<HTMLElement>(null);
     const [isDesktop, setIsDesktop] = useState(false);
     const [container, setContainer] = useState<HTMLElement | null>(null);
+    const reduced = useReducedMotion();
 
     useEffect(() => {
-        setContainer(
-            document.getElementById("main-scroll")
-        );
+        setContainer(document.getElementById("main-scroll"));
 
-        const mediaQuery = window.matchMedia(
-            "(min-width: 1024px)"
-        );
+        const mediaQuery = window.matchMedia("(min-width: 1024px)");
 
         const updateMedia = () => {
             setIsDesktop(mediaQuery.matches);
@@ -34,16 +32,10 @@ const LandingHowItWorksSection = () => {
 
         updateMedia();
 
-        mediaQuery.addEventListener(
-            "change",
-            updateMedia
-        );
+        mediaQuery.addEventListener("change", updateMedia);
 
         return () => {
-            mediaQuery.removeEventListener(
-                "change",
-                updateMedia
-            );
+            mediaQuery.removeEventListener("change", updateMedia);
         };
     }, []);
 
@@ -55,23 +47,28 @@ const LandingHowItWorksSection = () => {
         offset: ["start start", "end end"],
     });
 
-    const textY = useTransform(
+    // Text scroll animation — unchanged from new version
+    const rawTextY = useTransform(
         scrollYProgress,
         [0, 0.6],
         [0, -20]
     );
 
-    const textOpacity = useTransform(
+    const rawTextOpacity = useTransform(
         scrollYProgress,
         [0, 0.65],
         [1, 0]
     );
 
-    const textScale = useTransform(
+    const rawTextScale = useTransform(
         scrollYProgress,
         [0, 0.4],
         [1, 0.65]
     );
+
+    const textY = reduced ? undefined : rawTextY;
+    const textOpacity = reduced ? undefined : rawTextOpacity;
+    const textScale = reduced ? undefined : rawTextScale;
 
     return (
         <section
@@ -109,10 +106,10 @@ const LandingHowItWorksSection = () => {
                     style={
                         isDesktop
                             ? {
-                                opacity: textOpacity,
-                                y: textY,
-                                scale: textScale,
-                            }
+                                  opacity: textOpacity,
+                                  y: textY,
+                                  scale: textScale,
+                              }
                             : undefined
                     }
                     className="
@@ -127,7 +124,7 @@ const LandingHowItWorksSection = () => {
                     <motion.div
                         initial={{
                             opacity: 0,
-                            scale: 0.97,
+                            scale: reduced ? 1 : 0.97,
                         }}
                         whileInView={{
                             opacity: 1,
@@ -138,7 +135,7 @@ const LandingHowItWorksSection = () => {
                             amount: 0.15,
                         }}
                         transition={{
-                            duration: 0.90,
+                            duration: 0.9,
                             ease: [0.16, 1, 0.3, 1],
                         }}
                         className="
@@ -153,8 +150,10 @@ const LandingHowItWorksSection = () => {
                         <motion.h2
                             initial={{
                                 opacity: 0,
-                                y: 10,
-                                letterSpacing: "0.1em",
+                                y: reduced ? 0 : 10,
+                                letterSpacing: reduced
+                                    ? "0em"
+                                    : "0.1em",
                             }}
                             whileInView={{
                                 opacity: 1,
@@ -180,8 +179,8 @@ const LandingHowItWorksSection = () => {
                                 4xl:text-3xl
                                 5xl:text-4xl
                                 7xl:text-6xl
-                               8xl:text-7xl
-                               9xl:text-9xl
+                                8xl:text-7xl
+                                9xl:text-9xl
                             `}
                         >
                             HOW IT WORKS
@@ -209,7 +208,7 @@ const LandingHowItWorksSection = () => {
                             <motion.p
                                 initial={{
                                     opacity: 0,
-                                    y: 24,
+                                    y: reduced ? 0 : 24,
                                 }}
                                 whileInView={{
                                     opacity: 1,
@@ -230,7 +229,7 @@ const LandingHowItWorksSection = () => {
                             <motion.p
                                 initial={{
                                     opacity: 0,
-                                    y: 24,
+                                    y: reduced ? 0 : 24,
                                 }}
                                 whileInView={{
                                     opacity: 1,
@@ -255,6 +254,7 @@ const LandingHowItWorksSection = () => {
                 </motion.div>
             </motion.div>
 
+            {/* VIDEO — EXACTLY OLD BEHAVIOUR, NO EXTRA MOTION */}
             <div
                 className="
                     relative

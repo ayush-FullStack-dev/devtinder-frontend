@@ -3,11 +3,56 @@
 import { googleSans } from "@/assets/fonts/font.google";
 import AnimatedButton from "@/components/shared/AnimatedButton";
 import Link from "next/link";
-import { motion } from "motion/react";
+import {
+    motion,
+    useMotionValue,
+    useSpring,
+    useTransform,
+} from "motion/react";
+import { useEffect, useRef } from "react";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 const HeroSection = () => {
+    const reduced = useReducedMotion();
+
+    const rawX = useMotionValue(0);
+    const rawY = useMotionValue(0);
+
+    const springConfig = { stiffness: 60, damping: 22, mass: 0.6 };
+    const smoothX = useSpring(rawX, springConfig);
+    const smoothY = useSpring(rawY, springConfig);
+
+    const headlineX = useTransform(smoothX, (v) => v * 0.012);
+    const headlineY = useTransform(smoothY, (v) => v * 0.012);
+    const subX = useTransform(smoothX, (v) => v * 0.007);
+    const subY = useTransform(smoothY, (v) => v * 0.007);
+    const ctaX = useTransform(smoothX, (v) => v * 0.005);
+    const ctaY = useTransform(smoothY, (v) => v * 0.005);
+
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (reduced) return;
+
+        const handlePointer = (e: PointerEvent) => {
+            const cx = window.innerWidth / 2;
+            const cy = window.innerHeight / 2;
+            rawX.set(e.clientX - cx);
+            rawY.set(e.clientY - cy);
+        };
+
+        window.addEventListener("pointermove", handlePointer, {
+            passive: true,
+        });
+        return () =>
+            window.removeEventListener("pointermove", handlePointer);
+    }, [reduced, rawX, rawY]);
+
+    const ease = [0.22, 1, 0.36, 1] as const;
+
     return (
         <div
+            ref={containerRef}
             className="
                 flex
                 min-h-dvh
@@ -22,18 +67,14 @@ const HeroSection = () => {
             <div className="flex flex-col items-center gap-[4vh]">
                 <motion.h1
                     id="hero-heading"
-                    initial={{
-                        opacity: 0,
-                        y: 30,
-                    }}
-                    animate={{
-                        opacity: 1,
-                        y: 0,
-                    }}
-                    transition={{
-                        duration: 0.7,
-                        ease: [0.22, 1, 0.36, 1],
-                    }}
+                    initial={{ opacity: 0, y: reduced ? 0 : 32 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.75, ease }}
+                    style={
+                        reduced
+                            ? undefined
+                            : { x: headlineX, y: headlineY }
+                    }
                     className={`
                         ${googleSans.className}
                         text-center
@@ -47,23 +88,22 @@ const HeroSection = () => {
                         will-change-transform
                     `}
                 >
-                    <span className="block">
+                    <motion.span
+                        className="block"
+                        initial={{ opacity: 0, y: reduced ? 0 : 24 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.65, ease }}
+                    >
                         Meet Build
-                    </span>
+                    </motion.span>
 
                     <motion.span
-                        initial={{
-                            opacity: 0,
-                            y: 16,
-                        }}
-                        animate={{
-                            opacity: 1,
-                            y: 0,
-                        }}
+                        initial={{ opacity: 0, y: reduced ? 0 : 18 }}
+                        animate={{ opacity: 1, y: 0 }}
                         transition={{
-                            delay: 0.2,
-                            duration: 0.5,
-                            ease: [0.22, 1, 0.36, 1],
+                            delay: 0.18,
+                            duration: 0.55,
+                            ease,
                         }}
                         className="
                             block
@@ -76,19 +116,12 @@ const HeroSection = () => {
                 </motion.h1>
 
                 <motion.div
-                    initial={{
-                        opacity: 0,
-                        y: 18,
-                    }}
-                    animate={{
-                        opacity: 1,
-                        y: 0,
-                    }}
-                    transition={{
-                        delay: 0.3,
-                        duration: 0.5,
-                        ease: [0.22, 1, 0.36, 1],
-                    }}
+                    initial={{ opacity: 0, y: reduced ? 0 : 18 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.32, duration: 0.5, ease }}
+                    style={
+                        reduced ? undefined : { x: subX, y: subY }
+                    }
                     className={`
                         ${googleSans.className}
                         max-w-xs
@@ -117,19 +150,14 @@ const HeroSection = () => {
                 <motion.div
                     initial={{
                         opacity: 0,
-                        y: 16,
-                        scale: 0.98,
+                        y: reduced ? 0 : 16,
+                        scale: reduced ? 1 : 0.98,
                     }}
-                    animate={{
-                        opacity: 1,
-                        y: 0,
-                        scale: 1,
-                    }}
-                    transition={{
-                        delay: 0.42,
-                        duration: 0.45,
-                        ease: [0.22, 1, 0.36, 1],
-                    }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ delay: 0.44, duration: 0.48, ease }}
+                    style={
+                        reduced ? undefined : { x: ctaX, y: ctaY }
+                    }
                     className="
                         mt-4
                         w-full
