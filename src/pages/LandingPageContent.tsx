@@ -171,7 +171,7 @@ const LandingPageContent = ({
                 id="home"
                 className="
                     relative
-                    min-h-dvh
+                    min-h-[125dvh]
                     w-full
                     shrink-0
                     overflow-hidden
