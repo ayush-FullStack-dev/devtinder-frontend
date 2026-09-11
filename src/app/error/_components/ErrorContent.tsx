@@ -10,9 +10,9 @@ const ErrorPageContent = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
 
-    const title = searchParams.get("title");
-    const message = searchParams.get("message");
-    const redirect = searchParams.get("redirect");
+    const title = searchParams?.get("title");
+    const message = searchParams?.get("message");
+    const redirect = searchParams?.get("redirect");
 
     const reset = () => {
         if (redirect) {
