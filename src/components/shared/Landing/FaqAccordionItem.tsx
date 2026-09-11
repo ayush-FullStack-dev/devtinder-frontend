@@ -23,17 +23,16 @@ const FaqAccordionItem = ({
     return (
         <motion.div
             layout
-            className="w-full flex flex-col gap-4"
+            className="w-full flex flex-col gap-5  lg:gap-[3vh] 4xl:gap-[2vh]"
             onClick={() => onToggle(id)}
         >
             <motion.div
                 layout="position"
-                className={`flex w-full justify-between items-center cursor-pointer select-none ${
-                    isOpen ? "text-green-brand" : ""
-                }`}
+                className={`flex w-full justify-between items-center cursor-pointer select-none ${isOpen ? "text-green-brand" : ""
+                    }`}
             >
                 <h2
-                    className={`${googleSans.className} font-semibold text-xl`}
+                    className={`${googleSans.className} font-semibold text-xl lg:tex-xl 4xl:text-[1.3vw] 6xl:w-[1.5vw]`}
                 >
                     {question}
                 </h2>
@@ -48,7 +47,7 @@ const FaqAccordionItem = ({
                     }}
                     className="shrink-0"
                 >
-                    <ChevronDown size={30} />
+                    <ChevronDown className="size-8 lg:size-10 4xl:size-14 5xl:size-15 6xl:size-17 7xl:size-19 9xl:size-22" />
                 </motion.div>
             </motion.div>
 
@@ -75,7 +74,7 @@ const FaqAccordionItem = ({
                         className="w-[90%] overflow-hidden"
                     >
                         <p
-                            className={`${googleSansFlex.className} text-lg text-muted-foreground`}
+                            className={`${googleSansFlex.className} text-lg lg:text-xl 4xl:text-[1.5vw] text-muted-foreground`}
                         >
                             {answer}
                         </p>

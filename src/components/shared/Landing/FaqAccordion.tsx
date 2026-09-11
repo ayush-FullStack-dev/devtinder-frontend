@@ -54,7 +54,7 @@ const FaqAccordion = () => {
     }
 
     return (
-        <div className="flex flex-col gap-10">
+        <div className="flex flex-col gap-10  lg:gap-[3vh] 4xl:gap-[4vh]">
             {faqItems.map((item) => {
                 return <FaqAccordionItem key={item.id} question={item.question} answer={item.answer} id={item.id}
                     isOpen={openId === item.id}

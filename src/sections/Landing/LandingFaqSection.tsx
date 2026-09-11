@@ -113,13 +113,8 @@ const LandingFaqSection = () => {
                         md:text-xl
                         lg:max-w-full
                         lg:text-2xl
-                        3xl:text-[2.5vh]
-                        4xl:text-[2.7vh]
-                        5xl:text-[2.9vh]
-                        7xl:text-[3.1vh]
-                        8xl:text-[3.2vh]
-                        9xl:text-[3.3vh]
-                        10xl:text-[3.4vh]
+                        4xl:w-full
+                        4xl:text-[2vw]
                     `}
                 >
                     Quick answers to common questions about{" "}
@@ -155,7 +150,7 @@ const LandingFaqSection = () => {
                 Frequently Asked Questions
             </div>
 
-            <div className="mt-10 w-[95%] lg:mt-10 lg:w-[35vw]">
+            <div className="mt-10 w-[95%] lg:mt-[5%] 3xl:[4xl] 5xl:[3xl] lg:w-[35vw]">
                 <FaqAccordion />
             </div>
 
