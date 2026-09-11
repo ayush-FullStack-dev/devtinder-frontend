@@ -88,14 +88,11 @@ function Laptop({
                     THREE.SRGBColorSpace;
 
                 videoTexture.center.set(0.5, 0.5);
-                videoTexture.rotation = Math.PI;
+                videoTexture.rotation = 0;
+                videoTexture.flipY = false;
 
-                videoTexture.minFilter =
-                    THREE.LinearFilter;
-
-                videoTexture.magFilter =
-                    THREE.LinearFilter;
-
+                videoTexture.minFilter = THREE.LinearFilter;
+                videoTexture.magFilter = THREE.LinearFilter;
                 videoTexture.generateMipmaps = false;
 
                 const screenMaterial =
@@ -109,7 +106,7 @@ function Laptop({
                 screenMaterial.needsUpdate = true;
 
                 const playVideo = () => {
-                    void video?.play().catch(() => {});
+                    void video?.play().catch(() => { });
                 };
 
                 video.addEventListener(

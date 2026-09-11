@@ -870,6 +870,8 @@ const LandingDiscoverCard = ({
                         w-full
                         overflow-hidden
                         rounded-[inherit]
+                        cursor-grab
+                        active:cursor-grabbing
                     "
                     drag={
                         isAnimating ||
