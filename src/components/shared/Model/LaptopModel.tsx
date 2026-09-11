@@ -19,6 +19,7 @@ import * as THREE from "three";
 
 type LaptopProps = {
     onReady?: () => void;
+    isActive?: boolean;
 };
 
 const MODEL_PATH = "/models/laptop.glb";
@@ -94,69 +95,68 @@ function Laptop({
 
 const MemoizedLaptop = memo(Laptop);
 
-type ResponsiveLaptopProps = LaptopProps & {
-    isActive: boolean;
-};
+function ResponsiveLaptop({
+    onReady,
+    isActive = true,
+}: LaptopProps) {
+    const { size } = useThree();
 
-const ResponsiveLaptop = memo(
-    function ResponsiveLaptop({
-        onReady,
-        isActive,
-    }: ResponsiveLaptopProps) {
-        const { size } = useThree();
+    const groupRef =
+        useRef<THREE.Group>(null);
 
-        const groupRef =
-            useRef<THREE.Group>(null);
-
-        const scale = useMemo(
-            () =>
-                0.25 *
-                THREE.MathUtils.clamp(
-                    size.width / 1440,
-                    0.75,
-                    0.80
-                ),
-            [size.width]
-        );
-
-        useFrame((_, delta) => {
-            if (!isActive) {
-                return;
-            }
-
-            const group = groupRef.current;
-
-            if (!group) {
-                return;
-            }
-
-            group.rotation.y += delta * 0.35;
-        });
-
+    const scale = useMemo(() => {
         return (
-            <group
-                ref={groupRef}
-                scale={scale}
-            >
-                <MemoizedLaptop
-                    onReady={onReady}
-                />
-            </group>
+            0.25 *
+            THREE.MathUtils.clamp(
+                size.width / 1440,
+                0.75,
+                0.80
+            )
         );
-    }
-);
+    }, [size.width]);
 
-type LaptopCanvasProps = LaptopProps & {
-    isActive?: boolean;
-};
+    useFrame(({ clock }) => {
+        if (!isActive) {
+            return;
+        }
+
+        const group = groupRef.current;
+
+        if (!group) {
+            return;
+        }
+
+        const time = clock.getElapsedTime();
+
+        group.rotation.y =
+            time * 0.22;
+
+        group.rotation.x =
+            Math.sin(time * 0.65) * 0.055;
+
+        group.rotation.z =
+            Math.sin(time * 0.5) * 0.025;
+
+        group.position.y =
+            Math.sin(time * 0.7) * 0.055;
+    });
+
+    return (
+        <group
+            ref={groupRef}
+            scale={scale}
+        >
+            <MemoizedLaptop
+                onReady={onReady}
+            />
+        </group>
+    );
+}
 
 function LaptopCanvas({
     onReady,
     isActive = true,
-}: LaptopCanvasProps) {
-    const canvasRef =
-        useRef<HTMLCanvasElement>(null);
-
+}: LaptopProps) {
     return (
         <Canvas
             camera={{
@@ -176,10 +176,6 @@ function LaptopCanvas({
                 toneMappingExposure: 1,
             }}
             frameloop="always"
-            onCreated={({ gl }) => {
-                canvasRef.current =
-                    gl.domElement;
-            }}
             style={{
                 width: "100%",
                 height: "100%",
@@ -188,20 +184,28 @@ function LaptopCanvas({
             }}
         >
             <ambientLight
-                intensity={0.55}
+                intensity={0.45}
             />
 
             <directionalLight
                 position={[4, 6, 5]}
-                intensity={1}
+                intensity={1.35}
             />
 
             <directionalLight
-                position={[-4, 2, 3]}
-                intensity={0.35}
+                position={[-4, 3, 2]}
+                intensity={0.45}
             />
 
-            <Environment preset="studio" />
+            <directionalLight
+                position={[2, -1, -5]}
+                intensity={0.25}
+            />
+
+            <Environment
+                preset="studio"
+                environmentIntensity={0.8}
+            />
 
             <ResponsiveLaptop
                 onReady={onReady}
