@@ -5,6 +5,7 @@ import {
     useEffect,
     useMemo,
     useRef,
+    useState,
 } from "react";
 
 import {
@@ -22,7 +23,6 @@ import * as THREE from "three";
 
 type LaptopProps = {
     onReady?: () => void;
-    isActive?: boolean;
 };
 
 const MODEL_PATH = "/models/laptop.glb";
@@ -41,9 +41,10 @@ function Laptop({
 
         clone.updateMatrixWorld(true);
 
-        const box = new THREE.Box3().setFromObject(
-            clone
-        );
+        const box =
+            new THREE.Box3().setFromObject(
+                clone
+            );
 
         const center = box.getCenter(
             new THREE.Vector3()
@@ -57,12 +58,17 @@ function Laptop({
     }, [scene]);
 
     useEffect(() => {
-        let video: HTMLVideoElement | null = null;
-        let videoTexture: THREE.VideoTexture | null =
+        let video: HTMLVideoElement | null =
             null;
 
+        let videoTexture:
+            | THREE.VideoTexture
+            | null = null;
+
         model.traverse((object) => {
-            if (!(object instanceof THREE.Mesh)) {
+            if (
+                !(object instanceof THREE.Mesh)
+            ) {
                 return;
             }
 
@@ -70,11 +76,17 @@ function Laptop({
             object.receiveShadow = false;
             object.frustumCulled = true;
 
-            if (object.name === "Screen_Display") {
+            if (
+                object.name ===
+                "Screen_Display"
+            ) {
                 video =
-                    document.createElement("video");
+                    document.createElement(
+                        "video"
+                    );
 
-                video.src = SCREEN_VIDEO_PATH;
+                video.src =
+                    SCREEN_VIDEO_PATH;
                 video.loop = true;
                 video.muted = true;
                 video.playsInline = true;
@@ -82,37 +94,57 @@ function Laptop({
                 video.preload = "auto";
 
                 videoTexture =
-                    new THREE.VideoTexture(video);
+                    new THREE.VideoTexture(
+                        video
+                    );
 
                 videoTexture.colorSpace =
                     THREE.SRGBColorSpace;
 
-                videoTexture.center.set(0.5, 0.5);
+                videoTexture.center.set(
+                    0.5,
+                    0.5
+                );
+
                 videoTexture.rotation = 0;
                 videoTexture.flipY = false;
 
-                videoTexture.minFilter = THREE.LinearFilter;
-                videoTexture.magFilter = THREE.LinearFilter;
-                videoTexture.generateMipmaps = false;
+                videoTexture.minFilter =
+                    THREE.LinearFilter;
+
+                videoTexture.magFilter =
+                    THREE.LinearFilter;
+
+                videoTexture.generateMipmaps =
+                    false;
 
                 const screenMaterial =
-                    new THREE.MeshBasicMaterial({
-                        map: videoTexture,
-                        side: THREE.DoubleSide,
-                        toneMapped: false,
-                    });
+                    new THREE.MeshBasicMaterial(
+                        {
+                            map: videoTexture,
+                            side: THREE.DoubleSide,
+                            toneMapped: false,
+                        }
+                    );
 
-                object.material = screenMaterial;
-                screenMaterial.needsUpdate = true;
+                object.material =
+                    screenMaterial;
+
+                screenMaterial.needsUpdate =
+                    true;
 
                 const playVideo = () => {
-                    void video?.play().catch(() => { });
+                    void video
+                        ?.play()
+                        .catch(() => { });
                 };
 
                 video.addEventListener(
                     "loadeddata",
                     playVideo,
-                    { once: true }
+                    {
+                        once: true,
+                    }
                 );
 
                 video.load();
@@ -120,18 +152,20 @@ function Laptop({
                 return;
             }
 
-            const materials = Array.isArray(
-                object.material
-            )
-                ? object.material
-                : [object.material];
+            const materials =
+                Array.isArray(
+                    object.material
+                )
+                    ? object.material
+                    : [object.material];
 
             for (const material of materials) {
                 if (
                     material instanceof
                     THREE.MeshStandardMaterial
                 ) {
-                    material.envMapIntensity = 0.7;
+                    material.envMapIntensity =
+                        0.7;
                 }
             }
         });
@@ -144,7 +178,9 @@ function Laptop({
         return () => {
             if (video) {
                 video.pause();
-                video.removeAttribute("src");
+                video.removeAttribute(
+                    "src"
+                );
                 video.load();
             }
 
@@ -161,39 +197,70 @@ function Laptop({
 }
 
 const MemoizedLaptop = memo(Laptop);
-
 function ResponsiveLaptop({
     onReady,
-    isActive = true,
 }: LaptopProps) {
     const { size } = useThree();
 
     const groupRef =
         useRef<THREE.Group>(null);
 
+    const [isPaused, setIsPaused] =
+        useState(false);
+
+    const animationTimeRef =
+        useRef(0);
+
+    const lastTimeRef =
+        useRef<number | null>(null);
+
     const scale = useMemo(() => {
         return (
             0.25 *
             THREE.MathUtils.clamp(
                 size.width / 1440,
-                1,
-                0.8
+                0.8,
+                1.07
             )
         );
     }, [size.width]);
 
     useFrame(({ clock }) => {
-        if (!isActive) {
-            return;
-        }
-
         const group = groupRef.current;
 
         if (!group) {
             return;
         }
 
-        const time = clock.getElapsedTime();
+        const currentTime =
+            clock.getElapsedTime();
+
+        if (
+            lastTimeRef.current === null
+        ) {
+            lastTimeRef.current =
+                currentTime;
+        }
+
+        if (isPaused) {
+            lastTimeRef.current =
+                currentTime;
+
+            return;
+        }
+
+        const delta =
+            currentTime -
+            lastTimeRef.current;
+
+        lastTimeRef.current =
+            currentTime;
+
+        animationTimeRef.current +=
+            Math.min(delta, 0.05);
+
+        const time =
+            animationTimeRef.current;
 
         group.rotation.y =
             Math.sin(time * 0.52) *
@@ -211,14 +278,27 @@ function ResponsiveLaptop({
             Math.sin(time * 0.82) * 0.06;
     });
 
+    const handleClick = () => {
+        setIsPaused((current) => {
+            const next = !current;
+
+            if (!next) {
+                lastTimeRef.current =
+                    null;
+            }
+
+            return next;
+        });
+    };
+
     return (
         <group
             ref={groupRef}
             scale={scale}
+            onClick={handleClick}
         >
             <MemoizedLaptop
                 onReady={onReady}
-                isActive={isActive}
             />
         </group>
     );
@@ -226,7 +306,6 @@ function ResponsiveLaptop({
 
 function LaptopCanvas({
     onReady,
-    isActive = true,
 }: LaptopProps) {
     return (
         <Canvas
@@ -246,16 +325,13 @@ function LaptopCanvas({
                     THREE.ACESFilmicToneMapping,
                 toneMappingExposure: 1,
             }}
-            frameloop={
-                isActive
-                    ? "always"
-                    : "never"
-            }
+            frameloop="always"
             style={{
                 width: "100%",
                 height: "100%",
                 display: "block",
                 touchAction: "pan-y",
+                cursor: "pointer",
             }}
         >
             <ambientLight intensity={0.45} />
@@ -282,7 +358,6 @@ function LaptopCanvas({
 
             <ResponsiveLaptop
                 onReady={onReady}
-                isActive={isActive}
             />
         </Canvas>
     );

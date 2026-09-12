@@ -422,9 +422,7 @@ const LandingWhyDevTinderSection =
                                             true
                                         )
                                     }
-                                    isActive={
-                                        isSectionActive
-                                    }
+
                                 />
                             </div>
                         )}
