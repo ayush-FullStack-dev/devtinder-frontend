@@ -28,7 +28,7 @@ const LandingPageContent = ({
 
         if (!main) return;
 
-        const sections = [
+        const sectionIds = [
             "home",
             "discover",
             "how-it-works",
@@ -36,42 +36,49 @@ const LandingPageContent = ({
             "frequently-asked-questions",
         ];
 
-        const handleScroll = () => {
-            const scrollPosition =
-                main.scrollTop +
-                main.clientHeight * 0.35;
+        const updateActiveSection = () => {
+            const scrollTop = main.scrollTop;
+            const sections = sectionIds
+                .map((id) =>
+                    document.getElementById(id)
+                )
+                .filter(
+                    (
+                        section
+                    ): section is HTMLElement =>
+                        section !== null
+                );
 
-            let currentSection = "hero";
+            let current = "hero";
 
-            for (const id of sections) {
-                const section =
-                    document.getElementById(id);
-
-                if (!section) continue;
-
-                const top =
-                    section.offsetTop;
-
-                const bottom =
-                    top +
-                    section.offsetHeight;
-
+            for (const section of sections) {
                 if (
-                    scrollPosition >= top &&
-                    scrollPosition < bottom
+                    scrollTop >=
+                    section.offsetTop - 80
                 ) {
-                    currentSection =
-                        id === "home"
+                    current =
+                        section.id === "home"
                             ? "hero"
-                            : id;
-
+                            : section.id;
+                } else {
                     break;
                 }
             }
 
-            setActiveSection(
-                currentSection
-            );
+            setActiveSection(current);
+        };
+
+        let ticking = false;
+
+        const handleScroll = () => {
+            if (ticking) return;
+
+            ticking = true;
+
+            requestAnimationFrame(() => {
+                updateActiveSection();
+                ticking = false;
+            });
         };
 
         main.addEventListener(
@@ -80,7 +87,7 @@ const LandingPageContent = ({
             { passive: true }
         );
 
-        handleScroll();
+        updateActiveSection();
 
         return () => {
             main.removeEventListener(
@@ -123,7 +130,9 @@ const LandingPageContent = ({
                     absolute
                     inset-0
                     z-10
-                    h-[120dvh]
+                    h-dvh
+                    lg:h-[110dvh]
+                    xl:h-[125dvh]
                 "
             >
                 <KineticMetalFlow />

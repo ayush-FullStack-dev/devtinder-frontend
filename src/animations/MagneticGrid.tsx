@@ -11,9 +11,9 @@ type MagneticGridProps = {
 };
 
 const MagneticGrid = ({
-    gap = 42,
-    lineOpacity = 0.055,
-    influence = 150,
+    gap = 58,
+    lineOpacity = 0.075,
+    influence = 210,
     className = "",
 }: MagneticGridProps) => {
     const containerRef =
@@ -22,9 +22,12 @@ const MagneticGrid = ({
     const canvasRef =
         useRef<HTMLCanvasElement>(null);
 
-    const stateRef = useRef({
+    const stateRef = useRef<{
         render:
-            null as ((time: number) => void) | null,
+            | ((time: number) => void)
+            | null;
+    }>({
+        render: null,
     });
 
     useEffect(() => {
@@ -39,6 +42,7 @@ const MagneticGrid = ({
         const context =
             canvas.getContext("2d", {
                 alpha: true,
+                desynchronized: true,
             });
 
         if (!context) return;
@@ -47,8 +51,14 @@ const MagneticGrid = ({
         let height = 0;
         let dpr = 1;
 
-        let themeObserver:
-            MutationObserver | null = null;
+        let animationFrame = 0;
+        let isVisible = true;
+
+        let theme = document.documentElement.classList.contains(
+            "dark"
+        )
+            ? "dark"
+            : "light";
 
         const pointer = {
             x: -1000,
@@ -57,13 +67,31 @@ const MagneticGrid = ({
             targetY: -1000,
             velocity: 0,
             targetVelocity: 0,
+            initialized: false,
         };
 
-        const getTheme = () => {
-            return document.documentElement
-                .classList.contains("dark")
-                ? "dark"
-                : "light";
+        const gridX: number[] = [];
+        const gridY: number[] = [];
+
+        const rebuildGrid = () => {
+            gridX.length = 0;
+            gridY.length = 0;
+
+            for (
+                let x = 0;
+                x <= width + gap;
+                x += gap
+            ) {
+                gridX.push(x);
+            }
+
+            for (
+                let y = 0;
+                y <= height + gap;
+                y += gap
+            ) {
+                gridY.push(y);
+            }
         };
 
         const resize = () => {
@@ -102,11 +130,25 @@ const MagneticGrid = ({
                 0,
                 0
             );
+
+            rebuildGrid();
         };
 
         const handlePointerMove = (
             event: PointerEvent
         ) => {
+            if (!pointer.initialized) {
+                pointer.x = event.clientX;
+                pointer.y = event.clientY;
+                pointer.targetX =
+                    event.clientX;
+                pointer.targetY =
+                    event.clientY;
+                pointer.initialized = true;
+                pointer.targetVelocity = 0;
+                return;
+            }
+
             const dx =
                 event.clientX -
                 pointer.targetX;
@@ -115,14 +157,12 @@ const MagneticGrid = ({
                 event.clientY -
                 pointer.targetY;
 
-            const distance =
-                Math.sqrt(
-                    dx * dx + dy * dy
-                );
+            const distanceSquared =
+                dx * dx + dy * dy;
 
             pointer.targetVelocity =
                 Math.min(
-                    distance,
+                    Math.sqrt(distanceSquared),
                     80
                 );
 
@@ -133,35 +173,50 @@ const MagneticGrid = ({
                 event.clientY;
         };
 
-        const handlePointerLeave = () => {
+        const resetPointer = () => {
             pointer.targetX = -1000;
             pointer.targetY = -1000;
             pointer.targetVelocity = 0;
+            pointer.initialized = false;
+        };
+
+        const handleVisibility = () => {
+            isVisible =
+                document.visibilityState ===
+                "visible";
         };
 
         const render = (
             elapsed: number
         ) => {
+            if (
+                !isVisible ||
+                width <= 0 ||
+                height <= 0
+            ) {
+                return;
+            }
+
             pointer.x +=
                 (
                     pointer.targetX -
                     pointer.x
-                ) * 0.075;
+                ) * 0.09;
 
             pointer.y +=
                 (
                     pointer.targetY -
                     pointer.y
-                ) * 0.075;
+                ) * 0.09;
 
             pointer.velocity +=
                 (
                     pointer.targetVelocity -
                     pointer.velocity
-                ) * 0.12;
+                ) * 0.14;
 
             pointer.targetVelocity *=
-                0.92;
+                0.9;
 
             context.clearRect(
                 0,
@@ -171,7 +226,7 @@ const MagneticGrid = ({
             );
 
             const rect =
-                canvas.getBoundingClientRect();
+                container.getBoundingClientRect();
 
             const mouseX =
                 pointer.x - rect.left;
@@ -181,23 +236,10 @@ const MagneticGrid = ({
 
             const radius =
                 influence +
-                pointer.velocity * 1.2;
+                pointer.velocity * 1.35;
 
             const radiusSquared =
                 radius * radius;
-
-            const theme =
-                getTheme();
-
-            const baseOpacity =
-                theme === "dark"
-                    ? lineOpacity
-                    : lineOpacity * 0.75;
-
-            const lineColor =
-                theme === "dark"
-                    ? "255,255,255"
-                    : "0,0,0";
 
             const interactionStrength =
                 Math.min(
@@ -208,7 +250,15 @@ const MagneticGrid = ({
             const time =
                 elapsed * 0.001;
 
-            context.lineWidth = 0.7;
+            const lineColor =
+                theme === "dark"
+                    ? "255,255,255"
+                    : "0,0,0";
+
+            const opacity =
+                theme === "dark"
+                    ? lineOpacity
+                    : lineOpacity * 0.72;
 
             const projectPoint = (
                 x: number,
@@ -233,15 +283,13 @@ const MagneticGrid = ({
                     };
                 }
 
-                const distance =
-                    Math.sqrt(
-                        distanceSquared
-                    );
+                const distance = Math.sqrt(
+                    distanceSquared
+                );
 
                 const normalized =
                     1 -
-                    distance /
-                        radius;
+                    distance / radius;
 
                 const falloff =
                     normalized *
@@ -249,19 +297,19 @@ const MagneticGrid = ({
 
                 const wave =
                     Math.sin(
-                        distance * 0.045 -
-                        time * 1.8
+                        distance * 0.038 -
+                            time * 1.8
                     ) *
-                    7 *
+                    13 *
                     falloff;
 
                 const pull =
-                    5 *
+                    9 *
                     falloff *
                     (
                         0.65 +
                         interactionStrength *
-                        0.35
+                            0.35
                     );
 
                 const safeDistance =
@@ -270,6 +318,9 @@ const MagneticGrid = ({
                         1
                     );
 
+                const displacement =
+                    wave + pull;
+
                 return {
                     x:
                         x +
@@ -277,10 +328,7 @@ const MagneticGrid = ({
                             dx /
                             safeDistance
                         ) *
-                        (
-                            wave +
-                            pull
-                        ),
+                        displacement,
 
                     y:
                         y +
@@ -288,40 +336,33 @@ const MagneticGrid = ({
                             dy /
                             safeDistance
                         ) *
-                        (
-                            wave +
-                            pull
-                        ),
+                        displacement,
                 };
             };
 
-            for (
-                let x = 0;
-                x <= width;
-                x += gap
-            ) {
+            context.lineWidth = 0.7;
+            context.strokeStyle =
+                `rgba(${lineColor},${opacity})`;
+
+            for (const x of gridX) {
                 context.beginPath();
 
-                let first = true;
-
                 for (
-                    let y = 0;
-                    y <= height;
-                    y += gap
+                    let index = 0;
+                    index < gridY.length;
+                    index++
                 ) {
                     const point =
                         projectPoint(
                             x,
-                            y
+                            gridY[index]
                         );
 
-                    if (first) {
+                    if (index === 0) {
                         context.moveTo(
                             point.x,
                             point.y
                         );
-
-                        first = false;
                     } else {
                         context.lineTo(
                             point.x,
@@ -329,40 +370,29 @@ const MagneticGrid = ({
                         );
                     }
                 }
-
-                context.strokeStyle =
-                    `rgba(${lineColor},${baseOpacity})`;
 
                 context.stroke();
             }
 
-            for (
-                let y = 0;
-                y <= height;
-                y += gap
-            ) {
+            for (const y of gridY) {
                 context.beginPath();
 
-                let first = true;
-
                 for (
-                    let x = 0;
-                    x <= width;
-                    x += gap
+                    let index = 0;
+                    index < gridX.length;
+                    index++
                 ) {
                     const point =
                         projectPoint(
-                            x,
+                            gridX[index],
                             y
                         );
 
-                    if (first) {
+                    if (index === 0) {
                         context.moveTo(
                             point.x,
                             point.y
                         );
-
-                        first = false;
                     } else {
                         context.lineTo(
                             point.x,
@@ -370,9 +400,6 @@ const MagneticGrid = ({
                         );
                     }
                 }
-
-                context.strokeStyle =
-                    `rgba(${lineColor},${baseOpacity})`;
 
                 context.stroke();
             }
@@ -388,10 +415,15 @@ const MagneticGrid = ({
             container
         );
 
-        themeObserver =
-            new MutationObserver(
-                resize
-            );
+        const themeObserver =
+            new MutationObserver(() => {
+                theme =
+                    document.documentElement.classList.contains(
+                        "dark"
+                    )
+                        ? "dark"
+                        : "light";
+            });
 
         themeObserver.observe(
             document.documentElement,
@@ -415,12 +447,17 @@ const MagneticGrid = ({
 
         window.addEventListener(
             "blur",
-            handlePointerLeave
+            resetPointer
+        );
+
+        document.addEventListener(
+            "visibilitychange",
+            handleVisibility
         );
 
         return () => {
             resizeObserver.disconnect();
-            themeObserver?.disconnect();
+            themeObserver.disconnect();
 
             window.removeEventListener(
                 "pointermove",
@@ -429,11 +466,20 @@ const MagneticGrid = ({
 
             window.removeEventListener(
                 "blur",
-                handlePointerLeave
+                resetPointer
+            );
+
+            document.removeEventListener(
+                "visibilitychange",
+                handleVisibility
             );
 
             stateRef.current.render =
                 null;
+
+            cancelAnimationFrame(
+                animationFrame
+            );
         };
     }, [
         gap,
@@ -441,13 +487,11 @@ const MagneticGrid = ({
         influence,
     ]);
 
-    useAnimationFrame(
-        (time) => {
-            stateRef.current.render?.(
-                time
-            );
-        }
-    );
+    useAnimationFrame((time) => {
+        stateRef.current.render?.(
+            time
+        );
+    });
 
     return (
         <div
