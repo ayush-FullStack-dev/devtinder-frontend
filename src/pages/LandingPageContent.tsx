@@ -1,14 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { motion, useScroll, useTransform } from "motion/react";
 import LandingNavbar from "../sections/Landing/LandingNavbar";
 import HeroSection from "../sections/Landing/LandingHeroSection";
 import DiscoverSection from "../sections/Landing/LandingDiscoverSection";
 import LandingHowItWorksSection from "@/sections/Landing/LandingHowItWorksSection";
 import LandingWhyDevTinderSection from "@/sections/Landing/LandingWhyDevTinderSection";
 import LandingFaqSection from "@/sections/Landing/LandingFaqSection";
-import MagneticGrid from "@/animations/MagneticGrid";
 import KineticMetalFlow from "@/animations/KineticMetalFlow";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 type LandingPageContentProps = {
     isLoggedIn: boolean;
@@ -17,14 +18,34 @@ type LandingPageContentProps = {
 const LandingPageContent = ({
     isLoggedIn,
 }: LandingPageContentProps) => {
+    const mainRef = useRef<HTMLElement>(null);
+    const transitionRef = useRef<HTMLElement>(null);
+
+    const reduced = useReducedMotion();
+
     const [activeSection, setActiveSection] =
         useState("hero");
 
+    const { scrollYProgress } = useScroll({
+        container: mainRef,
+        target: transitionRef,
+        offset: ["start start", "end end"],
+    });
+
+    const heroScale = useTransform(
+        scrollYProgress,
+        [0, 1],
+        [1, 0.75]
+    );
+
+    const heroY = useTransform(
+        scrollYProgress,
+        [0, 0.6],
+        [0, -30]
+    );
+
     useEffect(() => {
-        const main =
-            document.getElementById(
-                "main-scroll"
-            );
+        const main = mainRef.current;
 
         if (!main) return;
 
@@ -38,46 +59,43 @@ const LandingPageContent = ({
 
         const updateActiveSection = () => {
             const scrollTop = main.scrollTop;
-            const sections = sectionIds
-                .map((id) =>
-                    document.getElementById(id)
-                )
-                .filter(
-                    (
-                        section
-                    ): section is HTMLElement =>
-                        section !== null
-                );
 
             let current = "hero";
 
-            for (const section of sections) {
+            for (const id of sectionIds) {
+                const section =
+                    document.getElementById(id);
+
+                if (!section) continue;
+
                 if (
                     scrollTop >=
                     section.offsetTop - 80
                 ) {
                     current =
-                        section.id === "home"
+                        id === "home"
                             ? "hero"
-                            : section.id;
+                            : id;
                 } else {
                     break;
                 }
             }
 
-            setActiveSection(current);
+            setActiveSection((previous) =>
+                previous === current
+                    ? previous
+                    : current
+            );
         };
 
-        let ticking = false;
+        let frame = 0;
 
         const handleScroll = () => {
-            if (ticking) return;
+            if (frame) return;
 
-            ticking = true;
-
-            requestAnimationFrame(() => {
+            frame = requestAnimationFrame(() => {
                 updateActiveSection();
-                ticking = false;
+                frame = 0;
             });
         };
 
@@ -94,11 +112,16 @@ const LandingPageContent = ({
                 "scroll",
                 handleScroll
             );
+
+            if (frame) {
+                cancelAnimationFrame(frame);
+            }
         };
     }, []);
 
     return (
         <main
+            ref={mainRef}
             id="main-scroll"
             className="
                 relative
@@ -115,74 +138,96 @@ const LandingPageContent = ({
         >
             <div
                 className="
-                    pointer-events-none
-                    fixed
-                    inset-0
-                    z-0
-                "
-            >
-                <MagneticGrid />
-            </div>
-
-            <div
-                className="
-                    pointer-events-none
                     absolute
                     inset-0
                     z-10
-                    h-dvh
-                    lg:h-[110dvh]
-                    xl:h-[125dvh]
+                    h-[110dvh]
                 "
             >
                 <KineticMetalFlow />
             </div>
 
-            <div className="relative z-40">
+       
                 <LandingNavbar
-                    activeSection={
-                        activeSection
-                    }
+                    activeSection={activeSection}
                 />
-            </div>
 
             <section
-                id="home"
+                ref={transitionRef}
                 className="
                     relative
                     z-20
-                    min-h-[125dvh]
+                    h-[200svh]
                     w-full
                     shrink-0
-                    overflow-hidden
+                      mb-20
                 "
             >
-                <HeroSection />
-            </section>
-
-            <section
-                id="discover"
-                className="
-                    relative
-                    z-20
-                    min-h-dvh
-                    w-full
-                    shrink-0
-                    py-10
-                "
-            >
-                <DiscoverSection
-                    isLoggedIn={
-                        isLoggedIn
+                <motion.div
+                    style={
+                        reduced
+                            ? undefined
+                            : {
+                                  scale: heroScale,
+                                  y: heroY,
+                              }
                     }
-                />
+                    className="
+                        sticky
+                        top-0
+                        z-10
+                        h-dvh
+                        w-full
+                        overflow-hidden
+                        will-change-transform
+                    "
+                >
+                    <section
+                        id="home"
+                        className="
+                            relative
+                            z-10
+                            h-[110dvh]
+                            w-full
+                            overflow-hidden
+                        "
+                    >
+                        <HeroSection />
+                    </section>
+                </motion.div>
+
+                <div
+                    className="
+                        sticky
+                        top-0
+                        z-30
+                        h-dvh
+                        w-full
+                        bg-background
+                        pt-[8vw]
+                    "
+                >
+                    <section
+                        id="discover"
+                        className="
+                            relative
+                            z-30
+                            h-dvh
+                            w-full
+                        "
+                    >
+                        <DiscoverSection
+                            isLoggedIn={isLoggedIn}
+                        />
+                    </section>
+                </div>
             </section>
 
             <section
                 id="how-it-works"
                 className="
                     relative
-                    z-20
+                    z-30
                     min-h-dvh
                     w-full
                     shrink-0
@@ -196,7 +241,7 @@ const LandingPageContent = ({
                 id="why-devtinder"
                 className="
                     relative
-                    z-20
+                    z-40
                     min-h-dvh
                     w-full
                     shrink-0
@@ -210,7 +255,7 @@ const LandingPageContent = ({
                 id="frequently-asked-questions"
                 className="
                     relative
-                    z-20
+                    z-40
                     min-h-dvh
                     w-full
                     shrink-0
