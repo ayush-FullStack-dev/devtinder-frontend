@@ -477,6 +477,7 @@ const LandingNavbar = ({
                                     text-showcase
                                     xl:h-11
                                     xl:w-30
+                                    hover:border-transparent
                                     ${heroButtonClass}
                                 `}
                                 text="Log In"
