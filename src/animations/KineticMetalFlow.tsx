@@ -29,34 +29,57 @@ const FRAGMENT_SHADER = `
     vec2 distort(vec2 p, float offset) {
         p += offset;
 
-        for(float i = 1.0; i < 4.0; i++) {
-            p.x += 0.3 / i * sin(i * 3.0 * p.y + u_time);
-            p.y += 0.3 / i * cos(i * 3.0 * p.x + u_time);
+        for (
+            float i = 1.0;
+            i < 4.0;
+            i++
+        ) {
+            p.x +=
+                0.3 / i *
+                sin(
+                    i * 3.0 * p.y +
+                    u_time
+                );
+
+            p.y +=
+                0.3 / i *
+                cos(
+                    i * 3.0 * p.x +
+                    u_time
+                );
         }
 
         return p;
     }
 
     void main() {
-        vec2 uv = gl_FragCoord.xy / u_res.xy;
+        vec2 uv =
+            gl_FragCoord.xy /
+            u_res.xy;
 
         float r =
             sin(
                 distort(uv, 0.0).x *
                 u_frequency
-            ) * 0.5 + 0.5;
+            ) *
+            0.5 +
+            0.5;
 
         float g =
             sin(
                 distort(uv, 0.02).x *
                 u_frequency
-            ) * 0.5 + 0.5;
+            ) *
+            0.5 +
+            0.5;
 
         float b =
             sin(
                 distort(uv, 0.04).x *
                 u_frequency
-            ) * 0.5 + 0.5;
+            ) *
+            0.5 +
+            0.5;
 
         vec3 color =
             pow(
@@ -82,30 +105,45 @@ const KineticMetalShader = ({
     frequency = 5,
     className = "",
 }: KineticMetalShaderProps) => {
-    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const canvasRef =
+        useRef<HTMLCanvasElement>(null);
 
     useEffect(() => {
-        const canvas = canvasRef.current;
+        const canvas =
+            canvasRef.current;
 
         if (!canvas) return;
 
-        const gl = canvas.getContext("webgl", {
-            alpha: true,
-            antialias: false,
-            preserveDrawingBuffer: false,
-        });
+        const gl =
+            canvas.getContext(
+                "webgl",
+                {
+                    alpha: false,
+                    antialias: false,
+                    depth: false,
+                    stencil: false,
+                    preserveDrawingBuffer: false,
+                    powerPreference:
+                        "high-performance",
+                }
+            );
 
         if (!gl) return;
 
         const createShader = (
             type: number,
             source: string
-        ): WebGLShader | null => {
-            const shader = gl.createShader(type);
+        ) => {
+            const shader =
+                gl.createShader(type);
 
             if (!shader) return null;
 
-            gl.shaderSource(shader, source);
+            gl.shaderSource(
+                shader,
+                source
+            );
+
             gl.compileShader(shader);
 
             if (
@@ -115,7 +153,9 @@ const KineticMetalShader = ({
                 )
             ) {
                 console.error(
-                    gl.getShaderInfoLog(shader)
+                    gl.getShaderInfoLog(
+                        shader
+                    )
                 );
 
                 gl.deleteShader(shader);
@@ -126,25 +166,37 @@ const KineticMetalShader = ({
             return shader;
         };
 
-        const vertexShader = createShader(
-            gl.VERTEX_SHADER,
-            VERTEX_SHADER
-        );
+        const vertexShader =
+            createShader(
+                gl.VERTEX_SHADER,
+                VERTEX_SHADER
+            );
 
-        const fragmentShader = createShader(
-            gl.FRAGMENT_SHADER,
-            FRAGMENT_SHADER
-        );
+        const fragmentShader =
+            createShader(
+                gl.FRAGMENT_SHADER,
+                FRAGMENT_SHADER
+            );
 
-        if (!vertexShader || !fragmentShader) {
+        if (
+            !vertexShader ||
+            !fragmentShader
+        ) {
             return;
         }
 
-        const program = gl.createProgram();
+        const program =
+            gl.createProgram();
 
         if (!program) {
-            gl.deleteShader(vertexShader);
-            gl.deleteShader(fragmentShader);
+            gl.deleteShader(
+                vertexShader
+            );
+
+            gl.deleteShader(
+                fragmentShader
+            );
+
             return;
         }
 
@@ -167,44 +219,46 @@ const KineticMetalShader = ({
             )
         ) {
             console.error(
-                gl.getProgramInfoLog(program)
+                gl.getProgramInfoLog(
+                    program
+                )
             );
 
             gl.deleteProgram(program);
-            gl.deleteShader(vertexShader);
-            gl.deleteShader(fragmentShader);
+            gl.deleteShader(
+                vertexShader
+            );
+            gl.deleteShader(
+                fragmentShader
+            );
 
             return;
         }
 
         gl.useProgram(program);
 
-        const vertices = new Float32Array([
-            -1,
-            -1,
+        const vertices =
+            new Float32Array([
+                -1, -1,
+                 1, -1,
+                -1,  1,
 
-             1,
-            -1,
+                -1,  1,
+                 1, -1,
+                 1,  1,
+            ]);
 
-            -1,
-             1,
-
-            -1,
-             1,
-
-             1,
-            -1,
-
-             1,
-             1,
-        ]);
-
-        const buffer = gl.createBuffer();
+        const buffer =
+            gl.createBuffer();
 
         if (!buffer) {
             gl.deleteProgram(program);
-            gl.deleteShader(vertexShader);
-            gl.deleteShader(fragmentShader);
+            gl.deleteShader(
+                vertexShader
+            );
+            gl.deleteShader(
+                fragmentShader
+            );
 
             return;
         }
@@ -225,6 +279,21 @@ const KineticMetalShader = ({
                 program,
                 "position"
             );
+
+        if (
+            positionLocation === -1
+        ) {
+            gl.deleteBuffer(buffer);
+            gl.deleteProgram(program);
+            gl.deleteShader(
+                vertexShader
+            );
+            gl.deleteShader(
+                fragmentShader
+            );
+
+            return;
+        }
 
         gl.enableVertexAttribArray(
             positionLocation
@@ -269,26 +338,81 @@ const KineticMetalShader = ({
                 "u_baseColor"
             );
 
-        let timeValue = 0;
+        if (
+            resolutionLocation === null ||
+            timeLocation === null ||
+            colorScaleLocation === null ||
+            frequencyLocation === null ||
+            baseColorLocation === null
+        ) {
+            gl.deleteBuffer(buffer);
+            gl.deleteProgram(program);
+            gl.deleteShader(
+                vertexShader
+            );
+            gl.deleteShader(
+                fragmentShader
+            );
+
+            return;
+        }
+
         let animationId = 0;
+        let timeValue = 0;
+        let disposed = false;
 
         const resize = () => {
-            const width =
-                canvas.clientWidth;
+            if (disposed) return;
 
-            const height =
-                canvas.clientHeight;
+            const rect =
+                canvas.getBoundingClientRect();
 
-            const devicePixelRatio =
-                window.devicePixelRatio;
+            const width = Math.max(
+                1,
+                Math.round(rect.width)
+            );
 
-            canvas.width =
-                width *
-                devicePixelRatio;
+            const height = Math.max(
+                1,
+                Math.round(rect.height)
+            );
 
-            canvas.height =
-                height *
-                devicePixelRatio;
+            const dpr = Math.min(
+                window.devicePixelRatio || 1,
+                2
+            );
+
+            const pixelWidth =
+                Math.max(
+                    1,
+                    Math.round(
+                        width * dpr
+                    )
+                );
+
+            const pixelHeight =
+                Math.max(
+                    1,
+                    Math.round(
+                        height * dpr
+                    )
+                );
+
+            if (
+                canvas.width !==
+                pixelWidth
+            ) {
+                canvas.width =
+                    pixelWidth;
+            }
+
+            if (
+                canvas.height !==
+                pixelHeight
+            ) {
+                canvas.height =
+                    pixelHeight;
+            }
 
             gl.viewport(
                 0,
@@ -298,20 +422,15 @@ const KineticMetalShader = ({
             );
         };
 
+        resize();
+
         const render = () => {
-            if (
-                !resolutionLocation ||
-                !timeLocation ||
-                !colorScaleLocation ||
-                !frequencyLocation ||
-                !baseColorLocation
-            ) {
-                return;
-            }
+            if (disposed) return;
 
             timeValue +=
-                speed *
-                0.015;
+                speed * 0.015;
+
+            gl.useProgram(program);
 
             gl.uniform2f(
                 resolutionLocation,
@@ -353,30 +472,25 @@ const KineticMetalShader = ({
                 );
         };
 
-        resize();
-
         window.addEventListener(
             "resize",
-            resize
+            resize,
+            { passive: true }
         );
 
         render();
 
         return () => {
-            if (animationId) {
-                cancelAnimationFrame(
-                    animationId
-                );
-            }
+            disposed = true;
+
+            cancelAnimationFrame(
+                animationId
+            );
 
             window.removeEventListener(
                 "resize",
                 resize
             );
-
-            gl.deleteProgram(program);
-            gl.deleteShader(vertexShader);
-            gl.deleteShader(fragmentShader);
 
             gl.bindBuffer(
                 gl.ARRAY_BUFFER,
@@ -384,6 +498,13 @@ const KineticMetalShader = ({
             );
 
             gl.deleteBuffer(buffer);
+            gl.deleteProgram(program);
+            gl.deleteShader(
+                vertexShader
+            );
+            gl.deleteShader(
+                fragmentShader
+            );
         };
     }, [
         speed,
@@ -394,8 +515,17 @@ const KineticMetalShader = ({
     return (
         <canvas
             ref={canvasRef}
-            className={`block h-full w-full pointer-events-none ${className}`}
+            className={`
+                pointer-events-none
+                block
+                h-full
+                w-full
+                ${className}
+            `}
             style={{
+                display: "block",
+                width: "100%",
+                height: "100%",
                 backgroundColor: "#050505",
             }}
             aria-hidden="true"

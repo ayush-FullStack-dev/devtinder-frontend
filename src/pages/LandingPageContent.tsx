@@ -1,11 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import {
-    motion,
-    useScroll,
-    useTransform,
-} from "motion/react";
 
 import LandingNavbar from "@/sections/Landing/LandingNavbar";
 import HeroSection from "@/sections/Landing/LandingHeroSection";
@@ -13,10 +8,6 @@ import DiscoverSection from "@/sections/Landing/LandingDiscoverSection";
 import LandingHowItWorksSection from "@/sections/Landing/LandingHowItWorksSection";
 import LandingWhyDevTinderSection from "@/sections/Landing/LandingWhyDevTinderSection";
 import LandingFaqSection from "@/sections/Landing/LandingFaqSection";
-
-import KineticMetalFlow from "@/animations/KineticMetalFlow";
-import MagneticGrid from "@/animations/MagneticGrid";
-import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 type LandingPageContentProps = {
     isLoggedIn: boolean;
@@ -33,63 +24,55 @@ const SECTION_IDS = [
 const LandingPageContent = ({
     isLoggedIn,
 }: LandingPageContentProps) => {
-    const mainRef = useRef<HTMLElement>(null);
-    const transitionRef = useRef<HTMLElement>(null);
-
-    const reduced = useReducedMotion();
+    const mainRef =
+        useRef<HTMLElement>(null);
 
     const [activeSection, setActiveSection] =
         useState("hero");
-
-    const { scrollYProgress } = useScroll({
-        container: mainRef,
-        target: transitionRef,
-        offset: ["start start", "end end"],
-    });
-
-    const heroScale = useTransform(
-        scrollYProgress,
-        [0, 1],
-        [1, 0.78]
-    );
-
-    const heroY = useTransform(
-        scrollYProgress,
-        [0, 0.6],
-        [0, -30]
-    );
 
     useEffect(() => {
         const main = mainRef.current;
 
         if (!main) return;
 
-        const sections = SECTION_IDS.map((id) => ({
-            id,
-            element: document.getElementById(id),
-        })).filter(
-            (
-                item
-            ): item is {
-                id: (typeof SECTION_IDS)[number];
-                element: HTMLElement;
-            } => Boolean(item.element)
-        );
+        const sections = SECTION_IDS
+            .map((id) => ({
+                id,
+                element:
+                    document.getElementById(id),
+            }))
+            .filter(
+                (
+                    item
+                ): item is {
+                    id: (typeof SECTION_IDS)[number];
+                    element: HTMLElement;
+                } =>
+                    Boolean(item.element)
+            );
 
         let frame = 0;
 
         const updateActiveSection = () => {
             frame = 0;
 
-            const scrollTop = main.scrollTop;
-            const threshold = 100;
+            const scrollTop =
+                main.scrollTop;
+
+            const threshold = 120;
 
             let current = "hero";
 
-            for (const { id, element } of sections) {
+            for (
+                const {
+                    id,
+                    element,
+                } of sections
+            ) {
                 if (
                     scrollTop >=
-                    element.offsetTop - threshold
+                    element.offsetTop -
+                        threshold
                 ) {
                     current =
                         id === "home"
@@ -100,25 +83,29 @@ const LandingPageContent = ({
                 }
             }
 
-            setActiveSection((previous) =>
-                previous === current
-                    ? previous
-                    : current
+            setActiveSection(
+                (previous) =>
+                    previous === current
+                        ? previous
+                        : current
             );
         };
 
         const handleScroll = () => {
             if (frame) return;
 
-            frame = requestAnimationFrame(
-                updateActiveSection
-            );
+            frame =
+                requestAnimationFrame(
+                    updateActiveSection
+                );
         };
 
         main.addEventListener(
             "scroll",
             handleScroll,
-            { passive: true }
+            {
+                passive: true,
+            }
         );
 
         updateActiveSection();
@@ -152,93 +139,48 @@ const LandingPageContent = ({
                 scrollbar-hide
             "
         >
-            <div
-                aria-hidden="true"
-                className="
-                    pointer-events-none
-                    absolute
-                    inset-x-0
-                    top-0
-                    z-0
-                    h-[120dvh]
-                    overflow-hidden
-                "
-            >
-                <KineticMetalFlow />
-            </div>
-
             <LandingNavbar
-                activeSection={activeSection}
+                activeSection={
+                    activeSection
+                }
             />
 
             <section
-                ref={transitionRef}
+                id="home"
                 className="
-        relative
-        z-10
-        min-h-[200svh]
-        w-full
-        shrink-0
-    "
+                    relative
+                    z-10
+                    w-full
+                    shrink-0
+                "
             >
-                <motion.div
-                    style={
-                        reduced
-                            ? undefined
-                            : {
-                                scale: heroScale,
-                                y: heroY,
-                            }
+                <HeroSection
+                    scrollContainerRef={
+                        mainRef
                     }
-                    className="
-            sticky
-            top-0
-            h-dvh
-            w-full
-            overflow-hidden
-            will-change-transform
-        "
-                >
-                    <section
-                        id="home"
-                        className="
-                relative
-                h-dvh
-                w-full
-                overflow-hidden
-            "
-                    >
-                        <HeroSection />
-                    </section>
-                </motion.div>
+                />
+            </section>
 
-                <div
-                    className="
-            sticky
-            top-0
-            z-20
-            w-full
-        "
-                >
-                    <section
-                        id="discover"
-                        className="
-                relative
-                z-20
-                w-full
-                bg-background
-                px-4
-                pt-20
-                pb-40
-                sm:pt-24
-                sm:pb-48
-            "
-                    >
-                        <DiscoverSection
-                            isLoggedIn={isLoggedIn}
-                        />
-                    </section>
-                </div>
+            <section
+                id="discover"
+                className="
+                    relative
+                    z-20
+                    w-full
+                    shrink-0
+                    bg-background
+                    px-4
+                    pt-20
+                    pb-40
+                    sm:pt-24
+                    sm:pb-48
+                "
+            >
+                <DiscoverSection
+                    isLoggedIn={
+                        isLoggedIn
+                    }
+                />
             </section>
 
             <section
