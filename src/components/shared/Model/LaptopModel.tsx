@@ -2,6 +2,7 @@
 
 import {
     memo,
+    Suspense,
     useEffect,
     useMemo,
     useRef,
@@ -11,64 +12,72 @@ import {
 import {
     Canvas,
     useFrame,
+    useLoader,
     useThree,
 } from "@react-three/fiber";
 
-import {
-    Environment,
-    useGLTF,
-} from "@react-three/drei";
+import { Environment } from "@react-three/drei";
+
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { Html, useProgress } from "@react-three/drei";
 
 import * as THREE from "three";
 
 type LaptopProps = {
+    active?: boolean;
     onReady?: () => void;
 };
 
 const MODEL_PATH = "/models/laptop.glb";
-const SCREEN_VIDEO_PATH =
-    "/videos/LandingHowItWorks.mp4";
+const SCREEN_VIDEO_PATH = "/videos/LandingHowItWorks.mp4";
 
-function Laptop({
-    onReady,
-}: LaptopProps) {
-    const { scene } = useGLTF(MODEL_PATH);
+function LoadingIndicator() {
+    const { progress } = useProgress();
 
-    const readyRef = useRef(false);
+    return (
+        <Html center>
+            <div className="flex items-center gap-3 whitespace-nowrap">
+                <div className="h-1 w-20 overflow-hidden rounded-full bg-black/10">
+                    <div
+                        className="h-full rounded-full bg-green-brand transition-[width] duration-150"
+                        style={{
+                            width: `${progress}%`,
+                        }}
+                    />
+                </div>
+
+                <span className="text-xs text-black/50">
+                    {Math.round(progress)}%
+                </span>
+            </div>
+        </Html>
+    );
+}
+
+function Laptop({ onReady }: { onReady?: () => void }) {
+    const gltf = useLoader(GLTFLoader, MODEL_PATH);
 
     const model = useMemo(() => {
-        const clone = scene.clone(true);
+        const clone = gltf.scene.clone(true);
 
         clone.updateMatrixWorld(true);
 
-        const box =
-            new THREE.Box3().setFromObject(
-                clone
-            );
-
-        const center = box.getCenter(
-            new THREE.Vector3()
-        );
+        const box = new THREE.Box3().setFromObject(clone);
+        const center = box.getCenter(new THREE.Vector3());
 
         clone.position.sub(center);
-
         clone.updateMatrixWorld(true);
 
         return clone;
-    }, [scene]);
+    }, [gltf.scene]);
 
     useEffect(() => {
-        let video: HTMLVideoElement | null =
-            null;
-
-        let videoTexture:
-            | THREE.VideoTexture
-            | null = null;
+        let video: HTMLVideoElement | null = null;
+        let videoTexture: THREE.VideoTexture | null = null;
+        let screenMaterial: THREE.MeshBasicMaterial | null = null;
 
         model.traverse((object) => {
-            if (
-                !(object instanceof THREE.Mesh)
-            ) {
+            if (!(object instanceof THREE.Mesh)) {
                 return;
             }
 
@@ -76,115 +85,63 @@ function Laptop({
             object.receiveShadow = false;
             object.frustumCulled = true;
 
-            if (
-                object.name ===
-                "Screen_Display"
-            ) {
-                video =
-                    document.createElement(
-                        "video"
-                    );
+            if (object.name === "Screen_Display") {
+                video = document.createElement("video");
 
-                video.src =
-                    SCREEN_VIDEO_PATH;
-                video.loop = true;
+                video.src = SCREEN_VIDEO_PATH;
                 video.muted = true;
+                video.loop = true;
                 video.playsInline = true;
                 video.autoplay = true;
                 video.preload = "auto";
 
-                videoTexture =
-                    new THREE.VideoTexture(
-                        video
-                    );
+                videoTexture = new THREE.VideoTexture(video);
 
-                videoTexture.colorSpace =
-                    THREE.SRGBColorSpace;
-
-                videoTexture.center.set(
-                    0.5,
-                    0.5
-                );
-
-                videoTexture.rotation = 0;
+                videoTexture.colorSpace = THREE.SRGBColorSpace;
+                videoTexture.minFilter = THREE.LinearFilter;
+                videoTexture.magFilter = THREE.LinearFilter;
+                videoTexture.generateMipmaps = false;
                 videoTexture.flipY = false;
 
-                videoTexture.minFilter =
-                    THREE.LinearFilter;
+                screenMaterial =
+                    new THREE.MeshBasicMaterial({
+                        map: videoTexture,
+                        side: THREE.DoubleSide,
+                        toneMapped: false,
+                    });
 
-                videoTexture.magFilter =
-                    THREE.LinearFilter;
+                object.material = screenMaterial;
 
-                videoTexture.generateMipmaps =
-                    false;
-
-                const screenMaterial =
-                    new THREE.MeshBasicMaterial(
-                        {
-                            map: videoTexture,
-                            side: THREE.DoubleSide,
-                            toneMapped: false,
-                        }
-                    );
-
-                object.material =
-                    screenMaterial;
-
-                screenMaterial.needsUpdate =
-                    true;
-
-                const playVideo = () => {
-                    void video
-                        ?.play()
-                        .catch(() => { });
-                };
-
-                video.addEventListener(
-                    "loadeddata",
-                    playVideo,
-                    {
-                        once: true,
-                    }
-                );
-
-                video.load();
+                void video.play().catch(() => { });
 
                 return;
             }
 
-            const materials =
-                Array.isArray(
-                    object.material
-                )
-                    ? object.material
-                    : [object.material];
+            const materials = Array.isArray(object.material)
+                ? object.material
+                : [object.material];
 
             for (const material of materials) {
                 if (
                     material instanceof
                     THREE.MeshStandardMaterial
                 ) {
-                    material.envMapIntensity =
-                        0.7;
+                    material.envMapIntensity = 0.7;
                 }
             }
         });
 
-        if (!readyRef.current) {
-            readyRef.current = true;
-            onReady?.();
-        }
+        onReady?.();
 
         return () => {
             if (video) {
                 video.pause();
-                video.removeAttribute(
-                    "src"
-                );
+                video.removeAttribute("src");
                 video.load();
             }
 
             videoTexture?.dispose();
+            screenMaterial?.dispose();
         };
     }, [model, onReady]);
 
@@ -197,7 +154,9 @@ function Laptop({
 }
 
 const MemoizedLaptop = memo(Laptop);
+
 function ResponsiveLaptop({
+    active = true,
     onReady,
 }: LaptopProps) {
     const { size } = useThree();
@@ -211,53 +170,28 @@ function ResponsiveLaptop({
     const animationTimeRef =
         useRef(0);
 
-    const lastTimeRef =
-        useRef<number | null>(null);
-
-    const scale = useMemo(() => {
-        return (
+    const scale = useMemo(
+        () =>
             0.25 *
             THREE.MathUtils.clamp(
                 size.width / 1440,
                 0.8,
                 1.07
-            )
-        );
-    }, [size.width]);
+            ),
+        [size.width]
+    );
 
-    useFrame(({ clock }) => {
+    useFrame((_, delta) => {
         const group = groupRef.current;
 
-        if (!group) {
+        if (!group || !active || isPaused) {
             return;
         }
 
-        const currentTime =
-            clock.getElapsedTime();
-
-        if (
-            lastTimeRef.current === null
-        ) {
-            lastTimeRef.current =
-                currentTime;
-        }
-
-        if (isPaused) {
-            lastTimeRef.current =
-                currentTime;
-
-            return;
-        }
-
-        const delta =
-            currentTime -
-            lastTimeRef.current;
-
-        lastTimeRef.current =
-            currentTime;
-
-        animationTimeRef.current +=
-            Math.min(delta, 0.05);
+        animationTimeRef.current += Math.min(
+            delta,
+            0.05
+        );
 
         const time =
             animationTimeRef.current;
@@ -278,33 +212,22 @@ function ResponsiveLaptop({
             Math.sin(time * 0.82) * 0.06;
     });
 
-    const handleClick = () => {
-        setIsPaused((current) => {
-            const next = !current;
-
-            if (!next) {
-                lastTimeRef.current =
-                    null;
-            }
-
-            return next;
-        });
-    };
-
     return (
         <group
             ref={groupRef}
             scale={scale}
-            onClick={handleClick}
+            onClick={(event) => {
+                event.stopPropagation();
+                setIsPaused((current) => !current);
+            }}
         >
-            <MemoizedLaptop
-                onReady={onReady}
-            />
+            <MemoizedLaptop onReady={onReady} />
         </group>
     );
 }
 
 function LaptopCanvas({
+    active = true,
     onReady,
 }: LaptopProps) {
     return (
@@ -319,13 +242,16 @@ function LaptopCanvas({
             gl={{
                 antialias: true,
                 alpha: true,
-                powerPreference:
-                    "high-performance",
+                powerPreference: "high-performance",
                 toneMapping:
                     THREE.ACESFilmicToneMapping,
                 toneMappingExposure: 1,
             }}
-            frameloop="always"
+            frameloop={
+                active
+                    ? "always"
+                    : "never"
+            }
             style={{
                 width: "100%",
                 height: "100%",
@@ -334,31 +260,34 @@ function LaptopCanvas({
                 cursor: "pointer",
             }}
         >
-            <ambientLight intensity={0.45} />
+            <Suspense fallback={null}>
+                <ambientLight intensity={0.45} />
 
-            <directionalLight
-                position={[4, 6, 5]}
-                intensity={1.35}
-            />
+                <directionalLight
+                    position={[4, 6, 5]}
+                    intensity={1.35}
+                />
 
-            <directionalLight
-                position={[-4, 3, 2]}
-                intensity={0.45}
-            />
+                <directionalLight
+                    position={[-4, 3, 2]}
+                    intensity={0.45}
+                />
 
-            <directionalLight
-                position={[2, -1, -5]}
-                intensity={0.25}
-            />
+                <directionalLight
+                    position={[2, -1, -5]}
+                    intensity={0.25}
+                />
 
-            <Environment
-                preset="studio"
-                environmentIntensity={0.8}
-            />
+                <Environment
+                    preset="studio"
+                    environmentIntensity={0.8}
+                />
 
-            <ResponsiveLaptop
-                onReady={onReady}
-            />
+                <ResponsiveLaptop
+                    active={active}
+                    onReady={onReady}
+                />
+            </Suspense>
         </Canvas>
     );
 }

@@ -1,19 +1,34 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "motion/react";
-import LandingNavbar from "../sections/Landing/LandingNavbar";
-import HeroSection from "../sections/Landing/LandingHeroSection";
-import DiscoverSection from "../sections/Landing/LandingDiscoverSection";
+import {
+    motion,
+    useScroll,
+    useTransform,
+} from "motion/react";
+
+import LandingNavbar from "@/sections/Landing/LandingNavbar";
+import HeroSection from "@/sections/Landing/LandingHeroSection";
+import DiscoverSection from "@/sections/Landing/LandingDiscoverSection";
 import LandingHowItWorksSection from "@/sections/Landing/LandingHowItWorksSection";
 import LandingWhyDevTinderSection from "@/sections/Landing/LandingWhyDevTinderSection";
 import LandingFaqSection from "@/sections/Landing/LandingFaqSection";
+
 import KineticMetalFlow from "@/animations/KineticMetalFlow";
+import MagneticGrid from "@/animations/MagneticGrid";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 type LandingPageContentProps = {
     isLoggedIn: boolean;
 };
+
+const SECTION_IDS = [
+    "home",
+    "discover",
+    "how-it-works",
+    "why-devtinder",
+    "frequently-asked-questions",
+] as const;
 
 const LandingPageContent = ({
     isLoggedIn,
@@ -35,7 +50,7 @@ const LandingPageContent = ({
     const heroScale = useTransform(
         scrollYProgress,
         [0, 1],
-        [1, 0.75]
+        [1, 0.78]
     );
 
     const heroY = useTransform(
@@ -49,28 +64,32 @@ const LandingPageContent = ({
 
         if (!main) return;
 
-        const sectionIds = [
-            "home",
-            "discover",
-            "how-it-works",
-            "why-devtinder",
-            "frequently-asked-questions",
-        ];
+        const sections = SECTION_IDS.map((id) => ({
+            id,
+            element: document.getElementById(id),
+        })).filter(
+            (
+                item
+            ): item is {
+                id: (typeof SECTION_IDS)[number];
+                element: HTMLElement;
+            } => Boolean(item.element)
+        );
+
+        let frame = 0;
 
         const updateActiveSection = () => {
+            frame = 0;
+
             const scrollTop = main.scrollTop;
+            const threshold = 100;
 
             let current = "hero";
 
-            for (const id of sectionIds) {
-                const section =
-                    document.getElementById(id);
-
-                if (!section) continue;
-
+            for (const { id, element } of sections) {
                 if (
                     scrollTop >=
-                    section.offsetTop - 80
+                    element.offsetTop - threshold
                 ) {
                     current =
                         id === "home"
@@ -88,15 +107,12 @@ const LandingPageContent = ({
             );
         };
 
-        let frame = 0;
-
         const handleScroll = () => {
             if (frame) return;
 
-            frame = requestAnimationFrame(() => {
-                updateActiveSection();
-                frame = 0;
-            });
+            frame = requestAnimationFrame(
+                updateActiveSection
+            );
         };
 
         main.addEventListener(
@@ -137,60 +153,60 @@ const LandingPageContent = ({
             "
         >
             <div
+                aria-hidden="true"
                 className="
+                    pointer-events-none
                     absolute
-                    inset-0
-                    z-10
-                    h-[110dvh]
+                    inset-x-0
+                    top-0
+                    z-0
+                    h-[120dvh]
+                    overflow-hidden
                 "
             >
                 <KineticMetalFlow />
             </div>
 
-       
-                <LandingNavbar
-                    activeSection={activeSection}
-                />
+            <LandingNavbar
+                activeSection={activeSection}
+            />
 
             <section
                 ref={transitionRef}
                 className="
-                    relative
-                    z-20
-                    h-[200svh]
-                    w-full
-                    shrink-0
-                      mb-20
-                "
+        relative
+        z-10
+        min-h-[200svh]
+        w-full
+        shrink-0
+    "
             >
                 <motion.div
                     style={
                         reduced
                             ? undefined
                             : {
-                                  scale: heroScale,
-                                  y: heroY,
-                              }
+                                scale: heroScale,
+                                y: heroY,
+                            }
                     }
                     className="
-                        sticky
-                        top-0
-                        z-10
-                        h-dvh
-                        w-full
-                        overflow-hidden
-                        will-change-transform
-                    "
+            sticky
+            top-0
+            h-dvh
+            w-full
+            overflow-hidden
+            will-change-transform
+        "
                 >
                     <section
                         id="home"
                         className="
-                            relative
-                            z-10
-                            h-[110dvh]
-                            w-full
-                            overflow-hidden
-                        "
+                relative
+                h-dvh
+                w-full
+                overflow-hidden
+            "
                     >
                         <HeroSection />
                     </section>
@@ -198,23 +214,25 @@ const LandingPageContent = ({
 
                 <div
                     className="
-                        sticky
-                        top-0
-                        z-30
-                        h-dvh
-                        w-full
-                        bg-background
-                        pt-[8vw]
-                    "
+            sticky
+            top-0
+            z-20
+            w-full
+        "
                 >
                     <section
                         id="discover"
                         className="
-                            relative
-                            z-30
-                            h-dvh
-                            w-full
-                        "
+                relative
+                z-20
+                w-full
+                bg-background
+                px-4
+                pt-20
+                pb-40
+                sm:pt-24
+                sm:pb-48
+            "
                     >
                         <DiscoverSection
                             isLoggedIn={isLoggedIn}
@@ -227,11 +245,12 @@ const LandingPageContent = ({
                 id="how-it-works"
                 className="
                     relative
-                    z-30
+                    z-20
                     min-h-dvh
                     w-full
                     shrink-0
-                    pb-10
+                    bg-background
+                    py-10
                 "
             >
                 <LandingHowItWorksSection />
@@ -241,10 +260,11 @@ const LandingPageContent = ({
                 id="why-devtinder"
                 className="
                     relative
-                    z-40
+                    z-20
                     min-h-dvh
                     w-full
                     shrink-0
+                    bg-background
                     py-10
                 "
             >
@@ -255,10 +275,11 @@ const LandingPageContent = ({
                 id="frequently-asked-questions"
                 className="
                     relative
-                    z-40
+                    z-30
                     min-h-dvh
                     w-full
                     shrink-0
+                    bg-background
                     py-10
                 "
             >

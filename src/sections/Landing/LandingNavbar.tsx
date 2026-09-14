@@ -258,7 +258,7 @@ const LandingNavbar = ({
                 top-0
                 left-0
                 right-0
-                z-40
+                z-100
                 w-full
                 px-5
                 transition-[background-color,border-color,box-shadow,backdrop-filter]
