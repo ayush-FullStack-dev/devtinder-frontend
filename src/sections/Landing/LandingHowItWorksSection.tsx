@@ -7,6 +7,7 @@ import {
     googleSansFlex,
 } from "@/assets/fonts/font.google";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { LandingHowItWorks_VIDEO_NOSOUND } from "@/constants/landing";
 
 const LandingHowItWorksSection = () => {
     const sectionRef = useRef<HTMLElement>(null);
@@ -95,10 +96,10 @@ const LandingHowItWorksSection = () => {
                     style={
                         isDesktop
                             ? {
-                                  opacity: textOpacity,
-                                  y: textY,
-                                  scale: textScale,
-                              }
+                                opacity: textOpacity,
+                                y: textY,
+                                scale: textScale,
+                            }
                             : undefined
                     }
                     className="
@@ -156,19 +157,19 @@ const LandingHowItWorksSection = () => {
                                 ease: [0.22, 1, 0.36, 1],
                             }}
                             className={`
-                                ${googleSansFlex.className}
-                                text-base
-                                text-green-brand
-                                xs:text-lg
-                                sm:text-xl
-                                xl:text-2xl
-                                3xl:text-2xl
-                                4xl:text-3xl
-                                5xl:text-4xl
-                                7xl:text-6xl
-                                8xl:text-7xl
-                                9xl:text-9xl
-                            `}
+        ${googleSansFlex.className}
+        text-sm
+        text-green-brand
+        xs:text-base
+        sm:text-lg
+        xl:text-lg
+        3xl:text-xl
+        4xl:text-2xl
+        5xl:text-3xl
+        7xl:text-4xl
+        8xl:text-5xl
+        9xl:text-6xl
+    `}
                         >
                             HOW IT WORKS
                         </motion.h2>
@@ -270,7 +271,7 @@ const LandingHowItWorksSection = () => {
                         muted
                         playsInline
                         preload="metadata"
-                        src="/videos/LandingHowItWorks.mp4"
+                        src={LandingHowItWorks_VIDEO_NOSOUND}
                         className="
                             absolute
                             inset-0

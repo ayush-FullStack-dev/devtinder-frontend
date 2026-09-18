@@ -25,6 +25,7 @@ import {
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
 import * as THREE from "three";
+import { LandingHowItWorks_VIDEO_NOSOUND } from "@/constants/landing";
 
 type LaptopProps = {
     active?: boolean;
@@ -32,8 +33,6 @@ type LaptopProps = {
 };
 
 const MODEL_PATH = "/models/laptop.glb";
-const SCREEN_VIDEO_PATH =
-    "/videos/LandingHowItWorks.mp4";
 
 function LoadingIndicator() {
     const { progress } = useProgress();
@@ -53,7 +52,7 @@ function LoadingIndicator() {
                 pointerEvents: "none",
             }}
         >
-            <div className="flex w-[220px] flex-col items-center gap-3">
+            <div className="flex w-35 flex-col items-center gap-3">
                 <div className="flex w-full items-center justify-between">
                     <span className="text-[10px] font-medium tracking-[0.16em] text-black/40">
                         LOADING
@@ -144,7 +143,7 @@ function Laptop({
                     );
 
                 video.src =
-                    SCREEN_VIDEO_PATH;
+                    LandingHowItWorks_VIDEO_NOSOUND;
 
                 video.muted = true;
                 video.loop = true;
@@ -185,7 +184,7 @@ function Laptop({
 
                 void video
                     .play()
-                    .catch(() => {});
+                    .catch(() => { });
 
                 return;
             }

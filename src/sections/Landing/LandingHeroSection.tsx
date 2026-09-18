@@ -1,15 +1,6 @@
 "use client";
 
-import {
-    useEffect,
-    useRef,
-} from "react";
-
-import { googleSans } from "@/assets/fonts/font.google";
-import AnimatedButton from "@/components/shared/AnimatedButton";
-
-import Link from "next/link";
-
+import { useEffect, useRef } from "react";
 import {
     motion,
     useMotionValue,
@@ -18,227 +9,171 @@ import {
     useTransform,
 } from "motion/react";
 
-import KineticMetalFlow from "@/animations/KineticMetalFlow";
+import { googleSans, googleSansFlex } from "@/assets/fonts/font.google";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import LandingHeroNavbar from "./Navbar/LandingHeroNavbar";
+import ScrollRevealText from "@/animations/ScrollRevealText";
+import TextSwapButton from "@/components/shared/animation/TextSwapButton";
 
 type LandingHeroSectionProps = {
-    scrollContainerRef:
-    React.RefObject<
-        HTMLElement | null
-    >;
+    scrollContainerRef: React.RefObject<HTMLElement | null>;
 };
 
 const LandingHeroSection = ({
     scrollContainerRef,
 }: LandingHeroSectionProps) => {
-    const reduced =
-        useReducedMotion();
+    const reducedMotion = useReducedMotion();
+    const heroRef = useRef<HTMLElement>(null);
 
-    const sectionRef =
-        useRef<HTMLElement>(null);
+    const { scrollYProgress } = useScroll({
+        container: scrollContainerRef,
+        target: heroRef,
+        offset: ["start start", "end start"],
+    });
 
-    const { scrollYProgress } =
-        useScroll({
-            container:
-                scrollContainerRef,
-            target: sectionRef,
-            offset: [
-                "start start",
-                "end start",
-            ],
-        });
+    const taglineWords = [
+        "Built",
+        "Fast.",
+        "Built",
+        "Secure.",
+        "Built",
+        "to",
+        "Scale.",
+    ];
 
-    const rawX =
-        useMotionValue(0);
+    const subTitleWords = [
+        "We empower enterprises to build amazing products and",
+        "capture true business value with language AI",
+    ];
 
-    const rawY =
-        useMotionValue(0);
+    const pointerX = useMotionValue(0);
+    const pointerY = useMotionValue(0);
 
-    const smoothX =
-        useSpring(rawX, {
-            stiffness: 70,
-            damping: 26,
-            mass: 0.6,
-        });
+    const smoothPointerX = useSpring(pointerX, {
+        stiffness: 70,
+        damping: 26,
+        mass: 0.6,
+    });
 
-    const smoothY =
-        useSpring(rawY, {
-            stiffness: 70,
-            damping: 26,
-            mass: 0.6,
-        });
+    const smoothPointerY = useSpring(pointerY, {
+        stiffness: 70,
+        damping: 26,
+        mass: 0.6,
+    });
 
     useEffect(() => {
-        if (reduced) return;
+        if (reducedMotion) return;
 
-        const handlePointer = (
-            event: PointerEvent
-        ) => {
-            rawX.set(
-                event.clientX -
-                window.innerWidth /
-                2
-            );
-
-            rawY.set(
-                event.clientY -
-                window.innerHeight /
-                2
-            );
+        const handlePointerMove = (event: PointerEvent) => {
+            pointerX.set(event.clientX - window.innerWidth / 2);
+            pointerY.set(event.clientY - window.innerHeight / 2);
         };
 
-        window.addEventListener(
-            "pointermove",
-            handlePointer,
-            {
-                passive: true,
-            }
-        );
+        window.addEventListener("pointermove", handlePointerMove, {
+            passive: true,
+        });
 
         return () => {
-            window.removeEventListener(
-                "pointermove",
-                handlePointer
-            );
+            window.removeEventListener("pointermove", handlePointerMove);
         };
-    }, [
-        reduced,
-        rawX,
-        rawY,
-    ]);
+    }, [pointerX, pointerY, reducedMotion]);
 
-    const visualX =
-        useTransform(
-            smoothX,
-            (value) =>
-                value * 0.0025
-        );
+    const backgroundX = useTransform(
+        smoothPointerX,
+        (value) => value * 0.0025
+    );
 
-    const visualY =
-        useTransform(
-            smoothY,
-            (value) =>
-                value * 0.0025
-        );
+    const backgroundY = useTransform(
+        smoothPointerY,
+        (value) => value * 0.0025
+    );
 
-    const visualWidth =
-        useTransform(
-            scrollYProgress,
-            [0, 0.22, 0.55, 1],
-            [
-                "100%",
-                "99%",
-                "92%",
-                "85%",
-            ]
-        );
+    const backgroundWidth = useTransform(
+        scrollYProgress,
+        [0, 0.20],
+        ["100%", "95%"]
+    );
 
-    const visualHeight =
-        useTransform(
-            scrollYProgress,
-            [0, 0.22, 0.55, 1],
-            [
-                "100dvh",
-                "94dvh",
-                "76dvh",
-                "58dvh",
-            ]
-        );
+    const backgroundHeight = useTransform(
+        scrollYProgress,
+        [0, 0.28],
+        ["100dvh", "53dvh"]
+    );
 
-    const visualTop =
-        useTransform(
-            scrollYProgress,
-            [0, 0.22, 0.55, 1],
-            [
-                "0dvh",
-                "1dvh",
-                "4dvh",
-                "6dvh",
-            ]
-        );
+    const backgroundTop = useTransform(
+        scrollYProgress,
+        [0, 0.28],
+        ["0dvh", "15dvh"]
+    );
 
-    const visualRadius =
-        useTransform(
-            scrollYProgress,
-            [0, 0.2, 0.45, 0.7, 1],
-            [
-                "0px",
-                "3px",
-                "10px",
-                "20px",
-                "28px",
-            ]
-        );
+    const backgroundRadius = useTransform(
+        scrollYProgress,
+        [0, 0.28],
+        ["0px", "32px"]
+    );
 
-    const contentOpacity =
-        useTransform(
-            scrollYProgress,
-            [0.12, 0.2],
-            [0, 1]
-        );
+    const taglineProgress = useTransform(
+        scrollYProgress,
+        [0.29, 0.37],
+        [0, 1]
+    );
 
-    const contentY =
-        useTransform(
-            scrollYProgress,
-            [0.12, 0.2],
-            [24, 0]
-        );
+    const subTitleProgress = useTransform(
+        scrollYProgress,
+        [0.37, 0.50],
+        [0, 1]
+    );
 
-    const detailsOpacity =
-        useTransform(
-            scrollYProgress,
-            [0.28, 0.4],
-            [0, 1]
-        );
+    const buttonProgress = useTransform(
+        scrollYProgress,
+        [0.48, 0.58],
+        [0, 1]
+    );
 
-    const detailsY =
-        useTransform(
-            scrollYProgress,
-            [0.28, 0.4],
-            [22, 0]
-        );
+    const smoothButtonProgress = useSpring(buttonProgress, {
+        stiffness: 110,
+        damping: 20,
+        mass: 0.45,
+    });
 
-    const ctaOpacity =
-        useTransform(
-            scrollYProgress,
-            [0.42, 0.53],
-            [0, 1]
-        );
+    const buttonOpacity = useTransform(
+        smoothButtonProgress,
+        [0, 0.15, 0.75],
+        [0, 0.20, 1]
+    );
 
-    const ctaY =
-        useTransform(
-            scrollYProgress,
-            [0.42, 0.53],
-            [18, 0]
-        );
+    const buttonScale = useTransform(
+        smoothButtonProgress,
+        [0, 1],
+        [1.12, 1]
+    );
 
-    const ease = [
-        0.22,
-        1,
-        0.36,
-        1,
-    ] as const;
+    const buttonX = useTransform(
+        smoothButtonProgress,
+        [0, 1],
+        [20, 0]
+    );
+
+    const buttonY = useTransform(
+        smoothButtonProgress,
+        [0, 1],
+        [28, 0]
+    );
 
     return (
         <section
-            ref={sectionRef}
+            ref={heroRef}
             className="
                 relative
-                bg-[#161617]
-                min-h-[185svh]
+                min-h-[250svh]
                 w-full
                 shrink-0
+                bg-[#161617]
             "
         >
-            <div
-                className="
-                    sticky
-                    top-0
-                    h-dvh
-                    w-full
-                    overflow-hidden
-                "
-            >
+            <div className="sticky top-0 h-dvh w-full overflow-hidden">
+                <LandingHeroNavbar />
+
                 <motion.div
                     className="
                         absolute
@@ -252,40 +187,27 @@ const LandingHeroSection = ({
                         will-change-[width,height,top,border-radius]
                     "
                     style={{
-                        width: reduced
+                        width: reducedMotion
                             ? "100%"
-                            : visualWidth,
-
-                        height: reduced
+                            : backgroundWidth,
+                        height: reducedMotion
                             ? "100dvh"
-                            : visualHeight,
-
-                        top: reduced
+                            : backgroundHeight,
+                        top: reducedMotion
                             ? 0
-                            : visualTop,
-
-                        borderRadius:
-                            reduced
-                                ? "0px"
-                                : visualRadius,
-
-                        x: reduced
+                            : backgroundTop,
+                        borderRadius: reducedMotion
+                            ? "0px"
+                            : backgroundRadius,
+                        x: reducedMotion
                             ? 0
-                            : visualX,
-
-                        y: reduced
+                            : backgroundX,
+                        y: reducedMotion
                             ? 0
-                            : visualY,
+                            : backgroundY,
                     }}
                 >
-                    <div
-                        className="
-                            absolute
-                            inset-0
-                            overflow-hidden
-                            bg-[#050505]
-                        "
-                    >
+                    <div className="absolute inset-0 overflow-hidden bg-[#050505]">
                         <div
                             className="
                                 absolute
@@ -297,220 +219,114 @@ const LandingHeroSection = ({
                                 -translate-y-1/2
                             "
                         >
-                            <KineticMetalFlow />
+                            <video
+                                className="size-full object-cover"
+                                autoPlay
+                                loop
+                                muted
+                                playsInline
+                                preload="auto"
+                            >
+                                <source
+                                    src="/videos/LandingIntro.mp4"
+                                    type="video/mp4"
+                                />
+                            </video>
                         </div>
                     </div>
                 </motion.div>
 
-                <div
-                    className="
-                        pointer-events-none
-                        absolute
-                        inset-0
-                        z-20
-                    "
-                >
+                <div className="pointer-events-none absolute inset-0 z-20">
                     <div
                         className="
                             absolute
                             inset-x-0
                             bottom-0
+                            flex
+                            items-center
+                            justify-between
                             px-6
-                            pb-[7vh]
-                            sm:px-8
-                            sm:pb-[7vh]
-                            md:px-10
-                            lg:px-12
-                            xl:px-16
+                            pb-[4vh]
+                            sm:px-4
+                            md:px-6
+                            lg:px-8
+                            xl:px-10
                         "
                     >
-                        <div
-                            className="
-                                mx-auto
-                                flex
-                                w-full
-                                max-w-360
-                                flex-col
-                                gap-10
-                                lg:flex-row
-                                lg:items-end
-                                lg:justify-between
-                                lg:gap-16
-                            "
-                        >
-                                <h1
-                                    id="hero-heading"
-                                    className={`
-                                        ${googleSans.className}
-                                        m-0
-                                        max-w-225
-                                        text-[52px]
-                                        font-semibold
-                                        leading-[0.91]
-                                        tracking-[-0.055em]
-                                        text-white
-                                        sm:text-[64px]
-                                        md:text-[78px]
-                                        lg:text-[92px]
-                                        xl:text-[104px]
-                                        2xl:text-[112px]
-                                    `}
-                                >
-                                    We’re building the future of language AI
-                                </h1>
-                            <motion.div
-                                style={{
-                                    opacity:
-                                        reduced
-                                            ? 1
-                                            : contentOpacity,
+                        <div className="flex w-200 flex-col gap-2">
+                            <ScrollRevealText
+                                progress={taglineProgress}
+                                reducedMotion={reducedMotion}
+                                words={taglineWords}
+                                className="text-xl font-bold text-[#9070DF]"
+                            />
 
-                                    y: reduced
-                                        ? 0
-                                        : contentY,
-                                }}
-                                className="
-                                    max-w-212
-                                "
-                            >
-                                <div
-                                    className={`
-                                        ${googleSans.className}
-                                        mb-4
-                                        text-[12px]
-                                        font-semibold
-                                        uppercase
-                                        leading-none
-                                        tracking-[0.03em]
-                                        text-green-brand
-                                        sm:text-[13px]
-                                        md:text-[14px]
-                                        lg:text-[15px]
-                                    `}
-                                >
-                                    FAST, SECURE AND SCALABLE
-                                </div>
-                            </motion.div>
-
-                            <motion.div
-                                style={{
-                                    opacity:
-                                        reduced
-                                            ? 1
-                                            : detailsOpacity,
-
-                                    y: reduced
-                                        ? 0
-                                        : detailsY,
-                                }}
-                                className="
+                            <h1
+                                id="hero-heading"
+                                className={`
+                                    ${googleSans.className}
+                                    m-0
                                     w-full
-                                    max-w-107.05
-                                    lg:mb-1
-                                "
+                                    font-bold
+                                    text-[52px]
+                                    leading-[1.1]
+                                    tracking-[-0.055em]
+                                    text-white
+                                    sm:text-[64px]
+                                    md:text-[78px]
+                                    lg:text-[60px]
+                                `}
                             >
-                                <p
-                                    className={`
-                                        ${googleSans.className}
-                                        m-0
-                                        text-[15px]
-                                        font-normal
-                                        leading-[1.45]
-                                        tracking-[-0.01em]
-                                        text-white/70
-                                        sm:text-[16px]
-                                        md:text-mid
-                                        lg:text-[18px]
-                                    `}
-                                >
-                                    We empower enterprises
-                                    to build amazing products
-                                    and capture true business
-                                    value.
-                                </p>
+                                We’re building the future of
+                                developer connections.
+                            </h1>
+                        </div>
 
-                                <motion.div
-                                    style={{
-                                        opacity:
-                                            reduced
-                                                ? 1
-                                                : ctaOpacity,
+                        <div className="flex flex-col gap-5">
+                            <p
+                                className={`
+                                    ${googleSansFlex.className}
+                                    w-full
+                                    max-w-130
+                                    text-xl
+                                    font-heading
+                                    text-[#939393]
+                                `}
+                            >
+                                <ScrollRevealText
+                                    progress={subTitleProgress}
+                                    reducedMotion={reducedMotion}
+                                    words={subTitleWords}
+                                    groupSize={1}
+                                    className="flex flex-col"
+                                    extraAnimation={false}
+                                />
+                            </p>
 
-                                        y: reduced
-                                            ? 0
-                                            : ctaY,
-                                    }}
-                                    className="
-                                        pointer-events-auto
-                                        mt-7
-                                    "
-                                >
-                                    <Link
-                                        href="/auth/signup"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="
-                                            inline-flex
-                                            items-center
-                                            gap-2
-                                        "
-                                    >
-                                        <AnimatedButton
-                                            className="
-                                                h-14
-                                                min-w-17.5
-                                                rounded-full
-                                                bg-green-brand
-                                                px-8
-                                                text-[16px]
-                                                font-medium
-                                                text-white
-                                                sm:h-14.5
-                                                sm:min-w-51.25
-                                                sm:text-mid
-                                            "
-                                            text="Try it now"
-                                        />
-
-                                        <span
-                                            className="
-                                                flex
-                                                size-14
-                                                items-center
-                                                justify-center
-                                                rounded-full
-                                                bg-green-brand
-                                                text-white
-                                                sm:size-14.5
-                                            "
-                                            aria-hidden="true"
-                                        >
-                                            <svg
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                className="
-                                                    size-5
-                                                    sm:size-6
-                                                "
-                                            >
-                                                <path
-                                                    d="M5 12H19"
-                                                    stroke="currentColor"
-                                                    strokeWidth="1.8"
-                                                    strokeLinecap="round"
-                                                />
-
-                                                <path
-                                                    d="M13 6L19 12L13 18"
-                                                    stroke="currentColor"
-                                                    strokeWidth="1.8"
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                />
-                                            </svg>
-                                        </span>
-                                    </Link>
-                                </motion.div>
+                            <motion.div
+                                className="
+                                    pointer-events-auto
+                                    transform-gpu
+                                    h-12
+                                    w-60
+                                    will-change-[transform,opacity]
+                                "
+                                style={{
+                                    opacity: reducedMotion
+                                        ? 1
+                                        : buttonOpacity,
+                                    scale: reducedMotion
+                                        ? 1
+                                        : buttonScale,
+                                    x: reducedMotion
+                                        ? 0
+                                        : buttonX,
+                                    y: reducedMotion
+                                        ? 0
+                                        : buttonY,
+                                }}
+                            >
+                                <TextSwapButton text="Try It Now" />
                             </motion.div>
                         </div>
                     </div>

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-import LandingNavbar from "@/sections/Landing/LandingNavbar";
+import LandingNavbar from "@/sections/Landing/Navbar/LandingNavbar";
 import HeroSection from "@/sections/Landing/LandingHeroSection";
 import DiscoverSection from "@/sections/Landing/LandingDiscoverSection";
 import LandingHowItWorksSection from "@/sections/Landing/LandingHowItWorksSection";
@@ -26,7 +26,6 @@ const LandingPageContent = ({
 }: LandingPageContentProps) => {
     const mainRef =
         useRef<HTMLElement>(null);
-
     const [activeSection, setActiveSection] =
         useState("hero");
 
@@ -72,7 +71,7 @@ const LandingPageContent = ({
                 if (
                     scrollTop >=
                     element.offsetTop -
-                        threshold
+                    threshold
                 ) {
                     current =
                         id === "home"
@@ -139,11 +138,7 @@ const LandingPageContent = ({
                 scrollbar-hide
             "
         >
-            <LandingNavbar
-                activeSection={
-                    activeSection
-                }
-            />
+            {activeSection !== "hero" && <LandingNavbar />}
 
             <section
                 id="home"
@@ -152,6 +147,7 @@ const LandingPageContent = ({
                     z-10
                     w-full
                     shrink-0
+                    pb-30
                 "
             >
                 <HeroSection
@@ -164,17 +160,14 @@ const LandingPageContent = ({
             <section
                 id="discover"
                 className="
-                    relative
-                    z-20
-                    w-full
-                    shrink-0
-                    bg-background
-                    px-4
-                    pt-20
-                    pb-40
-                    sm:pt-24
-                    sm:pb-48
-                "
+        relative
+        z-20
+        w-full
+        shrink-0
+        bg-background
+        px-4
+        py-10
+    "
             >
                 <DiscoverSection
                     isLoggedIn={

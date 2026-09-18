@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { apiUrl, routes } from "@/constants/api";
+import { serverApiUrl, routes } from "@/constants/api";
 
 type VerifyStatus = "success" | "invalid" | "expired" | "error";
 
@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
 
   try {
     const backendResponse = await fetch(
-      apiUrl(`${routes.signupVerify}?token=${encodeURIComponent(token)}`),
+      serverApiUrl(`${routes.signupVerify}?token=${encodeURIComponent(token)}`),
       {
         method: "GET",
         cache: "no-store",

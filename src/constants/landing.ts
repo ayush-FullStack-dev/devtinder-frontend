@@ -289,4 +289,6 @@ export const DeveloperProfilesDemoData = [
   },
 ];
 
+export const LandingHowItWorks_VIDEO_NOSOUND =
+    "/videos/LandingHowItWorks-NoSound.mp4";
 export type DeveloperProfile = (typeof DeveloperProfilesDemoData)[number];

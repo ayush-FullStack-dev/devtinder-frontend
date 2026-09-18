@@ -126,8 +126,8 @@ const LandingWhyDevTinderSection =
 
             let timeoutId:
                 | ReturnType<
-                      typeof setTimeout
-                  >
+                    typeof setTimeout
+                >
                 | undefined;
 
             const load = () => {
@@ -181,7 +181,7 @@ const LandingWhyDevTinderSection =
                 if (
                     idleId !== undefined &&
                     "cancelIdleCallback" in
-                        window
+                    window
                 ) {
                     window.cancelIdleCallback(
                         idleId
@@ -247,22 +247,22 @@ const LandingWhyDevTinderSection =
                 >
                     <h2
                         className={`
-                            ${googleSansFlex.className}
-                            pl-0
-                            text-base
-                            leading-none
-                            text-green-brand
-                            xs:text-lg
-                            sm:text-xl
-                            md:text-2xl
-                            lg:pl-3
-                            lg:text-2xl
-                            2xl:text-3xl
-                            3xl:text-4xl
-                            5xl:text-5xl
-                            7xl:text-6xl
-                            10xl:text-7xl
-                        `}
+        ${googleSansFlex.className}
+        pl-0
+        text-sm
+        leading-none
+        text-green-brand
+        xs:text-base
+        sm:text-lg
+        md:text-lg
+        lg:pl-3
+        lg:text-lg
+        2xl:text-xl
+        3xl:text-2xl
+        5xl:text-3xl
+        7xl:text-4xl
+        10xl:text-5xl
+    `}
                     >
                         WHY DEVTINDER
                     </h2>
@@ -377,10 +377,9 @@ const LandingWhyDevTinderSection =
                                 transition-opacity
                                 duration-500
                                 ease-in-out
-                                ${
-                                    modelReady
-                                        ? "opacity-0"
-                                        : "opacity-100"
+                                ${modelReady
+                                    ? "opacity-0"
+                                    : "opacity-100"
                                 }
                             `}
                         >
@@ -409,10 +408,9 @@ const LandingWhyDevTinderSection =
                                     transition-opacity
                                     duration-500
                                     ease-out
-                                    ${
-                                        modelReady
-                                            ? "opacity-100"
-                                            : "opacity-0"
+                                    ${modelReady
+                                        ? "opacity-100"
+                                        : "opacity-0"
                                     }
                                 `}
                             >

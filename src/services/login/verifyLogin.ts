@@ -1,5 +1,5 @@
 import { getDeviceId, getDeviceSize } from "@/lib/getDeviceInfo";
-import { apiUrl, routes } from "@/constants/api";
+import { clientApiUrl, routes } from "@/constants/api";
 import { BackendVerifyLogin, PasskeyVerify } from "@/schemas/login.schema";
 import { loginIdentifySuccessResponse } from "@/types/auth/login/loginIdenfity.type";
 import {
@@ -65,7 +65,7 @@ export const verifyLogin = async ({
               code: code as string,
             };
 
-    const res = await fetch(apiUrl(routes.loginVerify), {
+    const res = await fetch(clientApiUrl(routes.loginVerify), {
       method: "POST",
       credentials: "include",
       headers: {

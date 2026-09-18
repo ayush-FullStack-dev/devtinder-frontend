@@ -4,7 +4,7 @@
 import FloatingLabelInput from '@/components/shared/FloatingLabelInput'
 import InputError from '@/components/shared/InputError';
 import PrimaryButton from '@/components/shared/PrimaryButton';
-import { apiUrl, routes } from '@/constants/api';
+import { clientApiUrl, routes } from '@/constants/api';
 import { signupStep1Schema, SignupStep1Values } from '@/schemas/signup.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
@@ -109,7 +109,7 @@ const SignupFormIdentifer = ({ setStep, setSignupData, signupData }: SignupFormI
         const generatedUsername = `${cleanName}${randomNumber}`;
 
         const response = await fetch(
-          apiUrl(
+          clientApiUrl(
             `${routes.checkUsername}/?username=${encodeURIComponent(
               generatedUsername
             )}`
@@ -152,7 +152,7 @@ const SignupFormIdentifer = ({ setStep, setSignupData, signupData }: SignupFormI
     setChecking((prev) => ({ ...prev, username: true }))
 
     const response = await fetch(
-      apiUrl(`${routes.checkUsername}/?username=${encodeURIComponent(username)}`)
+      clientApiUrl(`${routes.checkUsername}/?username=${encodeURIComponent(username)}`)
     );
 
     const data = await response.json();
@@ -187,7 +187,7 @@ const SignupFormIdentifer = ({ setStep, setSignupData, signupData }: SignupFormI
     setChecking((prev) => ({ ...prev, email: true }))
 
     const response = await fetch(
-      apiUrl(`${routes.checkEmail}/?email=${encodeURIComponent(email)}`)
+      clientApiUrl(`${routes.checkEmail}/?email=${encodeURIComponent(email)}`)
     );
 
     const data = await response.json();
@@ -327,7 +327,7 @@ const SignupFormIdentifer = ({ setStep, setSignupData, signupData }: SignupFormI
           error={!!errors.name}
           watch={watch}
           success={!!name && !errors.name}
-          className="!h-[54px]"
+          className="h-13.5!"
         />
 
         <FieldError name="name" />
@@ -353,7 +353,7 @@ const SignupFormIdentifer = ({ setStep, setSignupData, signupData }: SignupFormI
               <CheckSvg />
             ) : null
           }
-          className="!h-[54px]"
+          className="h-13.5!"
         />
 
         <FieldError name="username" />
@@ -375,7 +375,7 @@ const SignupFormIdentifer = ({ setStep, setSignupData, signupData }: SignupFormI
               <CheckSvg />
             ) : null
           }
-          className="!h-[54px]"
+          className="h-13.5!"
         />
 
         <FieldError name="email" />
@@ -395,7 +395,7 @@ const SignupFormIdentifer = ({ setStep, setSignupData, signupData }: SignupFormI
           ]}
           error={!!errors.gender}
           success={!!gender && !errors.gender}
-          className="!h-[54px]"
+          className="h-13.5!"
         />
 
         <FieldError name="gender" />

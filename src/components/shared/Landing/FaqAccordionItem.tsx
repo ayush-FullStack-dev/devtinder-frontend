@@ -29,7 +29,6 @@ const FaqAccordionItem = ({
                 aria-controls={`faq-answer-${id}`}
                 className="w-full flex flex-col gap-5 lg:gap-[3vh] 4xl:gap-[2vh] text-left cursor-pointer select-none"
             >
-                {/* Question */}
                 <div
                     className={`flex w-full items-center justify-between gap-6 transition-colors duration-200 ${
                         isOpen ? "text-green-brand" : ""
@@ -58,7 +57,6 @@ const FaqAccordionItem = ({
                     </motion.div>
                 </div>
 
-                {/* Answer */}
                 <AnimatePresence initial={false}>
                     {isOpen && (
                         <motion.div
@@ -102,8 +100,6 @@ const FaqAccordionItem = ({
                         </motion.div>
                     )}
                 </AnimatePresence>
-
-                {/* Divider */}
                 <motion.div
                     initial={false}
                     animate={{

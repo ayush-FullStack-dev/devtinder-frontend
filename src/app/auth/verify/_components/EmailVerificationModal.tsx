@@ -2,7 +2,7 @@
 
 import { googleSans, googleSansFlex } from "@/assets/fonts/font.google";
 import LogoMark from "@/components/brand/LogoMark";
-import { apiUrl, routes } from "@/constants/api";
+import { clientApiUrl, routes } from "@/constants/api";
 import { getSocket } from "@/lib/socket";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -140,7 +140,7 @@ const EmailVerificationModal = ({
 
         try {
             const response = await fetch(
-                apiUrl(routes.resendEmailVerification),
+                clientApiUrl(routes.resendEmailVerification),
                 {
                     method: "POST",
                     headers: {

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { getDeviceInfo } from "@/actions/device";
-import { apiUrl, routes } from "@/constants/api";
+import { serverApiUrl, routes } from "@/constants/api";
 import { safeRedirectPath } from "@/constants/url";
 import { clearAuthCookies } from "@/actions/clearAuthCookies";
 
@@ -13,7 +13,7 @@ export async function POST(req: Request) {
 
     const { deviceId, deviceSize } = await getDeviceInfo();
 
-    const backendResponse = await fetch(apiUrl(routes.refresh), {
+    const backendResponse = await fetch(serverApiUrl(routes.refresh), {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

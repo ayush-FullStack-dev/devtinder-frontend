@@ -14,19 +14,19 @@ const LandingFaqSection = () => {
     const reveal = (y: number) =>
         reduced
             ? {
-                  initial: { opacity: 0 },
-                  whileInView: { opacity: 1 },
-              }
+                initial: { opacity: 0 },
+                whileInView: { opacity: 1 },
+            }
             : {
-                  initial: {
-                      opacity: 0,
-                      y,
-                  },
-                  whileInView: {
-                      opacity: 1,
-                      y: 0,
-                  },
-              };
+                initial: {
+                    opacity: 0,
+                    y,
+                },
+                whileInView: {
+                    opacity: 1,
+                    y: 0,
+                },
+            };
 
     return (
         <section className="w-full flex flex-col items-center lg:items-start lg:flex-row lg:justify-around">
@@ -47,14 +47,14 @@ const LandingFaqSection = () => {
                     viewport={{ once: true, amount: 0.2 }}
                     transition={{ duration: 0.4, ease }}
                     className={`
-                        ${googleSansFlex.className}
-                        leading-none tracking-[0.01em] text-green-brand
-                        text-base xs:text-lg sm:text-xl md:text-xl
-                        lg:text-xl xl:text-2xl 2xl:text-3xl
-                        3xl:text-4xl 4xl:text-5xl 5xl:text-5xl
-                        7xl:text-6xl 8xl:text-7xl 9xl:text-8xl
-                        10xl:text-9xl
-                    `}
+        ${googleSansFlex.className}
+        leading-none tracking-[0.01em] text-green-brand
+        text-sm xs:text-base sm:text-lg md:text-lg
+        lg:text-lg xl:text-xl 2xl:text-2xl
+        3xl:text-3xl 4xl:text-4xl 5xl:text-4xl
+        7xl:text-5xl 8xl:text-6xl 9xl:text-7xl
+        10xl:text-8xl
+    `}
                 >
                     FAQ
                 </motion.h2>
@@ -129,7 +129,6 @@ const LandingFaqSection = () => {
                 </motion.p>
             </div>
 
-            {/* Mobile heading */}
             <motion.div
                 {...reveal(16)}
                 viewport={{ once: true, amount: 0.2 }}
@@ -144,7 +143,6 @@ const LandingFaqSection = () => {
                 Frequently Asked Questions
             </motion.div>
 
-            {/* FAQ — single parent reveal */}
             <motion.div
                 {...reveal(36)}
                 viewport={{

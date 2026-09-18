@@ -2,7 +2,7 @@
 
 import { googleSans } from "@/assets/fonts/font.google";
 import LogoHorizontal from "@/components/brand/LogoHorizontal";
-import { apiUrl, routes } from "@/constants/api";
+import { clientApiUrl, routes } from "@/constants/api";
 import {
     AlertCircle,
     CircleCheck,
@@ -75,7 +75,7 @@ function VerifyPageContent({
 
         try {
             const response = await fetch(
-                apiUrl(routes.resendEmailVerification),
+                clientApiUrl(routes.resendEmailVerification),
                 {
                     method: "POST",
                     headers: {

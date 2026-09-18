@@ -1,13 +1,15 @@
 const clientBase =
-  process.env.NODE_ENV === "development"
-    ? "/backend-api"
-    : process.env.NEXT_PUBLIC_API_URL!;
+    process.env.NODE_ENV === "development"
+        ? "/backend-api"
+        : process.env.NEXT_PUBLIC_API_URL!;
 
 export const serverBase = process.env.NEXT_PUBLIC_API_URL!;
 
-export function getBaseUrl(): string {
-  return typeof window === "undefined" ? serverBase : clientBase;
-}
+export const clientApiUrl = (path: string) =>
+    `${clientBase}${path}`;
+
+export const serverApiUrl = (path: string) =>
+    `${serverBase}${path}`;
 
 const authPath = "/auth";
 const loginPath = `${authPath}/login`;
@@ -23,19 +25,15 @@ const systemPath = "/system";
 const healthPath = `${systemPath}/health`;
 
 export const routes = {
-  accountInfo: `${authPath}/me/`,
-  login: loginPath,
-  loginIdentify: `${loginPath}/identify/`,
-  loginVerify: `${loginPath}/confirm/`,
-  refresh: refreshPath,
-  checkUsername: checkUsernamePath,
-  checkEmail: checkEmailPath,
-  signup: signupPath,
-  signupVerify: signupVerifyPath,
-  resendEmailVerification: resendEmailVerificationPath,
-  systemHealth: healthPath,
+    accountInfo: `${authPath}/me/`,
+    login: loginPath,
+    loginIdentify: `${loginPath}/identify/`,
+    loginVerify: `${loginPath}/confirm/`,
+    refresh: refreshPath,
+    checkUsername: checkUsernamePath,
+    checkEmail: checkEmailPath,
+    signup: signupPath,
+    signupVerify: signupVerifyPath,
+    resendEmailVerification: resendEmailVerificationPath,
+    systemHealth: healthPath,
 } as const;
-
-export function apiUrl(path: string): string {
-  return `${getBaseUrl()}${path}`;
-}

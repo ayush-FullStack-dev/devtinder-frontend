@@ -3,7 +3,7 @@ import IconWithText from "@/components/shared/IconWithText";
 import AppLoader from "@/components/shared/Loader/AppLoader";
 import { useEffect, useState } from "react";
 import { googleSansFlex } from "@/assets/fonts/font.google";
-import ApprovalDeviceAnimation from "@/components/shared/ApprovalDeviceAnimation";
+import ApprovalDeviceAnimation from "@/components/shared/animation/ApprovalDeviceAnimation";
 import DotsLoader from "@/components/shared/Loader/DotsLoader";
 import { useLoginStore } from "@/store/login.store";
 import { verifyLogin } from "@/services/login/verifyLogin";

@@ -89,7 +89,7 @@ export default function HowItWorksPage() {
                 }}
             />
 
-         
+
             <header className="mx-auto flex h-20 w-full max-w-7xl items-center px-6 sm:px-8 lg:px-12">
                 <a
                     href="/"
@@ -118,8 +118,8 @@ export default function HowItWorksPage() {
                             className={`${googleSans.className} text-balance text-[clamp(3.25rem,8vw,7rem)] font-bold leading-[0.88] tracking-[-0.065em] flex flex-col gap-5`}
                         >
                             Meet the right
-                   
-                            
+
+
                             <span className="text-green-brand">
                                 people. Build.
                             </span>
@@ -134,10 +134,10 @@ export default function HowItWorksPage() {
                         </p>
                     </div>
 
-             
+
                     <div className="mt-14 sm:mt-18 lg:mt-20">
                         <div className="overflow-hidden rounded-[1.5rem] border border-black/[0.06] bg-black shadow-[0_30px_100px_rgba(0,0,0,0.14)] dark:border-white/[0.08] dark:shadow-[0_30px_100px_rgba(0,0,0,0.45)]">
-               
+
                             <div className="flex h-11 items-center border-b border-white/[0.06] bg-neutral-950 px-4">
                                 <div className="flex items-center gap-1.5">
                                     <span className="size-2.5 rounded-full bg-[#ff5f57]" />
@@ -166,7 +166,7 @@ export default function HowItWorksPage() {
                                     className="block size-full object-contain"
                                 >
                                     <source
-                                        src="/videos/LandingHowItWorks.mp4"
+                                        src={videoUrl}
                                         type="video/mp4"
                                     />
 
@@ -189,7 +189,7 @@ export default function HowItWorksPage() {
                         </div>
                     </div>
 
-  
+
                     <div className="mx-auto mt-28 max-w-4xl sm:mt-36">
                         <div className="grid gap-12 sm:grid-cols-3 sm:gap-8">
                             <div>
@@ -256,7 +256,7 @@ export default function HowItWorksPage() {
                             </div>
                         </div>
                     </div>
-            <div className="mx-auto mt-28 max-w-4xl text-center sm:mt-40">
+                    <div className="mx-auto mt-28 max-w-4xl text-center sm:mt-40">
                         <h2
                             className={`${googleSans.className} text-balance text-[clamp(2.5rem,5.5vw,5rem)] font-semibold leading-[0.98] tracking-[-0.05em]`}
                         >
@@ -279,8 +279,8 @@ export default function HowItWorksPage() {
                 </div>
             </section>
 
-   
-   
+
+
             <section className="border-t border-black/[0.06] dark:border-white/[0.07]">
                 <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-6 py-20 sm:px-8 sm:py-24 lg:flex-row lg:items-center lg:justify-between lg:px-12">
                     <div className="max-w-xl">

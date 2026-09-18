@@ -1,5 +1,5 @@
 import JsonLd from "@/constants/JsonLd";
-import LandingNavbar from "../sections/Landing/LandingNavbar";
+import LandingNavbar from "../sections/Landing/Navbar/LandingNavbar";
 import HeroSection from "../sections/Landing/LandingHeroSection";
 import DiscoverSection from "../sections/Landing/LandingDiscoverSection";
 import { softLoginCheck } from "@/actions/softloginCheck";

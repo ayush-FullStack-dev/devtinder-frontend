@@ -3,7 +3,7 @@
 import FloatingLabelInput from "@/components/shared/FloatingLabelInput";
 import InputError from "@/components/shared/InputError";
 import PrimaryButton from "@/components/shared/PrimaryButton";
-import { apiUrl, routes } from "@/constants/api";
+import { clientApiUrl, routes } from "@/constants/api";
 import { SignupFormValues, signupSchema } from "@/schemas/signup.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
@@ -31,8 +31,8 @@ const SignupForm = ({
   const [isSubmiting, setIsSubmiting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [verificationSent, setVerificationSent] = useState(false);
-  const [verificationEmail, setVerificationEmail] = useState("m7987172@gmail.com");
-
+  const [verificationEmail, setVerificationEmail] = useState("");
+  const [serverError, setServerError] = useState<{ name: string; message: string } | null>(null)
   const {
     register,
     handleSubmit,
@@ -62,11 +62,11 @@ const SignupForm = ({
   }: {
     name: "password" | "confirmPassword";
   }) => {
-    const error = errors[name]?.message;
+    const error = errors[name]?.message || serverError?.message
 
     return (
       <div>
-        {error ? <InputError text={error} /> : null}
+        {error || serverError ? <InputError text={error} /> : null}
       </div>
     );
   };
@@ -81,7 +81,7 @@ const SignupForm = ({
     setIsSubmiting(true);
 
     try {
-      const response = await fetch(apiUrl(routes.signup), {
+      const response = await fetch(clientApiUrl(routes.signup), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -92,6 +92,10 @@ const SignupForm = ({
       const result = await response.json();
 
       if (!response.ok) {
+        setServerError({
+          name: result.name,
+          message: result.message,
+        })
         return;
       }
 
@@ -108,7 +112,12 @@ const SignupForm = ({
       setVerificationSent(true);
 
     } catch (error) {
+      setServerError({
+        name: "general",
+        message: "An unexpected error occurred. Please try again."
+      })
     } finally {
+      setServerError(null)
       setIsSubmiting(false);
     }
   };
@@ -118,8 +127,8 @@ const SignupForm = ({
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col gap-5"
     >
-      <EmailVerificationModal show={verificationSent} sentMail={verificationEmail}/>
-      
+      <EmailVerificationModal show={verificationSent} sentMail={verificationEmail} />
+
       <div className="flex flex-col gap-2">
         <FloatingLabelInput
           name="password"
