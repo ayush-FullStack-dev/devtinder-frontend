@@ -25,7 +25,7 @@ const LandingHeroSection = ({
     scrollContainerRef,
 }: LandingHeroSectionProps) => {
     const router = useRouter();
-    const reducedMotion = false;
+    const reducedMotion = useReducedMotion();
     const heroRef = useRef<HTMLElement>(null);
 
     const [isDesktop, setIsDesktop] = useState(false);
@@ -188,13 +188,11 @@ const LandingHeroSection = ({
     return (
         <section
             ref={heroRef}
-            className="
-                relative
-                min-h-[250svh]
+            className={`relative
+                ${reducedMotion ? "min-h-dvh" : "min-h-[250svh]"}
                 w-full
                 shrink-0
-                bg-[#161617]
-            "
+                bg-[#161617]`}
         >
             <div className="sticky top-0 h-dvh w-full overflow-hidden">
                 <LandingHeroNavbar />
@@ -292,7 +290,7 @@ const LandingHeroSection = ({
                                 initial={false}
                                 animate={{
                                     height:
-                                        isDesktop || contentVisible
+                                        isDesktop || contentVisible || reducedMotion
                                             ? "auto"
                                             : "0px",
                                 }}

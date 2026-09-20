@@ -6,14 +6,12 @@ import {
     googleSans,
     googleSansFlex,
 } from "@/assets/fonts/font.google";
-import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { LandingHowItWorks_VIDEO_NOSOUND } from "@/constants/landing";
 
 const LandingHowItWorksSection = () => {
     const sectionRef = useRef<HTMLElement>(null);
     const [container, setContainer] = useState<HTMLElement | null>(null);
     const [isDesktop, setIsDesktop] = useState(false);
-    const reduced = useReducedMotion();
 
     useEffect(() => {
         setContainer(document.getElementById("main-scroll"));
@@ -56,10 +54,6 @@ const LandingHowItWorksSection = () => {
         [1, 0.65]
     );
 
-    const textY = reduced ? undefined : rawTextY;
-    const textOpacity = reduced ? undefined : rawTextOpacity;
-    const textScale = reduced ? undefined : rawTextScale;
-
     return (
         <section
             ref={sectionRef}
@@ -96,10 +90,10 @@ const LandingHowItWorksSection = () => {
                     style={
                         isDesktop
                             ? {
-                                opacity: textOpacity,
-                                y: textY,
-                                scale: textScale,
-                            }
+                                  opacity: rawTextOpacity,
+                                  y: rawTextY,
+                                  scale: rawTextScale,
+                              }
                             : undefined
                     }
                     className="
@@ -114,7 +108,7 @@ const LandingHowItWorksSection = () => {
                     <motion.div
                         initial={{
                             opacity: 0,
-                            scale: reduced ? 1 : 0.97,
+                            scale: 0.97,
                         }}
                         whileInView={{
                             opacity: 1,
@@ -140,8 +134,8 @@ const LandingHowItWorksSection = () => {
                         <motion.h2
                             initial={{
                                 opacity: 0,
-                                y: reduced ? 0 : 10,
-                                letterSpacing: reduced ? "0em" : "0.1em",
+                                y: 10,
+                                letterSpacing: "0.1em",
                             }}
                             whileInView={{
                                 opacity: 1,
@@ -157,19 +151,19 @@ const LandingHowItWorksSection = () => {
                                 ease: [0.22, 1, 0.36, 1],
                             }}
                             className={`
-        ${googleSansFlex.className}
-        text-sm
-        text-green-brand
-        xs:text-base
-        sm:text-lg
-        xl:text-lg
-        3xl:text-xl
-        4xl:text-2xl
-        5xl:text-3xl
-        7xl:text-4xl
-        8xl:text-5xl
-        9xl:text-6xl
-    `}
+                                ${googleSansFlex.className}
+                                text-sm
+                                text-green-brand
+                                xs:text-base
+                                sm:text-lg
+                                xl:text-lg
+                                3xl:text-xl
+                                4xl:text-2xl
+                                5xl:text-3xl
+                                7xl:text-4xl
+                                8xl:text-5xl
+                                9xl:text-6xl
+                            `}
                         >
                             HOW IT WORKS
                         </motion.h2>
@@ -196,7 +190,7 @@ const LandingHowItWorksSection = () => {
                             <motion.p
                                 initial={{
                                     opacity: 0,
-                                    y: reduced ? 0 : 24,
+                                    y: 24,
                                 }}
                                 whileInView={{
                                     opacity: 1,
@@ -217,7 +211,7 @@ const LandingHowItWorksSection = () => {
                             <motion.p
                                 initial={{
                                     opacity: 0,
-                                    y: reduced ? 0 : 24,
+                                    y: 24,
                                 }}
                                 whileInView={{
                                     opacity: 1,

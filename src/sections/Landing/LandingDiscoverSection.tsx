@@ -8,10 +8,10 @@ import {
     DeveloperProfilesDemoData,
 } from "@/constants/landing";
 import { shuffle } from "@/helpers/shuffle";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 import Link from "next/link";
 import { motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
-import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 const LandingDiscoverSection = ({
     isLoggedIn,
@@ -60,43 +60,58 @@ const LandingDiscoverSection = ({
         <section
             ref={sectionRef}
             className="
-        flex
-        w-full
-        shrink-0
-        flex-col
-        gap-[3vh]
-        px-2
-        pt-[2vh]
-        sm:px-8
-        sm:pt-[3vh]
-        md:gap-[4vh]
-        md:px-12
-        md:pt-[3vh]
-        mb-3
-        lg:flex-row
-        lg:items-center
-        lg:justify-around
-        lg:gap-[2.5vh]
-        lg:px-2
-        lg:pt-0
-        3xl:gap-[3vh]
-        5xl:gap-[4vh]
-        7xl:gap-[5vh]
-    "
+                flex
+                w-full
+                shrink-0
+                flex-col
+                gap-[3vh]
+                px-2
+                pt-[2vh]
+                sm:px-8
+                sm:pt-[3vh]
+                md:gap-[4vh]
+                md:px-12
+                md:pt-[3vh]
+                mb-3
+                lg:flex-row
+                lg:items-center
+                lg:justify-around
+                lg:gap-[2.5vh]
+                lg:px-2
+                lg:pt-0
+                3xl:gap-[3vh]
+                5xl:gap-[4vh]
+                7xl:gap-[5vh]
+            "
         >
             <motion.div
-                initial={{
-                    opacity: 0,
-                    x: reduced ? 0 : -32,
-                }}
-                animate={{
-                    opacity: isVisible ? 1 : 0,
-                    x: isVisible || reduced ? 0 : -32,
-                }}
-                transition={{
-                    duration: reduced ? 0 : 0.65,
-                    ease,
-                }}
+                initial={
+                    reduced
+                        ? false
+                        : {
+                              opacity: 0,
+                              x: -32,
+                          }
+                }
+                animate={
+                    reduced
+                        ? {
+                              opacity: 1,
+                              x: 0,
+                          }
+                        : {
+                              opacity: isVisible ? 1 : 0,
+                              x: isVisible ? 0 : -32,
+                          }
+                }
+                transition={
+                    reduced
+                        ? { duration: 0 }
+                        : {
+                              duration: 0.65,
+                              ease,
+                          }
+                }
                 className="
                     -mt-5
                     flex
@@ -246,20 +261,36 @@ const LandingDiscoverSection = ({
             </motion.div>
 
             <motion.div
-                initial={{
-                    opacity: 0,
-                    x: reduced ? 0 : 28,
-                    scale: reduced ? 1 : 0.985,
-                }}
-                animate={{
-                    opacity: isVisible ? 1 : 0,
-                    x: isVisible || reduced ? 0 : 28,
-                    scale: isVisible || reduced ? 1 : 0.985,
-                }}
-                transition={{
-                    duration: reduced ? 0 : 0.7,
-                    ease,
-                }}
+                initial={
+                    reduced
+                        ? false
+                        : {
+                              opacity: 0,
+                              x: 28,
+                              scale: 0.985,
+                          }
+                }
+                animate={
+                    reduced
+                        ? {
+                              opacity: 1,
+                              x: 0,
+                              scale: 1,
+                          }
+                        : {
+                              opacity: isVisible ? 1 : 0,
+                              x: isVisible ? 0 : 28,
+                              scale: isVisible ? 1 : 0.985,
+                          }
+                }
+                transition={
+                    reduced
+                        ? { duration: 0 }
+                        : {
+                              duration: 0.7,
+                              ease,
+                          }
+                }
                 className="
                     h-[min(70vw,620px)]
                     min-h-155
@@ -285,7 +316,7 @@ const LandingDiscoverSection = ({
                     developers={developers}
                     className="h-full w-full min-h-155"
                     isAllowedLike={isLoggedIn}
-                    isVisible={isVisible}
+                    isVisible={reduced ? true : isVisible}
                 />
             </motion.div>
         </section>

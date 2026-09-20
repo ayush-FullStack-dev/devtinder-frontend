@@ -11,22 +11,37 @@ const LandingFaqSection = () => {
     const reduced = useReducedMotion();
     const ease = [0.22, 1, 0.36, 1] as const;
 
-    const reveal = (y: number) =>
+    const reveal = (y: number, delay = 0) =>
         reduced
             ? {
-                initial: { opacity: 0 },
-                whileInView: { opacity: 1 },
-            }
+                  initial: false,
+                  animate: {
+                      opacity: 1,
+                      y: 0,
+                  },
+                  transition: {
+                      duration: 0,
+                  },
+              }
             : {
-                initial: {
-                    opacity: 0,
-                    y,
-                },
-                whileInView: {
-                    opacity: 1,
-                    y: 0,
-                },
-            };
+                  initial: {
+                      opacity: 0,
+                      y,
+                  },
+                  whileInView: {
+                      opacity: 1,
+                      y: 0,
+                  },
+                  viewport: {
+                      once: true,
+                      amount: 0.2,
+                  },
+                  transition: {
+                      delay,
+                      duration: 0.5,
+                      ease,
+                  },
+              };
 
     return (
         <section className="w-full flex flex-col items-center lg:items-start lg:flex-row lg:justify-around">
@@ -43,30 +58,22 @@ const LandingFaqSection = () => {
                 "
             >
                 <motion.h2
-                    {...reveal(10)}
-                    viewport={{ once: true, amount: 0.2 }}
-                    transition={{ duration: 0.4, ease }}
+                    {...reveal(10, 0)}
                     className={`
-        ${googleSansFlex.className}
-        leading-none tracking-[0.01em] text-green-brand
-        text-sm xs:text-base sm:text-lg md:text-lg
-        lg:text-lg xl:text-xl 2xl:text-2xl
-        3xl:text-3xl 4xl:text-4xl 5xl:text-4xl
-        7xl:text-5xl 8xl:text-6xl 9xl:text-7xl
-        10xl:text-8xl
-    `}
+                        ${googleSansFlex.className}
+                        leading-none tracking-[0.01em] text-green-brand
+                        text-sm xs:text-base sm:text-lg md:text-lg
+                        lg:text-lg xl:text-xl 2xl:text-2xl
+                        3xl:text-3xl 4xl:text-4xl 5xl:text-4xl
+                        7xl:text-5xl 8xl:text-6xl 9xl:text-7xl
+                        10xl:text-8xl
+                    `}
                 >
                     FAQ
                 </motion.h2>
 
                 <motion.h1
-                    {...reveal(22)}
-                    viewport={{ once: true, amount: 0.2 }}
-                    transition={{
-                        delay: 0.08,
-                        duration: 0.55,
-                        ease,
-                    }}
+                    {...reveal(22, 0.08)}
                     className={`
                         ${helveticaNow.className}
                         flex w-full shrink-0 flex-col
@@ -97,13 +104,7 @@ const LandingFaqSection = () => {
                 </motion.h1>
 
                 <motion.p
-                    {...reveal(14)}
-                    viewport={{ once: true, amount: 0.2 }}
-                    transition={{
-                        delay: 0.16,
-                        duration: 0.5,
-                        ease,
-                    }}
+                    {...reveal(14, 0.16)}
                     className={`
                         ${googleSans.className}
                         w-100 tracking-[-0.01em]
@@ -130,9 +131,7 @@ const LandingFaqSection = () => {
             </div>
 
             <motion.div
-                {...reveal(16)}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.5, ease }}
+                {...reveal(16, 0)}
                 className={`
                     hidden max-lg:block w-[95%]
                     ${googleSansFlex.className}
@@ -144,15 +143,10 @@ const LandingFaqSection = () => {
             </motion.div>
 
             <motion.div
-                {...reveal(36)}
+                {...reveal(36, 0.08)}
                 viewport={{
                     once: true,
                     amount: 0.1,
-                }}
-                transition={{
-                    delay: 0.08,
-                    duration: 0.7,
-                    ease: [0.16, 1, 0.3, 1],
                 }}
                 className="
                     mt-10
