@@ -1,8 +1,8 @@
 "use client";
 
 import { ArrowRight } from "lucide-react";
-import { motion, useAnimationControls } from "motion/react";
-import React, { useRef } from "react";
+import { animate, motion, useAnimationControls } from "motion/react";
+import React, { useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 type TextSwapButtonProps = {
@@ -11,6 +11,7 @@ type TextSwapButtonProps = {
   type?: "button" | "submit" | "reset";
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   disabled?: boolean;
+  animateAllowed?: boolean
 };
 
 const TextSwapButton = ({
@@ -19,20 +20,47 @@ const TextSwapButton = ({
   text,
   className,
   type = "button",
+  animateAllowed = true
 }: TextSwapButtonProps) => {
   const words = text.split(" ");
   const controls = useAnimationControls();
+  const arrowControls = useAnimationControls();
   const isAnimating = useRef(false);
+  const isArrowAnimating = useRef(false);
 
   const handleHover = async () => {
-    if (isAnimating.current) return;
+    if (!animateAllowed) return;
+
+    if (isAnimating.current) {
+      await controls.stop();
+    }
+
+    if (isArrowAnimating.current) {
+      await arrowControls.stop();
+    }
 
     isAnimating.current = true;
+    isArrowAnimating.current = true;
 
     controls.set("rest");
-    await controls.start("hover");
+    arrowControls.set("rest");
+
+    await new Promise<void>((resolve) => {
+      requestAnimationFrame(() => resolve());
+    });
+
+    controls.start("hover");
+    await arrowControls.start("hover");
 
     isAnimating.current = false;
+    isArrowAnimating.current = false;
+  };
+
+  const handleHoverEnd = async () => {
+    if (!animateAllowed) return;
+
+    await arrowControls.stop();
+    await arrowControls.start("rest");
   };
 
   return (
@@ -41,22 +69,21 @@ const TextSwapButton = ({
       onClick={onClick}
       disabled={disabled}
       onHoverStart={handleHover}
+      onHoverEnd={handleHoverEnd}
       initial="rest"
-      whileHover="hover"
       className={twMerge(
-        "grid h-full w-full min-w-0 grid-cols-[minmax(0,1fr)_auto] overflow-hidden",
+        "grid h-full w-full min-w-0 grid-cols-[minmax(0,1fr)_auto] overflow-hidden cursor-pointer  disabled:cursor-not-allowed   disabled:opacity-50",
         className
       )}
     >
-      <div className="flex h-full min-w-0 items-center rounded-full justify-center overflow-hidden bg-green-brand px-4 text-center text-lg">
-        <div className="flex min-w-0 items-center gap-1 overflow-hidden">
+      <div className="flex h-full min-w-0 items-center justify-center overflow-hidden rounded-full bg-green-brand px-4 text-center text-lg">
+        <div className="flex min-w-0 items-center gap-1">
           {words.map((word, index) => (
             <span
               key={`${word}-${index}`}
-              className="relative grid shrink-0 overflow-hidden"
+              className="relative grid shrink-0"
             >
               <motion.span
-                custom={index}
                 initial={{ y: "0%" }}
                 animate={controls}
                 variants={{
@@ -76,7 +103,6 @@ const TextSwapButton = ({
               </motion.span>
 
               <motion.span
-                custom={index}
                 initial={{ y: "130%" }}
                 animate={controls}
                 variants={{
@@ -102,30 +128,50 @@ const TextSwapButton = ({
       <div className="relative h-full aspect-square overflow-hidden rounded-full bg-green-brand">
         <motion.div
           className="absolute inset-0 flex items-center justify-center"
+          initial={{ y: "0%" }}
+          animate={arrowControls}
           variants={{
-            rest: { y: "0%" },
-            hover: { y: "-100%" },
-          }}
-          transition={{
-            duration: 0.65,
-            ease: [0.16, 1, 0.3, 1],
+            rest: {
+              y: "0%",
+              transition: {
+                duration: 0.90,
+                ease: [0.16, 1, 0.3, 1],
+              },
+            },
+            hover: {
+              y: "-100%",
+              transition: {
+                duration: 0.90,
+                ease: [0.16, 1, 0.3, 1],
+              },
+            },
           }}
         >
-          <ArrowRight className="size-5" />
+          <ArrowRight className="size-[42%]" />
         </motion.div>
 
         <motion.div
           className="absolute inset-0 flex items-center justify-center"
+          initial={{ y: "100%" }}
+          animate={arrowControls}
           variants={{
-            rest: { y: "100%" },
-            hover: { y: "0%" },
-          }}
-          transition={{
-            duration: 0.65,
-            ease: [0.16, 1, 0.3, 1],
+            rest: {
+              y: "100%",
+              transition: {
+                duration: 0.90,
+                ease: [0.16, 1, 0.3, 1],
+              },
+            },
+            hover: {
+              y: "0%",
+              transition: {
+                duration: 0.90,
+                ease: [0.16, 1, 0.3, 1],
+              },
+            },
           }}
         >
-          <ArrowRight className="size-5" />
+          <ArrowRight className="size-[42%]" />
         </motion.div>
       </div>
     </motion.button>

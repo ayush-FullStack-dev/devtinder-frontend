@@ -115,8 +115,9 @@ const LandingDiscoverSection = ({
                         text-sm
                         leading-none
                         tracking-[0.01em]
-                        ml-5
+                        lg:ml-4
                         m-3
+                        ml-0
                         text-green-brand
                         xs:text-base
                         sm:text-lg

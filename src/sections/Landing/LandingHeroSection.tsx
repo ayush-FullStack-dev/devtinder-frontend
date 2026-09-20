@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
     motion,
     useMotionValue,
+    useMotionValueEvent,
     useScroll,
     useSpring,
     useTransform,
@@ -14,6 +15,7 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
 import LandingHeroNavbar from "./Navbar/LandingHeroNavbar";
 import ScrollRevealText from "@/animations/ScrollRevealText";
 import TextSwapButton from "@/components/shared/animation/TextSwapButton";
+import { useRouter } from "next/navigation";
 
 type LandingHeroSectionProps = {
     scrollContainerRef: React.RefObject<HTMLElement | null>;
@@ -22,8 +24,12 @@ type LandingHeroSectionProps = {
 const LandingHeroSection = ({
     scrollContainerRef,
 }: LandingHeroSectionProps) => {
+    const router = useRouter();
     const reducedMotion = useReducedMotion();
     const heroRef = useRef<HTMLElement>(null);
+
+    const [isDesktop, setIsDesktop] = useState(false);
+    const [contentVisible, setContentVisible] = useState(false);
 
     const { scrollYProgress } = useScroll({
         container: scrollContainerRef,
@@ -78,6 +84,27 @@ const LandingHeroSection = ({
         };
     }, [pointerX, pointerY, reducedMotion]);
 
+    useEffect(() => {
+        const media = window.matchMedia("(min-width: 1024px)");
+
+        const update = () => setIsDesktop(media.matches);
+
+        update();
+        media.addEventListener("change", update);
+
+        return () => media.removeEventListener("change", update);
+    }, []);
+
+    useMotionValueEvent(scrollYProgress, "change", (latest) => {
+        if (isDesktop) return;
+
+        const visible = latest > 0.20;
+
+        setContentVisible((previous) =>
+            previous === visible ? previous : visible
+        );
+    });
+
     const backgroundX = useTransform(
         smoothPointerX,
         (value) => value * 0.0025
@@ -97,13 +124,13 @@ const LandingHeroSection = ({
     const backgroundHeight = useTransform(
         scrollYProgress,
         [0, 0.28],
-        ["100dvh", "53dvh"]
+        ["100dvh", isDesktop ? "53dvh" : "50dvh"]
     );
 
     const backgroundTop = useTransform(
         scrollYProgress,
         [0, 0.28],
-        ["0dvh", "15dvh"]
+        ["0dvh", isDesktop ? "14dvh" : "10dvh"]
     );
 
     const backgroundRadius = useTransform(
@@ -126,7 +153,7 @@ const LandingHeroSection = ({
 
     const buttonProgress = useTransform(
         scrollYProgress,
-        [0.48, 0.58],
+        [0.47, 0.58],
         [0, 1]
     );
 
@@ -242,39 +269,81 @@ const LandingHeroSection = ({
                             absolute
                             inset-x-0
                             bottom-0
+                            h-full
                             flex
+                            flex-col
+                            justify-end
+                            lg:flex-row
                             items-center
-                            justify-between
-                            px-6
-                            pb-[4vh]
+                            sm:items-start
+                            lg:items-end
+                            lg:justify-between
+                            px-2
                             sm:px-4
-                            md:px-6
-                            lg:px-8
-                            xl:px-10
+                            pb-4
+                            md:px-5
+                            lg:px-6
+                            xl:px-8
+                            lg:pb-10
+                            lg:gap-0
+                            gap-4
                         "
                     >
-                        <div className="flex w-200 flex-col gap-2">
-                            <ScrollRevealText
-                                progress={taglineProgress}
-                                reducedMotion={reducedMotion}
-                                words={taglineWords}
-                                className="text-xl font-bold text-[#9070DF]"
-                            />
+                        <div className="flex flex-col gap-2 md:gap-3">
+                            <motion.div
+                                initial={false}
+                                animate={{
+                                    height:
+                                        isDesktop || contentVisible
+                                            ? "auto"
+                                            : "0px",
+                                }}
+                                transition={{
+                                    height: {
+                                        duration: 0.6,
+                                        ease: [0.22, 1, 0.36, 1],
+                                    },
+                                }}
+                            >
+                                <ScrollRevealText
+                                    progress={taglineProgress}
+                                    reducedMotion={reducedMotion}
+                                    words={taglineWords}
+                                    className="
+                                        text-[3.5vw]
+                                        xs:text-mid
+                                        lg:text-lg
+                                        3xl:text-xl
+                                        5xl:text-2xl
+                                        7xl:text-3xl
+                                        uppercase
+                                        font-bold
+                                        text-[#9070DF]
+                                    "
+                                />
+                            </motion.div>
 
                             <h1
                                 id="hero-heading"
                                 className={`
                                     ${googleSans.className}
                                     m-0
-                                    w-full
+                                    w-[90vw]
+                                    xs:w-[90vw]
                                     font-bold
-                                    text-[52px]
                                     leading-[1.1]
                                     tracking-[-0.055em]
                                     text-white
-                                    sm:text-[64px]
-                                    md:text-[78px]
-                                    lg:text-[60px]
+                                    text-[7.6vw]
+                                    xs:text-4xl
+                                    sm:text-[5.8vw]
+                                    md:w-[70vw]
+                                    md:text-4xl
+                                    xl:text-5xl
+                                    lg:w-[50vw]
+                                    2xl:w-[45vw]
+                                    3xl:text-6xl
+                                    3xl:w-[40vw]
                                 `}
                             >
                                 We’re building the future of
@@ -282,13 +351,31 @@ const LandingHeroSection = ({
                             </h1>
                         </div>
 
-                        <div className="flex flex-col gap-5">
+                        <motion.div
+                            initial={false}
+                            animate={{
+                                height:
+                                    isDesktop || contentVisible
+                                        ? "auto"
+                                        : "0px",
+                            }}
+                            transition={{
+                                height: {
+                                    duration: 0.6,
+                                    ease: [0.22, 1, 0.36, 1],
+                                },
+                            }}
+                            className="flex flex-col gap-4 lg:gap-5"
+                        >
                             <p
                                 className={`
                                     ${googleSansFlex.className}
                                     w-full
                                     max-w-130
-                                    text-xl
+                                    text-sm
+                                    xs:text-mid
+                                    md:text-lg
+                                    2xl:text-xl
                                     font-heading
                                     text-[#939393]
                                 `}
@@ -308,7 +395,9 @@ const LandingHeroSection = ({
                                     pointer-events-auto
                                     transform-gpu
                                     h-12
-                                    w-60
+                                    w-[90vw]
+                                    lg:h-13
+                                    lg:w-70
                                     will-change-[transform,opacity]
                                 "
                                 style={{
@@ -326,9 +415,17 @@ const LandingHeroSection = ({
                                         : buttonY,
                                 }}
                             >
-                                <TextSwapButton text="Try It Now" />
+                                <TextSwapButton
+                                    text="Try It Now"
+                                    onClick={() =>
+                                        router.push("/dashboard")
+                                    }
+                                    animateAllowed={
+                                        isDesktop && !reducedMotion
+                                    }
+                                />
                             </motion.div>
-                        </div>
+                        </motion.div>
                     </div>
                 </div>
             </div>
