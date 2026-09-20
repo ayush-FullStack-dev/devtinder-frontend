@@ -25,12 +25,11 @@ const LandingHeroSection = ({
     scrollContainerRef,
 }: LandingHeroSectionProps) => {
     const router = useRouter();
-    const reducedMotion = useReducedMotion();
+    const reducedMotion = false;
     const heroRef = useRef<HTMLElement>(null);
 
     const [isDesktop, setIsDesktop] = useState(false);
     const [contentVisible, setContentVisible] = useState(false);
-
     const { scrollYProgress } = useScroll({
         container: scrollContainerRef,
         target: heroRef,
@@ -46,7 +45,6 @@ const LandingHeroSection = ({
         "Your",
         "Dev.",
     ];
-
     const subTitleWords = [
         "Meet developers who think like you, build like you, and",
         "turn ambitious ideas into something real",
