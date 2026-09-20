@@ -38,18 +38,18 @@ const LandingHeroSection = ({
     });
 
     const taglineWords = [
-        "Built",
-        "Fast.",
-        "Built",
-        "Secure.",
-        "Built",
-        "to",
-        "Scale.",
+        "Meet",
+        "Build.",
+        "Share",
+        "Ideas.",
+        "Find",
+        "Your",
+        "Dev.",
     ];
 
     const subTitleWords = [
-        "We empower enterprises to build amazing products and",
-        "capture true business value with language AI",
+        "Meet developers who think like you, build like you, and",
+        "turn ambitious ideas into something real",
     ];
 
     const pointerX = useMotionValue(0);
@@ -418,7 +418,7 @@ const LandingHeroSection = ({
                                 <TextSwapButton
                                     text="Try It Now"
                                     onClick={() =>
-                                        router.push("/dashboard")
+                                        router.push("/auth/signup")
                                     }
                                     animateAllowed={
                                         isDesktop && !reducedMotion
