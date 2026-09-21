@@ -21,6 +21,8 @@ type LandingHeroSectionProps = {
     scrollContainerRef: React.RefObject<HTMLElement | null>;
 };
 
+const ease = [0.22, 1, 0.36, 1] as const;
+
 const LandingHeroSection = ({
     scrollContainerRef,
 }: LandingHeroSectionProps) => {
@@ -30,6 +32,7 @@ const LandingHeroSection = ({
 
     const [isDesktop, setIsDesktop] = useState(false);
     const [contentVisible, setContentVisible] = useState(false);
+
     const { scrollYProgress } = useScroll({
         container: scrollContainerRef,
         target: heroRef,
@@ -45,6 +48,7 @@ const LandingHeroSection = ({
         "Your",
         "Dev.",
     ];
+
     const subTitleWords = [
         "Meet developers who think like you, build like you, and",
         "turn ambitious ideas into something real",
@@ -68,40 +72,91 @@ const LandingHeroSection = ({
     useEffect(() => {
         if (reducedMotion) return;
 
+        let frame = 0;
+        let nextX = 0;
+        let nextY = 0;
+
         const handlePointerMove = (event: PointerEvent) => {
-            pointerX.set(event.clientX - window.innerWidth / 2);
-            pointerY.set(event.clientY - window.innerHeight / 2);
+            nextX =
+                event.clientX -
+                window.innerWidth / 2;
+
+            nextY =
+                event.clientY -
+                window.innerHeight / 2;
+
+            if (frame) return;
+
+            frame = requestAnimationFrame(() => {
+                pointerX.set(nextX);
+                pointerY.set(nextY);
+                frame = 0;
+            });
         };
 
-        window.addEventListener("pointermove", handlePointerMove, {
-            passive: true,
-        });
+        window.addEventListener(
+            "pointermove",
+            handlePointerMove,
+            { passive: true }
+        );
 
         return () => {
-            window.removeEventListener("pointermove", handlePointerMove);
+            window.removeEventListener(
+                "pointermove",
+                handlePointerMove
+            );
+
+            if (frame) {
+                cancelAnimationFrame(frame);
+            }
         };
-    }, [pointerX, pointerY, reducedMotion]);
+    }, [
+        pointerX,
+        pointerY,
+        reducedMotion,
+    ]);
 
     useEffect(() => {
-        const media = window.matchMedia("(min-width: 1024px)");
+        const media = window.matchMedia(
+            "(min-width: 1024px)"
+        );
 
-        const update = () => setIsDesktop(media.matches);
+        const update = () => {
+            setIsDesktop(media.matches);
+        };
 
         update();
-        media.addEventListener("change", update);
 
-        return () => media.removeEventListener("change", update);
+        media.addEventListener(
+            "change",
+            update
+        );
+
+        return () => {
+            media.removeEventListener(
+                "change",
+                update
+            );
+        };
     }, []);
 
-    useMotionValueEvent(scrollYProgress, "change", (latest) => {
-        if (isDesktop) return;
+    useMotionValueEvent(
+        scrollYProgress,
+        "change",
+        (latest) => {
+            if (isDesktop) return;
 
-        const visible = latest > 0.20;
+            const visible =
+                latest > 0.20;
 
-        setContentVisible((previous) =>
-            previous === visible ? previous : visible
-        );
-    });
+            setContentVisible(
+                (previous) =>
+                    previous === visible
+                        ? previous
+                        : visible
+            );
+        }
+    );
 
     const backgroundX = useTransform(
         smoothPointerX,
@@ -122,13 +177,23 @@ const LandingHeroSection = ({
     const backgroundHeight = useTransform(
         scrollYProgress,
         [0, 0.28],
-        ["100dvh", isDesktop ? "53dvh" : "50dvh"]
+        [
+            "100dvh",
+            isDesktop
+                ? "53dvh"
+                : "50dvh",
+        ]
     );
 
     const backgroundTop = useTransform(
         scrollYProgress,
         [0, 0.28],
-        ["0dvh", isDesktop ? "14dvh" : "10dvh"]
+        [
+            "0dvh",
+            isDesktop
+                ? "14dvh"
+                : "10dvh",
+        ]
     );
 
     const backgroundRadius = useTransform(
@@ -155,11 +220,12 @@ const LandingHeroSection = ({
         [0, 1]
     );
 
-    const smoothButtonProgress = useSpring(buttonProgress, {
-        stiffness: 110,
-        damping: 20,
-        mass: 0.45,
-    });
+    const smoothButtonProgress =
+        useSpring(buttonProgress, {
+            stiffness: 110,
+            damping: 20,
+            mass: 0.45,
+        });
 
     const buttonOpacity = useTransform(
         smoothButtonProgress,
@@ -188,11 +254,10 @@ const LandingHeroSection = ({
     return (
         <section
             ref={heroRef}
-            className={`relative
-                ${reducedMotion ? "min-h-dvh" : "min-h-[250svh]"}
-                w-full
-                shrink-0
-                bg-[#161617]`}
+            className={`relative ${reducedMotion
+                ? "min-h-dvh"
+                : "min-h-[250svh]"
+                } w-full shrink-0 bg-[#161617]`}
         >
             <div className="sticky top-0 h-dvh w-full overflow-hidden">
                 <LandingHeroNavbar />
@@ -207,7 +272,8 @@ const LandingHeroSection = ({
                         overflow-hidden
                         bg-[#050505]
                         transform-gpu
-                        will-change-[width,height,top,border-radius]
+                       will-change-[width,height,top,border-radius,transform]
+                      backface-hidden
                     "
                     style={{
                         width: reducedMotion
@@ -249,6 +315,7 @@ const LandingHeroSection = ({
                                 muted
                                 playsInline
                                 preload="auto"
+                                poster="/images/landing-intro-poster.webp"
                             >
                                 <source
                                     src="/videos/LandingIntro.mp4"
@@ -290,21 +357,29 @@ const LandingHeroSection = ({
                                 initial={false}
                                 animate={{
                                     height:
-                                        isDesktop || contentVisible || reducedMotion
+                                        isDesktop ||
+                                            contentVisible ||
+                                            reducedMotion
                                             ? "auto"
                                             : "0px",
                                 }}
                                 transition={{
                                     height: {
                                         duration: 0.6,
-                                        ease: [0.22, 1, 0.36, 1],
+                                        ease,
                                     },
                                 }}
                             >
                                 <ScrollRevealText
-                                    progress={taglineProgress}
-                                    reducedMotion={reducedMotion}
-                                    words={taglineWords}
+                                    progress={
+                                        taglineProgress
+                                    }
+                                    reducedMotion={
+                                        reducedMotion
+                                    }
+                                    words={
+                                        taglineWords
+                                    }
                                     className="
                                         text-[3.5vw]
                                         xs:text-mid
@@ -351,14 +426,15 @@ const LandingHeroSection = ({
                             initial={false}
                             animate={{
                                 height:
-                                    isDesktop || contentVisible
+                                    isDesktop ||
+                                        contentVisible
                                         ? "auto"
                                         : "0px",
                             }}
                             transition={{
                                 height: {
                                     duration: 0.6,
-                                    ease: [0.22, 1, 0.36, 1],
+                                    ease,
                                 },
                             }}
                             className="flex flex-col gap-4 lg:gap-5"
@@ -377,9 +453,15 @@ const LandingHeroSection = ({
                                 `}
                             >
                                 <ScrollRevealText
-                                    progress={subTitleProgress}
-                                    reducedMotion={reducedMotion}
-                                    words={subTitleWords}
+                                    progress={
+                                        subTitleProgress
+                                    }
+                                    reducedMotion={
+                                        reducedMotion
+                                    }
+                                    words={
+                                        subTitleWords
+                                    }
                                     groupSize={1}
                                     className="flex flex-col"
                                     extraAnimation={false}
@@ -397,27 +479,34 @@ const LandingHeroSection = ({
                                     will-change-[transform,opacity]
                                 "
                                 style={{
-                                    opacity: reducedMotion
-                                        ? 1
-                                        : buttonOpacity,
-                                    scale: reducedMotion
-                                        ? 1
-                                        : buttonScale,
-                                    x: reducedMotion
-                                        ? 0
-                                        : buttonX,
-                                    y: reducedMotion
-                                        ? 0
-                                        : buttonY,
+                                    opacity:
+                                        reducedMotion
+                                            ? 1
+                                            : buttonOpacity,
+                                    scale:
+                                        reducedMotion
+                                            ? 1
+                                            : buttonScale,
+                                    x:
+                                        reducedMotion
+                                            ? 0
+                                            : buttonX,
+                                    y:
+                                        reducedMotion
+                                            ? 0
+                                            : buttonY,
                                 }}
                             >
                                 <TextSwapButton
                                     text="Try It Now"
                                     onClick={() =>
-                                        router.push("/auth/signup")
+                                        router.push(
+                                            "/auth/signup"
+                                        )
                                     }
                                     animateAllowed={
-                                        isDesktop && !reducedMotion
+                                        isDesktop &&
+                                        !reducedMotion
                                     }
                                 />
                             </motion.div>

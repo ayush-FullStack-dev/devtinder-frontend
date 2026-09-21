@@ -90,10 +90,10 @@ const LandingHowItWorksSection = () => {
                     style={
                         isDesktop
                             ? {
-                                  opacity: rawTextOpacity,
-                                  y: rawTextY,
-                                  scale: rawTextScale,
-                              }
+                                opacity: rawTextOpacity,
+                                y: rawTextY,
+                                scale: rawTextScale,
+                            }
                             : undefined
                     }
                     className="
