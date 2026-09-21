@@ -277,16 +277,18 @@ const LandingHeroSection = ({
                     "
                     style={{
                         width: reducedMotion
-                            ? "100%"
+                            ? "95%"
                             : backgroundWidth,
                         height: reducedMotion
-                            ? "100dvh"
+                            ? "55dvh"
                             : backgroundHeight,
                         top: reducedMotion
-                            ? 0
+                            ? isDesktop
+                                ? "14dvh"
+                                : "10dvh"
                             : backgroundTop,
                         borderRadius: reducedMotion
-                            ? "0px"
+                            ? "32px"
                             : backgroundRadius,
                         x: reducedMotion
                             ? 0
@@ -344,6 +346,7 @@ const LandingHeroSection = ({
                             px-2
                             sm:px-4
                             pb-4
+                            sm:pb-3
                             md:px-5
                             lg:px-6
                             xl:px-8
@@ -388,6 +391,7 @@ const LandingHeroSection = ({
                                         5xl:text-2xl
                                         7xl:text-3xl
                                         uppercase
+                                        -mb-1
                                         font-bold
                                         text-[#9070DF]
                                     "
@@ -397,28 +401,26 @@ const LandingHeroSection = ({
                             <h1
                                 id="hero-heading"
                                 className={`
-                                    ${googleSans.className}
-                                    m-0
-                                    w-[90vw]
-                                    xs:w-[90vw]
-                                    font-bold
-                                    leading-[1.1]
-                                    tracking-[-0.055em]
-                                    text-white
-                                    text-[7.6vw]
-                                    xs:text-4xl
-                                    sm:text-[5.8vw]
-                                    md:w-[70vw]
-                                    md:text-4xl
-                                    xl:text-5xl
-                                    lg:w-[50vw]
-                                    2xl:w-[45vw]
-                                    3xl:text-6xl
-                                    3xl:w-[40vw]
-                                `}
+        ${googleSans.className}
+        m-0
+        w-[95vw]
+        font-bold
+        leading-[1.05]
+        tracking-[-0.06em]
+        text-white
+        text-[8.4vw]
+        xs:text-[2.5rem]
+        sm:text-[6.3vw]
+        md:w-[72vw]
+        md:text-[2.8rem]
+        xl:text-[3.5rem]
+        lg:w-[52vw]
+        2xl:w-[47vw]
+        3xl:text-[4rem]
+        3xl:w-[42vw]
+    `}
                             >
-                                We’re building the future of
-                                developer connections.
+                                We’re building the future of developer connections.
                             </h1>
                         </div>
 
@@ -441,27 +443,32 @@ const LandingHeroSection = ({
                         >
                             <p
                                 className={`
-                                    ${googleSansFlex.className}
-                                    w-full
-                                    max-w-130
-                                    text-sm
-                                    xs:text-mid
-                                    md:text-lg
-                                    2xl:text-xl
-                                    font-heading
-                                    text-[#939393]
-                                `}
+        ${googleSansFlex.className}
+        w-full
+        max-w-130
+        text-base
+        xs:text-lg
+        sm:text-xl
+        md:text-xl
+        lg:text-lg
+        xl:text-lg
+        2xl:text-xl
+        3xl:text-[1.55rem]
+        4xl:text-[1.65rem]
+        5xl:text-[1.8rem]
+        6xl:text-[1.95rem]
+        7xl:text-[2.1rem]
+        8xl:text-[2.25rem]
+        9xl:text-[2.4rem]
+        10xl:text-[2.55rem]
+        font-heading
+        text-[#939393]
+    `}
                             >
                                 <ScrollRevealText
-                                    progress={
-                                        subTitleProgress
-                                    }
-                                    reducedMotion={
-                                        reducedMotion
-                                    }
-                                    words={
-                                        subTitleWords
-                                    }
+                                    progress={subTitleProgress}
+                                    reducedMotion={reducedMotion}
+                                    words={subTitleWords}
                                     groupSize={1}
                                     className="flex flex-col"
                                     extraAnimation={false}
@@ -514,7 +521,7 @@ const LandingHeroSection = ({
                     </div>
                 </div>
             </div>
-        </section>
+        </section >
     );
 };
 
