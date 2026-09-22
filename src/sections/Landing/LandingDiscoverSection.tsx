@@ -85,33 +85,6 @@ const LandingDiscoverSection = ({
             "
         >
             <motion.div
-                initial={
-                    reduced
-                        ? false
-                        : {
-                            opacity: 0,
-                            x: -32,
-                        }
-                }
-                animate={
-                    reduced
-                        ? {
-                            opacity: 1,
-                            x: 0,
-                        }
-                        : {
-                            opacity: isVisible ? 1 : 0,
-                            x: isVisible ? 0 : -32,
-                        }
-                }
-                transition={
-                    reduced
-                        ? { duration: 0 }
-                        : {
-                            duration: 0.65,
-                            ease,
-                        }
-                }
                 className="
                     -mt-5
                     flex
@@ -262,39 +235,10 @@ const LandingDiscoverSection = ({
             </motion.div>
 
             <motion.div
-                initial={
-                    reduced
-                        ? false
-                        : {
-                            opacity: 0,
-                            x: 28,
-                            scale: 0.985,
-                        }
-                }
-                animate={
-                    reduced
-                        ? {
-                            opacity: 1,
-                            x: 0,
-                            scale: 1,
-                        }
-                        : {
-                            opacity: isVisible ? 1 : 0,
-                            x: isVisible ? 0 : 28,
-                            scale: isVisible ? 1 : 0.985,
-                        }
-                }
-                transition={
-                    reduced
-                        ? { duration: 0 }
-                        : {
-                            duration: 0.7,
-                            ease,
-                        }
-                }
                 className="
                     h-[min(70vw,620px)]
                     min-h-155
+                    min-w-120
                     w-full
                     self-auto
                     will-change-transform

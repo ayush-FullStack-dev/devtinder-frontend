@@ -329,7 +329,7 @@ const LandingNavbar = ({
                                     w-35
                                     rounded-full
                                     border
-                                  border-[#e6e6e6]
+                                  border-[#dbd6d6]
                                     bg-transparent
                                     text-nav-link
                                     xl:h-11
