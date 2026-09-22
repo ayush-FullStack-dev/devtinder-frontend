@@ -134,11 +134,11 @@ const LandingPageContent = ({
                 flex-col
                 overflow-x-hidden
                 overflow-y-auto
-                bg-[#161617]
+                 bg-fixed-black
                 scrollbar-hide
             "
         >
-            {activeSection !== "hero" && <LandingNavbar theme={activeSection === "why-devtinder" ? "light" : undefined} />}
+            {activeSection !== "hero" && <LandingNavbar theme={!["why-devtinder", "discover"].includes(activeSection) ? "dark" : "light"} />}
 
             <section
                 id="home"
@@ -147,7 +147,7 @@ const LandingPageContent = ({
                     z-10
                     w-full
                     shrink-0
-                    pb-30
+                    mb-30
                 "
             >
                 <HeroSection
@@ -164,11 +164,12 @@ const LandingPageContent = ({
         z-20
         w-full
         shrink-0
-        bg-[#ECECEF]
+        bg-fixed-white
         overflow-hidden
         rounded-4xl
         px-4
         py-10
+        my-5
     "
             >
                 <DiscoverSection
@@ -186,8 +187,8 @@ const LandingPageContent = ({
                     min-h-dvh
                     w-full
                     shrink-0
-                   bg-[#161617]
-                    py-10
+                    bg-fixed-black
+                    my-10
                 "
             >
                 <LandingHowItWorksSection />
@@ -201,6 +202,7 @@ const LandingPageContent = ({
                     min-h-dvh
                     w-full
                     shrink-0
+                  bg-fixed-white
                     rounded-3xl
                     mb-10
                 "
@@ -216,8 +218,8 @@ const LandingPageContent = ({
                     min-h-dvh
                     w-full
                     shrink-0
-                    bg-[#161617]
-                    py-10
+                    bg-fixed-black
+                    my-10
                 "
             >
                 <LandingFaqSection />

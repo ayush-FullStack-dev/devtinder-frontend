@@ -12,7 +12,7 @@ export async function POST(req: Request) {
   const cookieStore = await cookies();
 
   cookieStore.delete({
-    name: "approvalId",
+    name: body.cookieName,
     ...AuthCookieOptions,
   });
 

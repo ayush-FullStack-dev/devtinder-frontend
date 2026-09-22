@@ -19,7 +19,7 @@ interface LandingNavbarProps {
 }
 
 const LandingNavbar = ({
-    theme,
+    theme = "light",
 }: LandingNavbarProps) => {
     const [activeMenu, setActiveMenu] = useState<string | null>(null);
     const [hidden, setHidden] = useState(false);
@@ -230,7 +230,7 @@ const LandingNavbar = ({
                 w-full
                 border-b
                 border-white/5
-                bg-bg-secondary/95
+                bg-bg-primary/95
                 px-5
                 shadow-[0_8px_30px_rgba(0,0,0,0.12)]
                 backdrop-blur-xl
@@ -267,13 +267,15 @@ const LandingNavbar = ({
                             ease,
                         }}
                     >
-                        <LogoHorizontal />
+                        <LogoHorizontal className={`${theme ? theme === "dark" ? "text-white!" : "text-black!" : ""}`} />
+                        
                     </motion.div>
 
                     <SharedNavbarMenu
                         activeMenu={activeMenu}
                         onMenuChange={setActiveMenu}
                         onScrollToSection={scrollToSection}
+                        theme={theme}
                     />
 
                     <motion.div
@@ -317,8 +319,7 @@ const LandingNavbar = ({
                                 text="Get Started"
                             />
                         </Link>
-
-                        <Link
+                          <Link
                             href="/auth/login"
                             rel="noopener noreferrer"
                         >
@@ -328,7 +329,7 @@ const LandingNavbar = ({
                                     w-35
                                     rounded-full
                                     border
-                                    border-nav-link
+                                  border-[#e6e6e6]
                                     bg-transparent
                                     text-nav-link
                                     xl:h-11

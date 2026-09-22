@@ -212,6 +212,7 @@ const LandingHeroNavbar = () => {
                         activeMenu={activeMenu}
                         onMenuChange={setActiveMenu}
                         onScrollToSection={scrollToSection}
+                        theme="dark"
                     />
 
                     <motion.div

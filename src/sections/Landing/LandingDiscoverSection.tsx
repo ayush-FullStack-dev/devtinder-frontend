@@ -89,28 +89,28 @@ const LandingDiscoverSection = ({
                     reduced
                         ? false
                         : {
-                              opacity: 0,
-                              x: -32,
-                          }
+                            opacity: 0,
+                            x: -32,
+                        }
                 }
                 animate={
                     reduced
                         ? {
-                              opacity: 1,
-                              x: 0,
-                          }
+                            opacity: 1,
+                            x: 0,
+                        }
                         : {
-                              opacity: isVisible ? 1 : 0,
-                              x: isVisible ? 0 : -32,
-                          }
+                            opacity: isVisible ? 1 : 0,
+                            x: isVisible ? 0 : -32,
+                        }
                 }
                 transition={
                     reduced
                         ? { duration: 0 }
                         : {
-                              duration: 0.65,
-                              ease,
-                          }
+                            duration: 0.65,
+                            ease,
+                        }
                 }
                 className="
                     -mt-5
@@ -154,6 +154,7 @@ const LandingDiscoverSection = ({
                         w-full
                         min-w-0
                         font-bold
+                      text-black
                         leading-[0.95]
                         tracking-tight
                         text-4xl
@@ -190,7 +191,7 @@ const LandingDiscoverSection = ({
                         max-w-full
                         text-sm
                         leading-relaxed
-                        text-muted-foreground
+                        text-[#71717A]
                         xs:text-base
                         sm:text-lg
                         md:text-xl
@@ -265,31 +266,31 @@ const LandingDiscoverSection = ({
                     reduced
                         ? false
                         : {
-                              opacity: 0,
-                              x: 28,
-                              scale: 0.985,
-                          }
+                            opacity: 0,
+                            x: 28,
+                            scale: 0.985,
+                        }
                 }
                 animate={
                     reduced
                         ? {
-                              opacity: 1,
-                              x: 0,
-                              scale: 1,
-                          }
+                            opacity: 1,
+                            x: 0,
+                            scale: 1,
+                        }
                         : {
-                              opacity: isVisible ? 1 : 0,
-                              x: isVisible ? 0 : 28,
-                              scale: isVisible ? 1 : 0.985,
-                          }
+                            opacity: isVisible ? 1 : 0,
+                            x: isVisible ? 0 : 28,
+                            scale: isVisible ? 1 : 0.985,
+                        }
                 }
                 transition={
                     reduced
                         ? { duration: 0 }
                         : {
-                              duration: 0.7,
-                              ease,
-                          }
+                            duration: 0.7,
+                            ease,
+                        }
                 }
                 className="
                     h-[min(70vw,620px)]
@@ -310,6 +311,7 @@ const LandingDiscoverSection = ({
                     5xl:h-[min(60vh,1500px)]
                     7xl:h-[min(65vh,2000px)]
                     lg:self-auto
+                    
                 "
             >
                 <LandingDiscoverCard

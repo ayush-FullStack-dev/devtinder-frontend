@@ -35,7 +35,6 @@ const AnimatedButton = ({
           overflow-hidden
           rounded-2xl
 
-          border border-green-primary
           bg-transparent
 
         text-white

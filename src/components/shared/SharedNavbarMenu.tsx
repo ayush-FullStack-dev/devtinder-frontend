@@ -57,11 +57,13 @@ export const navigationItems: NavigationItem[] = [
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
+export type NavbarTheme = "light" | "dark";
+
 type SharedNavbarMenuProps = {
     activeMenu: string | null;
     onMenuChange: (menu: string | null) => void;
     onScrollToSection: (sectionId: string) => void;
-    theme?: "light" | "dark";
+    theme?: NavbarTheme;
 };
 
 const SharedNavbarMenu = ({
@@ -72,12 +74,22 @@ const SharedNavbarMenu = ({
 }: SharedNavbarMenuProps) => {
     const reducedMotion = useReducedMotion();
 
-    const themeColor =
+    /*
+     * No theme prop:
+     * Tailwind/system theme controls the color.
+     *
+     * theme="light":
+     * Force light navbar colors.
+     *
+     * theme="dark":
+     * Force dark navbar colors.
+     */
+    const textColor =
         theme === "light"
-            ? "text-[#393A3F]"
+            ? "text-nav-link"
             : theme === "dark"
-                ? "text-nav-link"
-                : "text-nav-link";
+                ? "text-white"
+                : "text-nav-link dark:text-white";
 
     return (
         <div
@@ -103,8 +115,8 @@ const SharedNavbarMenu = ({
                     grid-cols-4
                     py-5
                     text-md
-                    ${themeColor}
                     ${googleSansFlex.className}
+                    ${textColor}
                 `}
             >
                 {navigationItems.map((item, index) => {
@@ -164,7 +176,7 @@ const SharedNavbarMenu = ({
                                     font-medium
                                     transition-[font-weight]
                                     duration-200
-                                    group:font-bold
+                                    group-hover:font-bold
                                     ease-out
                                 "
                             >
@@ -214,8 +226,8 @@ const SharedNavbarMenu = ({
                         w-full
                         grid-cols-4
                         text-md
-                        ${themeColor}
                         ${googleSansFlex.className}
+                        ${textColor}
                     `}
                 >
                     {navigationItems.map((item) => (
@@ -267,7 +279,9 @@ const SharedNavbarMenu = ({
                                                 }
                                             >
                                                 <Link
-                                                    href={subItem.href}
+                                                    href={
+                                                        subItem.href
+                                                    }
                                                     rel="noopener noreferrer"
                                                     className="
                                                         group
@@ -280,7 +294,9 @@ const SharedNavbarMenu = ({
                                                     "
                                                 >
                                                     <span>
-                                                        {subItem.name}
+                                                        {
+                                                            subItem.name
+                                                        }
                                                     </span>
 
                                                     <span
