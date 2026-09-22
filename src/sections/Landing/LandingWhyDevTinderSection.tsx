@@ -4,200 +4,15 @@ import {
     googleSans,
     googleSansFlex,
 } from "@/assets/fonts/font.google";
-
-import LaptopModel from "@/components/shared/Model/LaptopModel";
-
+import ExpertiseShowcase from "@/components/shared/animation/ExpertiseShowcase";
 import {
-    useEffect,
     useRef,
-    useState,
 } from "react";
 
 const LandingWhyDevTinderSection =
     () => {
         const sectionRef =
             useRef<HTMLElement>(null);
-        const [isDesktop, setIsDesktop] =
-            useState(false);
-        const [shouldLoad3D, setShouldLoad3D] =
-            useState(false);
-        const [modelReady, setModelReady] =
-            useState(false);
-        const [isSectionActive, setIsSectionActive] =
-            useState(false);
-
-        useEffect(() => {
-            const mediaQuery =
-                window.matchMedia(
-                    "(min-width: 1024px)"
-                );
-
-            const update = () => {
-                setIsDesktop(
-                    mediaQuery.matches
-                );
-            };
-
-            update();
-
-            mediaQuery.addEventListener(
-                "change",
-                update
-            );
-
-            return () => {
-                mediaQuery.removeEventListener(
-                    "change",
-                    update
-                );
-            };
-        }, []);
-
-
-        useEffect(() => {
-            if (!isDesktop) {
-                setIsSectionActive(false);
-                return;
-            }
-
-            const section =
-                sectionRef.current;
-
-            const scrollContainer =
-                document.getElementById(
-                    "main-scroll"
-                );
-
-            if (
-                !section ||
-                !scrollContainer
-            ) {
-                return;
-            }
-
-            const observer =
-                new IntersectionObserver(
-                    ([entry]) => {
-                        setIsSectionActive(
-                            entry.isIntersecting
-                        );
-                    },
-                    {
-                        root: scrollContainer,
-                        rootMargin:
-                            "0px 0px 0px 0px",
-                        threshold: 0.12,
-                    }
-                );
-
-            observer.observe(section);
-
-            return () => {
-                observer.disconnect();
-            };
-        }, [isDesktop]);
-
-        useEffect(() => {
-            if (
-                !isDesktop ||
-                shouldLoad3D
-            ) {
-                return;
-            }
-
-            const section =
-                sectionRef.current;
-
-            const scrollContainer =
-                document.getElementById(
-                    "main-scroll"
-                );
-
-            if (
-                !section ||
-                !scrollContainer
-            ) {
-                return;
-            }
-
-            let idleId:
-                | number
-                | undefined;
-
-            let timeoutId:
-                | ReturnType<
-                    typeof setTimeout
-                >
-                | undefined;
-
-            const load = () => {
-                setShouldLoad3D(true);
-            };
-
-            const observer =
-                new IntersectionObserver(
-                    ([entry]) => {
-                        if (
-                            !entry.isIntersecting
-                        ) {
-                            return;
-                        }
-
-                        observer.disconnect();
-
-                        if (
-                            "requestIdleCallback" in
-                            window
-                        ) {
-                            idleId =
-                                window.requestIdleCallback(
-                                    load,
-                                    {
-                                        timeout: 1500,
-                                    }
-                                );
-                        } else {
-                            timeoutId =
-                                setTimeout(
-                                    load,
-                                    300
-                                );
-                        }
-                    },
-                    {
-                        root: scrollContainer,
-                        rootMargin:
-                            "150px 0px",
-
-                        threshold: 0.01,
-                    }
-                );
-
-            observer.observe(section);
-
-            return () => {
-                observer.disconnect();
-
-                if (
-                    idleId !== undefined &&
-                    "cancelIdleCallback" in
-                    window
-                ) {
-                    window.cancelIdleCallback(
-                        idleId
-                    );
-                }
-
-                if (
-                    timeoutId !== undefined
-                ) {
-                    clearTimeout(timeoutId);
-                }
-            };
-        }, [
-            isDesktop,
-            shouldLoad3D,
-        ]);
 
         return (
             <section
@@ -206,6 +21,8 @@ const LandingWhyDevTinderSection =
                     relative
                     flex
                     min-h-svh
+                    bg-white
+                    rounded-[32px]
                     w-full
                     shrink-0
                     flex-col
@@ -336,128 +153,18 @@ const LandingWhyDevTinderSection =
                     </div>
                 </div>
 
-                {isDesktop ? (
-                    <div
-                        className="
-                            pointer-events-none
-                            absolute
-                            right-[-18vw]
-                            top-1/2
-                            z-20
-                            block
-                            h-[105vh]
-                            w-[78vw]
-                            -translate-y-1/2
-                            2xl:right-[-8vw]
-                            2xl:h-screen
-                            2xl:w-[58vw]
-                            3xl:right-[-7vw]
-                            3xl:h-[95vh]
-                            3xl:w-[60vw]
-                            5xl:right-[-7vw]
-                            7xl:right-[-5vw]
-                            5xl:h-dvh
-                            5xl:w-[60vw]
-                            10xl:right-[-4vw]
-                        "
-                    >
 
-                        <div
-                            className={`
-                                absolute
-                                inset-0
-                                h-full
-                                w-[45vw]
-                                ml-[5vw]
-                                3xl:w-[40vw]
-                                3xl:ml-[4vw]
-                                5xl:w-[35vw]
-                                7xl:w-[30vw]
-                                7xl:ml-[2vw]
-                                transition-opacity
-                                duration-500
-                                ease-in-out
-                                ${modelReady
-                                    ? "opacity-0"
-                                    : "opacity-100"
-                                }
-                            `}
-                        >
-                            <img
-                                src="/images/laptop-3D-fallback.png"
-                                alt="DevTinder developer collaboration interface"
-                                className="
-                                    absolute
-                                    inset-0
-                                    h-full
-                                    w-full
-                                    object-contain
-                                "
-                                loading="eager"
-                                decoding="async"
-                            />
-                        </div>
-
-                        {shouldLoad3D && (
-                            <div
-                                className={`
-                                    absolute
-                                    inset-0
-                                    h-full
-                                    w-full
-                                    transition-opacity
-                                    duration-500
-                                    ease-out
-                                    ${modelReady
-                                        ? "opacity-100"
-                                        : "opacity-0"
-                                    }
-                                `}
-                            >
-                                <LaptopModel
-                                    onReady={() =>
-                                        setModelReady(
-                                            true
-                                        )
-                                    }
-
-                                />
-                            </div>
-                        )}
-                    </div>
-                ) : (
-                    <div
-                        className="
-                            relative
-                            mt-auto
+                <div
+                    className="       
                             flex
-                            w-full
+                            h-dvh
+                            w-[50vw]
                             justify-center
-                            overflow-visible
-                            pt-12
-                            xs:pt-16
-                            sm:pt-20
-                            md:pt-24
                         "
-                    >
-                        <img
-                            src="/images/LaptopModel.png"
-                            alt="DevTinder developer collaboration interface"
-                            className="
-                                h-auto
-                                w-full
-                                min-w-0
-                                max-w-175
-                                object-contain
-                                xs:max-w-187.5
-                                sm:max-w-112.5
-                                md:max-w-250
-                            "
-                            loading="eager"
-                            decoding="async"
-                        />
-                    </div>
-                )}
+                >
+                    <ExpertiseShowcase />
+                </div>
+
             </section>
         );
     };

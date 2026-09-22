@@ -62,7 +62,6 @@ const LandingHeroSection = ({
         damping: 26,
         mass: 0.6,
     });
-
     const smoothPointerY = useSpring(pointerY, {
         stiffness: 70,
         damping: 26,
