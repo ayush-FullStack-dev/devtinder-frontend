@@ -260,7 +260,9 @@ const LandingHeroSection = ({
                 } w-full shrink-0 bg-[#161617]`}
         >
             <div className="sticky top-0 h-dvh w-full overflow-hidden">
-                <LandingHeroNavbar />
+                <div className="relative z-50">
+                    <LandingHeroNavbar />
+                </div>
 
                 <motion.div
                     className="
@@ -301,23 +303,44 @@ const LandingHeroSection = ({
                     <div className="absolute inset-0 overflow-hidden bg-[#050505]">
                         <div
                             className="
-                                absolute
-                                left-1/2
-                                top-1/2
-                                h-dvh
-                                w-screen
-                                -translate-x-1/2
-                                -translate-y-1/2
-                            "
+            absolute
+            left-1/2
+            top-1/2
+            h-dvh
+            w-screen
+            -translate-x-1/2
+            -translate-y-1/2
+        "
                         >
+                            <img
+                                src="/images/landing-intro-poster.webp"
+                                alt=""
+                                aria-hidden="true"
+                                className="
+                absolute
+                inset-0
+                size-full
+                object-cover
+            "
+                            />
+
                             <video
-                                className="size-full object-cover"
+                                className="
+                absolute
+                inset-0
+                size-full
+                object-cover
+                duration-500
+                ease-out
+                z-5
+            "
                                 autoPlay
                                 loop
                                 muted
                                 playsInline
                                 preload="auto"
-                                poster="/images/landing-intro-poster.webp"
+
+                           
                             >
                                 <source
                                     src="/videos/LandingIntro.mp4"

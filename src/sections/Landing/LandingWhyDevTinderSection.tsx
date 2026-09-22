@@ -449,7 +449,7 @@ const LandingWhyDevTinderSection =
                                 min-w-0
                                 max-w-175
                                 object-contain
-                                xs:max-w-[750px]
+                                xs:max-w-187.5
                                 sm:max-w-112.5
                                 md:max-w-250
                             "
