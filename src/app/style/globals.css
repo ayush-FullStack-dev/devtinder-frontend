@@ -127,6 +127,21 @@
   --color-link: var(--link);
   --color-link-hover: var(--link-hover);
 
+  --color-landing-background: var(--landing-background);
+  --color-landing-surface: var(--landing-surface);
+  --color-landing-surface-secondary: var(--landing-surface-secondary);
+  --color-landing-surface-dark: var(--landing-surface-dark);
+  --color-landing-foreground: var(--landing-foreground);
+  --color-landing-foreground-muted: var(--landing-foreground-muted);
+  --color-landing-border: var(--landing-border);
+  --color-landing-border-subtle: var(--landing-border-subtle);
+
+  --color-nav-link: var(--nav-link);
+  --color-nav-link-hover: var(--nav-link-hover);
+  --color-nav-border: var(--nav-border);
+  --color-nav-background: var(--nav-background);
+  --color-nav-foreground: var(--nav-foreground);
+
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -143,17 +158,9 @@
   --shadow-primary: var(--shadow-primary);
   --shadow-showcase: var(--shadow-showcase);
 
-  --color-nav-link: var(--nav-link);
-  --color-nav-link-hover: var(--nav-link-hover);
-
-  /*
-   * Links
-   * Blue: #0969DC
-   */
   --color-link: var(--link);
   --color-link-hover: var(--link-hover);
 
-  /* ===== Green Brand Palette ===== */
   --color-green-50: var(--green-50);
   --color-green-100: var(--green-100);
   --color-green-200: var(--green-200);
@@ -166,10 +173,8 @@
   --color-green-900: var(--green-900);
   --color-green-950: var(--green-950);
 
-  /* ===== Brand ===== */
   --color-green-brand: var(--green-brand);
 
-  /* ===== Semantic Green ===== */
   --color-green-primary: var(--green-primary);
   --color-green-dark: var(--green-dark);
   --color-green-hover: var(--green-hover);
@@ -180,14 +185,11 @@
 }
 
 :root {
-  /* Warm zinc canvas + layered neutral surfaces */
   --background: #f4f4f5;
   --foreground: #161617;
 
-  /* Logo monochrome */
-  --foreground-logo: rgb(37, 37, 38);
+  --foreground-logo: #252526;
 
-  /* ===== Green Brand Palette ===== */
   --green-50: #f0fdf6;
   --green-100: #dcfce9;
   --green-200: #bbf7d3;
@@ -200,10 +202,8 @@
   --green-900: #0c593a;
   --green-950: #073b28;
 
-  /* ===== Brand ===== */
   --green-brand: #16b23f;
 
-  /* ===== Semantic Green ===== */
   --green-primary: #16a968;
   --green-dark: #128a56;
   --green-hover: #128a56;
@@ -212,23 +212,27 @@
   --green-muted: #86efb3;
   --green-subtle: #dcfce9;
 
-  /*
-   * ===== Links =====
-   * Only links use GitHub-style blue.
-   */
   --link: #0969dc;
   --link-hover: #0757b5;
 
-  /* Input */
   --input: #d4d4d8;
   --input-foreground: #18181b;
   --input-placeholder: #71717a;
 
-  /* Navigation */
-  --nav-link-dark: #b8b9c5;
-  --nav-link-dark-hover: #bbf7d3;
-  --nav-link: rgb(57, 58, 63);
+  --nav-link: #393a3f;
   --nav-link-hover: #16a968;
+  --nav-border: rgba(24, 24, 27, 0.08);
+  --nav-background: rgba(250, 250, 250, 0.95);
+  --nav-foreground: #161617;
+
+  --landing-background: #f4f4f5;
+  --landing-surface: #ffffff;
+  --landing-surface-secondary: #fafafa;
+  --landing-surface-dark: #161617;
+  --landing-foreground: #161617;
+  --landing-foreground-muted: #52525b;
+  --landing-border: #e4e4e7;
+  --landing-border-subtle: rgba(24, 24, 27, 0.08);
 
   --card: #ffffff;
   --card-foreground: #18181b;
@@ -236,16 +240,13 @@
   --popover: #ffffff;
   --popover-foreground: #18181b;
 
-  /* Untouched */
   --surface: #f4f4f5;
   --surface-secondary: #fafafa;
   --surface-elevated: #e4e4e7;
 
-  /* ===== Green Accent ===== */
   --primary: #16a968;
   --primary-foreground: #ffffff;
 
-  /* Untouched */
   --secondary: #f4f4f5;
   --secondary-foreground: #18181b;
 
@@ -254,18 +255,15 @@
 
   --foreground-muted: #52525b;
 
-  /* Green accent */
   --accent: #16a968;
   --accent-foreground: #ffffff;
 
-  /* Borders untouched */
   --border: #e4e4e7;
   --border-primary: #d4d4d8;
   --border-secondary: #c9c9cf;
 
   --ring: #16a968;
 
-  /* Status */
   --destructive: #dc2626;
   --success: #16a34a;
   --warning: #d97706;
@@ -273,7 +271,6 @@
 
   --radius: 0.75rem;
 
-  /* Layered elevation */
   --shadow-soft:
     0 1px 2px rgba(24, 24, 27, 0.06), 0 1px 3px rgba(24, 24, 27, 0.05);
 
@@ -285,13 +282,11 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.6),
     0 4px 12px -2px rgba(24, 24, 27, 0.1);
 
-  /* Green shadow */
   --shadow-primary:
     0 1px 2px rgba(22, 169, 104, 0.35), 0 8px 20px -4px rgba(22, 169, 104, 0.3);
 
   --shadow-showcase: 0 20px 60px rgba(24, 24, 27, 0.08);
 
-  /* ===== Showcase Green ===== */
   --grad-showcase-from: #f2fdf7;
   --grad-showcase-via: #e6f9ee;
   --grad-showcase-to: #d7f2e2;
@@ -306,64 +301,68 @@
 }
 
 .dark {
-  /* ===== Canvas ===== */
   --background: #161617;
   --foreground: #ececef;
 
   --foreground-logo: #f4f4f5;
 
-  /*
-   * ===== Links =====
-   * Only links use blue.
-   */
   --link: #0969dc;
   --link-hover: #58a6ff;
 
-  /* ===== Cards ===== */
+  --nav-link: #aeb0bc;
+  --nav-link-hover: #4ade8b;
+  --nav-border: rgba(255, 255, 255, 0.08);
+  --nav-background: rgba(22, 22, 23, 0.95);
+  --nav-foreground: #ececef;
+
+  --landing-background: #161617;
+  --landing-surface: #202024;
+  --landing-surface-secondary: #18181b;
+  --landing-surface-dark: #161617;
+  --landing-foreground: #ececef;
+  --landing-foreground-muted: #b4b4be;
+  --landing-border: rgba(255, 255, 255, 0.08);
+  --landing-border-subtle: rgba(255, 255, 255, 0.05);
+
   --card: #202024;
   --card-foreground: #ececef;
 
-  /* Untouched */
   --popover: oklch(0.18 0.012 265);
   --popover-foreground: #ececef;
 
-  /* ===== Surfaces untouched ===== */
   --surface: #18181b;
   --surface-secondary: oklch(22.22% 0.01024 268.237);
   --surface-elevated: #202024;
 
-  /* ===== Green Brand ===== */
   --primary: #16a968;
   --primary-foreground: #ffffff;
 
-  /* Untouched */
   --secondary: oklch(0.22 0.015 265);
   --secondary-foreground: #ececef;
 
-  /* ===== Text untouched ===== */
   --muted: oklch(0.2 0.012 265);
   --muted-foreground: #a1a1aa;
+
   --foreground-muted: #b4b4be;
 
-  /* ===== Green Accent ===== */
   --accent: #16a968;
   --accent-foreground: #ffffff;
 
-  /* ===== Borders untouched ===== */
   --border: rgba(255, 255, 255, 0.08);
   --border-primary: rgba(255, 255, 255, 0.1);
   --border-secondary: rgba(255, 255, 255, 0.14);
+
   --input: rgba(255, 255, 255, 0.12);
+  --input-foreground: #ececef;
+  --input-placeholder: #a1a1aa;
 
   --ring: #22c77a;
 
-  /* ===== Status ===== */
   --destructive: #f87171;
   --success: #22c55e;
   --warning: #f59e0b;
   --danger: #f87171;
 
-  /* ===== Shadows ===== */
   --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.35);
 
   --shadow-card:
@@ -372,13 +371,11 @@
 
   --shadow-float: 0 8px 24px rgba(0, 0, 0, 0.45);
 
-  /* Green shadow */
   --shadow-primary:
     0 1px 2px rgba(22, 169, 104, 0.45), 0 8px 20px -4px rgba(22, 169, 104, 0.4);
 
   --shadow-showcase: 0 20px 80px rgba(0, 0, 0, 0.55);
 
-  /* ===== Showcase Green ===== */
   --grad-showcase-from: #14221b;
   --grad-showcase-via: #101d16;
   --grad-showcase-to: #0c1711;
@@ -391,27 +388,31 @@
     transparent 42%
   );
 
-  /* ===== Sidebar ===== */
   --sidebar: oklch(0.16 0.01 265);
   --sidebar-foreground: #ececef;
 
-  /* Green */
   --sidebar-primary: #16a968;
   --sidebar-primary-foreground: #ffffff;
 
-  /* Untouched */
   --sidebar-accent: oklch(0.22 0.015 265);
   --sidebar-accent-foreground: #ececef;
   --sidebar-border: rgba(255, 255, 255, 0.08);
+}
 
-  /* Navigation */
-  --nav-link: #aeb0bc;
-  --nav-link-hover: #4ade8b;
+[data-navbar-theme="light"] {
+  --nav-link: #393a3f;
+  --nav-link-hover: #16a968;
+  --nav-border: rgba(24, 24, 27, 0.08);
+  --nav-background: rgba(250, 250, 250, 0.95);
+  --nav-foreground: #161617;
+}
 
-  /* Input */
-  --input: rgba(255, 255, 255, 0.12);
-  --input-foreground: #ececef;
-  --input-placeholder: #a1a1aa;
+[data-navbar-theme="dark"] {
+  --nav-link: #ffffff;
+  --nav-link-hover: #ffffff;
+  --nav-border: rgba(255, 255, 255, 0.05);
+  --nav-background: rgba(22, 22, 23, 0.3);
+  --nav-foreground: #ffffff;
 }
 
 @layer base {
@@ -428,12 +429,27 @@
   }
 }
 
+[data-navbar-theme="light"] {
+  --nav-link: #393a3f;
+  --nav-link-hover: #16a968;
+  --nav-border: rgba(24, 24, 27, 0.08);
+  --nav-background: rgba(250, 250, 250, 0.95);
+  --nav-foreground: #161617;
+}
+
+[data-navbar-theme="dark"] {
+  --nav-link: #aeb0bc;
+  --nav-link-hover: #4ade8b;
+  --nav-border: rgba(255, 255, 255, 0.08);
+  --nav-background: rgba(22, 22, 23, 0.95);
+  --nav-foreground: #ececef;
+}
+
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
   box-shadow: 0 0 0 1000px transparent inset !important;
-
   transition: background-color 9999s ease-in-out 0s;
 }

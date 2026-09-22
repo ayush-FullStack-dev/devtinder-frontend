@@ -134,11 +134,11 @@ const LandingPageContent = ({
                 flex-col
                 overflow-x-hidden
                 overflow-y-auto
-                bg-background
+                bg-[#161617]
                 scrollbar-hide
             "
         >
-            {activeSection !== "hero" && <LandingNavbar />}
+            {activeSection !== "hero" && <LandingNavbar theme={activeSection === "why-devtinder" ? "light" : undefined} />}
 
             <section
                 id="home"
@@ -164,7 +164,9 @@ const LandingPageContent = ({
         z-20
         w-full
         shrink-0
-        bg-background
+        bg-[#ECECEF]
+        overflow-hidden
+        rounded-4xl
         px-4
         py-10
     "
@@ -180,11 +182,11 @@ const LandingPageContent = ({
                 id="how-it-works"
                 className="
                     relative
-                    z-20
+                    z-70
                     min-h-dvh
                     w-full
                     shrink-0
-                    bg-background
+                   bg-[#161617]
                     py-10
                 "
             >
@@ -199,8 +201,8 @@ const LandingPageContent = ({
                     min-h-dvh
                     w-full
                     shrink-0
-                    bg-background
-                    py-10
+                    rounded-3xl
+                    mb-10
                 "
             >
                 <LandingWhyDevTinderSection />
@@ -214,7 +216,7 @@ const LandingPageContent = ({
                     min-h-dvh
                     w-full
                     shrink-0
-                    bg-background
+                    bg-[#161617]
                     py-10
                 "
             >

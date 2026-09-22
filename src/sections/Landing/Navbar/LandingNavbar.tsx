@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -13,7 +12,15 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-const LandingNavbar = () => {
+type NavbarTheme = "light" | "dark";
+
+interface LandingNavbarProps {
+    theme?: NavbarTheme;
+}
+
+const LandingNavbar = ({
+    theme,
+}: LandingNavbarProps) => {
     const [activeMenu, setActiveMenu] = useState<string | null>(null);
     const [hidden, setHidden] = useState(false);
     const [mounted, setMounted] = useState(false);
@@ -176,6 +183,7 @@ const LandingNavbar = () => {
 
     return (
         <motion.header
+            data-navbar-theme={theme}
             initial={{
                 y: reducedMotion ? 0 : -12,
                 opacity: reducedMotion ? 1 : 0,
@@ -233,8 +241,6 @@ const LandingNavbar = () => {
                 className="relative w-full"
                 onMouseLeave={() => setActiveMenu(null)}
             >
-
-
                 <div
                     className="
                         relative
@@ -322,9 +328,9 @@ const LandingNavbar = () => {
                                     w-35
                                     rounded-full
                                     border
-                                    border-green-primary
+                                    border-nav-link
                                     bg-transparent
-                                    text-showcase
+                                    text-nav-link
                                     xl:h-11
                                     xl:w-30
                                     hover:border-transparent
@@ -345,12 +351,12 @@ const LandingNavbar = () => {
                         ease,
                     }}
                     className="
-        pointer-events-none
-        relative
-        hidden
-        w-full
-        lg:block
-    "
+                        pointer-events-none
+                        relative
+                        hidden
+                        w-full
+                        lg:block
+                    "
                 />
             </div>
         </motion.header>

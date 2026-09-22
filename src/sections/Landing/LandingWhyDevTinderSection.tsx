@@ -5,6 +5,7 @@ import {
     googleSansFlex,
 } from "@/assets/fonts/font.google";
 import ExpertiseShowcase from "@/components/shared/animation/ExpertiseShowcase";
+import { useScroll, } from "motion/react";
 import {
     useRef,
 } from "react";
@@ -13,6 +14,10 @@ const LandingWhyDevTinderSection =
     () => {
         const sectionRef =
             useRef<HTMLElement>(null);
+        const { scrollYProgress } = useScroll({
+            target: sectionRef,
+            offset: ["start end", "start start"],
+        });
 
         return (
             <section
@@ -41,6 +46,7 @@ const LandingWhyDevTinderSection =
                     10xl:p-24
                 "
             >
+                
                 <div
                     className="
                         relative
@@ -160,9 +166,10 @@ const LandingWhyDevTinderSection =
                             h-dvh
                             w-[50vw]
                             justify-center
+                            items-center
                         "
                 >
-                    <ExpertiseShowcase />
+                    <ExpertiseShowcase scrollYProgress={scrollYProgress} />
                 </div>
 
             </section>

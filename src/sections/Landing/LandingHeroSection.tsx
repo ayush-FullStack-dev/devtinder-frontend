@@ -527,6 +527,7 @@ const LandingHeroSection = ({
                                 }}
                             >
                                 <TextSwapButton
+                                className="text-white"
                                     text="Try It Now"
                                     onClick={() =>
                                         router.push(

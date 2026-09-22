@@ -61,14 +61,23 @@ type SharedNavbarMenuProps = {
     activeMenu: string | null;
     onMenuChange: (menu: string | null) => void;
     onScrollToSection: (sectionId: string) => void;
+    theme?: "light" | "dark";
 };
 
 const SharedNavbarMenu = ({
     activeMenu,
     onMenuChange,
     onScrollToSection,
+    theme,
 }: SharedNavbarMenuProps) => {
     const reducedMotion = useReducedMotion();
+
+    const themeColor =
+        theme === "light"
+            ? "text-[#393A3F]"
+            : theme === "dark"
+                ? "text-nav-link"
+                : "text-nav-link";
 
     return (
         <div
@@ -94,6 +103,7 @@ const SharedNavbarMenu = ({
                     grid-cols-4
                     py-5
                     text-md
+                    ${themeColor}
                     ${googleSansFlex.className}
                 `}
             >
@@ -145,7 +155,7 @@ const SharedNavbarMenu = ({
                                         item.scrollToSection
                                     );
                                 }}
-                                className={`
+                                className="
                                     group
                                     relative
                                     cursor-pointer
@@ -156,13 +166,17 @@ const SharedNavbarMenu = ({
                                     duration-200
                                     group:font-bold
                                     ease-out
-                                `}
+                                "
                             >
-                                <span className={`${
+                                <span
+                                    className={
                                         isActive
                                             ? "font-bold"
                                             : "font-heading group-hover:font-bold"
-                                    }`}>{item.name}</span>
+                                    }
+                                >
+                                    {item.name}
+                                </span>
                             </Link>
                         </motion.div>
                     );
@@ -200,6 +214,7 @@ const SharedNavbarMenu = ({
                         w-full
                         grid-cols-4
                         text-md
+                        ${themeColor}
                         ${googleSansFlex.className}
                     `}
                 >
@@ -224,14 +239,11 @@ const SharedNavbarMenu = ({
                                 {item.submenu.map(
                                     (subItem, index) => {
                                         const visible =
-                                            activeMenu ===
-                                            item.name;
+                                            activeMenu === item.name;
 
                                         return (
                                             <motion.div
-                                                key={
-                                                    subItem.name
-                                                }
+                                                key={subItem.name}
                                                 initial={false}
                                                 animate={{
                                                     opacity: visible
@@ -255,9 +267,7 @@ const SharedNavbarMenu = ({
                                                 }
                                             >
                                                 <Link
-                                                    href={
-                                                        subItem.href
-                                                    }
+                                                    href={subItem.href}
                                                     rel="noopener noreferrer"
                                                     className="
                                                         group
@@ -270,9 +280,7 @@ const SharedNavbarMenu = ({
                                                     "
                                                 >
                                                     <span>
-                                                        {
-                                                            subItem.name
-                                                        }
+                                                        {subItem.name}
                                                     </span>
 
                                                     <span
