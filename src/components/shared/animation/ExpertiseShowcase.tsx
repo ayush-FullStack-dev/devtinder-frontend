@@ -10,10 +10,11 @@ const ExpertiseShowcase = ({ scrollYProgress }: { scrollYProgress: any }) => {
     const reducedMotion = useReducedMotion()
     const x = useMotionValue(0);
     const y = useMotionValue(0);
-    const handY = useTransform(
+
+    const handX = useTransform(
         scrollYProgress,
-        [0, 1],
-        [40, 0]
+        [0, 0.10],
+        [90, 0]
     );
 
     const springX = useSpring(x, {
@@ -25,7 +26,7 @@ const ExpertiseShowcase = ({ scrollYProgress }: { scrollYProgress: any }) => {
         damping: 25,
     });
 
-    console.log(handY)
+
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         const element = ref.current;
 
@@ -47,52 +48,90 @@ const ExpertiseShowcase = ({ scrollYProgress }: { scrollYProgress: any }) => {
         <div
             ref={ref}
             onMouseMove={handleMouseMove}
-            className="relative h-[90vh] w-full rounded-4xl select-none"
+            className="
+        relative
+        h-[90vh]
+        w-full
+        select-none
+        rounded-4xl
+        overflow-x-clip
+     
+    "
         >
-            <div className="absolute left-[15%] top-15 inset-0 overflow-hidden rounded-4xl border">
-                <Image
-                    alt="product showcase background"
-                    fill
-                    src="/images/ExpertiseShowcase/bg.webp"
-                    className="object-cover"
-                    draggable={false}
-                />
-
-                <motion.div
-                    className="absolute inset-0 z-10"
-                    style={{
-                        x: springX,
-                        y: springY,
-                    }}
-                >
+            <div
+                className="
+            absolute
+            inset-0
+            left-[15%]
+            top-15
+            border
+        "
+            >
+                <div className="absolute  rounded-4xl inset-0 overflow-hidden">
                     <Image
-                        alt="light showcase"
+                        alt="product showcase background"
                         fill
-                        src="/images/ExpertiseShowcase/light.webp"
+                        src="/images/ExpertiseShowcase/bg.webp"
                         className="object-cover"
                         draggable={false}
                     />
-                </motion.div>
+
+                    <motion.div
+                        className="absolute inset-0 z-10"
+                        style={{
+                            x: springX,
+                            y: springY,
+                        }}
+                    >
+                        <Image
+                            alt="light showcase"
+                            fill
+                            src="/images/ExpertiseShowcase/light.webp"
+                            className="object-cover"
+                            draggable={false}
+                        />
+                    </motion.div>
+                </div>
             </div>
 
             <motion.div
-                style={{
-                    y: handY,
-                }}
-                transition={{
-                    duration: 0.8,
-                    ease: "easeOut",
-                }}
+                className="
+                    pointer-events-none
+                    absolute
+                    inset-0
+                    z-20
+                    h-full
+                    rounded-b-4xl
+                    overflow-hidden
+                    w-full
+                "
+
             >
                 <img
                     alt="extra showcase"
                     src="/images/ExpertiseShowcase/hand.webp"
-                    className="select-none absolute w-full h-full z-20"
+                    className="
+                        absolute
+                        bottom-0
+                        -mt-10
+                        h-full
+                        w-full
+                        select-none
+                        object-scale-down
+                    "
                     draggable={false}
                 />
             </motion.div>
-            <div className='absolute w-full h-full z-30 opacity-0' />
-        </div >
+
+            <div
+                className="
+            pointer-events-none
+            absolute
+            inset-0
+            z-30
+        "
+            />
+        </div>
     )
 }
 

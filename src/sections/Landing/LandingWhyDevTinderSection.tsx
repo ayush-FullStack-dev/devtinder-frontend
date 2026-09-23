@@ -10,14 +10,21 @@ import {
     useRef,
 } from "react";
 
+type LandingWhyDevTinderSectionProps = {
+    scrollContainerRef: React.RefObject<HTMLElement | null>;
+};
+
+
 const LandingWhyDevTinderSection =
-    () => {
+    ({scrollContainerRef}:LandingWhyDevTinderSectionProps) => {
         const sectionRef =
             useRef<HTMLElement>(null);
         const { scrollYProgress } = useScroll({
+            container: scrollContainerRef,
             target: sectionRef,
-            offset: ["start end", "start start"],
+            offset: ["start start", "end start"],
         });
+
 
         return (
             <section
@@ -46,7 +53,7 @@ const LandingWhyDevTinderSection =
                     10xl:p-24
                 "
             >
-                
+
                 <div
                     className="
                         relative

@@ -438,20 +438,20 @@ const LandingDeveloperCard = ({
                 ${
                     isForcedDark
                         ? `
-                            border
+                            border-2
                             border-fixed-gray-700
                             bg-fixed-gray-900
                             text-fixed-white
                         `
                         : isForcedLight
                           ? `
-                              border
+                              border-2
                               border-fixed-gray-200
                               bg-fixed-white
                               text-fixed-black
                           `
                           : `
-                              border
+                              border-2
                               border-border-primary
                               bg-background
                           `
@@ -709,6 +709,7 @@ const LandingDeveloperCard = ({
                                     strokeWidth={4}
                                     color={
                                        "var(--fixed-white)"
+                                    
                                     }
                                 />
                             )}

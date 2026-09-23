@@ -207,7 +207,9 @@ const LandingPageContent = ({
                     my-10
                 "
             >
-                <LandingWhyDevTinderSection />
+                <LandingWhyDevTinderSection scrollContainerRef={
+                    mainRef
+                } />
             </section>
 
             <section
