@@ -38,6 +38,7 @@ interface LandingDeveloperCardProps {
     swipeVal?: {
         swipeSide: null | "left" | "right";
     };
+    theme?: "light" | "dark" | "default";
 }
 
 const IMAGE_FADE_DURATION = 0.28;
@@ -54,9 +55,19 @@ const LandingDeveloperCard = ({
     duration = 8000,
     autoPlay = true,
     swipeVal,
+    theme = "default",
 }: LandingDeveloperCardProps) => {
     const swipeSide =
         swipeVal?.swipeSide ?? null;
+
+    const isForcedDark =
+        theme === "dark";
+
+    const isForcedLight =
+        theme === "light";
+
+    const isForcedTheme =
+        isForcedDark || isForcedLight;
 
     const [activeIndex, setActiveIndex] =
         useState(0);
@@ -105,11 +116,14 @@ const LandingDeveloperCard = ({
             return false;
         }
 
-        if (preloadCacheRef.current.has(src)) {
+        if (
+            preloadCacheRef.current.has(src)
+        ) {
             return true;
         }
 
-        const image = new window.Image();
+        const image =
+            new window.Image();
 
         image.decoding = "async";
         image.src = src;
@@ -118,8 +132,11 @@ const LandingDeveloperCard = ({
             if (!image.complete) {
                 await new Promise<void>(
                     (resolve, reject) => {
-                        image.onload = () => resolve();
-                        image.onerror = () => reject();
+                        image.onload = () =>
+                            resolve();
+
+                        image.onerror = () =>
+                            reject();
                     }
                 );
             }
@@ -128,7 +145,9 @@ const LandingDeveloperCard = ({
                 await image.decode();
             }
 
-            preloadCacheRef.current.add(src);
+            preloadCacheRef.current.add(
+                src
+            );
 
             return true;
         } catch {
@@ -222,7 +241,7 @@ const LandingDeveloperCard = ({
             if (
                 !mountedRef.current ||
                 transitionId !==
-                transitionIdRef.current
+                    transitionIdRef.current
             ) {
                 return;
             }
@@ -277,6 +296,7 @@ const LandingDeveloperCard = ({
 
         return () => {
             mountedRef.current = false;
+
             transitionIdRef.current += 1;
         };
     }, [imageSignature]);
@@ -329,7 +349,7 @@ const LandingDeveloperCard = ({
                         const nextIndex =
                             prev >=
                                 images.length -
-                                1
+                                    1
                                 ? 0
                                 : prev + 1;
 
@@ -369,7 +389,9 @@ const LandingDeveloperCard = ({
             }
 
             const target =
-                event.target as HTMLElement | null;
+                event.target as
+                    | HTMLElement
+                    | null;
 
             if (
                 target?.closest(
@@ -403,19 +425,38 @@ const LandingDeveloperCard = ({
 
     return (
         <div
-            className="
+            className={`
                 relative
                 h-full
                 w-full
                 min-h-0
                 overflow-hidden
                 rounded-[24px]
-                border
-                border-border-primary
-                bg-background
                 select-none
                 isolate
-            "
+
+                ${
+                    isForcedDark
+                        ? `
+                            border
+                            border-fixed-gray-700
+                            bg-fixed-gray-900
+                            text-fixed-white
+                        `
+                        : isForcedLight
+                          ? `
+                              border
+                              border-fixed-gray-200
+                              bg-fixed-white
+                              text-fixed-black
+                          `
+                          : `
+                              border
+                              border-border-primary
+                              bg-background
+                          `
+                }
+            `}
         >
             <div
                 className="
@@ -428,35 +469,51 @@ const LandingDeveloperCard = ({
                 "
             >
                 <div
-                    className="
+                    className={`
                         group
                         relative
                         h-[67%]
                         min-h-65
                         w-full
                         overflow-hidden
-                        bg-background
                         isolate
                         contain-paint
-                    "
+
+                        ${
+                            isForcedDark
+                                ? "bg-fixed-gray-900"
+                                : isForcedLight
+                                  ? "bg-fixed-gray-100"
+                                  : "bg-background"
+                        }
+                    `}
                 >
                     <div
-                        className="
+                        className={`
                             absolute
                             inset-0
                             z-0
                             h-full
                             w-full
                             overflow-hidden
-                            bg-background
-                        "
+
+                            ${
+                                isForcedDark
+                                    ? "bg-fixed-gray-900"
+                                    : isForcedLight
+                                      ? "bg-fixed-gray-100"
+                                      : "bg-background"
+                            }
+                        `}
                     >
                         {images.length > 0 ? (
                             <>
                                 {displayedImage && (
                                     <Image
                                         key={`displayed-${displayedImage}`}
-                                        src={displayedImage}
+                                        src={
+                                            displayedImage
+                                        }
                                         alt={`${name} profile`}
                                         fill
                                         sizes="
@@ -499,7 +556,7 @@ const LandingDeveloperCard = ({
                                                 1,
                                             ],
                                         }}
-                                        className="
+                                        className={`
                                             pointer-events-none
                                             absolute
                                             inset-0
@@ -507,11 +564,20 @@ const LandingDeveloperCard = ({
                                             h-full
                                             w-full
                                             overflow-hidden
-                                            bg-background
-                                        "
+
+                                            ${
+                                                isForcedDark
+                                                    ? "bg-fixed-gray-900"
+                                                    : isForcedLight
+                                                      ? "bg-fixed-gray-100"
+                                                      : "bg-background"
+                                            }
+                                        `}
                                     >
                                         <Image
-                                            src={pendingImage}
+                                            src={
+                                                pendingImage
+                                            }
                                             alt={`${name} profile`}
                                             fill
                                             sizes="
@@ -561,13 +627,20 @@ const LandingDeveloperCard = ({
                             </>
                         ) : (
                             <div
-                                className="
+                                className={`
                                     absolute
                                     inset-0
                                     h-full
                                     w-full
-                                    bg-muted
-                                "
+
+                                    ${
+                                        isForcedDark
+                                            ? "bg-fixed-gray-800"
+                                            : isForcedLight
+                                              ? "bg-fixed-gray-200"
+                                              : "bg-muted"
+                                    }
+                                `}
                             />
                         )}
                     </div>
@@ -594,26 +667,49 @@ const LandingDeveloperCard = ({
                                 top-8
                                 z-30
                                 origin-center
-                                ${swipeSide ===
+                                ${
+                                    swipeSide ===
                                     "right"
-                                    ? "left-5"
-                                    : "right-5"
+                                        ? "left-5"
+                                        : "right-5"
                                 }
                             `}
                         >
                             {swipeSide ===
-                                "right" ? (
+                            "right" ? (
                                 <Heart
-                                     className="size-[20vw]  sm:size-[16vw]  md:size-[12vw]  lg:size-[7vw] rotate-15"
+                                    className="
+                                        size-[20vw]
+                                        rotate-15
+                                        sm:size-[16vw]
+                                        md:size-[12vw]
+                                        lg:size-[7vw]
+                                    "
                                     strokeWidth={2.5}
-                                    color="#EF4444"
-                                    fill="#EF4444"
+                                    color={
+                                        isForcedTheme
+                                            ? "var(--fixed-red)"
+                                            : "#EF4444"
+                                    }
+                                    fill={
+                                        isForcedTheme
+                                            ? "var(--fixed-red)"
+                                            : "#EF4444"
+                                    }
                                 />
                             ) : (
                                 <X
-                                    className="size-[20vw] sm:size-[16vw]  md:size-[12vw] lg:size-[7vw] -rotate-20"
+                                    className="
+                                        size-[20vw]
+                                        -rotate-20
+                                        sm:size-[16vw]
+                                        md:size-[12vw]
+                                        lg:size-[7vw]
+                                    "
                                     strokeWidth={4}
-                                    color="white"
+                                    color={
+                                       "var(--fixed-white)"
+                                    }
                                 />
                             )}
                         </motion.div>
@@ -622,10 +718,18 @@ const LandingDeveloperCard = ({
                     {images.length > 1 && (
                         <>
                             <ImageProgress
-                                total={images.length}
-                                activeIndex={activeIndex}
-                                duration={duration}
-                                autoPlay={autoPlay}
+                                total={
+                                    images.length
+                                }
+                                activeIndex={
+                                    activeIndex
+                                }
+                                duration={
+                                    duration
+                                }
+                                autoPlay={
+                                    autoPlay
+                                }
                             />
 
                             <div className="absolute inset-0 z-10 flex xl:hidden">
@@ -636,7 +740,8 @@ const LandingDeveloperCard = ({
                                         backProfileImg
                                     }
                                     disabled={
-                                        activeIndex === 0
+                                        activeIndex ===
+                                        0
                                     }
                                     className="
                                         h-full
@@ -654,7 +759,8 @@ const LandingDeveloperCard = ({
                                     }
                                     disabled={
                                         activeIndex >=
-                                        images.length - 1
+                                        images.length -
+                                            1
                                     }
                                     className="
                                         h-full
@@ -666,7 +772,7 @@ const LandingDeveloperCard = ({
                             </div>
 
                             <div
-                                className="
+                                className={`
                                     absolute
                                     inset-y-0
                                     right-2
@@ -676,7 +782,7 @@ const LandingDeveloperCard = ({
                                     items-center
                                     justify-between
                                     xl:group-hover:flex
-                                "
+                                `}
                             >
                                 <button
                                     type="button"
@@ -685,19 +791,37 @@ const LandingDeveloperCard = ({
                                         backProfileImg
                                     }
                                     disabled={
-                                        activeIndex === 0
+                                        activeIndex ===
+                                        0
                                     }
-                                    className="
+                                    className={`
                                         rounded-full
-                                        bg-black/45
-                                        text-white
                                         backdrop-blur-sm
                                         transition
-                                        hover:bg-black/60
-                                         cursor-pointer
-                                      disabled:cursor-not-allowed
+                                        cursor-pointer
+                                        disabled:cursor-not-allowed
                                         disabled:opacity-30
-                                    "
+
+                                        ${
+                                            isForcedDark
+                                                ? `
+                                                    bg-fixed-black/45
+                                                    text-fixed-white
+                                                    hover:bg-fixed-black/60
+                                                `
+                                                : isForcedLight
+                                                  ? `
+                                                      bg-fixed-black/45
+                                                      text-fixed-white
+                                                      hover:bg-fixed-black/60
+                                                  `
+                                                  : `
+                                                      bg-black/45
+                                                      text-white
+                                                      hover:bg-black/60
+                                                  `
+                                        }
+                                    `}
                                 >
                                     <ChevronLeft
                                         size={35}
@@ -713,19 +837,37 @@ const LandingDeveloperCard = ({
                                     }
                                     disabled={
                                         activeIndex >=
-                                        images.length - 1
+                                        images.length -
+                                            1
                                     }
-                                    className="
+                                    className={`
                                         rounded-full
-                                        bg-black/45
-                                        text-white
                                         backdrop-blur-sm
                                         transition
-                                        hover:bg-black/60
                                         cursor-pointer
                                         disabled:cursor-not-allowed
                                         disabled:opacity-30
-                                    "
+
+                                        ${
+                                            isForcedDark
+                                                ? `
+                                                    bg-fixed-black/45
+                                                    text-fixed-white
+                                                    hover:bg-fixed-black/60
+                                                `
+                                                : isForcedLight
+                                                  ? `
+                                                      bg-fixed-black/45
+                                                      text-fixed-white
+                                                      hover:bg-fixed-black/60
+                                                  `
+                                                  : `
+                                                      bg-black/45
+                                                      text-white
+                                                      hover:bg-black/60
+                                                  `
+                                        }
+                                    `}
                                 >
                                     <ChevronRight
                                         size={35}
@@ -753,9 +895,11 @@ const LandingDeveloperCard = ({
                             className={`
                                 size-2
                                 rounded-full
-                                ${isOnline
-                                    ? "animate-dot-blink bg-green-brand"
-                                    : "bg-gray-400"
+
+                                ${
+                                    isOnline
+                                        ? "animate-dot-blink bg-green-brand"
+                                        : "bg-gray-400"
                                 }
                             `}
                         />
@@ -774,18 +918,25 @@ const LandingDeveloperCard = ({
                 </div>
 
                 <div
-                    className="
+                    className={`
                         relative
                         z-10
                         flex
                         w-full
                         flex-col
                         gap-3
-                        bg-background
                         px-3
                         py-3
                         isolate
-                    "
+
+                        ${
+                            isForcedDark
+                                ? "bg-fixed-gray-900"
+                                : isForcedLight
+                                  ? "bg-fixed-white"
+                                  : "bg-background"
+                        }
+                    `}
                 >
                     <div
                         className="
@@ -868,7 +1019,7 @@ const LandingDeveloperCard = ({
                                     ) => (
                                         <span
                                             key={`${tech}-${index}`}
-                                            className="
+                                            className={`
                                                 relative
                                                 z-10
                                                 flex
@@ -880,9 +1031,16 @@ const LandingDeveloperCard = ({
                                                 justify-center
                                                 overflow-hidden
                                                 rounded-xl
-                                                bg-[#303131]
                                                 select-none
-                                            "
+
+                                                ${
+                                                    isForcedDark
+                                                        ? "bg-fixed-gray-800"
+                                                        : isForcedLight
+                                                          ? "bg-fixed-gray-800"
+                                                          : "bg-[#303131]"
+                                                }
+                                            `}
                                         >
                                             <GetLogo
                                                 name={
@@ -896,27 +1054,37 @@ const LandingDeveloperCard = ({
                                 {remainingTechCount >
                                     0 && (
                                         <span
-                                            className="
-                                            relative
-                                            z-10
-                                            flex
-                                            h-10
-                                            min-w-0
-                                            flex-1
-                                            shrink-0
-                                            items-center
-                                            justify-center
-                                            overflow-hidden
-                                            whitespace-nowrap
-                                            rounded-xl
-                                            bg-[#303131]
-                                            px-2
-                                            text-xs
-                                            text-white
-                                            select-none
-                                            sm:px-3
-                                            sm:text-sm
-                                        "
+                                            className={`
+                                                relative
+                                                z-10
+                                                flex
+                                                h-10
+                                                min-w-0
+                                                flex-1
+                                                shrink-0
+                                                items-center
+                                                justify-center
+                                                overflow-hidden
+                                                whitespace-nowrap
+                                                rounded-xl
+                                                px-2
+                                                text-xs
+                                                select-none
+                                                sm:px-3
+                                                sm:text-sm
+
+                                                ${
+                                                    isForcedTheme
+                                                        ? `
+                                                            bg-fixed-gray-800
+                                                            text-fixed-white
+                                                        `
+                                                        : `
+                                                            bg-[#303131]
+                                                            text-white
+                                                        `
+                                                }
+                                            `}
                                         >
                                             +
                                             {

@@ -11,6 +11,7 @@ type FaqAccordionItemProps = {
     answer: string
     isOpen: boolean
     onToggle: (id: string) => void
+    className?: string
 }
 
 const FaqAccordionItem = ({
@@ -19,6 +20,7 @@ const FaqAccordionItem = ({
     answer,
     isOpen,
     onToggle,
+    className = ""
 }: FaqAccordionItemProps) => {
     return (
         <div className="w-full">
@@ -30,9 +32,8 @@ const FaqAccordionItem = ({
                 className="w-full flex flex-col gap-5 lg:gap-[3vh] 4xl:gap-[2vh] text-left cursor-pointer select-none"
             >
                 <div
-                    className={`flex w-full items-center justify-between gap-6 transition-colors duration-200 ${
-                        isOpen ? "text-green-brand" : ""
-                    }`}
+                    className={`flex w-full items-center justify-between gap-6 transition-colors duration-200 ${isOpen ? "text-green-brand" : ""
+                        }`}
                 >
                     <h2
                         className={`${googleSans.className} font-semibold text-xl lg:text-2xl 4xl:text-[1.3vw]`}
@@ -93,7 +94,7 @@ const FaqAccordionItem = ({
                             className="w-[90%] overflow-hidden"
                         >
                             <p
-                                className={`${googleSansFlex.className} pb-1 text-lg lg:text-xl 4xl:text-[1.5vw] text-muted-foreground`}
+                                className={`${googleSansFlex.className} pb-1 text-lg lg:text-xl 4xl:text-[1.5vw] text-[#A1A1AA]`}
                             >
                                 {answer}
                             </p>
@@ -110,7 +111,7 @@ const FaqAccordionItem = ({
                     }}
                     className={isOpen ? "pointer-events-none" : ""}
                 >
-                    <Separator />
+                    <Separator  className="bg-[#2C2C2C]"/>
                 </motion.div>
             </button>
         </div>

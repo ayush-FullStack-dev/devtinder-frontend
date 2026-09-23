@@ -40,6 +40,7 @@ interface LandingDiscoverCardProps {
     className?: string;
     isAllowedLike: boolean;
     isVisible: boolean
+    theme?: "light" | "dark" | "default";
 }
 
 const SWIPE_SPRING = {
@@ -62,7 +63,8 @@ const LandingDiscoverCard = ({
     developers,
     className,
     isAllowedLike,
-    isVisible
+    isVisible,
+    theme = "default",
 }: LandingDiscoverCardProps) => {
     const cardRef =
         useRef<HTMLDivElement>(null);
@@ -782,17 +784,24 @@ const LandingDiscoverCard = ({
         return null;
     }
 
+    const isForcedDark = theme === "dark";
+    const isForcedLight = theme === "light";
+
     return (
         <div
             className={twMerge(
                 `
-                    relative
-                    h-full
-                    w-full
-                    shrink-0
-                    overflow-visible
-                    select-none
-                `,
+                relative
+                h-full
+                w-full
+                shrink-0
+                overflow-visible
+                select-none
+            `,
+                isForcedDark &&
+                "text-fixed-white",
+                isForcedLight &&
+                "text-fixed-black",
                 className
             )}
         >
@@ -806,27 +815,27 @@ const LandingDiscoverCard = ({
             <div
                 ref={cardRef}
                 className="
-                    relative
-                    h-full
-                    w-full
-                    overflow-visible
-                "
+                relative
+                h-full
+                w-full
+                overflow-visible
+            "
             >
                 {backProfile && (
                     <div
                         aria-hidden="true"
                         className="
-                            pointer-events-none
-                            absolute
-                            inset-0
-                            z-0
-                            h-full
-                            w-full
-                            overflow-hidden
-                            rounded-[inherit]
-                            translate-y-3
-                            scale-[0.95]
-                        "
+                        pointer-events-none
+                        absolute
+                        inset-0
+                        z-0
+                        h-full
+                        w-full
+                        overflow-hidden
+                        rounded-[inherit]
+                        translate-y-3
+                        scale-[0.95]
+                    "
                     >
                         <LandingDeveloperCard
                             key={`back-${backProfile.id}`}
@@ -858,21 +867,22 @@ const LandingDiscoverCard = ({
                                 backProfile.duration
                             }
                             autoPlay={false}
+                            theme={theme}
                         />
                     </div>
                 )}
 
                 <motion.div
                     className="
-                        relative
-                        z-10
-                        h-full
-                        w-full
-                        overflow-hidden
-                        rounded-[inherit]
-                        cursor-grab
-                        active:cursor-grabbing
-                    "
+                    relative
+                    z-10
+                    h-full
+                    w-full
+                    overflow-hidden
+                    rounded-[inherit]
+                    cursor-grab
+                    active:cursor-grabbing
+                "
                     drag={
                         isAnimating ||
                             showOverlay
@@ -935,127 +945,98 @@ const LandingDiscoverCard = ({
                         swipeVal={{
                             swipeSide: swipe,
                         }}
+                        theme={theme}
                     />
                 </motion.div>
 
                 <div
                     className="
-                        pointer-events-none
-                        absolute
-                        inset-x-8
-                        -bottom-9
-                        z-30
-                        flex
-                        items-end
-                        justify-between
-                    "
+        pointer-events-none
+        absolute
+        inset-x-8
+        -bottom-9
+        z-30
+        flex
+        items-end
+        justify-between
+    "
                 >
                     <motion.button
                         type="button"
-                        whileHover={{
-                            scale: 1.07,
-                        }}
-                        whileTap={{
-                            scale: 0.94,
-                        }}
-                        onClick={() =>
-                            swipeCard("left")
-                        }
-                        disabled={
-                            profiles.length <=
-                            1
-                        }
+                        whileHover={{ scale: 1.07 }}
+                        whileTap={{ scale: 0.94 }}
+                        onClick={() => swipeCard("left")}
+                        disabled={profiles.length <= 1}
                         className={`
-                            pointer-events-auto
-                            flex
-                            size-15
-                            items-center
-                            justify-center
-                            rounded-full
-                            text-white
-                            shadow-lg
-                            backdrop-blur-sm
-                            transition-none
-                            cursor-pointer
-                            disabled:pointer-events-none
-                              disabled:cursor-not-allowed
-                            disabled:opacity-80
-                            ${swipe ===
-                                "left"
-                                ? "bg-black dark:bg-white"
-                                : "bg-[#24262A]/95"
+            pointer-events-auto
+            flex
+            size-15
+            items-center
+            justify-center
+            rounded-full
+            text-white
+            shadow-lg
+            backdrop-blur-sm
+            transition-none
+            cursor-pointer
+            disabled:pointer-events-none
+            disabled:cursor-not-allowed
+            disabled:opacity-80
+            ${swipe === "left" ?
+                              "bg-white"
+                                : "bg-fixed-gray-900"
                             }
-                        `}
+        `}
                     >
                         <X
                             size={30}
-                            strokeWidth={
-                                swipe ===
-                                    "left"
-                                    ? 4
-                                    : 2
-                            }
+                            strokeWidth={swipe === "left" ? 4 : 2}
                             className={
-                                swipe ===
-                                    "left"
-                                    ? "text-white dark:text-black"
-                                    : "text-white"
+                                swipe === "left"
+                                    ? "text-fixed-black"
+                                    : "text-fixed-white"
                             }
                         />
                     </motion.button>
 
                     <motion.button
                         type="button"
-                        whileHover={{
-                            scale: 1.07,
-                        }}
-                        whileTap={{
-                            scale: 0.94,
-                        }}
+                        whileHover={{ scale: 1.07 }}
+                        whileTap={{ scale: 0.94 }}
                         onClick={handleLike}
-                        disabled={
-                            profiles.length <=
-                            1
-                        }
+                        disabled={profiles.length <= 1}
                         className={`
-                            pointer-events-auto
-                            flex
-                            size-15
-                            items-center
-                            justify-center
-                            rounded-full
-                            text-white
-                            shadow-lg
-                            backdrop-blur-sm
-                            transition-none
-                            cursor-pointer
-                            disabled:pointer-events-none
-                            disabled:cursor-not-allowed
-                            disabled:opacity-80
-                            ${swipe ===
-                                "right"
+            pointer-events-auto
+            flex
+            size-15
+            items-center
+            justify-center
+            rounded-full
+            text-white
+            shadow-lg
+            backdrop-blur-sm
+            transition-none
+            cursor-pointer
+            disabled:pointer-events-none
+            disabled:cursor-not-allowed
+            disabled:opacity-80
+
+            ${swipe === "right"
                                 ? "bg-[#EC180E]"
-                                : "bg-[#24262A]/95"
+                                : "bg-fixed-gray-900"
                             }
-                        `}
+        `}
                     >
                         <Heart
                             size={30}
-                            strokeWidth={
-                                swipe ===
-                                    "right"
-                                    ? 3
-                                    : 2
-                            }
+                            strokeWidth={swipe === "right" ? 3 : 2}
                             color={
-                                swipe ===
-                                    "right"
+                                swipe === "right"
                                     ? "#FFFFFF"
                                     : "#CD130A"
                             }
                             fill={
-                                swipe ===
-                                    "right"
+                                swipe === "right"
                                     ? "#FFFFFF"
                                     : "none"
                             }

@@ -27,7 +27,7 @@ const LandingWhyDevTinderSection =
                     flex
                     min-h-svh
                     bg-white
-                    rounded-[32px]
+                    text-fixed-black
                     w-full
                     shrink-0
                     flex-col

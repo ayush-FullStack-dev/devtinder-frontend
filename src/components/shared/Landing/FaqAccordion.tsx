@@ -1,5 +1,6 @@
 import { useState } from "react"
 import FaqAccordionItem from "./FaqAccordionItem"
+import { twMerge } from "tailwind-merge";
 
 const faqItems = [
     {
@@ -46,7 +47,8 @@ const faqItems = [
     },
 ];
 
-const FaqAccordion = () => {
+const FaqAccordion = ({ className = ""
+}: { className?: string }) => {
     const [openId, setOpenId] = useState<string | null>(null)
 
     const toggleItem = (id: string) => {
@@ -54,7 +56,7 @@ const FaqAccordion = () => {
     }
 
     return (
-        <div className="flex flex-col gap-10  lg:gap-[3vh] 4xl:gap-[4vh]">
+        <div className={twMerge("flex flex-col gap-10  lg:gap-[3vh] 4xl:gap-[4vh]", className)}>
             {faqItems.map((item) => {
                 return <FaqAccordionItem key={item.id} question={item.question} answer={item.answer} id={item.id}
                     isOpen={openId === item.id}

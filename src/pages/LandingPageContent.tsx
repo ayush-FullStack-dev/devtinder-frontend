@@ -187,7 +187,6 @@ const LandingPageContent = ({
                     min-h-dvh
                     w-full
                     shrink-0
-                    bg-fixed-black
                     my-10
                 "
             >
@@ -202,9 +201,10 @@ const LandingPageContent = ({
                     min-h-dvh
                     w-full
                     shrink-0
-                  bg-fixed-white
-                    rounded-3xl
-                    mb-10
+                    bg-fixed-white
+                    overflow-hidden
+                    rounded-4xl
+                    my-10
                 "
             >
                 <LandingWhyDevTinderSection />
@@ -218,7 +218,7 @@ const LandingPageContent = ({
                     min-h-dvh
                     w-full
                     shrink-0
-                    bg-fixed-black
+                 text-fixed-white
                     my-10
                 "
             >

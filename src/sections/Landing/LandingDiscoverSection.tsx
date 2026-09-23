@@ -66,6 +66,7 @@ const LandingDiscoverSection = ({
                 flex-col
                 gap-[3vh]
                 px-2
+                pb-10
                 pt-[2vh]
                 sm:px-8
                 sm:pt-[3vh]
@@ -238,7 +239,6 @@ const LandingDiscoverSection = ({
                 className="
                     h-[min(70vw,620px)]
                     min-h-155
-                    min-w-120
                     w-full
                     self-auto
                     will-change-transform
@@ -259,6 +259,7 @@ const LandingDiscoverSection = ({
                 "
             >
                 <LandingDiscoverCard
+                theme={"light"}
                     developers={developers}
                     className="h-full w-full min-h-155"
                     isAllowedLike={isLoggedIn}

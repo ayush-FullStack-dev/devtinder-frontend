@@ -14,34 +14,34 @@ const LandingFaqSection = () => {
     const reveal = (y: number, delay = 0) =>
         reduced
             ? {
-                  initial: false,
-                  animate: {
-                      opacity: 1,
-                      y: 0,
-                  },
-                  transition: {
-                      duration: 0,
-                  },
-              }
+                initial: false,
+                animate: {
+                    opacity: 1,
+                    y: 0,
+                },
+                transition: {
+                    duration: 0,
+                },
+            }
             : {
-                  initial: {
-                      opacity: 0,
-                      y,
-                  },
-                  whileInView: {
-                      opacity: 1,
-                      y: 0,
-                  },
-                  viewport: {
-                      once: true,
-                      amount: 0.2,
-                  },
-                  transition: {
-                      delay,
-                      duration: 0.5,
-                      ease,
-                  },
-              };
+                initial: {
+                    opacity: 0,
+                    y,
+                },
+                whileInView: {
+                    opacity: 1,
+                    y: 0,
+                },
+                viewport: {
+                    once: true,
+                    amount: 0.2,
+                },
+                transition: {
+                    delay,
+                    duration: 0.5,
+                    ease,
+                },
+            };
 
     return (
         <section className="w-full flex flex-col items-center lg:items-start lg:flex-row lg:justify-around">
@@ -108,7 +108,7 @@ const LandingFaqSection = () => {
                     className={`
                         ${googleSans.className}
                         w-100 tracking-[-0.01em]
-                        leading-relaxed text-muted-foreground
+                        leading-relaxed text-[#9E9EA7]
                         text-sm xs:text-base sm:text-lg
                         md:text-xl lg:max-w-full lg:text-2xl
                         4xl:w-full 4xl:text-[2vw]
@@ -157,7 +157,7 @@ const LandingFaqSection = () => {
                     lg:w-[35vw]
                 "
             >
-                <FaqAccordion />
+                <FaqAccordion/>
             </motion.div>
         </section>
     );

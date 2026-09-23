@@ -179,6 +179,7 @@ const LandingHowItWorksSection = () => {
                                 text-center
                                 text-4xl
                                 font-bold
+                                text-fixed-white
                                 leading-[0.95]
                                 tracking-tight
                                 xs:text-[12vw]
