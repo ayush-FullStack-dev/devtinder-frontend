@@ -259,7 +259,7 @@ const LandingDiscoverSection = ({
                 "
             >
                 <LandingDiscoverCard
-                theme={"light"}
+                    theme={"light"}
                     developers={developers}
                     className="h-full w-full min-h-155"
                     isAllowedLike={isLoggedIn}

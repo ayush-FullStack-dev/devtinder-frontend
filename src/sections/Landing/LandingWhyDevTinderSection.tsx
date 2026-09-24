@@ -16,13 +16,13 @@ type LandingWhyDevTinderSectionProps = {
 
 
 const LandingWhyDevTinderSection =
-    ({scrollContainerRef}:LandingWhyDevTinderSectionProps) => {
+    ({ scrollContainerRef }: LandingWhyDevTinderSectionProps) => {
         const sectionRef =
             useRef<HTMLElement>(null);
         const { scrollYProgress } = useScroll({
             container: scrollContainerRef,
             target: sectionRef,
-            offset: ["start start", "end start"],
+            offset: ["start end", "end start"],
         });
 
 
@@ -33,15 +33,13 @@ const LandingWhyDevTinderSection =
                     relative
                     flex
                     min-h-svh
-                    bg-white
                     text-fixed-black
                     w-full
                     shrink-0
                     flex-col
                     overflow-visible
-                    p-2
-                    sm:p-4
-                    md:p-6
+                    px-2
+                    sm:items-center
                     lg:flex-row
                     lg:items-center
                     lg:p-6
@@ -170,13 +168,23 @@ const LandingWhyDevTinderSection =
                 <div
                     className="       
                             flex
-                            h-dvh
-                            w-[50vw]
+                            w-[95vw]
+                            aspect-square
+                            sm:w-[90vw]
+                            md:w-[80vw]
+                            md:h-[105dvh]
+                            lg:h-[90dvh]
+                            lg:w-[50vw]
+                            3xl:w-[45vw]
+                            5xl:w-[40vw]
+                            7xL:w-[35vw]
                             justify-center
                             items-center
                         "
                 >
-                    <ExpertiseShowcase scrollYProgress={scrollYProgress} />
+                    <ExpertiseShowcase Progress={scrollYProgress} backgroundSrc="/images/ExpertiseShowcase/bg.webp"
+                        lightSrc="/images/ExpertiseShowcase/light.webp"
+                        handSrc="/images/ExpertiseShowcase/hand.webp" />
                 </div>
 
             </section>

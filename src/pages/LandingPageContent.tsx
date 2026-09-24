@@ -204,6 +204,7 @@ const LandingPageContent = ({
                     bg-fixed-white
                     overflow-hidden
                     rounded-4xl
+                    py-5
                     my-10
                 "
             >
