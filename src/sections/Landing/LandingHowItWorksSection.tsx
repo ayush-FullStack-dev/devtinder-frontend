@@ -10,11 +10,11 @@ import { LandingHowItWorks_VIDEO_NOSOUND } from "@/constants/landing";
 
 const LandingHowItWorksSection = () => {
     const sectionRef = useRef<HTMLElement>(null);
-    const [container, setContainer] = useState<HTMLElement | null>(null);
+    const scrollContainerRef = useRef<HTMLElement | null>(null);
     const [isDesktop, setIsDesktop] = useState(false);
 
     useEffect(() => {
-        setContainer(document.getElementById("main-scroll"));
+        scrollContainerRef.current = document.getElementById("main-scroll");
 
         const mediaQuery = window.matchMedia("(min-width: 1024px)");
 
@@ -31,7 +31,7 @@ const LandingHowItWorksSection = () => {
     }, []);
 
     const { scrollYProgress } = useScroll({
-        container: container ? { current: container } : undefined,
+        container: scrollContainerRef,
         target: sectionRef,
         offset: ["start start", "end end"],
     });

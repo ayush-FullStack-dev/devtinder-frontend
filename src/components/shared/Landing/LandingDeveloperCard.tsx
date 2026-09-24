@@ -521,8 +521,6 @@ const LandingDeveloperCard = ({
                                             (max-width: 1024px) 80vw,
                                             400px
                                         "
-                                        priority
-                                        fetchPriority="high"
                                         draggable={false}
                                         className="
                                             pointer-events-none

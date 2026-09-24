@@ -1,5 +1,5 @@
 import Image from "next/image";
-import space from "@/../public/images/space-terrain.png";
+import space from "@/../public/images/space-terrain.webp";
 
 const HeroSection = ({ className }: { className?: string }) => {
   return (

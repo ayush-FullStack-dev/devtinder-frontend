@@ -2,12 +2,11 @@
 
 import React from "react";
 import { twMerge } from "tailwind-merge";
-import { FaArrowRight } from "react-icons/fa6";
-import type { IconType } from "react-icons";
+import { ArrowRight, type LucideIcon } from "lucide-react";
 
 type AnimatedButtonProps = {
     text: string;
-    icon?: IconType;
+    icon?: LucideIcon;
     className?: string;
     onClick?: React.MouseEventHandler<HTMLButtonElement>;
     type?: "button" | "submit" | "reset";
@@ -16,7 +15,7 @@ type AnimatedButtonProps = {
 
 const AnimatedButton = ({
     text,
-    icon: Icon = FaArrowRight,
+    icon: Icon = ArrowRight,
     className,
     onClick,
     type = "button",

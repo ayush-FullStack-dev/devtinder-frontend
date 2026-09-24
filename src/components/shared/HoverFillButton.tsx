@@ -1,14 +1,12 @@
 "use client";
 
-import React, { useRef } from "react";
-import type { IconType } from "react-icons";
-import { FaArrowRight } from "react-icons/fa6";
-import { Loader2 } from "lucide-react";
+import React from "react";
+import { ArrowRight, type LucideIcon } from "lucide-react";
 import { twMerge } from "tailwind-merge";
 
 type HoverFillButtonProps = {
     text: string;
-    icon?: IconType;
+    icon?: LucideIcon;
     className?: string;
     onClick?: React.MouseEventHandler<HTMLButtonElement>;
     type?: "button" | "submit" | "reset";
@@ -23,7 +21,7 @@ const HoverFillButton = ({
     type = "button",
     disabled = false,
 }: HoverFillButtonProps) => {
-    const Icon = icon || FaArrowRight;
+    const Icon = icon || ArrowRight;
     return (
         <button
             type={type}

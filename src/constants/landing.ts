@@ -4,6 +4,51 @@ export const MAX_DRAG = 360;
 
 export const DeveloperProfilesDemoData = [
   {
+    id: "ayush-shrivastav",
+    name: "Ayush Shrivastav",
+    age: 20,
+    verified: true,
+    role: "Full Stack Developer",
+    location: "India",
+    company: "Independent Developer",
+    experience: "Hands-on experience",
+    education: "Computer Science / Software Development",
+    bio: "Full Stack Developer focused on building scalable backend systems and modern web applications. I enjoy turning ideas into reliable products with clean architecture, thoughtful interfaces, and smooth user experiences.",
+    images: [
+      "https://i.ibb.co/5WcxFSSs/person-color.webp",
+      "https://i.ibb.co/C5N91jdQ/code.jpg",
+    ],
+    isOnline: true,
+    lastSeen: "Active now",
+    responseTime: "Usually replies within 1 hour",
+    availability: "Available for collaboration",
+    techStack: [
+      "JavaScript",
+      "TypeScript",
+      "Node.js",
+      "Express.js",
+      "React",
+      "Next.js",
+      "MongoDB",
+      "REST APIs",
+    ],
+    interests: [
+      "Backend Engineering",
+      "Web Development",
+      "Product Building",
+      "UI/UX",
+      "Motion Design",
+    ],
+    lookingFor: [
+      "Developers",
+      "Designers",
+      "Startup Projects",
+      "Creative Collaborations",
+    ],
+    projects: 5,
+    githubActivity: "Very active",
+  },
+  {
     id: "devansh-mishra",
     name: "Devansh Mishra",
     age: 27,
@@ -234,33 +279,6 @@ export const DeveloperProfilesDemoData = [
   },
 
   {
-    id: "yash-malhotra",
-    name: "Yash Malhotra",
-    age: 25,
-    verified: false,
-    role: "Frontend Developer",
-    location: "Gurugram, India",
-    company: "MakeMyTrip",
-    experience: "4+ years",
-    education: "B.Tech in Information Technology",
-    bio: "Frontend developer who cares about accessibility, performance, and making interfaces feel effortless.",
-    images: [
-      "https://images.pexels.com/photos/29898849/pexels-photo-29898849.jpeg?auto=compress&cs=tinysrgb&w=900",
-      "https://images.pexels.com/photos/1067622/pexels-photo-1067622.jpeg?auto=compress&cs=tinysrgb&w=900",
-      "https://images.pexels.com/photos/6804604/pexels-photo-6804604.jpeg?auto=compress&cs=tinysrgb&w=900",
-    ],
-    isOnline: true,
-    lastSeen: "Active now",
-    responseTime: "Usually replies within 30 min",
-    availability: "Available for collaboration",
-    techStack: ["JavaScript", "React", "Next.js", "Tailwind CSS", "Jest"],
-    interests: ["Web Performance", "UI/UX", "Travel", "Photography"],
-    lookingFor: ["Frontend developers", "Designers", "Creative projects"],
-    projects: 13,
-    githubActivity: "Very active",
-  },
-
-  {
     id: "vihaan-reddy",
     name: "Vihaan Reddy",
     age: 29,
@@ -290,5 +308,5 @@ export const DeveloperProfilesDemoData = [
 ];
 
 export const LandingHowItWorks_VIDEO_NOSOUND =
-    "/videos/LandingHowItWorks-NoSound.mp4";
+  "/videos/LandingHowItWorks-NoSound.mp4";
 export type DeveloperProfile = (typeof DeveloperProfilesDemoData)[number];

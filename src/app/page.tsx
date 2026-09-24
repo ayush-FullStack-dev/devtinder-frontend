@@ -1,6 +1,6 @@
 import JsonLd from "@/constants/JsonLd";
 import { softLoginCheck } from "@/actions/softloginCheck";
-import LandingPageContent from "@/pages/LandingPageContent";
+import LandingPageContent from "@/sections/Landing/LandingPageContent";
 
 export async function PageLayout() {
     const isLoggedIn = await softLoginCheck("refresh");

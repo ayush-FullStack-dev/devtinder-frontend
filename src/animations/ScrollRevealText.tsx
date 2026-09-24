@@ -6,7 +6,7 @@ import {
     useMotionValueEvent,
     useTransform,
 } from "motion/react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 const AnimatedWord = ({
     children,
@@ -84,13 +84,18 @@ const ScrollRevealText = ({
     extraAnimation?: boolean;
 }) => {
     const [visible, setVisible] = useState(false);
+    const visibleRef = useRef(false);
 
     const totalGroups = Math.ceil(words.length / groupSize);
 
     useMotionValueEvent(progress, "change", (latest: number) => {
         if (reducedMotion) return;
 
-        setVisible(latest >= 0.1);
+        const next = latest >= 0.1;
+        if (next !== visibleRef.current) {
+            visibleRef.current = next;
+            setVisible(next);
+        }
     });
 
     return (

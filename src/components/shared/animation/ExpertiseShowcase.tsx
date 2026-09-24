@@ -1,6 +1,6 @@
 'use client'
 
-import { useReducedMotion } from '@/hooks/useReducedMotion'
+import { useIsDesktop } from '@/hooks/useIsDesktop'
 import {
     motion,
     useMotionValue,
@@ -15,6 +15,7 @@ type ExpertiseShowcaseProps = {
     backgroundSrc: string
     lightSrc: string
     handSrc: string
+    animatationAllow?: boolean
 }
 
 const ExpertiseShowcase = ({
@@ -22,9 +23,10 @@ const ExpertiseShowcase = ({
     backgroundSrc,
     lightSrc,
     handSrc,
+    animatationAllow = true,
 }: ExpertiseShowcaseProps) => {
+    const isDesktop = useIsDesktop()
     const ref = useRef<HTMLDivElement>(null)
-    const reducedMotion = useReducedMotion()
 
     const x = useMotionValue(0)
     const y = useMotionValue(0)
@@ -54,6 +56,8 @@ const ExpertiseShowcase = ({
     const handleMouseMove = (
         e: React.MouseEvent<HTMLDivElement>
     ) => {
+        if (!animatationAllow) return
+
         const element = ref.current
 
         if (!element) return
@@ -73,7 +77,11 @@ const ExpertiseShowcase = ({
     return (
         <div
             ref={ref}
-            onMouseMove={handleMouseMove}
+            onMouseMove={
+                animatationAllow
+                    ? handleMouseMove
+                    : undefined
+            }
             className="
                 relative
                 h-full
@@ -97,21 +105,27 @@ const ExpertiseShowcase = ({
                         alt="product showcase background"
                         fill
                         src={backgroundSrc}
+                        sizes="(max-width: 1024px) 95vw, 50vw"
                         className="object-cover"
                         draggable={false}
                     />
 
                     <motion.div
                         className="absolute inset-0 z-10"
-                        style={{
-                            x: springX,
-                            y: springY,
-                        }}
+                        style={
+                            animatationAllow && isDesktop
+                                ? {
+                                    x: springX,
+                                    y: springY,
+                                }
+                                : undefined
+                        }
                     >
                         <Image
                             alt="light showcase"
                             fill
                             src={lightSrc}
+                            sizes="(max-width: 1024px) 95vw, 50vw"
                             className="object-cover"
                             draggable={false}
                         />
@@ -121,32 +135,36 @@ const ExpertiseShowcase = ({
 
             <motion.div
                 className="
-        pointer-events-none
-        absolute
-        inset-0
-        z-20
-        overflow-hidden
-        rounded-b-4xl
-    "
-                style={{
-                    x: handX,
-                    y: handY,
-                }}
+                    pointer-events-none
+                    absolute
+                    inset-0
+                    z-20
+                    overflow-hidden
+                    rounded-b-4xl
+                "
+                style={
+                    animatationAllow
+                        ? {
+                            x: handX,
+                            y: handY,
+                        }
+                        : undefined
+                }
             >
-                <img
+                <Image
                     alt="extra showcase"
                     src={handSrc}
+                    fill
+                    sizes="(max-width: 1024px) 95vw, 50vw"
                     className="
-            absolute
-            right-0
-            bottom-3
-            w-full
-            h-full
-            select-none
-            scale-110
-            object-contain
-            object-bottom
-        "
+                        absolute
+                        right-0
+                        bottom-3
+                        select-none
+                        scale-110
+                        object-contain
+                        object-bottom
+                    "
                     draggable={false}
                 />
             </motion.div>

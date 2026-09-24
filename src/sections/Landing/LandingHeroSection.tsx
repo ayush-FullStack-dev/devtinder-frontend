@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import {
     motion,
     useMotionValue,
@@ -17,15 +18,15 @@ import ScrollRevealText from "@/animations/ScrollRevealText";
 import TextSwapButton from "@/components/shared/animation/TextSwapButton";
 import { useRouter } from "next/navigation";
 
-type LandingHeroSectionProps = {
-    scrollContainerRef: React.RefObject<HTMLElement | null>;
-};
-
 const ease = [0.22, 1, 0.36, 1] as const;
 
-const LandingHeroSection = ({
-    scrollContainerRef,
-}: LandingHeroSectionProps) => {
+const LandingHeroSection = () => {
+    const scrollContainerRef = useRef<HTMLElement | null>(null);
+
+    useEffect(() => {
+        scrollContainerRef.current = document.getElementById("main-scroll");
+    }, []);
+
     const router = useRouter();
     const reducedMotion = useReducedMotion();
     const heroRef = useRef<HTMLElement>(null);
@@ -312,14 +313,16 @@ const LandingHeroSection = ({
             -translate-y-1/2
         "
                         >
-                            <img
+                            <Image
                                 src="/images/landing-intro-poster.webp"
                                 alt=""
                                 aria-hidden="true"
+                                fill
+                                priority
+                                sizes="100vw"
                                 className="
                 absolute
                 inset-0
-                size-full
                 object-cover
             "
                             />
@@ -338,7 +341,7 @@ const LandingHeroSection = ({
                                 loop
                                 muted
                                 playsInline
-                                preload="auto"
+                                preload="metadata"
 
                            
                             >

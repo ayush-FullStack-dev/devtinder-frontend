@@ -5,18 +5,24 @@ import {
     googleSansFlex,
 } from "@/assets/fonts/font.google";
 import ExpertiseShowcase from "@/components/shared/animation/ExpertiseShowcase";
+import { useIsDesktop } from "@/hooks/useIsDesktop";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useScroll, } from "motion/react";
 import {
+    useEffect,
     useRef,
 } from "react";
 
-type LandingWhyDevTinderSectionProps = {
-    scrollContainerRef: React.RefObject<HTMLElement | null>;
-};
-
-
 const LandingWhyDevTinderSection =
-    ({ scrollContainerRef }: LandingWhyDevTinderSectionProps) => {
+    () => {
+        const scrollContainerRef = useRef<HTMLElement | null>(null);
+        const reduceMotion = useReducedMotion()
+
+
+        useEffect(() => {
+            scrollContainerRef.current = document.getElementById("main-scroll");
+        }, []);
+
         const sectionRef =
             useRef<HTMLElement>(null);
         const { scrollYProgress } = useScroll({
@@ -182,9 +188,13 @@ const LandingWhyDevTinderSection =
                             items-center
                         "
                 >
-                    <ExpertiseShowcase Progress={scrollYProgress} backgroundSrc="/images/ExpertiseShowcase/bg.webp"
+                    <ExpertiseShowcase
+                        Progress={scrollYProgress}
+                        backgroundSrc="/images/ExpertiseShowcase/bg.webp"
                         lightSrc="/images/ExpertiseShowcase/light.webp"
-                        handSrc="/images/ExpertiseShowcase/hand.webp" />
+                        handSrc="/images/ExpertiseShowcase/hand.webp"
+                        animatationAllow={!reduceMotion}
+                    />
                 </div>
 
             </section>

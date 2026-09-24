@@ -54,8 +54,6 @@ const LandingDiscoverSection = ({
         setDevelopers(shuffle(DeveloperProfilesDemoData));
     }, []);
 
-    const ease = [0.22, 1, 0.36, 1] as const;
-
     return (
         <section
             ref={sectionRef}
