@@ -178,9 +178,10 @@ const LandingWhyDevTinderSection =
                             aspect-square
                             sm:w-[90vw]
                             md:w-[80vw]
-                            md:h-[105dvh]
-                            lg:h-[90dvh]
+                            lg:h-[80dvh]
                             lg:w-[50vw]
+                            xl:h-[85dvh]
+                            2xl:h-[90dvh]
                             3xl:w-[45vw]
                             5xl:w-[40vw]
                             7xL:w-[35vw]
