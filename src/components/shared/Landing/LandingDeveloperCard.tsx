@@ -241,7 +241,7 @@ const LandingDeveloperCard = ({
             if (
                 !mountedRef.current ||
                 transitionId !==
-                    transitionIdRef.current
+                transitionIdRef.current
             ) {
                 return;
             }
@@ -349,7 +349,7 @@ const LandingDeveloperCard = ({
                         const nextIndex =
                             prev >=
                                 images.length -
-                                    1
+                                1
                                 ? 0
                                 : prev + 1;
 
@@ -390,8 +390,8 @@ const LandingDeveloperCard = ({
 
             const target =
                 event.target as
-                    | HTMLElement
-                    | null;
+                | HTMLElement
+                | null;
 
             if (
                 target?.closest(
@@ -435,22 +435,21 @@ const LandingDeveloperCard = ({
                 select-none
                 isolate
 
-                ${
-                    isForcedDark
-                        ? `
+                ${isForcedDark
+                    ? `
                             border-2
                             border-fixed-gray-700
                             bg-fixed-gray-900
                             text-fixed-white
                         `
-                        : isForcedLight
-                          ? `
+                    : isForcedLight
+                        ? `
                               border-2
                               border-fixed-gray-200
                               bg-fixed-white
                               text-fixed-black
                           `
-                          : `
+                        : `
                               border-2
                               border-border-primary
                               bg-background
@@ -479,12 +478,11 @@ const LandingDeveloperCard = ({
                         isolate
                         contain-paint
 
-                        ${
-                            isForcedDark
-                                ? "bg-fixed-gray-900"
-                                : isForcedLight
-                                  ? "bg-fixed-gray-100"
-                                  : "bg-background"
+                        ${isForcedDark
+                            ? "bg-fixed-gray-900"
+                            : isForcedLight
+                                ? "bg-fixed-gray-100"
+                                : "bg-background"
                         }
                     `}
                 >
@@ -497,12 +495,11 @@ const LandingDeveloperCard = ({
                             w-full
                             overflow-hidden
 
-                            ${
-                                isForcedDark
-                                    ? "bg-fixed-gray-900"
-                                    : isForcedLight
-                                      ? "bg-fixed-gray-100"
-                                      : "bg-background"
+                            ${isForcedDark
+                                ? "bg-fixed-gray-900"
+                                : isForcedLight
+                                    ? "bg-fixed-gray-100"
+                                    : "bg-background"
                             }
                         `}
                     >
@@ -563,12 +560,11 @@ const LandingDeveloperCard = ({
                                             w-full
                                             overflow-hidden
 
-                                            ${
-                                                isForcedDark
-                                                    ? "bg-fixed-gray-900"
-                                                    : isForcedLight
-                                                      ? "bg-fixed-gray-100"
-                                                      : "bg-background"
+                                            ${isForcedDark
+                                                ? "bg-fixed-gray-900"
+                                                : isForcedLight
+                                                    ? "bg-fixed-gray-100"
+                                                    : "bg-background"
                                             }
                                         `}
                                     >
@@ -631,12 +627,11 @@ const LandingDeveloperCard = ({
                                     h-full
                                     w-full
 
-                                    ${
-                                        isForcedDark
-                                            ? "bg-fixed-gray-800"
-                                            : isForcedLight
-                                              ? "bg-fixed-gray-200"
-                                              : "bg-muted"
+                                    ${isForcedDark
+                                        ? "bg-fixed-gray-800"
+                                        : isForcedLight
+                                            ? "bg-fixed-gray-200"
+                                            : "bg-muted"
                                     }
                                 `}
                             />
@@ -665,16 +660,15 @@ const LandingDeveloperCard = ({
                                 top-8
                                 z-30
                                 origin-center
-                                ${
-                                    swipeSide ===
+                                ${swipeSide ===
                                     "right"
-                                        ? "left-5"
-                                        : "right-5"
+                                    ? "left-5"
+                                    : "right-5"
                                 }
                             `}
                         >
                             {swipeSide ===
-                            "right" ? (
+                                "right" ? (
                                 <Heart
                                     className="
                                         size-[20vw]
@@ -706,8 +700,8 @@ const LandingDeveloperCard = ({
                                     "
                                     strokeWidth={4}
                                     color={
-                                       "var(--fixed-white)"
-                                    
+                                        "var(--fixed-white)"
+
                                     }
                                 />
                             )}
@@ -759,7 +753,7 @@ const LandingDeveloperCard = ({
                                     disabled={
                                         activeIndex >=
                                         images.length -
-                                            1
+                                        1
                                     }
                                     className="
                                         h-full
@@ -801,20 +795,19 @@ const LandingDeveloperCard = ({
                                         disabled:cursor-not-allowed
                                         disabled:opacity-30
 
-                                        ${
-                                            isForcedDark
-                                                ? `
+                                        ${isForcedDark
+                                            ? `
                                                     bg-fixed-black/45
                                                     text-fixed-white
                                                     hover:bg-fixed-black/60
                                                 `
-                                                : isForcedLight
-                                                  ? `
+                                            : isForcedLight
+                                                ? `
                                                       bg-fixed-black/45
                                                       text-fixed-white
                                                       hover:bg-fixed-black/60
                                                   `
-                                                  : `
+                                                : `
                                                       bg-black/45
                                                       text-white
                                                       hover:bg-black/60
@@ -837,7 +830,7 @@ const LandingDeveloperCard = ({
                                     disabled={
                                         activeIndex >=
                                         images.length -
-                                            1
+                                        1
                                     }
                                     className={`
                                         rounded-full
@@ -847,20 +840,19 @@ const LandingDeveloperCard = ({
                                         disabled:cursor-not-allowed
                                         disabled:opacity-30
 
-                                        ${
-                                            isForcedDark
-                                                ? `
+                                        ${isForcedDark
+                                            ? `
                                                     bg-fixed-black/45
                                                     text-fixed-white
                                                     hover:bg-fixed-black/60
                                                 `
-                                                : isForcedLight
-                                                  ? `
+                                            : isForcedLight
+                                                ? `
                                                       bg-fixed-black/45
                                                       text-fixed-white
                                                       hover:bg-fixed-black/60
                                                   `
-                                                  : `
+                                                : `
                                                       bg-black/45
                                                       text-white
                                                       hover:bg-black/60
@@ -895,10 +887,9 @@ const LandingDeveloperCard = ({
                                 size-2
                                 rounded-full
 
-                                ${
-                                    isOnline
-                                        ? "animate-dot-blink bg-green-brand"
-                                        : "bg-gray-400"
+                                ${isOnline
+                                    ? "animate-dot-blink bg-green-brand"
+                                    : "bg-gray-400"
                                 }
                             `}
                         />
@@ -928,12 +919,11 @@ const LandingDeveloperCard = ({
                         py-3
                         isolate
 
-                        ${
-                            isForcedDark
-                                ? "bg-fixed-gray-900"
-                                : isForcedLight
-                                  ? "bg-fixed-white"
-                                  : "bg-background"
+                        ${isForcedDark
+                            ? "bg-fixed-gray-900"
+                            : isForcedLight
+                                ? "bg-fixed-white"
+                                : "bg-background"
                         }
                     `}
                 >
@@ -955,7 +945,7 @@ const LandingDeveloperCard = ({
                             `}
                         >
                             <p className="text-lg">
-                                {name} {age}
+                                {name}, {age} years
                             </p>
 
                             {verified && (
@@ -1032,12 +1022,11 @@ const LandingDeveloperCard = ({
                                                 rounded-xl
                                                 select-none
 
-                                                ${
-                                                    isForcedDark
+                                                ${isForcedDark
+                                                    ? "bg-fixed-gray-800"
+                                                    : isForcedLight
                                                         ? "bg-fixed-gray-800"
-                                                        : isForcedLight
-                                                          ? "bg-fixed-gray-800"
-                                                          : "bg-[#303131]"
+                                                        : "bg-[#303131]"
                                                 }
                                             `}
                                         >
@@ -1072,13 +1061,12 @@ const LandingDeveloperCard = ({
                                                 sm:px-3
                                                 sm:text-sm
 
-                                                ${
-                                                    isForcedTheme
-                                                        ? `
+                                                ${isForcedTheme
+                                                    ? `
                                                             bg-fixed-gray-800
                                                             text-fixed-white
                                                         `
-                                                        : `
+                                                    : `
                                                             bg-[#303131]
                                                             text-white
                                                         `

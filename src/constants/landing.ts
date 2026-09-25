@@ -4,9 +4,9 @@ export const MAX_DRAG = 360;
 
 export const DeveloperProfilesDemoData = [
   {
-    id: "ayush-shrivastav",
-    name: "Ayush Shrivastav",
-    age: 20,
+    id: "ayush-shrivastava",
+    name: "Ayush — DevTinder Founder",
+    age: 19,
     verified: true,
     role: "Full Stack Developer",
     location: "India",
@@ -15,7 +15,7 @@ export const DeveloperProfilesDemoData = [
     education: "Computer Science / Software Development",
     bio: "Full Stack Developer focused on building scalable backend systems and modern web applications. I enjoy turning ideas into reliable products with clean architecture, thoughtful interfaces, and smooth user experiences.",
     images: [
-      "https://i.ibb.co/5WcxFSSs/person-color.webp",
+      "https://i.ibb.co/Z1wkvzPt/person-color.webp",
       "https://i.ibb.co/C5N91jdQ/code.jpg",
     ],
     isOnline: true,

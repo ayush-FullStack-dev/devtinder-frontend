@@ -3,6 +3,7 @@
 import { useIsDesktop } from '@/hooks/useIsDesktop'
 import {
     motion,
+    MotionValue,
     useMotionValue,
     useSpring,
     useTransform,
@@ -11,7 +12,7 @@ import Image from 'next/image'
 import { useRef } from 'react'
 
 type ExpertiseShowcaseProps = {
-    Progress: any
+    Progress: MotionValue<number>
     backgroundSrc: string
     lightSrc: string
     handSrc: string
@@ -26,11 +27,18 @@ const ExpertiseShowcase = ({
     animatationAllow = true,
 }: ExpertiseShowcaseProps) => {
     const isDesktop = useIsDesktop()
+
     const ref = useRef<HTMLDivElement>(null)
 
+    /*
+     * Mouse parallax values
+     */
     const x = useMotionValue(0)
     const y = useMotionValue(0)
 
+    /*
+     * Hand scroll animation
+     */
     const handX = useTransform(
         Progress,
         [0.05, 0.45],
@@ -43,6 +51,9 @@ const ExpertiseShowcase = ({
         [200, 0]
     )
 
+    /*
+     * Smooth mouse movement
+     */
     const springX = useSpring(x, {
         stiffness: 300,
         damping: 25,
@@ -53,10 +64,13 @@ const ExpertiseShowcase = ({
         damping: 25,
     })
 
+    /*
+     * Mouse parallax
+     */
     const handleMouseMove = (
         e: React.MouseEvent<HTMLDivElement>
     ) => {
-        if (!animatationAllow) return
+        if (!animatationAllow || !isDesktop) return
 
         const element = ref.current
 
@@ -78,7 +92,7 @@ const ExpertiseShowcase = ({
         <div
             ref={ref}
             onMouseMove={
-                animatationAllow
+                animatationAllow && isDesktop
                     ? handleMouseMove
                     : undefined
             }
@@ -87,50 +101,51 @@ const ExpertiseShowcase = ({
                 h-full
                 w-full
                 select-none
-                rounded-4xl
-                overflow-x-clip
+                overflow-hidden
+                rounded-[5%]
             "
         >
+
             <div
                 className="
                     absolute
                     inset-0
                     left-[5%]
-                    top-15
+                    top-10
                     border
+                    rounded-[5%]
+                    overflow-hidden
                 "
             >
-                <div className="absolute rounded-4xl inset-0 overflow-hidden">
+                <Image
+                    alt="product showcase background"
+                    fill
+                    src={backgroundSrc}
+                    sizes="(max-width: 1024px) 95vw, 50vw"
+                    className="object-cover"
+                    draggable={false}
+                />
+
+                <motion.div
+                    className="absolute inset-0 z-10"
+                    style={
+                        animatationAllow && isDesktop
+                            ? {
+                                x: springX,
+                                y: springY,
+                            }
+                            : undefined
+                    }
+                >
                     <Image
-                        alt="product showcase background"
+                        alt="light showcase"
                         fill
-                        src={backgroundSrc}
+                        src={lightSrc}
                         sizes="(max-width: 1024px) 95vw, 50vw"
                         className="object-cover"
                         draggable={false}
                     />
-
-                    <motion.div
-                        className="absolute inset-0 z-10"
-                        style={
-                            animatationAllow && isDesktop
-                                ? {
-                                    x: springX,
-                                    y: springY,
-                                }
-                                : undefined
-                        }
-                    >
-                        <Image
-                            alt="light showcase"
-                            fill
-                            src={lightSrc}
-                            sizes="(max-width: 1024px) 95vw, 50vw"
-                            className="object-cover"
-                            draggable={false}
-                        />
-                    </motion.div>
-                </div>
+                </motion.div>
             </div>
 
             <motion.div
@@ -139,8 +154,6 @@ const ExpertiseShowcase = ({
                     absolute
                     inset-0
                     z-20
-                    overflow-hidden
-                    rounded-b-4xl
                 "
                 style={
                     animatationAllow
@@ -155,13 +168,13 @@ const ExpertiseShowcase = ({
                     alt="extra showcase"
                     src={handSrc}
                     fill
-                    sizes="(max-width: 1024px) 95vw, 50vw"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
                     className="
                         absolute
                         right-0
-                        bottom-3
+                        bottom-0
                         select-none
-                        scale-110
+                        scale-105
                         object-contain
                         object-bottom
                     "
@@ -174,7 +187,7 @@ const ExpertiseShowcase = ({
                     pointer-events-none
                     absolute
                     inset-0
-                    z-30
+                    z-40
                 "
             />
         </div>

@@ -186,6 +186,8 @@ const LandingWhyDevTinderSection =
                             5xl:w-[40vw]
                             7xL:w-[35vw]
                             justify-center
+                            max-h-650
+                            min-h-150
                             items-center
                         "
                 >

@@ -13,6 +13,25 @@ import Link from "next/link";
 import { motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 
+const AYUSH_ID = "ayush-shrivastava";
+
+const getShuffledDevelopers = (): DeveloperProfile[] => {
+    const ayush = DeveloperProfilesDemoData.find(
+        (developer) => developer.id === AYUSH_ID
+    );
+
+    if (!ayush) {
+        return shuffle(DeveloperProfilesDemoData);
+    }
+
+    const otherDevelopers = DeveloperProfilesDemoData.filter(
+        (developer) => developer.id !== AYUSH_ID
+    );
+
+
+    return [ayush, ...shuffle(otherDevelopers)];
+};
+
 const LandingDiscoverSection = ({
     isLoggedIn,
 }: {
@@ -21,6 +40,7 @@ const LandingDiscoverSection = ({
     const [developers, setDevelopers] = useState<DeveloperProfile[]>(
         DeveloperProfilesDemoData
     );
+
     const sectionRef = useRef<HTMLElement>(null);
     const [isVisible, setIsVisible] = useState(false);
     const reduced = useReducedMotion();
@@ -46,12 +66,13 @@ const LandingDiscoverSection = ({
             if (section) {
                 observer.unobserve(section);
             }
+
             observer.disconnect();
         };
     }, []);
 
     useEffect(() => {
-        setDevelopers(shuffle(DeveloperProfilesDemoData));
+        setDevelopers(getShuffledDevelopers());
     }, []);
 
     return (
@@ -126,7 +147,7 @@ const LandingDiscoverSection = ({
                         w-full
                         min-w-0
                         font-bold
-                      text-black
+                        text-black
                         leading-[0.95]
                         tracking-tight
                         text-4xl
@@ -253,11 +274,10 @@ const LandingDiscoverSection = ({
                     5xl:h-[min(60vh,1500px)]
                     7xl:h-[min(65vh,2000px)]
                     lg:self-auto
-                    
                 "
             >
                 <LandingDiscoverCard
-                    theme={"light"}
+                    theme="light"
                     developers={developers}
                     className="h-full w-full min-h-155"
                     isAllowedLike={isLoggedIn}
