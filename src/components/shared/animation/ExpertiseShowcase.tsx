@@ -1,15 +1,15 @@
-'use client'
+"use client"
 
-import { useIsDesktop } from '@/hooks/useIsDesktop'
+import { useIsDesktop } from "@/hooks/useIsDesktop"
 import {
     motion,
     MotionValue,
     useMotionValue,
     useSpring,
     useTransform,
-} from 'motion/react'
-import Image from 'next/image'
-import { useRef } from 'react'
+} from "motion/react"
+import Image from "next/image"
+import { useRef } from "react"
 
 type ExpertiseShowcaseProps = {
     Progress: MotionValue<number>
@@ -30,15 +30,8 @@ const ExpertiseShowcase = ({
 
     const ref = useRef<HTMLDivElement>(null)
 
-    /*
-     * Mouse parallax values
-     */
     const x = useMotionValue(0)
     const y = useMotionValue(0)
-
-    /*
-     * Hand scroll animation
-     */
     const handX = useTransform(
         Progress,
         [0.05, 0.45],
@@ -51,9 +44,6 @@ const ExpertiseShowcase = ({
         [200, 0]
     )
 
-    /*
-     * Smooth mouse movement
-     */
     const springX = useSpring(x, {
         stiffness: 300,
         damping: 25,
@@ -64,9 +54,7 @@ const ExpertiseShowcase = ({
         damping: 25,
     })
 
-    /*
-     * Mouse parallax
-     */
+
     const handleMouseMove = (
         e: React.MouseEvent<HTMLDivElement>
     ) => {
@@ -101,7 +89,7 @@ const ExpertiseShowcase = ({
                 h-full
                 w-full
                 select-none
-                overflow-hidden
+                overflow-visible
                 rounded-[5%]
             "
         >
@@ -109,11 +97,9 @@ const ExpertiseShowcase = ({
             <div
                 className="
                     absolute
-                    inset-0
-                    left-[5%]
-                    top-10
-                    border
+                 inset-0
                     rounded-[5%]
+                    border
                     overflow-hidden
                 "
             >
@@ -127,7 +113,11 @@ const ExpertiseShowcase = ({
                 />
 
                 <motion.div
-                    className="absolute inset-0 z-10"
+                    className="
+                        absolute
+                        inset-0
+                        z-10
+                    "
                     style={
                         animatationAllow && isDesktop
                             ? {
@@ -148,39 +138,53 @@ const ExpertiseShowcase = ({
                 </motion.div>
             </div>
 
-            <motion.div
+            <div
                 className="
                     pointer-events-none
                     absolute
-                    inset-0
+                  inset-0
+               
                     z-20
+                    overflow-visible
+                    [clip-path:inset(-100%_0_0_-100%_round_5%)]
                 "
-                style={
-                    animatationAllow
-                        ? {
-                            x: handX,
-                            y: handY,
-                        }
-                        : undefined
-                }
             >
-                <Image
-                    alt="extra showcase"
-                    src={handSrc}
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 50vw"
+                <motion.div
                     className="
                         absolute
-                        right-0
-                        bottom-0
-                        select-none
-                        scale-105
-                        object-contain
-                        object-bottom
+                        inset-0
+                        w-full
+                        h-full
+                        overflow-visible
                     "
-                    draggable={false}
-                />
-            </motion.div>
+                    style={
+                        animatationAllow
+                            ? {
+                                x: handX,
+                                y: handY,
+                            }
+                            : undefined
+                    }
+                >
+                    <Image
+                        alt="extra showcase"
+                        src={handSrc}
+                        fill
+                        sizes="(max-width: 1024px) 100vw, 50vw"
+                        className="
+                            absolute
+                            inset-0
+                            h-full
+                            w-full
+                            select-none
+                            object-contain
+                            object-bottom
+                            scale-[115%]   
+                        "
+                        draggable={false}
+                    />
+                </motion.div>
+            </div>
 
             <div
                 className="
@@ -190,6 +194,7 @@ const ExpertiseShowcase = ({
                     z-40
                 "
             />
+
         </div>
     )
 }

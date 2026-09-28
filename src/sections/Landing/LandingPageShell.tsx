@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import LandingNavbar from "@/sections/Landing/Navbar/LandingNavbar";
+import { cn } from "@/lib/utils";
 
 const SECTION_IDS = [
     "home",
@@ -29,7 +30,9 @@ const LandingPageShell = ({ children }: LandingPageShellProps) => {
                 element: document.getElementById(id),
             }))
             .filter(
-                (item): item is {
+                (
+                    item
+                ): item is {
                     id: (typeof SECTION_IDS)[number];
                     element: HTMLElement;
                 } => Boolean(item.element)
@@ -39,12 +42,18 @@ const LandingPageShell = ({ children }: LandingPageShellProps) => {
 
         const updateActiveSection = () => {
             frame = 0;
-            const scrollTop = main.scrollTop;
+
+            const mainRect = main.getBoundingClientRect();
             const threshold = 120;
+
             let current = "hero";
 
             for (const { id, element } of sections) {
-                if (scrollTop >= element.offsetTop - threshold) {
+                const sectionRect = element.getBoundingClientRect();
+
+                const sectionTop = sectionRect.top - mainRect.top;
+
+                if (sectionTop <= threshold) {
                     current = id === "home" ? "hero" : id;
                 } else {
                     break;
@@ -58,15 +67,22 @@ const LandingPageShell = ({ children }: LandingPageShellProps) => {
 
         const handleScroll = () => {
             if (frame) return;
+
             frame = requestAnimationFrame(updateActiveSection);
         };
 
-        main.addEventListener("scroll", handleScroll, { passive: true });
+        main.addEventListener("scroll", handleScroll, {
+            passive: true,
+        });
+
         updateActiveSection();
 
         return () => {
             main.removeEventListener("scroll", handleScroll);
-            if (frame) cancelAnimationFrame(frame);
+
+            if (frame) {
+                cancelAnimationFrame(frame);
+            }
         };
     }, []);
 
@@ -87,15 +103,16 @@ const LandingPageShell = ({ children }: LandingPageShellProps) => {
                 scrollbar-hide
             "
         >
-            {activeSection !== "hero" && (
-                <LandingNavbar
-                    theme={
-                        !["why-devtinder", "discover"].includes(activeSection)
-                            ? "dark"
-                            : "light"
-                    }
-                />
-            )}
+
+            <LandingNavbar
+                isHide={activeSection === "hero"}
+                theme={
+                    !["why-devtinder", "discover"].includes(activeSection)
+                        ? "dark"
+                        : "light"
+                }
+            />
+
             {children}
         </main>
     );

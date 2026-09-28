@@ -15,11 +15,13 @@ const ease = [0.22, 1, 0.36, 1] as const;
 type NavbarTheme = "light" | "dark";
 
 interface LandingNavbarProps {
+    isHide?: boolean;
     theme?: NavbarTheme;
 }
 
 const LandingNavbar = ({
     theme = "light",
+    isHide = false,
 }: LandingNavbarProps) => {
     const [activeMenu, setActiveMenu] = useState<string | null>(null);
     const [hidden, setHidden] = useState(false);
@@ -35,6 +37,18 @@ const LandingNavbar = ({
         setMounted(true);
     }, []);
 
+    useEffect(() => {
+        if (!isHide) {
+            setHidden(false);
+
+            const scrollContainer =
+                document.getElementById("main-scroll");
+
+            lastScrollTop.current =
+                scrollContainer?.scrollTop ?? 0;
+        }
+    }, [isHide]);
+
     const updateNavbar = useCallback(() => {
         if (scrollFrame.current !== null) return;
 
@@ -49,6 +63,12 @@ const LandingNavbar = ({
 
             const scrollDelta =
                 currentScrollTop - lastScrollTop.current;
+
+            if (isHide) {
+                setHidden(true);
+                lastScrollTop.current = currentScrollTop;
+                return;
+            }
 
             if (activeMenu !== null || currentScrollTop <= 4) {
                 setHidden(false);
@@ -190,10 +210,10 @@ const LandingNavbar = ({
             }}
             animate={{
                 y:
-                    hidden && !menuOpen
+                    isHide || (hidden && !menuOpen)
                         ? "-105%"
                         : "0%",
-                opacity: 1,
+                opacity: isHide ? 0 : 1,
             }}
             transition={
                 mounted
@@ -205,7 +225,7 @@ const LandingNavbar = ({
                             mass: 0.9,
                         },
                         opacity: {
-                            duration: 0.4,
+                            duration: 0.3,
                             ease,
                         },
                     }
@@ -215,7 +235,7 @@ const LandingNavbar = ({
                             ease,
                         },
                         opacity: {
-                            duration: 0.45,
+                            duration: 0.4,
                             ease: "easeOut",
                         },
                     }
@@ -268,7 +288,7 @@ const LandingNavbar = ({
                         }}
                     >
                         <LogoHorizontal className={`${theme ? theme === "dark" ? "text-white!" : "text-black!" : ""}`} />
-                        
+
                     </motion.div>
 
                     <SharedNavbarMenu
@@ -319,7 +339,7 @@ const LandingNavbar = ({
                                 text="Get Started"
                             />
                         </Link>
-                          <Link
+                        <Link
                             href="/auth/login"
                             rel="noopener noreferrer"
                         >
