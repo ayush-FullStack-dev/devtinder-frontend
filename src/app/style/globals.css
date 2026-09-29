@@ -183,7 +183,7 @@
   --color-green-muted: var(--green-muted);
   --color-green-subtle: var(--green-subtle);
 
-   /* Fixed colors */
+  /* Fixed colors */
   --color-fixed-white: var(--fixed-white);
   --color-fixed-black: var(--fixed-black);
 
@@ -229,7 +229,9 @@
 
   --color-fixed-landing-background: var(--fixed-landing-background);
   --color-fixed-landing-surface: var(--fixed-landing-surface);
-  --color-fixed-landing-surface-secondary: var(--fixed-landing-surface-secondary);
+  --color-fixed-landing-surface-secondary: var(
+    --fixed-landing-surface-secondary
+  );
   --color-fixed-landing-surface-dark: var(--fixed-landing-surface-dark);
   --color-fixed-landing-foreground: var(--fixed-landing-foreground);
   --color-fixed-landing-foreground-muted: var(--fixed-landing-foreground-muted);
@@ -597,4 +599,32 @@ input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
   box-shadow: 0 0 0 1000px transparent inset !important;
   transition: background-color 9999s ease-in-out 0s;
+}
+
+/* Chrome / Chromium autofill */
+input:autofill,
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  background-color: var(--surface-elevated) !important;
+  background-image: none !important;
+
+  -webkit-text-fill-color: var(--input-foreground) !important;
+  color: var(--input-foreground) !important;
+
+  -webkit-box-shadow: 0 0 0 1000px var(--surface-elevated) inset !important;
+
+  box-shadow: 0 0 0 1000px var(--surface-elevated) inset !important;
+
+  transition: background-color 99999s ease-in-out 0s !important;
+}
+
+input[data-com-onepassword-filled],
+input[data-com-onepassword-filled="dark"] {
+  background-color: transparent !important;
+  background-image: none !important;
+  -webkit-text-fill-color: var(--input-foreground) !important;
+  color: var(--input-foreground) !important;
+  box-shadow: none !important;
 }

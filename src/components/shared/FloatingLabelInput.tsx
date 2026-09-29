@@ -101,16 +101,23 @@ const FloatingLabelInput = <T extends FieldValues>({
           ${googleSans.className}
         `}
         autoComplete={
-          name === "password"
-            ? "new-password"
-            : name === "confirmPassword"
-              ? "new-password"
-              : undefined
+          name === "name"
+            ? "name"
+            : name === "email"
+              ? "email"
+              : name === "username"
+                ? "username"
+                : name === "password"
+                  ? "new-password"
+                  : name === "confirmPassword"
+                    ? "new-password"
+                    : undefined
         }
         style={{
           wordSpacing: "1px",
         }}
       />
+
 
       {endIcon && (
         <div className="shrink-0 pr-4">

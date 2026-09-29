@@ -52,13 +52,15 @@ const IconTextInput = <T extends FieldValues>({
       className={`inline-flex h-15 w-90 items-center pl-4 rounded-lg gap-3 ${className}`}
       style={inputStyle}
     >
-      <Icon size={24} color="var(--muted-foreground)" className="hidden xs:inline"/>
+      <Icon size={24} color="var(--muted-foreground)" className="hidden xs:inline" />
 
       <input
         {...register(name)}
+        id={name}
+        name={name}
+        autoComplete="username"
         className={`h-full flex-1 bg-transparent text-[14.8px] tracking-wide outline-none ${jakarta.className}`}
         style={{ wordSpacing: "1px" }}
-        id={name}
         placeholder={text}
         onFocus={() => setIsClicked(true)}
         onBlur={() => setIsClicked(false)}

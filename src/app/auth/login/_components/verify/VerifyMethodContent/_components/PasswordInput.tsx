@@ -23,7 +23,7 @@ const PasswordInput = <T extends FieldValues>({
   success = false,
   className,
   showPassword = true,
-  setShowPassword = () => {},
+  setShowPassword = () => { },
 }: PasswordInputProps<T>) => {
   const [isClicked, setIsClicked] = useState(false);
   const borderVal = error
@@ -58,7 +58,7 @@ const PasswordInput = <T extends FieldValues>({
 
       <input
         {...register(name)}
-        autoComplete="off"
+        autoComplete="new-password"
         className={`h-full flex-1 bg-transparent text-[14.8px] tracking-wide outline-none ${jakarta.className}`}
         style={{ wordSpacing: "1px" }}
         id={name}
