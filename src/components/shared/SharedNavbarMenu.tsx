@@ -73,17 +73,6 @@ const SharedNavbarMenu = ({
     theme,
 }: SharedNavbarMenuProps) => {
     const reducedMotion = useReducedMotion();
-
-    /*
-     * No theme prop:
-     * Tailwind/system theme controls the color.
-     *
-     * theme="light":
-     * Force light navbar colors.
-     *
-     * theme="dark":
-     * Force dark navbar colors.
-     */
     const textColor =
         theme === "light"
             ? "text-nav-link"

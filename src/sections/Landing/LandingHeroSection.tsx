@@ -17,6 +17,7 @@ import LandingHeroNavbar from "./Navbar/LandingHeroNavbar";
 import ScrollRevealText from "@/animations/ScrollRevealText";
 import TextSwapButton from "@/components/shared/animation/TextSwapButton";
 import { useRouter } from "next/navigation";
+import RevealText from "@/components/shared/animation/RevealText";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -63,7 +64,7 @@ const LandingHeroSection = () => {
         damping: 26,
         mass: 0.6,
     });
-    
+
     const smoothPointerY = useSpring(pointerY, {
         stiffness: 70,
         damping: 26,
@@ -273,7 +274,7 @@ const LandingHeroSection = () => {
                         z-0
                         -translate-x-1/2
                         overflow-hidden
-                        bg-[#050505]
+                        bg-[#d3caca]
                         transform-gpu
                        will-change-[width,height,top,border-radius,transform]
                       backface-hidden
@@ -301,7 +302,7 @@ const LandingHeroSection = () => {
                             : backgroundY,
                     }}
                 >
-                    <div className="absolute inset-0 overflow-hidden bg-[#050505]">
+                    <div className="absolute inset-0 overflow-hidden">
                         <div
                             className="
             absolute
@@ -322,6 +323,7 @@ const LandingHeroSection = () => {
                                 sizes="100vw"
                                 className="
                 absolute
+                  brightness-85
                 inset-0
                 object-cover
             "
@@ -329,21 +331,18 @@ const LandingHeroSection = () => {
 
                             <video
                                 className="
-                absolute
-                inset-0
-                size-full
-                object-cover
-                duration-500
-                ease-out
-                z-5
-            "
+    absolute
+    inset-0
+    size-full
+    object-cover
+    brightness-85
+    z-5
+  "
                                 autoPlay
                                 loop
                                 muted
                                 playsInline
                                 preload="metadata"
-
-                           
                             >
                                 <source
                                     src="/videos/LandingIntro.mp4"
@@ -446,7 +445,23 @@ const LandingHeroSection = () => {
         3xl:w-[42vw]
     `}
                             >
-                                We’re building the future of developer connections.
+                                <RevealText
+                                    words={[
+                                        "We’re",
+                                        "building",
+                                        "the",
+                                        "future",
+                                        "of",
+                                        "developer",
+                                        "connections.",
+                                    ]}
+                                    groupSize={2}
+                                    groupDelay={0.08}
+                                    duration={0.55}
+                                    trigger={true}
+                                    reducedMotion={reducedMotion}
+                                    className="contents"
+                                />
                             </h1>
                         </div>
 
@@ -531,7 +546,7 @@ const LandingHeroSection = () => {
                                 }}
                             >
                                 <TextSwapButton
-                                className="text-white"
+                                    className="text-white"
                                     text="Try It Now"
                                     onClick={() =>
                                         router.push(
