@@ -34,6 +34,7 @@ export const PillButton = ({
                 shrink-0
                 items-center
                 justify-center
+                cursor-pointer
                 gap-2
                 overflow-visible
                 rounded-full
