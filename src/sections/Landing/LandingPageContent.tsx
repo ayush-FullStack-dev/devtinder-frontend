@@ -1,6 +1,7 @@
 import dynamic from "next/dynamic";
 import LandingPageShell from "@/sections/Landing/LandingPageShell";
 import HeroSection from "@/sections/Landing/LandingHeroSection";
+import { LandingCtaSection } from "./LandingCtaSection";
 
 const DiscoverSection = dynamic(
     () => import("@/sections/Landing/LandingDiscoverSection"),
@@ -79,12 +80,13 @@ const LandingPageContent = ({ isLoggedIn }: LandingPageContentProps) => {
                 className="
                     relative
                     z-20
-                    min-h-dvh
+                    min-h-140
+                    xs:min-h-dvh
                     w-full
                     shrink-0
                     bg-fixed-white
                     overflow-hidden
-                    rounded-4xl
+                    xs:rounded-4xl
                     py-5
                     my-10
                 "
@@ -105,6 +107,23 @@ const LandingPageContent = ({ isLoggedIn }: LandingPageContentProps) => {
                 "
             >
                 <LandingFaqSection />
+            </section>
+
+            <section
+                id="frequently-asked-questions"
+                className="
+                    relative
+                    z-30
+                    min-h-dvh
+                    w-full
+                    bg-white
+                  
+                    shrink-0
+                    text-black
+                    my-10
+                "
+            >
+                <LandingCtaSection  />
             </section>
         </LandingPageShell>
     );

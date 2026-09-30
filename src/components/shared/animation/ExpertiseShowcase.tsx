@@ -142,7 +142,7 @@ const ExpertiseShowcase = ({
                 className="
                     pointer-events-none
                     absolute
-                  inset-0
+                    inset-0
                
                     z-20
                     overflow-visible
@@ -178,8 +178,8 @@ const ExpertiseShowcase = ({
                             w-full
                             select-none
                             object-contain
-                            object-bottom
-                            scale-[115%]   
+                     object-bottom
+                            scale-[110%]   
                         "
                         draggable={false}
                     />

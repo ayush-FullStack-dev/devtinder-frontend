@@ -38,7 +38,7 @@ const LandingWhyDevTinderSection =
                 className="
                     relative
                     flex
-                    min-h-svh
+                    h-full
                     text-fixed-black
                     w-full
                     shrink-0
@@ -52,6 +52,7 @@ const LandingWhyDevTinderSection =
                     xl:p-8
                     2xl:p-10
                     3xl:p-12
+                    gap-10
                     5xl:p-16
                     7xl:p-20
                     10xl:p-24
@@ -182,12 +183,12 @@ const LandingWhyDevTinderSection =
                             lg:w-[50vw]
                             xl:h-[85dvh]
                             2xl:h-[90dvh]
+                            mt-auto
                             3xl:w-[45vw]
                             5xl:w-[40vw]
                             7xL:w-[35vw]
                             justify-center
                             max-h-650
-                            min-h-150
                             items-center
                         "
                 >
