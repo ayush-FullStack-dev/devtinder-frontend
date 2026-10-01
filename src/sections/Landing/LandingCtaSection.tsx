@@ -15,6 +15,10 @@ import {
 } from "@/hooks/useHandMotion";
 import { PillButton } from "@/components/shared/PillButton";
 import Link from "next/link";
+import FeatureItem from "@/components/shared/FeatureItem";
+import { ChartNoAxesColumnIncreasing, Users } from "lucide-react";
+import { FaUserGroup } from "react-icons/fa6";
+import { features } from "@/constants/landing";
 
 const HAND_FLOAT = {
     human: {
@@ -205,10 +209,34 @@ const CtaContent = () => {
                 "
             >
                 <Link href="/auth/signup">
-                    <PillButton className={`bg-[#161D26]  h-13 font-bold min-w-full max-w-full md:min-w-[40vw] lg:min-w-[35vw] xl:min-w-[30vw] w-full  md:max-w-180 text-white ${googleSans.className}`}>
+                    <PillButton className={`bg-[#161D26]  h-13 font-bold w-80 text-white ${googleSans.className}`}>
                         Get Started
                     </PillButton>
                 </Link>
+            </div>
+            <div className="flex items-center justify-evenly w-full absolute bottom-5">
+                {features.map((feature) => (
+                    <FeatureItem
+                        key={feature.title}
+                        icon={feature.icon}
+                        iconColor="black"
+                        title={feature.title}
+                        description={feature.description}
+                        iconWrapperClassName="
+                w-13
+                aspect-square
+                rounded-full
+                overflow-hidden
+                bg-[#F0F1F3]
+                p-3
+                font-bold
+                text-center
+                flex
+                items-center
+                justify-center
+            "
+                    />
+                ))}
             </div>
         </div>
     );

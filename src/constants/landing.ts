@@ -1,3 +1,6 @@
+import { ChartNoAxesColumnIncreasing, Handshake, Users } from "lucide-react";
+import { FaUser } from "react-icons/fa6";
+
 export const SWIPE_THRESHOLD_RATIO = 0.38;
 export const MIN_SWIPE_THRESHOLD = 100;
 export const MAX_DRAG = 360;
@@ -307,6 +310,24 @@ export const DeveloperProfilesDemoData = [
   },
 ];
 
+
+export const features = [
+  {
+    icon: Users,
+    title: "Meet developers",
+    description: "with complementary skills.",
+  },
+  {
+    icon: Handshake,
+    title: "Collaborate easily",
+    description: "on real projects.",
+  },
+  {
+    icon: ChartNoAxesColumnIncreasing,
+    title: "Build faster",
+    description: "with the right people.",
+  },
+];
 export const LandingHowItWorks_VIDEO_NOSOUND =
   "/videos/LandingHowItWorks-NoSound.mp4";
 export type DeveloperProfile = (typeof DeveloperProfilesDemoData)[number];
