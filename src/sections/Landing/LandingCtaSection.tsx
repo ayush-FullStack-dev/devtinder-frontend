@@ -128,7 +128,6 @@ const CtaContent = () => {
                 className={`
                     ${googleSans.className}
                     absolute
-                    bottom-40
                     flex
                     w-full
                     items-center
@@ -206,7 +205,7 @@ const CtaContent = () => {
                 "
             >
                 <Link href="/auth/signup">
-                    <PillButton className={`bg-[#161D26]  h-12 font-bold w-100 text-white ${googleSans.className}`}>
+                    <PillButton className={`bg-[#161D26]  h-13 font-bold min-w-full max-w-full md:min-w-[40vw] lg:min-w-[35vw] xl:min-w-[30vw] w-full  md:max-w-180 text-white ${googleSans.className}`}>
                         Get Started
                     </PillButton>
                 </Link>
