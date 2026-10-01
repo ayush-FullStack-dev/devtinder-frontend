@@ -7,12 +7,10 @@ type Props = {
   title: string;
   description: string;
   className?: string;
-
   icon: IconComponent;
   iconColor?: string;
   iconClassName?: string;
   iconWrapperClassName?: string;
-
   descriptionColor?: string;
 };
 
@@ -27,29 +25,40 @@ const FeatureItem = ({
   descriptionColor = "var(--foreground-muted)",
 }: Props) => {
   return (
-    <div className={twMerge("flex items-center gap-4", className)}>
+    <div
+      className={twMerge(
+        "flex min-w-0 items-center gap-2 sm:gap-2.5 md:gap-3 lg:gap-4",
+        className
+      )}
+    >
       <div
         className={twMerge(
-          "shrink-0 flex justify-center items-center",
+          "flex shrink-0 items-center justify-center",
           iconWrapperClassName
         )}
       >
         <Icon
           size={40}
           color={iconColor}
-          className={iconClassName}
+          className={twMerge("shrink-0", iconClassName)}
         />
       </div>
 
-      <div className="inline-flex flex-col justify-between">
+      <div className="min-w-0 inline-flex flex-col justify-between">
         <h1
-          className={`${poppins.className} text-[14px] font-light`}
+          className={twMerge(
+            `${poppins.className} font-light`,
+            "text-[10px] sm:text-[11px] md:text-[12px] lg:text-[14px]"
+          )}
         >
           {title}
         </h1>
 
         <p
-          className={`${jakarta.className} w-55 text-[15px] font-extralight`}
+          className={twMerge(
+            `${jakarta.className} font-extralight`,
+            "w-20 text-[9px] leading-tight sm:w-24 sm:text-[10px] md:w-32 md:text-[11px] lg:w-55 lg:text-[15px]"
+          )}
           style={{ color: descriptionColor }}
         >
           {description}

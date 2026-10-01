@@ -103,7 +103,6 @@ export const LandingCtaSection = () => {
                 <CtaContent />
 
 
-                {/* <OrbitalVideo /> */}
                 <Hands
                     humanHand={humanHand}
                     robotHand={robotHand}
@@ -131,14 +130,13 @@ const CtaContent = () => {
             <div
                 className={`
                     ${googleSans.className}
-                    absolute
                     flex
                     w-full
                     items-center
                     justify-center
                     text-center
-                    md:relative
-                    md:bottom-auto
+                    relative
+                    bottom-auto
                     md:w-[60vw]
                     xs:w-[60vw]
                 `}
@@ -185,8 +183,9 @@ const CtaContent = () => {
                     <motion.p
                         {...fadeUp(22, 0.95, 0.28)}
                         className="
-        hidden
-        w-[70%]
+        flex
+        w-[90%]
+        lg:w-[70%]
         mx-auto
         text-sm
         font-bold
@@ -194,7 +193,6 @@ const CtaContent = () => {
         tracking-widest
         text-[#8d8d8f]
         text-center
-        md:flex
     "
                     >
                         Join DevTinder and find developers who share your vision.
@@ -209,12 +207,13 @@ const CtaContent = () => {
                 "
             >
                 <Link href="/auth/signup">
-                    <PillButton className={`bg-[#161D26]  h-13 font-bold w-80 text-white ${googleSans.className}`}>
+                    <PillButton className={`bg-[#161D26]  h-13 font-bold w-[80vw] xs:w-[70vw] sm:w-90 md:w-80 text-white ${googleSans.className}`}>
                         Get Started
                     </PillButton>
                 </Link>
             </div>
-            <div className="flex items-center justify-evenly w-full absolute bottom-5">
+
+            <div className="absolute bottom-5 hidden sm:flex w-full items-center justify-evenly px-3 sm:px-5">
                 {features.map((feature) => (
                     <FeatureItem
                         key={feature.title}
@@ -223,18 +222,19 @@ const CtaContent = () => {
                         title={feature.title}
                         description={feature.description}
                         iconWrapperClassName="
-                w-13
-                aspect-square
-                rounded-full
-                overflow-hidden
-                bg-[#F0F1F3]
-                p-3
-                font-bold
-                text-center
-                flex
-                items-center
-                justify-center
-            "
+        aspect-square
+        w-13
+        rounded-full
+        md:overflow-hidden
+        md:bg-[#F0F1F3]
+        p-1.5
+        sm:w-9
+        sm:p-2
+        md:w-14
+        md:p-2
+        lg:w-13
+        lg:p-3
+      "
                     />
                 ))}
             </div>
@@ -242,39 +242,6 @@ const CtaContent = () => {
     );
 };
 
-const OrbitalVideo = () => {
-    return (
-        <div
-            className="
-                absolute
-                left-1/2
-                top-1/2
-                w-[80vw]
-                -translate-x-1/2
-                -translate-y-1/2
-                opactiy-40
-                xs:w-[70vw]
-                sm:w-[55vw]
-                md:w-[65vw]
-                lg:w-[50vw]
-                xl:w-[45vw]
-            "
-        >
-            <video
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="metadata"
-                poster="/images/orbital-poster.webp"
-                className="block h-auto w-full object-contain opacity-60"
-            >
-                <source src="/videos/orbital.webm" type="video/webm" />
-                <source src="/videos/orbital.mp4" type="video/mp4" />
-            </video>
-        </div>
-    );
-};
 type HandsProps = {
     humanHand: MotionStyle;
     robotHand: MotionStyle;

@@ -1,5 +1,4 @@
 import { ChartNoAxesColumnIncreasing, Handshake, Users } from "lucide-react";
-import { FaUser } from "react-icons/fa6";
 
 export const SWIPE_THRESHOLD_RATIO = 0.38;
 export const MIN_SWIPE_THRESHOLD = 100;
