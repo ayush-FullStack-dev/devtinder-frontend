@@ -99,7 +99,7 @@ export const LandingCtaSection = () => {
                 <CtaContent />
 
 
-                <OrbitalVideo />
+                {/* <OrbitalVideo /> */}
                 <Hands
                     humanHand={humanHand}
                     robotHand={robotHand}
@@ -118,6 +118,7 @@ const CtaContent = () => {
                 inset-0
                 z-10
                 flex
+                gap-5
                 flex-col
                 items-center
                 justify-center
@@ -199,8 +200,7 @@ const CtaContent = () => {
             </div>
             <div
                 className="
-                    absolute
-                    bottom-5
+                    relative
                     z-30
                  
                 "
