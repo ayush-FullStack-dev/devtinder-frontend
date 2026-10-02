@@ -110,25 +110,25 @@ const LandingPageContent = ({ isLoggedIn }: LandingPageContentProps) => {
             </section>
 
             <section
-                id="frequently-asked-questions"
+                id="cta"
                 className="
-                    relative
-                    z-30
-                    min-h-dvh
-                    w-full
-                    bg-white
-                    overflow-hidden
-                    md:overflow-visible 
-                    rounded-[15]
-                    xs:rounded-[20]
-                    sm:rounded-[25]
-                    md:rounded-[32]
-                    xl:rounded-[35]
-                    py-10
-                    shrink-0
-                    text-black
-                    my-10
-                "
+        relative
+        z-30
+        min-h-dvh
+        w-full
+        bg-white
+        overflow-hidden
+        md:overflow-visible
+        rounded-[15px]
+        xs:rounded-[20px]
+        sm:rounded-[25px]
+        md:rounded-[32px]
+        xl:rounded-[35px]
+        py-10
+        shrink-0
+        text-black
+        my-10
+    "
             >
                 <LandingCtaSection />
             </section>

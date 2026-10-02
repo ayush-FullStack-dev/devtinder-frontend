@@ -367,11 +367,6 @@
     transparent 40%
   );
 
-  /* =========================================
-     FIXED / THEME-INDEPENDENT COLORS
-     These NEVER change with .dark
-     ========================================= */
-
   --fixed-white: #ececef;
   --fixed-black: #161617;
 

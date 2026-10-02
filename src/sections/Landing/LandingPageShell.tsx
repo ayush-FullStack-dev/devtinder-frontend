@@ -10,6 +10,7 @@ const SECTION_IDS = [
     "how-it-works",
     "why-devtinder",
     "frequently-asked-questions",
+    "cta"
 ] as const;
 
 type LandingPageShellProps = {
@@ -107,7 +108,7 @@ const LandingPageShell = ({ children }: LandingPageShellProps) => {
             <LandingNavbar
                 isHide={activeSection === "hero"}
                 theme={
-                    !["why-devtinder", "discover"].includes(activeSection)
+                    !["why-devtinder", "discover", "cta"].includes(activeSection)
                         ? "dark"
                         : "light"
                 }

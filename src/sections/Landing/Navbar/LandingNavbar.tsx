@@ -38,15 +38,15 @@ const LandingNavbar = ({
     }, []);
 
     useEffect(() => {
-        if (!isHide) {
-            setHidden(false);
+        const scrollContainer =
+            document.getElementById("main-scroll");
 
-            const scrollContainer =
-                document.getElementById("main-scroll");
+        const currentScrollTop =
+            scrollContainer?.scrollTop ?? 0;
 
-            lastScrollTop.current =
-                scrollContainer?.scrollTop ?? 0;
-        }
+        lastScrollTop.current = currentScrollTop;
+
+        setHidden(false);
     }, [isHide]);
 
     const updateNavbar = useCallback(() => {
@@ -65,7 +65,6 @@ const LandingNavbar = ({
                 currentScrollTop - lastScrollTop.current;
 
             if (isHide) {
-                setHidden(true);
                 lastScrollTop.current = currentScrollTop;
                 return;
             }
@@ -80,7 +79,7 @@ const LandingNavbar = ({
 
             lastScrollTop.current = currentScrollTop;
         });
-    }, [activeMenu]);
+    }, [activeMenu, isHide]);
 
     useEffect(() => {
         const scrollContainer =
