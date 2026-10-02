@@ -937,26 +937,26 @@ const LandingDeveloperCard = ({
                     >
                         <div
                             className={`
-                                ${googleSans.className}
-                                mb-2
-                                flex
-                                items-center
-                                whitespace-nowrap
-                                gap-2
-                            `}
+        ${googleSans.className}
+        mb-2
+        flex
+        min-w-0
+        items-center
+        gap-1.5
+    `}
                         >
-                            <p className="text-lg w-[95%] truncate text-ellipsis">
+                            <p className="min-w-0 truncate text-lg">
                                 {name}, {age} years
                             </p>
 
                             {verified && (
                                 <VscVerifiedFilled
                                     className="
-                                        h-6
-                                        w-6
-                                        shrink-0
-                                        text-[#358FE5]
-                                    "
+                h-6
+                w-10
+                shrink-0
+                text-[#358FE5]
+            "
                                 />
                             )}
                         </div>
