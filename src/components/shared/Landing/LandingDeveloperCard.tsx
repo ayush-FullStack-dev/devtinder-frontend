@@ -941,6 +941,7 @@ const LandingDeveloperCard = ({
                                 mb-2
                                 flex
                                 items-center
+                                whitespace-nowrap
                                 gap-2
                             `}
                         >
