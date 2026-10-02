@@ -944,7 +944,7 @@ const LandingDeveloperCard = ({
                                 gap-2
                             `}
                         >
-                            <p className="text-lg">
+                            <p className="text-lg w-[95%] truncate text-ellipsis">
                                 {name}, {age} years
                             </p>
 
