@@ -97,7 +97,7 @@ export const LandingCtaSection = () => {
     return (
         <section
             ref={ctaRef}
-            className="relative h-[220svh] w-full shrink-0"
+            className="relative h-svh  md:h-[220svh] w-full shrink-0"
         >
             <div className="sticky top-0 h-svh w-full overflow-hidden">
                 <CtaContent />
@@ -160,13 +160,15 @@ const CtaContent = () => {
                     >
                         <h1
                             className="
-                                text-[10vw]
+                                text-[18vw]
                                 font-bold
                                 capitalize
                                 leading-[0.92]
-                                xs:text-[9vw]
-                                sm:text-[8vw]
-                                md:text-[6vw]
+                                xs:text-[15vw]
+                                sm:text-[12vw]
+                                 md:text-[10vw]
+                                 lg:text-[8vw]
+                                xl:text-[7vw]
                                 md:leading-none
                             "
                         >
@@ -258,7 +260,8 @@ const Hands = ({
                 absolute
                 inset-0
                 z-20
-                flex
+                hidden
+                md:flex
                 select-none
             "
         >

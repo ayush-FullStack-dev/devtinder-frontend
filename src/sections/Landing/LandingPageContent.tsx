@@ -117,13 +117,16 @@ const LandingPageContent = ({ isLoggedIn }: LandingPageContentProps) => {
                     min-h-dvh
                     w-full
                     bg-white
-                  
+                    overflow-hidden
+                    md:overflow-visible 
+                    rounded-[34]
+                    py-10
                     shrink-0
                     text-black
                     my-10
                 "
             >
-                <LandingCtaSection  />
+                <LandingCtaSection />
             </section>
         </LandingPageShell>
     );
