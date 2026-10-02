@@ -97,7 +97,7 @@ export const LandingCtaSection = () => {
     return (
         <section
             ref={ctaRef}
-            className="relative h-svh  md:h-[220svh] w-full shrink-0"
+            className="relative h-svh  lg:h-[220svh] w-full shrink-0"
         >
             <div className="sticky top-0 h-svh w-full overflow-hidden">
                 <CtaContent />
@@ -149,6 +149,8 @@ const CtaContent = () => {
                             font-medium
                             tracking-widest
                             mb-5
+                            3xl:text-mid
+                            4xl:text-[1vw]
                         "
                     >
                         READY TO BUILD TOGETHER?
@@ -194,6 +196,7 @@ const CtaContent = () => {
         capitalize
         tracking-widest
         text-[#8d8d8f]
+         4xl:text-[1vw]
         text-center
     "
                     >
@@ -209,7 +212,7 @@ const CtaContent = () => {
                 "
             >
                 <Link href="/auth/signup">
-                    <PillButton className={`bg-[#161D26]  h-13 font-bold w-[80vw] xs:w-[70vw] sm:w-90 md:w-80 text-white ${googleSans.className}`}>
+                    <PillButton className={`bg-[#161D26]  h-13 3xl:h-15 4xl:h-[2vh]  font-bold w-[80vw] xs:w-[70vw] sm:w-90 md:w-80 3xl:w-100 4xl:w-[6vw] 6xl:w-[9vw] 8xl:w-[12vw] text-white ${googleSans.className}`}>
                         Get Started
                     </PillButton>
                 </Link>
@@ -261,7 +264,7 @@ const Hands = ({
                 inset-0
                 z-20
                 hidden
-                md:flex
+                lg:flex
                 select-none
             "
         >

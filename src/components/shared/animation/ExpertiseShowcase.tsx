@@ -97,9 +97,10 @@ const ExpertiseShowcase = ({
             <div
                 className="
                     absolute
-                 inset-0
+                    inset-0
                     rounded-[5%]
                     border
+                  
                     overflow-hidden
                 "
             >

@@ -43,8 +43,10 @@ const LandingWhyDevTinderSection =
                     w-full
                     shrink-0
                     flex-col
-                    overflow-visible
+                    overflow-clip
                     px-2
+                    xs:px-3
+                    sm:px-4
                     sm:items-center
                     lg:flex-row
                     lg:items-center
@@ -183,12 +185,13 @@ const LandingWhyDevTinderSection =
                             lg:w-[50vw]
                             xl:h-[85dvh]
                             2xl:h-[90dvh]
-                            mt-auto
                             3xl:w-[45vw]
                             5xl:w-[40vw]
                             7xL:w-[35vw]
+                            mt-auto
                             justify-center
                             max-h-650
+                             ml-auto
                             items-center
                         "
                 >

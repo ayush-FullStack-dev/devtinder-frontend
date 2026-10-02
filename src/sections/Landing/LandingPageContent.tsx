@@ -119,7 +119,11 @@ const LandingPageContent = ({ isLoggedIn }: LandingPageContentProps) => {
                     bg-white
                     overflow-hidden
                     md:overflow-visible 
-                    rounded-[34]
+                    rounded-[15]
+                    xs:rounded-[20]
+                    sm:rounded-[25]
+                    md:rounded-[32]
+                    xl:rounded-[35]
                     py-10
                     shrink-0
                     text-black
