@@ -24,6 +24,12 @@ const ease = [0.22, 1, 0.36, 1] as const;
 const LandingHeroSection = () => {
     const scrollContainerRef = useRef<HTMLElement | null>(null);
 
+    const springConfig = {
+        stiffness: 80,
+        damping: 20,
+        mass: 0.6,
+    };
+      
     useEffect(() => {
         scrollContainerRef.current = document.getElementById("main-scroll");
     }, []);
@@ -170,38 +176,32 @@ const LandingHeroSection = () => {
         (value) => value * 0.0025
     );
 
-    const backgroundWidth = useTransform(
-        scrollYProgress,
-        [0, 0.20],
-        ["100%", "95%"]
+    const backgroundWidth = useSpring(
+        useTransform(scrollYProgress, [0, 0.20], ["100%", "95%"]),
+        springConfig
     );
 
-    const backgroundHeight = useTransform(
-        scrollYProgress,
-        [0, 0.28],
-        [
-            "100dvh",
-            isDesktop
-                ? "53dvh"
-                : "50dvh",
-        ]
+    const backgroundHeight = useSpring(
+        useTransform(
+            scrollYProgress,
+            [0, 0.28],
+            ["100dvh", isDesktop ? "53dvh" : "50dvh"]
+        ),
+        springConfig
     );
 
-    const backgroundTop = useTransform(
-        scrollYProgress,
-        [0, 0.28],
-        [
-            "0dvh",
-            isDesktop
-                ? "14dvh"
-                : "10dvh",
-        ]
+    const backgroundTop = useSpring(
+        useTransform(
+            scrollYProgress,
+            [0, 0.28],
+            ["0dvh", isDesktop ? "14dvh" : "10dvh"]
+        ),
+        springConfig
     );
 
-    const backgroundRadius = useTransform(
-        scrollYProgress,
-        [0, 0.28],
-        ["0px", "32px"]
+    const backgroundRadius = useSpring(
+        useTransform(scrollYProgress, [0, 0.28], ["0px", "32px"]),
+        springConfig
     );
 
     const taglineProgress = useTransform(
