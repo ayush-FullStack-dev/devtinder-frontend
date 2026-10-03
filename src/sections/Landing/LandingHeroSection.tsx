@@ -25,11 +25,11 @@ const LandingHeroSection = () => {
     const scrollContainerRef = useRef<HTMLElement | null>(null);
 
     const springConfig = {
-        stiffness: 80,
-        damping: 20,
+        stiffness: 90,
+        damping: 22,
         mass: 0.6,
     };
-      
+
     useEffect(() => {
         scrollContainerRef.current = document.getElementById("main-scroll");
     }, []);
