@@ -45,13 +45,13 @@ const ExpertiseShowcase = ({
     )
 
     const springX = useSpring(x, {
-        stiffness: 300,
-        damping: 25,
+        stiffness: 500,
+        damping: 30,
     })
 
     const springY = useSpring(y, {
-        stiffness: 300,
-        damping: 25,
+        stiffness: 500,
+        damping: 30,
     })
 
 
