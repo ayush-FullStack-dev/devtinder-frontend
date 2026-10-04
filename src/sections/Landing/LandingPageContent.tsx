@@ -2,6 +2,7 @@ import dynamic from "next/dynamic";
 import LandingPageShell from "@/sections/Landing/LandingPageShell";
 import HeroSection from "@/sections/Landing/LandingHeroSection";
 import { LandingCtaSection } from "./LandingCtaSection";
+import LandingFooter from "./LandingFooter";
 
 const DiscoverSection = dynamic(
     () => import("@/sections/Landing/LandingDiscoverSection"),
@@ -28,6 +29,22 @@ type LandingPageContentProps = {
 };
 
 const LandingPageContent = ({ isLoggedIn }: LandingPageContentProps) => {
+    const roundedTopClasses = `
+        rounded-t-[15px]
+        xs:rounded-t-[20px]
+        sm:rounded-t-[25px]
+        md:rounded-t-[32px]
+        xl:rounded-t-[35px]
+    `;
+
+    const roundedClasses = `
+        rounded-[15px]
+        xs:rounded-[20px]
+        sm:rounded-[25px]
+        md:rounded-[32px]
+        xl:rounded-[35px]
+    `;
+
     return (
         <LandingPageShell>
             <section
@@ -45,18 +62,18 @@ const LandingPageContent = ({ isLoggedIn }: LandingPageContentProps) => {
 
             <section
                 id="discover"
-                className="
+                className={`
+                    ${roundedClasses}
                     relative
                     z-20
                     w-full
                     shrink-0
                     bg-fixed-white
                     overflow-hidden
-                    rounded-4xl
                     px-4
                     py-10
                     my-5
-                "
+                `}
             >
                 <DiscoverSection isLoggedIn={isLoggedIn} />
             </section>
@@ -77,7 +94,8 @@ const LandingPageContent = ({ isLoggedIn }: LandingPageContentProps) => {
 
             <section
                 id="why-devtinder"
-                className="
+                className={`
+                    ${roundedClasses}
                     relative
                     z-20
                     min-h-140
@@ -86,10 +104,9 @@ const LandingPageContent = ({ isLoggedIn }: LandingPageContentProps) => {
                     shrink-0
                     bg-fixed-white
                     overflow-hidden
-                    xs:rounded-4xl
                     py-5
                     my-10
-                "
+                `}
             >
                 <LandingWhyDevTinderSection />
             </section>
@@ -109,29 +126,34 @@ const LandingPageContent = ({ isLoggedIn }: LandingPageContentProps) => {
                 <LandingFaqSection />
             </section>
 
-            <section
-                id="cta"
-                className="
-        relative
-        z-30
-        min-h-dvh
-        w-full
-        bg-white
-        overflow-hidden
-        md:overflow-visible
-        rounded-[15px]
-        xs:rounded-[20px]
-        sm:rounded-[25px]
-        md:rounded-[32px]
-        xl:rounded-[35px]
-        py-10
-        shrink-0
-        text-black
-        my-10
-    "
+            <div
+                className={`${roundedTopClasses} relative z-30 w-full bg-fixed-white`}
             >
-                <LandingCtaSection />
-            </section>
+                <section
+                    id="cta"
+                    className="
+                        relative
+                        z-30
+                        min-h-dvh
+                        w-full
+                        overflow-hidden
+                        md:overflow-visible
+                        py-10
+                        shrink-0
+                        text-black
+                        my-10
+                    "
+                >
+                    <LandingCtaSection />
+                </section>
+
+                <section
+                    id="footer"
+                    className={`${roundedTopClasses} relative z-40 w-full overflow-hidden`}
+                >
+                    <LandingFooter />
+                </section>
+            </div>
         </LandingPageShell>
     );
 };

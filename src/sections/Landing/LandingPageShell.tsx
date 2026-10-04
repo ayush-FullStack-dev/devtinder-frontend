@@ -10,7 +10,8 @@ const SECTION_IDS = [
     "how-it-works",
     "why-devtinder",
     "frequently-asked-questions",
-    "cta"
+    "cta",
+    "footer"
 ] as const;
 
 type LandingPageShellProps = {
