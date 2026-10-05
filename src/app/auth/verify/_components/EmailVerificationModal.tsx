@@ -317,7 +317,7 @@ const EmailVerificationModal = ({
                 >
                     By continuing, you agree to our{" "}
                     <Link
-                        href="/terms"
+                        href="/terms-of-service"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="underline underline-offset-2"

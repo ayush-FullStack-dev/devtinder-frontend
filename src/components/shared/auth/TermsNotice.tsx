@@ -33,7 +33,7 @@ const TermNotice = ({
         By continuing, you agree to our{" "}
         <br />
         <Link
-          href="/terms"
+          href="/terms-of-service"
           className={twMerge(
             "font-medium tracking-tight text-link transition-colors hover:text-link-hover",
             linkClassName,
