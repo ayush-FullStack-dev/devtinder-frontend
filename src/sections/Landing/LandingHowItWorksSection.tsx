@@ -57,6 +57,7 @@ const LandingHowItWorksSection = () => {
     return (
         <section
             ref={sectionRef}
+            aria-labelledby="how-it-works-title"
             className="
                 relative
                 flex
@@ -169,6 +170,7 @@ const LandingHowItWorksSection = () => {
                         </motion.h2>
 
                         <h1
+                            id="how-it-works-title"
                             className={`
                                 ${googleSans.className}
                                 flex
@@ -188,7 +190,7 @@ const LandingHowItWorksSection = () => {
                                 lg:text-[8vw]
                             `}
                         >
-                            <motion.p
+                            <motion.span
                                 initial={{
                                     opacity: 0,
                                     y: 24,
@@ -207,9 +209,9 @@ const LandingHowItWorksSection = () => {
                                 }}
                             >
                                 From connection
-                            </motion.p>
+                            </motion.span>
 
-                            <motion.p
+                            <motion.span
                                 initial={{
                                     opacity: 0,
                                     y: 24,
@@ -231,7 +233,7 @@ const LandingHowItWorksSection = () => {
                                 <span className="text-green-brand">
                                     creation.
                                 </span>
-                            </motion.p>
+                            </motion.span>
                         </h1>
                     </motion.div>
                 </motion.div>
@@ -267,6 +269,7 @@ const LandingHowItWorksSection = () => {
                         playsInline
                         preload="metadata"
                         src={LandingHowItWorks_VIDEO_NOSOUND}
+                        aria-label="How DevTinder works"
                         className="
                             absolute
                             inset-0
@@ -275,6 +278,12 @@ const LandingHowItWorksSection = () => {
                             object-cover
                         "
                     />
+
+                    <p className="sr-only">
+                        Learn how DevTinder works, from connecting with
+                        developers to collaborating and creating projects
+                        together.
+                    </p>
                 </div>
             </div>
         </section>

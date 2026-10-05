@@ -17,17 +17,17 @@ const pageUrl =
     `${TRUSTED_APP_ORIGIN}/how-it-works`;
 
 export const metadata: Metadata = {
-    title: `How ${AppName} Works — Meet Developers. Build Together.`,
+    title: `How ${AppName} Works | Connect & Collaborate with Developers`,
     description:
-        "See how DevTinder helps developers discover the right people, connect around ideas, and turn conversations into meaningful collaboration.",
+        "Learn how DevTinder works. Discover developers, connect with people who share your interests, and collaborate to build meaningful projects together.",
     alternates: {
         canonical: "/how-it-works",
     },
     openGraph: {
         type: "website",
-        title: `How ${AppName} Works — Meet Developers. Build Together.`,
+        title: `How ${AppName} Works | Connect & Collaborate with Developers`,
         description:
-            "See how DevTinder helps developers discover the right people, connect around ideas, and turn conversations into meaningful collaboration.",
+            "Learn how DevTinder works. Discover developers, connect with people who share your interests, and collaborate to build meaningful projects together.",
         url: pageUrl,
         images: [
             {
@@ -40,9 +40,9 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: "summary_large_image",
-        title: `How ${AppName} Works — Meet Developers. Build Together.`,
+        title: `How ${AppName} Works | Connect & Collaborate with Developers`,
         description:
-            "See how DevTinder helps developers discover, connect, and collaborate.",
+            "Learn how DevTinder works. Discover developers, connect with people who share your interests, and collaborate to build meaningful projects together.",
         images: [thumbnailUrl],
     },
     robots: {
