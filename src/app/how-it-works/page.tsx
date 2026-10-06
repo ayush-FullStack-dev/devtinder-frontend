@@ -7,8 +7,8 @@ import {
     googleSansFlex,
 } from "@/assets/fonts/font.google";
 
-const videoUrl =
-    `${TRUSTED_APP_ORIGIN}/videos/LandingHowItWorks.mp4`;
+const LandingHowItWorks_VIDEO_MP4 = "/videos/LandingHowItWorks.mp4";
+const LandingHowItWorks_VIDEO_WEBM = "/videos/LandingHowItWorks.webm";
 
 const thumbnailUrl =
     `${TRUSTED_APP_ORIGIN}/brand/social/og-image.png`;
@@ -54,7 +54,6 @@ export const metadata: Metadata = {
 const videoJsonLd = {
     "@context": "https://schema.org",
     "@type": "VideoObject",
-
     name: `How ${AppName} Works`,
     description:
         "See how DevTinder helps developers discover the right people, connect around ideas, and turn conversations into meaningful collaboration.",
@@ -63,7 +62,7 @@ const videoJsonLd = {
 
     uploadDate: "2026-08-27T00:00:00+05:30",
 
-    contentUrl: videoUrl,
+    contentUrl: `${TRUSTED_APP_ORIGIN}${LandingHowItWorks_VIDEO_MP4}`,
     embedUrl: pageUrl,
 
     publisher: {
@@ -166,10 +165,13 @@ export default function HowItWorksPage() {
                                     className="block size-full object-contain"
                                 >
                                     <source
-                                        src={videoUrl}
+                                        src={LandingHowItWorks_VIDEO_WEBM}
+                                        type="video/webm"
+                                    />
+                                    <source
+                                        src={LandingHowItWorks_VIDEO_MP4}
                                         type="video/mp4"
                                     />
-
                                     Your browser does not support the video
                                     element.
                                 </video>

@@ -325,8 +325,8 @@ const LandingHeroSection = () => {
             "
                         >
                             <Image
-                                src="/images/landing-intro-poster.webp"
-                                alt=""
+                                src="/images/posters/landing-intro-poster.webp"
+                                alt="background-animation"
                                 aria-hidden="true"
                                 fill
                                 priority

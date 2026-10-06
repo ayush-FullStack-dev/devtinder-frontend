@@ -142,7 +142,8 @@ function Laptop({
                         "video"
                     );
 
-                video.src =
+                    video.poster = "/images/posters/landing-how-it-works-poster.webp";
+                    video.src =
                     LandingHowItWorks_VIDEO_NOSOUND;
 
                 video.muted = true;

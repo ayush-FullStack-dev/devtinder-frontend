@@ -60,14 +60,6 @@ export default function RootLayout({
       suppressHydrationWarning
       className="h-full scrollbar-hide"
     >
-      <head>
-        <link
-          rel="preload"
-          as="image"
-          href="/images/landing-intro-poster.webp"
-          fetchPriority="high"
-        />
-      </head>
       <body className="min-h-screen flex flex-col scrollbar-hide">
         <Providers>{children}</Providers>
       </body>

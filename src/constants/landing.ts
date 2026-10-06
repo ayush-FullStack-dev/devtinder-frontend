@@ -327,6 +327,8 @@ export const features = [
     description: "with the right people.",
   },
 ];
-export const LandingHowItWorks_VIDEO_NOSOUND =
+export const LandingHowItWorks_VIDEO_NOSOUND_MP4 =
   "/videos/LandingHowItWorks-NoSound.mp4";
+export const LandingHowItWorks_VIDEO_NOSOUND_WEBM =
+  "/videos/LandingHowItWorks-NoSound.webm";
 export type DeveloperProfile = (typeof DeveloperProfilesDemoData)[number];

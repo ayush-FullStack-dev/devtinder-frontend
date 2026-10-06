@@ -6,7 +6,7 @@ import {
     googleSans,
     googleSansFlex,
 } from "@/assets/fonts/font.google";
-import { LandingHowItWorks_VIDEO_NOSOUND } from "@/constants/landing";
+import { LandingHowItWorks_VIDEO_NOSOUND_MP4, LandingHowItWorks_VIDEO_NOSOUND_WEBM } from "@/constants/landing";
 
 const LandingHowItWorksSection = () => {
     const sectionRef = useRef<HTMLElement>(null);
@@ -268,16 +268,19 @@ const LandingHowItWorksSection = () => {
                         muted
                         playsInline
                         preload="metadata"
-                        src={LandingHowItWorks_VIDEO_NOSOUND}
+                        poster="/images/posters/landing-how-it-works-poster.webp"
                         aria-label="How DevTinder works"
-                        className="
-                            absolute
-                            inset-0
-                            h-full
-                            w-full
-                            object-cover
-                        "
-                    />
+                        className="absolute inset-0 h-full w-full object-cover"
+                    >
+                        <source
+                            src={LandingHowItWorks_VIDEO_NOSOUND_WEBM}
+                            type="video/webm"
+                        />
+                        <source
+                            src={LandingHowItWorks_VIDEO_NOSOUND_MP4}
+                            type="video/mp4"
+                        />
+                    </video>
 
                     <p className="sr-only">
                         Learn how DevTinder works, from connecting with
