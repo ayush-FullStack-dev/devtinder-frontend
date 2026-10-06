@@ -25,7 +25,7 @@ import {
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
 import * as THREE from "three";
-import { LandingHowItWorks_VIDEO_NOSOUND } from "@/constants/landing";
+import { LandingHowItWorks_VIDEO_NOSOUND_MP4 } from "@/constants/landing";
 
 type LaptopProps = {
     active?: boolean;
@@ -142,9 +142,9 @@ function Laptop({
                         "video"
                     );
 
-                    video.poster = "/images/posters/landing-how-it-works-poster.webp";
-                    video.src =
-                    LandingHowItWorks_VIDEO_NOSOUND;
+                video.poster = "/images/posters/landing-how-it-works-poster.webp";
+                video.src =
+                    LandingHowItWorks_VIDEO_NOSOUND_MP4;
 
                 video.muted = true;
                 video.loop = true;
