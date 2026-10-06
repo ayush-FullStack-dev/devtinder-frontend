@@ -16,9 +16,8 @@ import {
 import { PillButton } from "@/components/shared/PillButton";
 import Link from "next/link";
 import FeatureItem from "@/components/shared/FeatureItem";
-import { ChartNoAxesColumnIncreasing, Users } from "lucide-react";
-import { FaUserGroup } from "react-icons/fa6";
 import { features } from "@/constants/landing";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 const HAND_FLOAT = {
     human: {
@@ -70,6 +69,8 @@ const fadeUp = (
 });
 
 export const LandingCtaSection = () => {
+    const reducedMotion = useReducedMotion();
+
     const scrollContainerRef = useRef<HTMLElement | null>(null);
     const ctaRef = useRef<HTMLElement | null>(null);
 
@@ -84,34 +85,52 @@ export const LandingCtaSection = () => {
         offset: ["start start", "end start"],
     });
 
-    const humanHand = useHandMotion(
+    const humanHandMotion = useHandMotion(
         scrollYProgress,
         HAND_MOTION.human,
     );
 
-    const robotHand = useHandMotion(
+    const robotHandMotion = useHandMotion(
         scrollYProgress,
         HAND_MOTION.robot,
     );
 
+    const humanHand: MotionStyle = reducedMotion
+        ? {
+            x: "-15vw",
+            y: 20,
+            rotate: "-7deg", 
+        }
+        : humanHandMotion;
+
+    const robotHand: MotionStyle = reducedMotion
+        ? {
+            x: "15vw",
+            y: -10,
+           rotate: "7deg", 
+        }
+        : robotHandMotion;
+
     return (
         <section
             ref={ctaRef}
-            className="relative h-svh  lg:h-[220svh] w-full shrink-0"
+            className={`relative w-full shrink-0 ${reducedMotion
+                    ? "h-svh"
+                    : "h-svh lg:h-[220svh]"
+                }`}
         >
             <div className="sticky top-0 h-svh w-full overflow-hidden">
                 <CtaContent />
 
-
                 <Hands
                     humanHand={humanHand}
                     robotHand={robotHand}
+                    reducedMotion={reducedMotion}
                 />
             </div>
         </section>
     );
 };
-
 
 const CtaContent = () => {
     return (
@@ -168,8 +187,8 @@ const CtaContent = () => {
                                 leading-[0.92]
                                 xs:text-[15vw]
                                 sm:text-[12vw]
-                                 md:text-[10vw]
-                                 lg:text-[8vw]
+                                md:text-[10vw]
+                                lg:text-[8vw]
                                 xl:text-[7vw]
                                 md:leading-none
                             "
@@ -187,32 +206,50 @@ const CtaContent = () => {
                     <motion.p
                         {...fadeUp(22, 0.95, 0.28)}
                         className="
-        flex
-        w-[90%]
-        lg:w-[70%]
-        mx-auto
-        text-sm
-        font-bold
-        capitalize
-        tracking-widest
-        text-[#8d8d8f]
-         4xl:text-[1vw]
-        text-center
-    "
+                            flex
+                            w-[90%]
+                            lg:w-[70%]
+                            mx-auto
+                            text-sm
+                            font-bold
+                            capitalize
+                            tracking-widest
+                            text-[#8d8d8f]
+                            4xl:text-[1vw]
+                            text-center
+                        "
                     >
                         Join DevTinder and find developers who share your vision.
                     </motion.p>
                 </motion.div>
             </div>
+
             <div
                 className="
                     relative
                     z-30
-                 
                 "
             >
                 <Link href="/auth/signup">
-                    <PillButton className={`bg-[#161D26]  h-13 3xl:h-15 4xl:h-[2vh]  font-bold w-[80vw] xs:w-[70vw] sm:w-90 md:w-80 3xl:w-100 4xl:w-[6vw] 6xl:w-[9vw] 8xl:w-[12vw] text-white ${googleSans.className}`}>
+                    <PillButton
+                        className={`
+                            bg-[#161D26]
+                            h-13
+                            3xl:h-15
+                            4xl:h-[2vh]
+                            font-bold
+                            w-[80vw]
+                            xs:w-[70vw]
+                            sm:w-90
+                            md:w-80
+                            3xl:w-100
+                            4xl:w-[6vw]
+                            6xl:w-[9vw]
+                            8xl:w-[12vw]
+                            text-white
+                            ${googleSans.className}
+                        `}
+                    >
                         Get Started
                     </PillButton>
                 </Link>
@@ -227,19 +264,19 @@ const CtaContent = () => {
                         title={feature.title}
                         description={feature.description}
                         iconWrapperClassName="
-        aspect-square
-        w-13
-        rounded-full
-        md:overflow-hidden
-        md:bg-[#F0F1F3]
-        p-1.5
-        sm:w-9
-        sm:p-2
-        md:w-14
-        md:p-2
-        lg:w-13
-        lg:p-3
-      "
+                            aspect-square
+                            w-13
+                            rounded-full
+                            md:overflow-hidden
+                            md:bg-[#F0F1F3]
+                            p-1.5
+                            sm:w-9
+                            sm:p-2
+                            md:w-14
+                            md:p-2
+                            lg:w-13
+                            lg:p-3
+                        "
                     />
                 ))}
             </div>
@@ -250,11 +287,13 @@ const CtaContent = () => {
 type HandsProps = {
     humanHand: MotionStyle;
     robotHand: MotionStyle;
+    reducedMotion: boolean;
 };
 
 const Hands = ({
     humanHand,
     robotHand,
+    reducedMotion,
 }: HandsProps) => {
     return (
         <div
@@ -280,6 +319,7 @@ const Hands = ({
                     xl:object-[50%_40%]
                 "
                 float={HAND_FLOAT.human}
+                reducedMotion={reducedMotion}
             />
 
             <Hand
@@ -292,6 +332,7 @@ const Hands = ({
                     lg:object-[50%_60%]
                 "
                 float={HAND_FLOAT.robot}
+                reducedMotion={reducedMotion}
             />
         </div>
     );
@@ -307,6 +348,7 @@ type HandProps = {
         rotate: number[];
         duration: number;
     };
+    reducedMotion: boolean;
 };
 
 const Hand = ({
@@ -315,6 +357,7 @@ const Hand = ({
     alt,
     objectPosition,
     float,
+    reducedMotion,
 }: HandProps) => {
     return (
         <motion.div
@@ -322,16 +365,24 @@ const Hand = ({
             className="relative h-full w-1/2"
         >
             <motion.div
-                animate={{
-                    y: float.y,
-                    rotate: float.rotate,
-                }}
-                transition={{
-                    duration: float.duration,
-                    ease: "easeInOut",
-                    repeat: Infinity,
-                    repeatType: "mirror",
-                }}
+                animate={
+                    reducedMotion
+                        ? undefined
+                        : {
+                            y: float.y,
+                            rotate: float.rotate,
+                        }
+                }
+                transition={
+                    reducedMotion
+                        ? undefined
+                        : {
+                            duration: float.duration,
+                            ease: "easeInOut",
+                            repeat: Infinity,
+                            repeatType: "mirror",
+                        }
+                }
                 className="absolute inset-0"
             >
                 <Image
