@@ -45,14 +45,16 @@ const ExpertiseShowcase = ({
     )
 
     const springX = useSpring(x, {
-        stiffness: 500,
-        damping: 30,
-    })
+        stiffness: 120,
+        damping: 20,
+        mass: 0.8,
+    });
 
     const springY = useSpring(y, {
-        stiffness: 500,
-        damping: 30,
-    })
+        stiffness: 120,
+        damping: 20,
+        mass: 0.8,
+    });
 
 
     const handleMouseMove = (

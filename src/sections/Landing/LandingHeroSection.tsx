@@ -267,25 +267,33 @@ const LandingHeroSection = () => {
                 </div>
 
                 <motion.div
+                    initial={{
+                        opacity: 0,
+                    }}
+                    animate={{
+                        opacity: 1,
+                    }}
+                    transition={{
+                        opacity: {
+                            duration: 0.8,
+                            ease: [0.22, 1, 0.36, 1],
+                        },
+                    }}
                     className="
-                        absolute
-                        left-1/2
-                        top-0
-                        z-0
-                        -translate-x-1/2
-                        overflow-hidden
-                        bg-[#d3caca]
-                        transform-gpu
-                       will-change-[width,height,top,border-radius,transform]
-                      backface-hidden
-                    "
+        absolute
+        left-1/2
+        top-0
+        z-0
+        -translate-x-1/2
+        overflow-hidden
+        bg-black
+        transform-gpu
+        will-change-[width,height,top,border-radius,transform]
+        backface-hidden
+    "
                     style={{
-                        width: reducedMotion
-                            ? "95%"
-                            : backgroundWidth,
-                        height: reducedMotion
-                            ? "55dvh"
-                            : backgroundHeight,
+                        width: reducedMotion ? "95%" : backgroundWidth,
+                        height: reducedMotion ? "55dvh" : backgroundHeight,
                         top: reducedMotion
                             ? isDesktop
                                 ? "14dvh"
@@ -294,25 +302,27 @@ const LandingHeroSection = () => {
                         borderRadius: reducedMotion
                             ? "32px"
                             : backgroundRadius,
-                        x: reducedMotion
-                            ? 0
-                            : backgroundX,
-                        y: reducedMotion
-                            ? 0
-                            : backgroundY,
+                        x: reducedMotion ? 0 : backgroundX,
+                        y: reducedMotion ? 0 : backgroundY,
+                        transition: reducedMotion
+                            ? "none"
+                            : "width 700ms cubic-bezier(0.22, 1, 0.36, 1), \
+               height 700ms cubic-bezier(0.22, 1, 0.36, 1), \
+               top 700ms cubic-bezier(0.22, 1, 0.36, 1), \
+               border-radius 700ms cubic-bezier(0.22, 1, 0.36, 1)",
                     }}
                 >
                     <div className="absolute inset-0 overflow-hidden">
                         <div
                             className="
-            absolute
-            left-1/2
-            top-1/2
-            h-dvh
-            w-screen
-            -translate-x-1/2
-            -translate-y-1/2
-        "
+                absolute
+                left-1/2
+                top-1/2
+                h-dvh
+                w-screen
+                -translate-x-1/2
+                -translate-y-1/2
+            "
                         >
                             <Image
                                 src="/images/landing-intro-poster.webp"
@@ -322,22 +332,22 @@ const LandingHeroSection = () => {
                                 priority
                                 sizes="100vw"
                                 className="
-                absolute
-                  brightness-85
-                inset-0
-                object-cover
-            "
+                    absolute
+                    inset-0
+                    brightness-85
+                    object-cover
+                "
                             />
 
                             <video
                                 className="
-    absolute
-    inset-0
-    size-full
-    object-cover
-    brightness-85
-    z-5
-  "
+                    absolute
+                    inset-0
+                    size-full
+                    object-cover
+                    brightness-85
+                    z-5
+                "
                                 autoPlay
                                 loop
                                 muted
