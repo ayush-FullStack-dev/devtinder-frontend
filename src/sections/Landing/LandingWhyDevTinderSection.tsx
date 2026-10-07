@@ -172,8 +172,6 @@ const LandingWhyDevTinderSection =
                         </p>
                     </div>
                 </div>
-
-
                 <div
                     className="       
                             flex
