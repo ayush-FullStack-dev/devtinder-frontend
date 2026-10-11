@@ -223,7 +223,7 @@ const LandingFooter = () => {
         <footer
             id="footer"
             className={`${heightClasses} relative isolate min-h-150 w-full overflow-hidden
-                bg-fixed-black text-fixed-white`}
+                bg-fixed-black text-fixed-white pb-5`}
         >
             <div
                 aria-hidden="true"
@@ -251,19 +251,20 @@ const LandingFooter = () => {
             </div>
 
             <div
-                className={`${heightClasses} flex flex-col justify-between relative z-20 h-full w-full py-16
-                    lg:mx-auto lg:w-[97%]
+                className={`${heightClasses} flex flex-col justify-between relative z-20 h-full w-[95%] py-16
+                    mx-auto
+                    lg:w-[94%]
                     xl:w-[90%]`}
             >
-                <div className="flex w-full items-start justify-between">
-                    <div className="flex w-80 flex-col gap-7">
+                <div className="flex w-full flex-col flex-warp md:flex-row items-start justify-between gap-y-10 md:gap-x-[15%]">
+                    <div className="flex w-80 shrink-0 flex-col gap-7">
                         <LogoHorizontal monoChrome />
 
                         <div className="flex flex-col gap-5">
                             <p
                                 className={`text-[15px] font-normal text-[#9C9C9E] ${googleSans.className}`}
                             >
-                                A place where developer meet, collabrate and
+                                A place where developer meet, collaborate and
                                 build together. Find your next developer friend,
                                 co-founder, or team member here.
                             </p>
@@ -272,13 +273,15 @@ const LandingFooter = () => {
                         </div>
                     </div>
 
-                    {FOOTER_COLUMNS.map((column) => (
-                        <FooterColumn
-                            key={column.title}
-                            title={column.title}
-                            links={column.links}
-                        />
-                    ))}
+                    <div className="grid min-w-full md:min-w-0  flex-1 gap-y-10 items-start  gap-x-[14%] grid-cols-2 sm:grid-cols-4 md:grid-cols-2 lg:grid-cols-4 lg:justify-items-end">
+                        {FOOTER_COLUMNS.map((column) => (
+                            <FooterColumn
+                                key={column.title}
+                                title={column.title}
+                                links={column.links}
+                            />
+                        ))}
+                    </div>
                 </div>
 
                 <div className="relative mt-auto">
@@ -307,12 +310,12 @@ const LandingFooter = () => {
                         </div>
                     </div>
 
-                    <div className="absolute -bottom-5 left-0 z-20 w-full bg-[#141414]">
+                    <div className="absolute bottom-[-90%] xs:bottom-[-50%] sm:bottom-[-45%] lg:bottom-[-20%] left-0 z-20 w-full bg-[#141414]">
                         <Separator className="h-0.5 w-full bg-[#6C6C6C]" />
 
-                        <div className="flex w-full items-center justify-between py-3">
-                            <p className={`${googleSansFlex.className} text-sm text-white/40`}>© {currentYear} DevTinder. All rights reserved.</p>
-                            <FooterLegalNavigation />
+                        <div className="flex flex-col w-full items-center justify-between gap-5 py-3">
+                            <p className={`${googleSansFlex.className} text-sm text-white/40 `}>© {currentYear} DevTinder. All rights reserved.</p>
+                                <FooterLegalNavigation />
                         </div>
                     </div>
                 </div>
