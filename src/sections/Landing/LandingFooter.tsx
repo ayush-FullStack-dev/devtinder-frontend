@@ -327,7 +327,7 @@ const LandingFooter = () => {
                         <Separator className="h-0.5 w-full bg-[#6C6C6C]" />
 
                         <div className="flex flex-col lg:flex-row w-full items-center justify-between gap-5 py-3">
-                            <p className={`${googleSansFlex.className}  text-sm text-white/40 `}>© {currentYear} DevTinder. All rights reserved.</p>
+                            <p className={`${googleSansFlex.className}   text-sm text-white/40 `}>© {currentYear} DevTinder. All rights reserved.</p>
                             <FooterLegalNavigation />
                         </div>
                     </div>
