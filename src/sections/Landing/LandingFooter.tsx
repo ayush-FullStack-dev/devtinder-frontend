@@ -6,6 +6,7 @@ import { FaGithub, FaInstagram, FaLinkedin, FaXTwitter } from "react-icons/fa6";
 import LogoHorizontal from "@/components/brand/LogoHorizontal";
 import { Separator } from "@/components/ui/separator";
 import { googleSans, googleSansFlex } from "@/assets/fonts/font.google";
+import { motion } from "motion/react"
 
 const FOOTER_CONFIG = {
     externalLinksInNewTab: true,
@@ -251,7 +252,7 @@ const LandingFooter = () => {
             </div>
 
             <div
-                className={`${heightClasses} flex flex-col justify-between relative z-20 h-full w-[95%] py-16
+                className={`${heightClasses} flex flex-col justify-between relative z-20 h-full w-[95%] py-15
                     mx-auto
                     lg:w-[94%]
                     xl:w-[90%]`}
@@ -299,19 +300,34 @@ const LandingFooter = () => {
                         >
                             <span className="word inline-block text-nowrap">
                                 {BRAND_CHARS.map((char, index) => (
-                                    <span key={index} className="char inline-block">
+                                    <motion.span
+                                        initial={{ y: index === 0 ? 10 : 90 }}
+                                        whileInView={{
+                                            y: 0,
+                                            transition: {
+                                                delay: 0.1,
+                                                duration: 0.30,
+                                                ease: "easeOut",
+                                            },
+                                        }}
+                                        viewport={{
+                                            amount: (index + 1) * 0.04,
+                                        }}
+                                        key={index}
+                                        className="char inline-block"
+                                    >
                                         {char}
-                                    </span>
+                                    </motion.span>
                                 ))}
                             </span>
                         </div>
                     </div>
 
-                    <div className="absolute bottom-[-90%] xs:bottom-[-50%] sm:bottom-[-45%] lg:bottom-[-20%] left-0 z-20 w-full bg-[#141414]">
+                    <div className="absolute bottom-[-90%] xs:bottom-[-50%] sm:bottom-[-45%] lg:bottom-[-10%] left-0 z-20 w-full bg-[#141414]">
                         <Separator className="h-0.5 w-full bg-[#6C6C6C]" />
 
-                        <div className="flex flex-col w-full items-center justify-between gap-5 py-3">
-                            <p className={`${googleSansFlex.className} text-sm text-white/40 `}>© {currentYear} DevTinder. All rights reserved.</p>
+                        <div className="flex flex-col lg:flex-row w-full items-center justify-between gap-5 py-3">
+                            <p className={`${googleSansFlex.className}  text-sm text-white/40 `}>© {currentYear} DevTinder. All rights reserved.</p>
                             <FooterLegalNavigation />
                         </div>
                     </div>
