@@ -121,7 +121,7 @@ const FooterColumn = ({ title, links }: FooterColumnProps) => (
                         className="
                             inline-block text-[13px] font-normal leading-[1.15]
                             tracking-[-0.01em] text-white/80
-                            transition-colors duration-200 hover:text-link-hover
+                            transition-colors duration-200 hover:underline hover:text-white/90
                             sm:text-sm
                             lg:text-[15px]
                             2xl:text-base
@@ -191,7 +191,7 @@ const FooterLegalNavigation = () => {
                     className="
                         whitespace-nowrap text-[11px] font-normal leading-none
                         tracking-[-0.01em] text-white/70
-                        transition-colors duration-200 hover:text-link-hover
+                        transition-colors duration-200 hover:underline hover:text-white/90
                         sm:text-xs
                         md:text-[13px]
                         2xl:text-sm
@@ -288,21 +288,18 @@ const LandingFooter = () => {
                     <div className="flex justify-center overflow-hidden px-1 pt-8 lg:px-0">
                         <div
                             className="
-                                font-brand font-extrabold text-center
-                                text-[calc(72/360*100vw)]
-                                leading-[80%]
-                                tracking-[calc(-2.1/360*100vw)]
-                                md:text-[152px] md:tracking-[-2px]
-                                lg:text-[200px]
-                                xl:-ml-3 xl:text-[265px]
-                            "
+        font-brand font-extrabold text-center
+        text-[calc(72/360*100vw)]
+        leading-[80%]
+        tracking-[calc(-2.1/360*100vw)]
+        md:text-[152px] md:tracking-[-2px]
+        lg:text-[200px]
+        xl:-ml-3 xl:text-[230px]
+    "
                         >
                             <span className="word inline-block text-nowrap">
                                 {BRAND_CHARS.map((char, index) => (
-                                    <span
-                                        key={index}
-                                        className="char inline-block"
-                                    >
+                                    <span key={index} className="char inline-block">
                                         {char}
                                     </span>
                                 ))}
@@ -315,7 +312,7 @@ const LandingFooter = () => {
 
                         <div className="flex flex-col w-full items-center justify-between gap-5 py-3">
                             <p className={`${googleSansFlex.className} text-sm text-white/40 `}>© {currentYear} DevTinder. All rights reserved.</p>
-                                <FooterLegalNavigation />
+                            <FooterLegalNavigation />
                         </div>
                     </div>
                 </div>
