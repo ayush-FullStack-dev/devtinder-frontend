@@ -7,6 +7,8 @@ import LogoHorizontal from "@/components/brand/LogoHorizontal";
 import { Separator } from "@/components/ui/separator";
 import { googleSans, googleSansFlex } from "@/assets/fonts/font.google";
 import { motion } from "motion/react"
+import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { useIsDesktop } from "@/hooks/useIsDesktop";
 
 const FOOTER_CONFIG = {
     externalLinksInNewTab: true,
@@ -206,6 +208,9 @@ const FooterLegalNavigation = () => {
 };
 
 const LandingFooter = () => {
+    const reducedMotion = useReducedMotion()
+    const isDesktop = useIsDesktop()
+    const animateBrand = !reducedMotion && isDesktop
     const heightClasses = `xs:min-h-155
                 sm:min-h-158
                 md:min-h-152
@@ -252,7 +257,7 @@ const LandingFooter = () => {
             </div>
 
             <div
-                className={`${heightClasses} flex flex-col justify-between relative z-20 h-full w-[95%] py-15
+                className={`${heightClasses} flex flex-col justify-between relative z-20 h-full w-[95%] py-15 lg:pt-15 lg:pb-10
                     mx-auto
                     lg:w-[94%]
                     xl:w-[90%]`}
@@ -300,24 +305,31 @@ const LandingFooter = () => {
                         >
                             <span className="word inline-block text-nowrap">
                                 {BRAND_CHARS.map((char, index) => (
-                                    <motion.span
-                                        initial={{ y: index === 0 ? 10 : 90 }}
-                                        whileInView={{
-                                            y: 0,
-                                            transition: {
-                                                delay: 0.1,
-                                                duration: 0.30,
-                                                ease: "easeOut",
-                                            },
-                                        }}
-                                        viewport={{
-                                            amount: (index + 1) * 0.04,
-                                        }}
-                                        key={index}
-                                        className="char inline-block"
-                                    >
-                                        {char}
-                                    </motion.span>
+                                    animateBrand ?
+                                        <motion.span
+                                            initial={{ y: index === 0 ? 10 : 90 }}
+                                            whileInView={{
+                                                y: 0,
+                                                transition: {
+                                                    delay: 0.1,
+                                                    duration: 0.30,
+                                                    ease: "easeOut",
+                                                },
+                                            }}
+                                            viewport={{
+                                                amount: (index + 1) * 0.04,
+                                            }}
+                                            key={index}
+                                            className="char inline-block"
+                                        >
+                                            {char}
+                                        </motion.span> :
+                                        <span
+                                            key={index}
+                                            className="char inline-block"
+                                        >
+                                            {char}
+                                        </span>
                                 ))}
                             </span>
                         </div>
