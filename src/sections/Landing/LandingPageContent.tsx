@@ -149,12 +149,12 @@ const LandingPageContent = ({ isLoggedIn }: LandingPageContentProps) => {
                     <LandingCtaSection />
                 </section>
 
-                {/* <section
+                <section
                     id="footer"
                     className={`${roundedTopClasses} relative z-40 w-full overflow-hidden`}
                 >
                     <LandingFooter />
-                </section> */}
+                </section>
             </div>
         </LandingPageShell>
     );
