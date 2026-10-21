@@ -257,7 +257,7 @@ const LandingFooter = () => {
             </div>
 
             <div
-                className={`${heightClasses} flex flex-col justify-between relative z-20 h-full w-[95%] py-15 lg:pt-15 lg:pb-10
+                className={`${heightClasses} flex flex-col justify-between relative z-20 h-full w-[95%] pt-15 pb-20 lg:pb-10
                     mx-auto
                     lg:w-[94%]
                     xl:w-[90%]`}
@@ -295,9 +295,9 @@ const LandingFooter = () => {
                         <div
                             className="
         font-brand font-extrabold text-center
-        text-[calc(72/360*100vw)]
+        text-[calc(66/360*100vw)]
         leading-[80%]
-        tracking-[calc(-2.1/360*100vw)]
+        tracking-[calc(-1.8/360*100vw)]
         md:text-[152px] md:tracking-[-2px]
         lg:text-[200px]
         xl:-ml-3 xl:text-[230px]

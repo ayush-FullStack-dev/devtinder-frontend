@@ -26,6 +26,7 @@ export default function LogoHorizontal({
   const handleClick = () => {
     router.push("/");
   };
+  
   return (
     <div className={`inline-flex items-center cursor-pointer gap-2 ${className ?? ""}`} onClick={handleClick}>
       <LogoMark

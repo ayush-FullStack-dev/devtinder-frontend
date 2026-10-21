@@ -3,6 +3,7 @@ import LandingPageShell from "@/sections/Landing/LandingPageShell";
 import HeroSection from "@/sections/Landing/LandingHeroSection";
 import { LandingCtaSection } from "./LandingCtaSection";
 import LandingFooter from "./LandingFooter";
+import LandingMobileMenuOverlay from "./Navbar/LandingMobileMenuOverlay";
 
 const DiscoverSection = dynamic(
     () => import("@/sections/Landing/LandingDiscoverSection"),
@@ -47,6 +48,7 @@ const LandingPageContent = ({ isLoggedIn }: LandingPageContentProps) => {
 
     return (
         <LandingPageShell>
+            {/* <LandingMobileMenuOverlay /> */}
             <section
                 id="home"
                 className="
