@@ -6,8 +6,8 @@ const LandingMobileMenuOverlay = () => {
     return (
         <div className='fixed w-dvw h-dvh z-100 bg-[#F0EEEE] flex justify-center items-center'>
             <div className="w-[95vw] h-[95dvh]">
-                <LogoHorizontal
-                    className="text-[#16a968]"
+                <LogoMark
+                    className="text-black h-10 w-20"
                     monoChrome
                 />
 
