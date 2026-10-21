@@ -1,12 +1,17 @@
 "use client";
 
 import Image from "next/image";
-import { FaGithub, FaInstagram, FaLinkedin, FaXTwitter } from "react-icons/fa6";
+import {
+    FaGithub,
+    FaInstagram,
+    FaLinkedin,
+    FaXTwitter,
+} from "react-icons/fa6";
 
 import LogoHorizontal from "@/components/brand/LogoHorizontal";
 import { Separator } from "@/components/ui/separator";
 import { googleSans, googleSansFlex } from "@/assets/fonts/font.google";
-import { motion } from "motion/react"
+import { motion } from "motion/react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useIsDesktop } from "@/hooks/useIsDesktop";
 
@@ -77,7 +82,17 @@ const SOCIAL_LINKS = [
     },
 ] as const;
 
-const BRAND_CHARS = ["D", "e", "v", "T", "i", "n", "d", "e", "r"] as const;
+const BRAND_CHARS = [
+    "D",
+    "e",
+    "v",
+    "T",
+    "i",
+    "n",
+    "d",
+    "e",
+    "r",
+] as const;
 
 const externalLinkProps = FOOTER_CONFIG.externalLinksInNewTab
     ? {
@@ -124,7 +139,8 @@ const FooterColumn = ({ title, links }: FooterColumnProps) => (
                         className="
                             inline-block text-[13px] font-normal leading-[1.15]
                             tracking-[-0.01em] text-white/80
-                            transition-colors duration-200 hover:underline hover:text-white/90
+                            transition-colors duration-200
+                            hover:underline hover:text-white/90
                             sm:text-sm
                             lg:text-[15px]
                             2xl:text-base
@@ -142,30 +158,32 @@ const FooterSocials = () => (
     <nav
         aria-label="Social media"
         className="
-            flex items-center gap-6
+            flex items-center gap-5
             xs:gap-5
             lg:gap-7
             2xl:gap-8
         "
     >
-        {SOCIAL_LINKS.map(({ label, href, icon: Icon, hoverClass }) => (
-            <a
-                key={label}
-                href={href}
-                aria-label={label}
-                {...externalLinkProps}
-                className={`
-                    flex size-5 items-center justify-center text-white
-                    transition-all duration-200 hover:scale-110
-                    ${hoverClass}
-                    xs:size-5
-                    sm:size-5
-                    2xl:size-6
-                `}
-            >
-                <Icon className="size-full" />
-            </a>
-        ))}
+        {SOCIAL_LINKS.map(
+            ({ label, href, icon: Icon, hoverClass }) => (
+                <a
+                    key={label}
+                    href={href}
+                    aria-label={label}
+                    {...externalLinkProps}
+                    className={`
+                        flex size-5 items-center justify-center
+                        text-white transition-all duration-200
+                        hover:scale-110
+                        ${hoverClass}
+                        sm:size-5
+                        2xl:size-6
+                    `}
+                >
+                    <Icon className="size-full" />
+                </a>
+            ),
+        )}
     </nav>
 );
 
@@ -180,12 +198,15 @@ const FooterLegalNavigation = () => {
     return (
         <nav
             aria-label="Legal navigation"
-            className={`${googleSans.className} flex flex-wrap items-center justify-start
-                gap-x-5 gap-y-2
+            className={`
+                ${googleSans.className}
+                flex flex-wrap items-center justify-center
+                gap-x-5 gap-y-3
                 md:justify-end md:gap-x-7
                 lg:gap-x-8
                 xl:gap-x-9
-                2xl:gap-x-10`}
+                2xl:gap-x-10
+            `}
         >
             {links.map(([label, href]) => (
                 <a
@@ -194,7 +215,8 @@ const FooterLegalNavigation = () => {
                     className="
                         whitespace-nowrap text-[11px] font-normal leading-none
                         tracking-[-0.01em] text-white/70
-                        transition-colors duration-200 hover:underline hover:text-white/90
+                        transition-colors duration-200
+                        hover:underline hover:text-white/90
                         sm:text-xs
                         md:text-[13px]
                         2xl:text-sm
@@ -208,32 +230,42 @@ const FooterLegalNavigation = () => {
 };
 
 const LandingFooter = () => {
-    const reducedMotion = useReducedMotion()
-    const isDesktop = useIsDesktop()
-    const animateBrand = !reducedMotion && isDesktop
-    const heightClasses = `xs:min-h-155
-                sm:min-h-158
-                md:min-h-152
-                lg:min-h-157
-                xl:min-h-162
-                2xl:min-h-167
-                3xl:min-h-175
-                4xl:min-h-183
-                5xl:min-h-192
-                7xl:min-h-210
-                10xl:min-h-230`
+    const reducedMotion = useReducedMotion();
+    const isDesktop = useIsDesktop();
+    const animateBrand = !reducedMotion && isDesktop;
+
+    const heightClasses = `
+        xs:min-h-155
+        sm:min-h-158
+        md:min-h-152
+        lg:min-h-157
+        xl:min-h-162
+        2xl:min-h-167
+        3xl:min-h-175
+        4xl:min-h-183
+        5xl:min-h-192
+        7xl:min-h-210
+        10xl:min-h-230
+    `;
 
     const currentYear = new Date().getFullYear();
 
     return (
         <footer
             id="footer"
-            className={`${heightClasses} relative isolate min-h-150 w-full overflow-hidden
-                bg-fixed-black text-fixed-white pb-5`}
+            className={`
+                ${heightClasses}
+                relative isolate min-h-150 w-full
+                overflow-hidden bg-fixed-black
+                text-fixed-white
+            `}
         >
             <div
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-0 z-0 select-none"
+                className="
+                    pointer-events-none absolute inset-0
+                    z-0 select-none
+                "
             >
                 <Image
                     src="/images/footer-bg.webp"
@@ -241,7 +273,10 @@ const LandingFooter = () => {
                     role="presentation"
                     fill
                     sizes="100vw"
-                    className="hidden object-cover object-center lg:block"
+                    className="
+                        hidden object-cover object-center
+                        lg:block
+                    "
                 />
 
                 <Image
@@ -250,28 +285,53 @@ const LandingFooter = () => {
                     role="presentation"
                     fill
                     sizes="100vw"
-                    className="object-cover object-center lg:hidden"
+                    className="
+                        object-cover object-center
+                        lg:hidden
+                    "
                 />
 
                 <div className="absolute inset-0 bg-[#111111]/30" />
             </div>
 
             <div
-                className={`${heightClasses} flex flex-col justify-between relative z-20 h-full w-[95%] pt-15 pb-20 lg:pb-10
-                    mx-auto
-                    lg:w-[94%]
-                    xl:w-[90%]`}
+                className={`
+                    ${heightClasses}
+                    relative z-10 mx-auto flex h-full
+                    w-[95%] flex-col justify-between
+                    pt-15 pb-28
+                    lg:w-[94%] lg:pb-24
+                    xl:w-[90%]
+                `}
             >
-                <div className="flex w-full flex-col flex-warp md:flex-row items-start justify-between gap-y-10 md:gap-x-[15%]">
-                    <div className="flex w-80 shrink-0 flex-col gap-7">
+                <div
+                    className="
+                        flex w-full flex-col items-start
+                        justify-between gap-y-10
+                        md:flex-row md:gap-x-[8%]
+                        xl:gap-x-[12%]
+                    "
+                >
+                    <div
+                        className="
+                            flex w-full shrink-0
+                            flex-col gap-7
+                            sm:w-80
+                        "
+                    >
                         <LogoHorizontal monoChrome />
 
                         <div className="flex flex-col gap-5">
                             <p
-                                className={`text-[15px] font-normal text-[#9C9C9E] ${googleSans.className}`}
+                                className={`
+                                    text-[15px] font-normal
+                                    leading-relaxed text-[#9C9C9E]
+                                    ${googleSans.className}
+                                `}
                             >
-                                A place where developer meet, collaborate and
-                                build together. Find your next developer friend,
+                                A place where developers meet,
+                                collaborate and build together.
+                                Find your next developer friend,
                                 co-founder, or team member here.
                             </p>
 
@@ -279,7 +339,18 @@ const LandingFooter = () => {
                         </div>
                     </div>
 
-                    <div className="grid min-w-full md:min-w-0  flex-1 gap-y-10 items-start  gap-x-[14%] grid-cols-2 sm:grid-cols-4 md:grid-cols-2 lg:grid-cols-4 lg:justify-items-end">
+                    <div
+                        className="
+                            grid w-full min-w-0 flex-1
+                            grid-cols-2 items-start
+                            gap-x-6 gap-y-10
+                            sm:grid-cols-4
+                            md:grid-cols-2
+                            lg:grid-cols-4 lg:justify-items-end
+                            lg:gap-x-6
+                            xl:gap-x-10
+                        "
+                    >
                         {FOOTER_COLUMNS.map((column) => (
                             <FooterColumn
                                 key={column.title}
@@ -290,59 +361,100 @@ const LandingFooter = () => {
                     </div>
                 </div>
 
-                <div className="relative mt-auto">
-                    <div className="flex justify-center overflow-hidden px-1 pt-8 lg:px-0">
+                <div className="relative mb-[1%] xs:mb-[-5%] sm:mb-[-5%] md:mb-[-5.5%]  lg:mb-[-6%] 2xl:mb-[-5%] 3xl:-mb-20 pt-12 sm:pt-16">
+                    <div
+                        className="
+                            flex w-full justify-center
+                            overflow-hidden px-1
+                            lg:px-0
+                        "
+                    >
                         <div
                             className="
-        font-brand font-extrabold text-center
-        text-[calc(66/360*100vw)]
-        leading-[80%]
-        tracking-[calc(-1.8/360*100vw)]
-        md:text-[152px] md:tracking-[-2px]
-        lg:text-[200px]
-        xl:-ml-3 xl:text-[230px]
-    "
+                                w-full text-center
+                                font-brand font-extrabold
+                                text-[calc(66/360*95vw)]
+                                leading-[0.8]
+                                tracking-[calc(-1.8/360*100vw)]
+                                sm:text-[calc(66/360*90vw)]
+                                md:text-[145px]
+                                md:tracking-[-2px]
+                                lg:text-[200px]
+                                xl:text-[230px]
+                            "
                         >
-                            <span className="word inline-block text-nowrap">
-                                {BRAND_CHARS.map((char, index) => (
-                                    animateBrand ?
+                            <span
+                                className="
+                                    inline-block whitespace-nowrap
+                                "
+                            >
+                                {BRAND_CHARS.map((char, index) =>
+                                    animateBrand ? (
                                         <motion.span
-                                            initial={{ y: index === 0 ? 10 : 90 }}
+                                            key={index}
+                                            initial={{
+                                                y: index === 0 ? 10 : 90,
+                                            }}
                                             whileInView={{
                                                 y: 0,
                                                 transition: {
                                                     delay: 0.1,
-                                                    duration: 0.30,
+                                                    duration: 0.3,
                                                     ease: "easeOut",
                                                 },
                                             }}
                                             viewport={{
                                                 amount: (index + 1) * 0.04,
                                             }}
-                                            key={index}
-                                            className="char inline-block"
+                                            className="inline-block"
                                         >
                                             {char}
-                                        </motion.span> :
+                                        </motion.span>
+                                    ) : (
                                         <span
                                             key={index}
-                                            className="char inline-block"
+                                            className="inline-block"
                                         >
                                             {char}
                                         </span>
-                                ))}
+                                    ),
+                                )}
                             </span>
                         </div>
                     </div>
+                </div>
+            </div>
 
-                    <div className="absolute bottom-[-90%] xs:bottom-[-50%] sm:bottom-[-45%] lg:bottom-[-10%] left-0 z-20 w-full bg-[#141414]">
-                        <Separator className="h-0.5 w-full bg-[#6C6C6C]" />
+            <div
+                className="
+                    absolute bottom-0 left-0 z-20
+                    w-full bg-[#141414]
+                "
+            >
+                <Separator className="h-0.5 w-full bg-[#6C6C6C]" />
 
-                        <div className="flex flex-col lg:flex-row w-full items-center justify-between gap-5 py-3">
-                            <p className={`${googleSansFlex.className}   text-sm text-white/40 `}>© {currentYear} DevTinder. All rights reserved.</p>
-                            <FooterLegalNavigation />
-                        </div>
-                    </div>
+                <div
+                    className="
+                        mx-auto flex w-[95%] flex-col
+                        items-center justify-between
+                        gap-4 py-4
+                        lg:w-[94%] lg:flex-row
+                        lg:gap-5
+                        xl:w-[90%]
+                    "
+                >
+                    <p
+                        className={`
+                            text-center text-sm
+                            text-white/40
+                            ${googleSansFlex.className}
+                        `}
+                    >
+                        © {currentYear} DevTinder.
+                        All rights reserved.
+                    </p>
+
+                    <FooterLegalNavigation />
                 </div>
             </div>
         </footer>
