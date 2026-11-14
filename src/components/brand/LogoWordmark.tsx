@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import LogoWord from "@/../public/brand/logo/logo-wordmark.svg";
 import monoChromeWordMark from "@/../public/brand/logo/monochrome-wordmark.svg";
+import { twMerge } from "tailwind-merge";
 
 type LogoWordmarkProps = {
   className?: string;
@@ -23,8 +24,8 @@ export default function LogoWordmark({
 
   return (
     <Component
-      className={`h-8 w-auto select-none pointer-events-none cursor-pointer ${monoChrome ? "text-[var(--foreground-logo)]" : ""
-        } ${className ?? ""}`}
+      className={twMerge(`h-8 w-auto select-none pointer-events-none cursor-pointer ${monoChrome ? "text-[var(--foreground-logo)]" : ""
+        }`, className)}
       draggable={false}
       onClick={handleClick}
       aria-hidden="true"

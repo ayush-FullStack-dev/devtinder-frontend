@@ -55,6 +55,7 @@ export async function POST(req: Request) {
 
     const data = await backendResponse.json();
 
+    console.log(data)
     if (data.action === "token_refreshed") {
       const response = NextResponse.redirect(
         new URL(redirectUrl || "/dashboard", req.url),

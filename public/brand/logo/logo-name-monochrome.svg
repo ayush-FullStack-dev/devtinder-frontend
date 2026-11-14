@@ -29,10 +29,10 @@
   <!-- Trademark -->
   <text
     fill="currentColor"
-    font-weight="600"
-    font-size="40"
+    font-weight="700"
+    font-size="60"
     font-family="Inter, SF Pro Display, Helvetica, Arial, sans-serif"
-    y="72"
+    y="90"
     x="495"
   >
     ™

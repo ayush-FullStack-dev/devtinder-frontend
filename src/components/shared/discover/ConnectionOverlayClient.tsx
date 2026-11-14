@@ -168,6 +168,7 @@ const ConnectionOverlayClient = ({
                                 flex
                                 size-9
                                 items-center
+                                cursor-pointer
                                 justify-center
                                 rounded-full
                                 transition-colors
@@ -276,6 +277,7 @@ const ConnectionOverlayClient = ({
                                 h-13
                                 w-full
                                 rounded-4xl
+                                cursor-pointer
                                 text-xl
                                 font-extrabold
                                 ${isDark

@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import Logo from "@/../public/brand/logo/logo-name.svg";
 import LogoMono from "@/../public/brand/logo/logo-name-monochrome.svg";
+import { twMerge } from "tailwind-merge";
 
 type LogoNameProps = {
   monoChrome?: boolean;
@@ -25,8 +26,7 @@ export default function LogoName({
 
   return (
     <Component
-      className={`select-none cursor-pointer pointer-events-none ${monoChrome ? "text-[var(--foreground-logo)]" : ""
-        } ${className ?? ""}`}
+      className={twMerge(`select-none cursor-pointer pointer-events-none `, className)}
       onClick={handleClick}
       draggable={false}
       aria-hidden="true"
