@@ -344,7 +344,7 @@ const SignupFormIdentifer = ({ setStep, setSignupData, signupData }: SignupFormI
           success={signupStep1Success.username === true}
           endIcon={
             !username && name ? (
-              <span onClick={generateUsername}>
+              <span onClick={generateUsername} className='cursor-pointer'>
                 <SparklesSvg />
               </span>
             ) : checking.username || generatingUsername ? (
